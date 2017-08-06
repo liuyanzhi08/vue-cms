@@ -4,10 +4,11 @@ var webpack = require('webpack')
 module.exports = {
     entry: './src/client/main.js',
     output: {
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve(__dirname, './dist/client'),
         publicPath: '/dist/',
         filename: 'build.js'
     },
+    devtool: "source-map",
     module: {
         rules: [
             {
@@ -22,7 +23,32 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 }
-            }
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader",
+                        options: {
+                            alias: {
+                                "../fonts/bootstrap": "bootstrap-sass/assets/fonts/bootstrap"
+                            }
+                        }
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            includePaths: [
+                                path.resolve("./node_modules/bootstrap-sass/assets/stylesheets")
+                            ]
+                        }
+                    }
+                ]
+            },
+            { test: /\.woff2?$|\.eot?$|\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/, loader: "file-loader" },
         ]
     },
     resolve: {
