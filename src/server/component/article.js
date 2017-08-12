@@ -1,8 +1,17 @@
 import query from '../db/query'
 
 export default {
-    get: function (ctx) {
-        ctx.body = ctx.params;
+    get: function (ctx, t) {
+        console.log(t)
+        return new Promise((resolve, reject) => {
+
+            query('SELECT * FROM article', null, function (error, results, fields) {
+                ctx.response.body = results
+
+                if (error) throw error
+                resolve(results)
+            })
+        })
     },
     post:  function (ctx) {
         return new Promise((resolve, reject) => {

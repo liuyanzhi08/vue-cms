@@ -9,7 +9,7 @@ router
 async function handler (ctx) {
     try {
         let component = require('./component/' + ctx.params.component).default
-        await component[ctx.method.toLowerCase()](ctx)
+        await component[ctx.method.toLowerCase()](ctx, this)
     } catch (e) {
         console.log(e);
     }

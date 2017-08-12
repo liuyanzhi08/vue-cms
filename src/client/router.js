@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router'
-import article from './components/article.vue'
-import articleList from './components/article-list.vue'
+import article from './component/article.vue'
+import articleList from './component/article-list.vue'
 
 const routes = [
     { path: '/article/:id', component: article },
