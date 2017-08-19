@@ -1,11 +1,19 @@
 import query from '../db/query'
+import _ from 'lodash'
 
 export default {
-    get: function (ctx, t) {
-        console.log(t)
+    get: function (ctx) {
         return new Promise((resolve, reject) => {
-
-            query('SELECT * FROM article', null, function (error, results, fields) {
+            var params = {
+                _page: '1',
+                _num: '10'
+            }
+            _.extend(params, ctx.query);
+            console.log(params)
+            query('SELECT * FROM article LIMIT ?, ?', [
+                (+params._page - 1) * +params._num,
+                +params._num
+            ], function (error, results, fields) {
                 ctx.response.body = results
 
                 if (error) throw error

@@ -1,18 +1,28 @@
 import KoaRouter from 'koa-router'
+import KoaSend from 'koa-send'
+import path from 'path'
 
 var router = new KoaRouter()
 
 router
-    .all('/api/:component/:id', handler)
-    .all('/api/:component', handler)
+    .all('/api/:component/:id', componentHandler)
+    .all('/api/:component', componentHandler)
+    .all('/dist/client/*', async function (ctx) {
+        await KoaSend(ctx, path.join('dist/client', ctx.params[0]))
+    })
+    .all('*', indexHandler)
 
-async function handler (ctx) {
+async function componentHandler (ctx) {
     try {
         let component = require('./component/' + ctx.params.component).default
-        await component[ctx.method.toLowerCase()](ctx, this)
+        await component[ctx.method.toLowerCase()](ctx)
     } catch (e) {
         console.log(e);
     }
+}
+
+async function indexHandler (ctx) {
+    await KoaSend(ctx, 'src/client/index.html')
 }
 
 export default router

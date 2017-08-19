@@ -8,7 +8,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    routes // （缩写）相当于 routes: routes
+    mode: 'history',
+    routes, // （缩写）相当于 routes: routes
 })
 
 export default router;
