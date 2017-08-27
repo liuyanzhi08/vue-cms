@@ -22,7 +22,7 @@
         },
         methods: {
             submit: function (data) {
-                Article.save(data).then(data => console.log(data))
+                Article.save(data).then(res => console.log(res))
             }
         },
         created: function () {
@@ -31,7 +31,7 @@
                 Article
                     .get({ id: id})
                     .then(
-                        data => console.log(data)
+                        res => (this.article = res.body)
                     )
             }
         },

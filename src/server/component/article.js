@@ -4,24 +4,39 @@ import _ from 'lodash'
 export default {
     get: function (ctx) {
         return new Promise((resolve, reject) => {
-            var params = {
-                _page: '1',
-                _num: '10'
-            }
-            _.extend(params, ctx.query);
-            console.log(params)
-            query('SELECT * FROM article LIMIT ?, ?;SELECT COUNT(*) AS total FROM article', [
-                (+params._page - 1) * +params._num,
-                +params._num
-            ], function (error, results, fields) {
-                ctx.response.body = {
-                    items: results[0],
-                    total: results[1][0].total
+            let params = {}
+            // list
+            if (ctx.params.id === undefined) {
+                params = {
+                    _page: '1',
+                    _num: '10'
                 }
+                _.extend(params, ctx.query);
 
-                if (error) throw error
-                resolve(results)
-            })
+                query('SELECT * FROM article LIMIT ?, ?;SELECT COUNT(*) AS total FROM article', [
+                    (+params._page - 1) * +params._num,
+                    +params._num
+                ], function (error, results, fields) {
+                    ctx.response.body = {
+                        items: results[0],
+                        total: results[1][0].total
+                    }
+
+                    if (error) throw error
+                    resolve(results)
+                })
+            }
+            // detail
+            else
+            {
+                _.extend(params, { id: ctx.params.id });
+                query('SELECT * FROM article WHERE id = ?', [params.id], function (error, results, fields) {
+                    ctx.response.body = results[0]
+
+                    if (error) throw error
+                    resolve(results)
+                })
+            }
         })
     },
     post:  function (ctx) {
@@ -37,7 +52,6 @@ export default {
                 ctx.response.body = article
 
                 if (error) throw error;
-                console.log(article)
                 resolve(article)
             });
         })
