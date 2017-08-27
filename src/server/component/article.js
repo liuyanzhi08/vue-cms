@@ -10,11 +10,14 @@ export default {
             }
             _.extend(params, ctx.query);
             console.log(params)
-            query('SELECT * FROM article LIMIT ?, ?', [
+            query('SELECT * FROM article LIMIT ?, ?;SELECT COUNT(*) AS total FROM article', [
                 (+params._page - 1) * +params._num,
                 +params._num
             ], function (error, results, fields) {
-                ctx.response.body = results
+                ctx.response.body = {
+                    items: results[0],
+                    total: results[1][0].total
+                }
 
                 if (error) throw error
                 resolve(results)

@@ -1,10 +1,10 @@
 import VueRouter from 'vue-router'
-import article from './component/article.vue'
-import articleList from './component/article-list.vue'
+import article from './component/app/article.vue'
+import articleList from './component/app/article-list.vue'
 
 const routes = [
-    { path: '/article/:id', component: article },
-    { path: '/article', component: articleList },
+    { path: '/article/:id', component: article, name: 'article' },
+    { path: '/article', component: articleList, name: 'articleList' },
 ]
 
 const router = new VueRouter({

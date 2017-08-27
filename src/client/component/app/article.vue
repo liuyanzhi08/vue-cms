@@ -13,7 +13,7 @@
     </form>
 </template>
 <script>
-    import Article from '../api/article'
+    import Article from '../../api/article'
     export default {
         data: function () {
             return {
