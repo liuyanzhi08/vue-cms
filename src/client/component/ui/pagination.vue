@@ -1,7 +1,7 @@
 <template>
     <nav aria-label="Page navigation">
         <ul class="pagination">
-            <li>
+            <li :class="{ disabled: pagination.isDisabled(pagination.prev()) }">
                 <a :href="pagination.prev().url" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
@@ -9,13 +9,13 @@
             <li
                 v-for="item in pagination.pages()"
                 :class="{
-                    active: pagination.isCur(item.page),
-                    disabled: item.disabled
+                    active: pagination.isCur(item),
+                    disabled: pagination.isDisabled(item)
                 }"
                 ><a :href="item.url">
                 {{item.page}}</a>
             </li>
-            <li>
+            <li :class="{ disabled: pagination.isDisabled(pagination.next()) }">
                 <a :href="pagination.next().url" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
@@ -49,9 +49,11 @@
                 end = this.max
             }
             while (start <= end) {
+                let isCur = start === this.page
                 pages.push({
                     page: start,
-                    url: this.url(start)
+                    url: isCur ? 'javascript:;' : this.url(start),
+                    disabled: isCur
                 })
                 start++
             }
@@ -105,22 +107,39 @@
             return pages
         }
         prev () {
+            let page = this.page - 1
+            let disabled
+            if (page < this.min) {
+                page = this.min
+                disabled = true
+            }
             return {
-                page: 1,
-                url: '#'
+                page: page,
+                url: disabled ? 'javascript:;' : this.url(page),
+                disabled: disabled
             }
         }
         next () {
+            let page = this.page + 1
+            let disabled
+            if (page > this.max) {
+                page = this.max
+                disabled = true
+            }
             return {
-                page: 100,
-                url: '#'
+                page: page,
+                url: disabled ? 'javascript:;' : this.url(page),
+                disabled: disabled
             }
         }
-        isCur (page) {
-            return this.page === page
+        isCur (pageInfo) {
+            return this.page === pageInfo.page
+        }
+        isDisabled (pageInfo) {
+            return pageInfo.disabled
         }
         url (page) {
-            return this.router.resolve({
+            return this.router && this.router.resolve({
                 name: this.router.name,
                 query: { _page: page, _num: this.num }
             }).href

@@ -31,20 +31,10 @@ module.exports = {
                         loader: "style-loader"
                     },
                     {
-                        loader: "css-loader",
-                        options: {
-                            alias: {
-                                "../fonts/bootstrap": "bootstrap-sass/assets/fonts/bootstrap"
-                            }
-                        }
+                        loader: "css-loader"
                     },
                     {
-                        loader: "sass-loader",
-                        options: {
-                            includePaths: [
-                                path.resolve("./node_modules/bootstrap-sass/assets/stylesheets")
-                            ]
-                        }
+                        loader: "sass-loader"
                     }
                 ]
             },
@@ -53,7 +43,9 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js'
+            'vue$': 'vue/dist/vue.esm.js',
+            'bootstrap': 'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+            '../fonts/bootstrap': 'bootstrap-sass/assets/fonts/bootstrap'
         }
     },
     devServer: {
