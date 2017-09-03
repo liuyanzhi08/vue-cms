@@ -55,5 +55,21 @@ export default {
                 resolve(article)
             });
         })
+    },
+    put:  function (ctx) {
+        return new Promise((resolve, reject) => {
+            var article = {
+                id: ctx.request.body.id,
+                title: ctx.request.body.title,
+                content: ctx.request.body.content
+            }
+
+            query('UPDATE article SET ? WHERE id = ?', [article, article.id], function (error, results, fields) {
+                ctx.response.body = article
+
+                if (error) throw error;
+                resolve(article)
+            });
+        })
     }
 }

@@ -14,6 +14,8 @@
 </template>
 <script>
     import Article from '../../api/article'
+
+    let isNew = true
     export default {
         data: function () {
             return {
@@ -22,7 +24,8 @@
         },
         methods: {
             submit: function (data) {
-                Article.save(data).then(res => console.log(res))
+                var method = isNew ? 'save' : 'update'
+                Article[method](data).then(res => console.log(res))
             }
         },
         created: function () {
@@ -31,7 +34,10 @@
                 Article
                     .get({ id: id})
                     .then(
-                        res => (this.article = res.body)
+                        res => {
+                            this.article = res.body
+                            isNew = false
+                        }
                     )
             }
         },
