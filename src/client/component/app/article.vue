@@ -14,8 +14,11 @@
 </template>
 <script>
     import Article from '../../api/article'
+    import SimpleMDE from 'simplemde'
 
     let isNew = true
+    let simplemde
+
     export default {
         data: function () {
             return {
@@ -25,10 +28,12 @@
         methods: {
             submit: function (data) {
                 var method = isNew ? 'save' : 'update'
+                data.content = simplemde.value()
                 Article[method](data).then(res => console.log(res))
             }
         },
         created: function () {
+            // get article info if not new
             var id = this.$route.params.id;
             if (id != 0) {
                 Article
@@ -37,9 +42,16 @@
                         res => {
                             this.article = res.body
                             isNew = false
+                            simplemde.value(res.body.content)
                         }
                     )
             }
         },
+        mounted: function () {
+            simplemde = new SimpleMDE();
+        }
     }
 </script>
+<style lang="scss">
+    @import "~simplemde.style";
+</style>

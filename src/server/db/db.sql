@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `article`(
    `id` INT UNSIGNED AUTO_INCREMENT,
    `title` VARCHAR(100) NOT NULL,
-   `content` VARCHAR(40) NOT NULL,
+   `content` TEXT NOT NULL,
    `create_time` DATETIME,
    PRIMARY KEY ( `id` )
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

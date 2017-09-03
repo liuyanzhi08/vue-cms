@@ -44,8 +44,9 @@ module.exports = {
     resolve: {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
-            'bootstrap': 'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
-            '../fonts/bootstrap': 'bootstrap-sass/assets/fonts/bootstrap'
+            'bootstrap.style': 'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+            '../fonts/bootstrap': 'bootstrap-sass/assets/fonts/bootstrap',
+            'simplemde.style': 'simplemde/dist/simplemde.min.css'
         }
     },
     devServer: {
