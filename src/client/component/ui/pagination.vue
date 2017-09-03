@@ -1,5 +1,8 @@
 <template>
-    <nav aria-label="Page navigation">
+    <nav
+        v-if="pagination"
+        aria-label="Page navigation"
+    >
         <ul class="pagination">
             <li :class="{ disabled: pagination.isDisabled(pagination.prev()) }">
                 <a :href="pagination.prev().url" aria-label="Previous">
@@ -158,7 +161,7 @@
         },
         data: function () {
             return {
-                pagination: new Pagigation()
+                pagination: null
             }
         },
         methods: {
@@ -171,3 +174,19 @@
         },
     }
 </script>
+<style lang="scss">
+    .pagination > .disabled > a,
+    .pagination > .disabled > a:hover,
+    .pagination > .disabled > a:focus {
+        cursor: default;
+    }
+
+    .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus,
+    .pagination > .active > span,
+    .pagination > .active > span:hover,
+    .pagination > .active > span:focus {
+        color: #fff !important;
+        background-color: #337ab7 !important;
+        border-color: #337ab7 !important;
+    }
+</style>

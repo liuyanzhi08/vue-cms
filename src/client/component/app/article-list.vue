@@ -41,7 +41,7 @@
             Article.get(this.$route.query).then(res => {
                 this.articles = res.data.items
                 this.total = res.data.total
-                this.page = +this.$route.query._page
+                this.page = +this.$route.query._page || 1
             })
         },
         components: {
