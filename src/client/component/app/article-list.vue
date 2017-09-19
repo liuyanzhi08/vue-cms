@@ -12,7 +12,7 @@
             <tbody>
                 <tr v-for="article in articles">
                     <td>{{article.id}}</td>
-                    <td><router-link :to="{ name: 'article', params: { id: article.id }}">{{article.title}}</router-link></td>
+                    <td><router-link :to="{name: 'article', params: { id: article.id }}" >{{article.title}}</router-link></td>
                     <td>{{article.content}}</td>
                     <td>{{article.create_time}}</td>
                 </tr>

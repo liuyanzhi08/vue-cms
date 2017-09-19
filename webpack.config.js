@@ -8,7 +8,7 @@ module.exports = {
         publicPath: '/dist/',
         filename: 'build.js'
     },
-    devtool: "source-map",
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -44,7 +44,9 @@ module.exports = {
     resolve: {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
+            //'jquery': 'jquery/dist/jquery.js',
             'bootstrap.style': 'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+            'bootstrap.script': 'bootstrap-sass/assets/javascripts/bootstrap.js',
             '../fonts/bootstrap': 'bootstrap-sass/assets/fonts/bootstrap',
             'simplemde.style': 'simplemde/dist/simplemde.min.css'
         }
@@ -53,6 +55,12 @@ module.exports = {
         historyApiFallback: true,
         noInfo: true
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        })
+    ],
     devtool: '#eval-source-map'
 }
 
