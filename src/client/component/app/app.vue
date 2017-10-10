@@ -35,7 +35,7 @@
     export default {
         data: function () {
             return {
-                brand: 'NoBody',
+                brand: 'Coffee\'s Blog',
                 navs: [
                     {
                         id: 'articleList',

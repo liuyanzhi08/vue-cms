@@ -1,28 +1,31 @@
 <template>
     <div>
-        test
+        <div  class="card">
+            <h2>{{fstArticle.title}}</h2>
+            <p v-html="fstArticle.html"></p>
+        </div>
     </div>
 </template>
 <script>
+    import Article from '../../api/article.js'
+    import marked from 'marked'
     export default {
         data: function () {
             return {
-                brand: 'NoBody',
-                navs: [
-                    {
-                        id: 'index',
-                        label: '首页'
-                    },
-                    {
-                        id: 'label',
-                        label: '标签'
-                    },
-                    {
-                        id: 'about',
-                        label: '关于'
-                    }
-                ]
+                articles: [],
+                fstArticle: {}
             }
+        },
+        created: function () {
+            Article.get(this.$route.query).then(res => {
+                this.articles = res.data.items.map(article => {
+                    article.html = marked(article.content)
+                    return article
+                })
+                this.fstArticle = this.articles[0] || {}
+                this.total = res.data.total
+                this.page = +this.$route.query._page || 1
+            })
         }
     }
 </script>
