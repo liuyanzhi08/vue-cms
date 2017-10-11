@@ -51,5 +51,11 @@
     }
 </script>
 <style lang="scss">
-    @import "~bootstrap.style"
+    @import "~bootstrap.style";
+    @import url("//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600");
+    @import url("//fonts.googleapis.com/css?family=Dosis:500&text=Vue.js");
+    @import url("//vuejs.org/css/index.css");
+    body {
+        font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    }
 </style>
