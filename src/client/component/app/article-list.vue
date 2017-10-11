@@ -16,12 +16,11 @@
                 </tr>
             </tbody>
         </table>
-        <pagination :page="page" :total="total"></pagination>
+        <ui-pagination :page="page" :total="total"></ui-pagination>
     </div>
 </template>
 <script>
     import Article from '../../api/article.js'
-    import pagination from '../ui/pagination.vue'
     export default {
         data: function () {
             return {
@@ -41,9 +40,6 @@
                 this.total = res.data.total
                 this.page = +this.$route.query._page || 1
             })
-        },
-        components: {
-            pagination
         }
     }
 </script>
