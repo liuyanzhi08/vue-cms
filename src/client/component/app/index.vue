@@ -2,7 +2,9 @@
     <div>
         <div  class="card">
             <h2>{{fstArticle.title}}</h2>
-            <p v-html="fstArticle.html" collapse></p>
+            <ui-collapse>
+                <p v-html="fstArticle.html"></p>
+            </ui-collapse>
         </div>
     </div>
 </template>

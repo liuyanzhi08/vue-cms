@@ -52,6 +52,7 @@
 </script>
 <style lang="scss">
     @import "~bootstrap.style";
+    @import "~fontawesome";
     body {
         font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
     }

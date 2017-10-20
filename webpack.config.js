@@ -5,7 +5,7 @@ module.exports = {
     entry: './src/client/index.js',
     output: {
         path: path.resolve(__dirname, './dist/client'),
-        publicPath: '/dist/',
+        publicPath: '/dist/client/',
         filename: 'build.js'
     },
     devtool: 'source-map',
@@ -48,6 +48,12 @@ module.exports = {
             'bootstrap.style': 'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
             'bootstrap.script': 'bootstrap-sass/assets/javascripts/bootstrap.js',
             '../fonts/bootstrap': 'bootstrap-sass/assets/fonts/bootstrap',
+            'fontawesome': 'font-awesome/scss/font-awesome.scss',
+            '../fonts/fontawesome-webfont.svg': 'font-awesome/fonts/fontawesome-webfont.svg',
+            '../fonts/fontawesome-webfont.ttf': 'font-awesome/fonts/fontawesome-webfont.ttf',
+            '../fonts/fontawesome-webfont.woff': 'font-awesome/fonts/fontawesome-webfont.woff',
+            '../fonts/fontawesome-webfont.woff2': 'font-awesome/fonts/fontawesome-webfont.woff2',
+            '../fonts/fontawesome-webfont.eot': 'font-awesome/fonts/fontawesome-webfont.eot',
             'simplemde.style': 'simplemde/dist/simplemde.min.css'
         }
     },
