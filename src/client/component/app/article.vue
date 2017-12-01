@@ -41,6 +41,7 @@
                     .then(
                         res => {
                             this.article = res.body
+                            this.article.create_time = new Date(this.article.create_time);
                             isNew = false
                             simplemde.value(res.body.content)
                         }

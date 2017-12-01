@@ -39,7 +39,7 @@
                 navs: [
                     {
                         id: 'articleList',
-                        label: '标签'
+                        label: '汇总'
                     },
                     {
                         id: 'about',
