@@ -21,7 +21,7 @@ async function componentHandler (ctx) {
 
 async function assetHandler (ctx) {
     await KoaSend(ctx, path.join('dist/client', ctx.params[0]))
-}
+}``
 
 async function indexHandler (ctx) {
     await KoaSend(ctx, 'src/client/index.html')
