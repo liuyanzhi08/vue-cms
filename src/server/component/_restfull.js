@@ -46,18 +46,15 @@ class Restfull {
 
     post(ctx) {
         return new Promise((resolve, reject) => {
-            var article = {
-                title: ctx.request.body.title,
-                content: ctx.request.body.content,
-                create_time: new Date()
-            }
+            let obj = ctx.request.body
+            obj.create_time = new Date()
 
-            query('INSERT INTO article SET ?', article, function (error, results, fields) {
-                article.id = results.insertId;
-                ctx.response.body = article
+            query(`INSERT INTO ${this.name} SET ?`, obj, function (error, results, fields) {
+                obj.id = results.insertId;
+                ctx.response.body = obj
 
                 if (error) throw error;
-                resolve(article)
+                resolve(obj)
             });
         })
     }
