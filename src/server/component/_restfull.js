@@ -1,5 +1,7 @@
 import query from '../db/query'
 import _ from 'lodash'
+import Vue from 'vue'
+import moment from 'moment'
 
 class Restfull {
     constructor(name) {
@@ -47,15 +49,17 @@ class Restfull {
     post(ctx) {
         return new Promise((resolve, reject) => {
             let obj = ctx.request.body
-            obj.create_time = new Date()
-
+            obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss')
             query(`INSERT INTO ${this.name} SET ?`, obj, function (error, results, fields) {
-                obj.id = results.insertId;
-                ctx.response.body = obj
-
-                if (error) throw error;
-                resolve(obj)
+                if (error) {
+                    console.error(error)
+                } else {
+                    obj.id = results.insertId;
+                    ctx.response.body = obj
+                    resolve(obj)
+                }
             });
+
         })
     }
 

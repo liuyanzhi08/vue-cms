@@ -12,9 +12,8 @@ var query = function (sql, options, callback) {
     pool.getConnection(function(err, connection) {
         // Use the connection
         connection.query(sql, options, function (error, results, fields) {
-            callback && callback(err, results, fields)
+            callback && callback(error, results, fields)
             connection.release()
-            if (error) throw error
         });
     });
 }

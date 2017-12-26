@@ -9,7 +9,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="category in articles">
+                <tr v-for="category in categories">
                     <td>{{category.id}}</td>
                     <td><router-link :to="{name: 'category', params: { id: category.id }}" >{{category.title}}</router-link></td>
                     <td>{{category.create_time}}</td>
@@ -24,7 +24,7 @@
     export default {
         data: function () {
             return {
-                articles : [],
+                categories : [],
                 page: null,
                 total: null
             }
@@ -36,7 +36,7 @@
         },
         created: function () {
             Category.get(this.$route.query).then(res => {
-                this.articles = res.data.items
+                this.categories = res.data.items
                 this.total = res.data.total
                 this.page = +this.$route.query._page || 1
             })

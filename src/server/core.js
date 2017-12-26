@@ -1,6 +1,5 @@
 import Koa from 'koa'
 import KoaBody from 'koa-body'
-
 import router from './router'
 
 const app = new Koa()
