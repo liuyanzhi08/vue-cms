@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `category`(
    `id` INT UNSIGNED AUTO_INCREMENT,
    `parent_id` INT UNSIGNED,
    `title` VARCHAR(100) NOT NULL,
+   `description` TEXT NOT NULL,
    `create_time` DATETIME,
    PRIMARY KEY ( `id` )
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

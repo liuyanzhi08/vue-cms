@@ -4,6 +4,14 @@
             <input type="text" v-model="category.title" placeholder="title" class="form-control"/>
         </div>
         <div class="form-group">
+            <textarea v-model="category.description" placeholder="栏目简介" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <select v-model="category.parent_id">
+                <option v-for="cate in categories" v-bind:value="cate.id">{{cate.title}}</option>
+            </select>
+        </div>
+        <div class="form-group">
             <input type="submit" class="btn btn-primary"/>
         </div>
 
@@ -18,7 +26,8 @@
     export default {
         data: function () {
             return {
-                category: {}
+                category: {parent_id: 0},
+                categories: []
             }
         },
         methods: {
@@ -40,6 +49,13 @@
                         }
                     )
             }
+            category.get().then(res => {
+                this.categories = res.data.items
+                this.categories.unshift({
+                    id: 0,
+                    title: '顶级栏目'
+                })
+            })
         },
         mounted: function () {
         }
