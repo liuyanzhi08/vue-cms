@@ -1,5 +1,5 @@
 <template>
-
+    <div>test</div>
 </template>
 <script>
     class Pagigation {

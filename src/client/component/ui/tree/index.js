@@ -1,7 +1,7 @@
-import pagination from './src/pagination.vue'
+import tree from './src/tree.vue'
 
-pagination.install = function(Vue) {
-    Vue.component(pagination.name, pagination)
+tree.install = function(Vue) {
+    Vue.component(tree.name, tree)
 };
 
-export default pagination;
+export default tree;

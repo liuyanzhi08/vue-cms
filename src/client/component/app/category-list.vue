@@ -1,5 +1,6 @@
 <template>
     <div>
+        <ui-tree></ui-tree>
         <table class="table table-striped">
             <thead>
                 <tr>
