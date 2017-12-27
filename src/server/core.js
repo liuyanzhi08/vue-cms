@@ -9,23 +9,31 @@ import BrowserSync from 'browser-sync'
 const compiler = Webpack(config)
 const app = new Koa()
 const browserSync = BrowserSync.create()
+const isDev = process.env.NODE_ENV !== 'production'
 
-app
-    .use(KoaWebpack({
+if (isDev) {
+    app.use(KoaWebpack({
         compiler: compiler
     }))
+}
+
+app
     .use(KoaBody())
     .use(router.routes())
     .use(router.allowedMethods())
 
 app.listen(1993)
-browserSync.init({
-    port: 1991,
-    ui: {
-        port: 1992
-    },
-    proxy: 'localhost:1993',
-    files: ['**/*']
-}, function () {
-    console.log('browser refreshed.')
-})
+
+if (isDev) {
+    browserSync.init({
+        port: 1991,
+        ui: {
+            port: 1992
+        },
+        proxy: 'localhost:1993',
+        files: ['**/*']
+    }, function () {
+        console.log('browser refreshed.')
+    })
+}
+
