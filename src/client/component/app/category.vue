@@ -7,7 +7,7 @@
             <textarea v-model="category.description" placeholder="栏目简介" class="form-control"></textarea>
         </div>
         <div class="form-group">
-            <select v-model="category.parent_id">
+            <select v-model="category.parent_id" class="form-control">
                 <option v-for="cate in categories" v-bind:value="cate.id">{{cate.title}}</option>
             </select>
         </div>

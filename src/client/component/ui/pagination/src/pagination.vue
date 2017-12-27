@@ -3,7 +3,7 @@
         v-if="pagination"
         aria-label="Page navigation"
     >
-        <ul class="pagination">
+        <ul class="ui-pagination pagination">
             <li :class="{ disabled: pagination.isDisabled(pagination.prev()) }">
                 <a :href="pagination.prev().url" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
@@ -176,16 +176,16 @@
     }
 </script>
 <style lang="scss">
-    .pagination > .disabled > a,
-    .pagination > .disabled > a:hover,
-    .pagination > .disabled > a:focus {
+    .ui-pagination > .disabled > a,
+    .ui-pagination > .disabled > a:hover,
+    .ui-pagination > .disabled > a:focus {
         cursor: default;
     }
 
-    .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus,
-    .pagination > .active > span,
-    .pagination > .active > span:hover,
-    .pagination > .active > span:focus {
+    .ui-pagination > .active > a, .ui-pagination > .active > a:hover, .ui-pagination > .active > a:focus,
+    .ui-pagination > .active > span,
+    .ui-pagination > .active > span:hover,
+    .ui-pagination > .active > span:focus {
         color: #fff !important;
         background-color: #337ab7 !important;
         border-color: #337ab7 !important;

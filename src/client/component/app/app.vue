@@ -35,15 +35,15 @@
     export default {
         data: function () {
             return {
-                brand: 'Coffee\'s Blog',
+                brand: 'CMS',
                 navs: [
                     {
-                        id: 'articleList',
-                        label: '汇总'
+                        id: 'categoryList',
+                        label: 'category'
                     },
                     {
                         id: 'about',
-                        label: '关于'
+                        label: 'about'
                     }
                 ]
             }
