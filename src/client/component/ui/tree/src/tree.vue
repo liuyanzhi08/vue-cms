@@ -3,18 +3,28 @@
         <div class="parent">
             <div class="name">src</div>
             <div class="parent">
-                <div class="name">client</div>
+                <div class="name">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <i class="fa fa-folder-o" aria-hidden="true"></i>
+                    <span>client</span>
+                </div>
                 <div class="parent">
-                    <div class="name">api</div>
+                    <div class="name">
+                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                        <i class="fa fa-folder-o" aria-hidden="true"></i>api</div>
                     <div class="leaf">a.js</div>
                     <div class="parent">
                         <div class="name">api-sub</div>
                         <div class="leaf">api-sub-a.js</div>
                     </div>
                 </div>
-                <div class="leaf">index.js</div>
+                <div class="leaf">
+                    <span>index.js</span>
+                </div>
             </div>
-            <div class="parent">server</div>
+            <div class="parent">
+                <div class="name">server</div>
+            </div>
         </div>
         <div class="leaf">README.md</div>
     </div>
@@ -62,6 +72,19 @@
         }
         > .parent > *, > .leaf {
             margin-left: 0;
+        }
+        .name {
+            .fa-caret-right, .fa-caret-down {
+                margin-right: 10px;
+            }
+        }
+        .name, .leaf {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            .fa-folder-o, .fa-file-o {
+                margin-right: 5px;
+            }
         }
     }
 </style>
