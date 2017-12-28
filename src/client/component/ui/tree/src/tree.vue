@@ -18,7 +18,7 @@
                         <i class="fa fa-folder-o" aria-hidden="true"></i>
                         <span>api</span>
                     </div>
-                    <div class="leaf">a.js</div>
+                    <div class="leaf">a.jss</div>
                     <div class="parent">
                         <div class="name">
                             <i class="fa fa-caret-down" aria-hidden="true"></i>
