@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ui-tree-nodes">
         <template v-for="node in data">
             <div class="parent" v-if="node.children">
                 <div class="name" @click="toggle(node)">

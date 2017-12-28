@@ -17,7 +17,6 @@
                 <!--</tr>-->
             <!--</tbody>-->
         <!--</table>-->
-        <ui-pagination :page="page" :total="total"></ui-pagination>
     </div>
 </template>
 <script>
