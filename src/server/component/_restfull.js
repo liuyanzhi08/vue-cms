@@ -21,12 +21,27 @@ class Restfull {
                 console.log(ctx.params, ctx.query, params)
 
                 // add where logic
-                let whereLogic = ''
-                _.each(params, function (param) {
-                    // console.log(param)
+                let excludes = {
+                    _page: true,
+                    _num: true
+                }
+                let whereLogic = []
+                _.each(params, function (value, key) {
+                    if (!(key in excludes)) {
+                        whereLogic.push([key, value].join(' = '))
+                    }
                 })
 
-                query(`SELECT * FROM ${this.name} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`, [
+                let sql
+                if (whereLogic.length) {
+                    whereLogic = whereLogic.join(' and ')
+                    whereLogic = ' WHERE ' + whereLogic
+                    sql = `SELECT * FROM ${this.name} ${whereLogic} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name} ${whereLogic}`
+                } else {
+                    sql = `SELECT * FROM ${this.name} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`
+                }
+
+                query(sql, [
                     (+params._page - 1) * +params._num,
                     +params._num,
                     this.name
