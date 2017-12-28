@@ -1,1 +1,1 @@
-Coffee's Blog. Proudly using Koa & Vue
+CMS. Proudly using Koa2 & VueJS

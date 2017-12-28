@@ -1,20 +1,30 @@
 <template>
     <div class="ui-tree">
         <div class="parent">
-            <div class="name">src</div>
+            <div class="name">
+                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                <i class="fa fa-folder-o" aria-hidden="true"></i>
+                <span>src</span>
+            </div>
             <div class="parent">
                 <div class="name">
-                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
                     <i class="fa fa-folder-o" aria-hidden="true"></i>
                     <span>client</span>
                 </div>
                 <div class="parent">
                     <div class="name">
-                        <i class="fa fa-caret-right" aria-hidden="true"></i>
-                        <i class="fa fa-folder-o" aria-hidden="true"></i>api</div>
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                        <span>api</span>
+                    </div>
                     <div class="leaf">a.js</div>
                     <div class="parent">
-                        <div class="name">api-sub</div>
+                        <div class="name">
+                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            <i class="fa fa-folder-o" aria-hidden="true"></i>
+                            <span>sub</span>
+                        </div>
                         <div class="leaf">api-sub-a.js</div>
                     </div>
                 </div>
@@ -23,7 +33,11 @@
                 </div>
             </div>
             <div class="parent">
-                <div class="name">server</div>
+                <div class="name">
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <i class="fa fa-folder-o" aria-hidden="true"></i>
+                    <span>server</span>
+                </div>
             </div>
         </div>
         <div class="leaf">README.md</div>
@@ -82,6 +96,11 @@
             cursor: pointer;
             display: flex;
             align-items: center;
+            padding: 3px 10px;
+            border-radius: 3px;
+            &:hover {
+                 background: #eee;
+             }
             .fa-folder-o, .fa-file-o {
                 margin-right: 5px;
             }
