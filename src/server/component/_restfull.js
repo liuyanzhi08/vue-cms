@@ -18,7 +18,6 @@ class Restfull {
                     _num: '10'
                 }
                 _.extend(params, ctx.query);
-                console.log(ctx.params, ctx.query, params)
 
                 // add where logic
                 let excludes = {
