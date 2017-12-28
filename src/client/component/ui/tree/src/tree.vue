@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="leaf">README.md</div>
+        <div class="leaf">READM.md</div>
     </div>
 </template>
 <script>

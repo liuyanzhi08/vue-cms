@@ -1,5 +1,9 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const BrowserSync = require('browser-sync')
+
+const browserSync = BrowserSync.create()
+
 module.exports = {
     entry: './src/client/index.js',
     output: {
@@ -85,4 +89,13 @@ if (process.env.NODE_ENV === 'production') {
         }),
         new webpack.optimize.OccurrenceOrderPlugin()
     ])
+} else {
+    browserSync.init({
+        port: 1991,
+        ui: {
+            port: 1992
+        },
+        proxy: 'localhost:1993',
+        files: ['dist/**/*']
+    })
 }

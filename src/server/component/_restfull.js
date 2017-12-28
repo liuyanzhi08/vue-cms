@@ -18,6 +18,13 @@ class Restfull {
                     _num: '10'
                 }
                 _.extend(params, ctx.query);
+                console.log(ctx.params, ctx.query, params)
+
+                // add where logic
+                let whereLogic = ''
+                _.each(params, function (param) {
+                    // console.log(param)
+                })
 
                 query(`SELECT * FROM ${this.name} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`, [
                     (+params._page - 1) * +params._num,

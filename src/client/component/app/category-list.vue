@@ -36,7 +36,9 @@
             }
         },
         created: function () {
-            Category.get(this.$route.query).then(res => {
+            Category.get({
+                parent_id: 0
+            }).then(res => {
                 this.categories = res.data.items
                 this.total = res.data.total
                 this.page = +this.$route.query._page || 1
