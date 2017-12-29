@@ -4,6 +4,7 @@
     </div>
 </template>
 <script>
+    import Article from '../../api/article'
     import Category from '../../api/category'
     import _ from 'lodash'
     export default {
@@ -27,12 +28,25 @@
                     let subCategories = []
                     _.each(res.data.items, category => {
                         subCategories.push({
-                            label: category.title,
+                            label: `${category.title} [ id: ${category.id} ]`,
                             children: -1,
                             data: category
                         })
                     })
                     return subCategories
+                }).then(subCategories => {
+                    return Article.get({
+                        category_id: node.data.id
+                    }).then(res => {
+                        let subArticles = []
+                        _.each(res.data.items, article => {
+                            subArticles.push({
+                                label: `${article.title} [ id: ${article.id} ]`,
+                                data: article
+                            })
+                        })
+                        return subCategories.concat(subArticles)
+                    })
                 })
             }
         },
@@ -43,7 +57,7 @@
                 let _this = this
                 _.each(res.data.items, category => {
                     _this.rootCategories.push({
-                        label: category.title,
+                        label: `${category.title} [ id: ${category.id} ]`,
                         children: -1,
                         data: category
                     })
