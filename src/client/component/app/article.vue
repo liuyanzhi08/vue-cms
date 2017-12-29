@@ -25,6 +25,12 @@
     let simplemde
 
     export default {
+        props: {
+            id: {
+                type: Number,
+                default: 0
+            }
+        },
         data: function () {
             return {
                 article: {}
@@ -35,27 +41,33 @@
                 var method = isNew ? 'save' : 'update'
                 data.content = simplemde.value()
                 Article[method](data).then(res => console.log(res))
+            },
+            setForm: function () {
+                var id = this.id || this.$route.params.id;
+                if (id) {
+                    Article
+                        .get({ id: id})
+                        .then(
+                            res => {
+                                this.article = res.body
+                                this.article.create_time = new Date(this.article.create_time);
+                                isNew = false
+                                simplemde.value(res.body.content)
+                            }
+                        )
+                }
+            }
+        },
+        watch: {
+            id: {
+                handler: function (val) {
+                    this.setForm()
+                },
+                immediate:true
             }
         },
         created: function () {
             // get article info if not new
-            var id = this.$route.params.id;
-            if (id) {
-                Article
-                    .get({ id: id})
-                    .then(
-                        res => {
-                            this.article = res.body
-                            this.article.create_time = new Date(this.article.create_time);
-                            isNew = false
-                            simplemde.value(res.body.content)
-                        }
-                    )
-            }
-            Category.get().then(res => {
-                let items = res.data.items;
-
-            })
         },
         mounted: function () {
             simplemde = new SimpleMDE();

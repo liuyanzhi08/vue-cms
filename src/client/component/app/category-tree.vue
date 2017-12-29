@@ -64,7 +64,6 @@
                 }
                 grnOptions(root, options)
                 this.options = options
-                console.log(this.options)
             })
         },
         mounted: function () {

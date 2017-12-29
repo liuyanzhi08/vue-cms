@@ -2,10 +2,10 @@
     <div class="category-list">
         <ui-sidebar>
             <aside>
-                <ui-tree :data="rootCategories" :load="load"></ui-tree>
+                <ui-tree :data="rootCategories" :load="load" :click="click"></ui-tree>
             </aside>
             <div>
-                <app-article></app-article>
+                <app-article :id="selectedId"></app-article>
             </div>
         </ui-sidebar>
     </div>
@@ -20,7 +20,8 @@
             return {
                 rootCategories : [],
                 page: null,
-                total: null
+                total: null,
+                selectedId: null
             }
         },
         computed: {
@@ -56,6 +57,9 @@
                         return subCategories.concat(subArticles)
                     })
                 })
+            },
+            click: function (node) {
+                this.selectedId = node.data.id;
             }
         },
         created: function () {

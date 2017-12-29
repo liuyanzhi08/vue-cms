@@ -1,57 +1,6 @@
 <template>
     <div class="ui-tree">
-        <ui-tree-nodes :data="data" :load="load"></ui-tree-nodes>
-        <!--<template v-for="node in data">-->
-            <!--<div class="parent" v-if="node.children">-->
-                <!--<div class="name" @click="expand(node)">-->
-                    <!--<i class="fa fa-caret-right" aria-hidden="true"></i>-->
-                    <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
-                    <!--<span>{{node.label}}</span>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="leaf" v-if="!node.children">{{node.label}}</div>-->
-        <!--</template>-->
-        <!--<div class="parent">-->
-            <!--<div class="name">-->
-                <!--<i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
-                <!--<span>src</span>-->
-            <!--</div>-->
-            <!--<div class="parent">-->
-                <!--<div class="name">-->
-                    <!--<i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                    <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
-                    <!--<span>client</span>-->
-                <!--</div>-->
-                <!--<div class="parent">-->
-                    <!--<div class="name">-->
-                        <!--<i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                        <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
-                        <!--<span>api</span>-->
-                    <!--</div>-->
-                    <!--<div class="leaf">a.jss</div>-->
-                    <!--<div class="parent">-->
-                        <!--<div class="name">-->
-                            <!--<i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                            <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
-                            <!--<span>sub</span>-->
-                        <!--</div>-->
-                        <!--<div class="leaf">api-sub-a.js</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="leaf">-->
-                    <!--<span>index.js</span>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="parent">-->
-                <!--<div class="name">-->
-                    <!--<i class="fa fa-caret-right" aria-hidden="true"></i>-->
-                    <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
-                    <!--<span>server</span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="leaf">READM.md</div>-->
+        <ui-tree-nodes :data="data" :load="load" :click="click"></ui-tree-nodes>
     </div>
 </template>
 <script>
@@ -63,7 +12,14 @@
                 type: Array,
                 default: []
             },
-            load: Function
+            load: {
+                type: Function,
+                default: _.noop
+            },
+            click: {
+                type: Function,
+                default: _.noop
+            }
         },
         data: function () {
             return {

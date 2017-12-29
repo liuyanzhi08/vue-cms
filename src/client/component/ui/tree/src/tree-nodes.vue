@@ -14,14 +14,15 @@
                     <i class="fa fa-folder-o" aria-hidden="true"></i>
                     <span>{{node.label}}</span>
                 </div>
-                <ui-tree-nodes v-if="node.children !== -1" :data="node.children" :load="load"></ui-tree-nodes>
+                <ui-tree-nodes v-if="node.children !== -1" :data="node.children" :load="load" :click="click"></ui-tree-nodes>
             </div>
-            <div class="leaf" v-if="!node.children">{{node.label}}</div>
+            <div class="leaf" v-if="!node.children" @click="click(node)">{{node.label}}</div>
         </template>
         <div v-if="!data.length" class="leaf">(空)</div>
     </div>
 </template>
 <script>
+    import _ from 'lodash'
     export default {
         name: 'ui-tree-nodes',
         props: {
@@ -29,7 +30,14 @@
                 type: Array,
                 default: []
             },
-            load: Function
+            load: {
+                type: Function,
+                default: _.noop
+            },
+            click: {
+                type: Function,
+                default: _.noop
+            }
         },
         data: function () {
             return {
