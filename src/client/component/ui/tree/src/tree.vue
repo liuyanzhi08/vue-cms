@@ -55,7 +55,7 @@
     </div>
 </template>
 <script>
-    import treeNodes from './tree-nodes.vue'
+    import UiTreeNodes from './tree-nodes.vue'
     export default {
         name: 'ui-tree',
         props: {
@@ -74,7 +74,7 @@
         created: function () {
         },
         components: {
-            UiTreeNodes: treeNodes
+            UiTreeNodes
         }
     }
 </script>

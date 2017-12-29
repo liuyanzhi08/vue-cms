@@ -4,6 +4,9 @@
             <input type="text" v-model="article.title" placeholder="title" class="form-control"/>
         </div>
         <div class="form-group">
+            <app-category-tree v-model="article.category_id"></app-category-tree>
+        </div>
+        <div class="form-group">
             <textarea v-model="article.content"  placeholder="content" class="form-control"></textarea>
         </div>
         <div class="form-group">
@@ -14,7 +17,9 @@
 </template>
 <script>
     import Article from '../../api/article'
+    import Category from '../../api/Category'
     import SimpleMDE from 'simplemde'
+    import AppCategoryTree from './category-tree.vue'
 
     let isNew = true
     let simplemde
@@ -47,9 +52,16 @@
                         }
                     )
             }
+            Category.get().then(res => {
+                let items = res.data.items;
+
+            })
         },
         mounted: function () {
             simplemde = new SimpleMDE();
+        },
+        components: {
+            AppCategoryTree
         }
     }
 </script>
