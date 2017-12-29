@@ -50,9 +50,7 @@
                     mouseDown = true
                 }
             })
-            $document.mouseup(() => {
-                mouseDown = false
-            })
+            $document.mouseup(() => mouseDown = false)
 
             function isNearEdge (cursorX, edgeX) {
                 let threshold = 20

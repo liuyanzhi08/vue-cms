@@ -40,7 +40,7 @@
         created: function () {
             // get article info if not new
             var id = this.$route.params.id;
-            if (id != 0) {
+            if (id) {
                 Article
                     .get({ id: id})
                     .then(
