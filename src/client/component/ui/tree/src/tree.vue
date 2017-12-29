@@ -86,7 +86,7 @@
         .leaf {
             margin-left: 60px;
         }
-        > .parent > *, > .leaf {
+        > .ui-tree-nodes > .parent > *, > .ui-tree-nodes > .leaf {
             margin-left: 0;
         }
         .name {

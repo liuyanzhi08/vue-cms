@@ -1,6 +1,13 @@
 <template>
-    <div>
-        <ui-tree :data="rootCategories" :load="load"></ui-tree>
+    <div class="category-list">
+        <ui-sidebar>
+            <aside>
+                <ui-tree :data="rootCategories" :load="load"></ui-tree>
+            </aside>
+            <div>
+                ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+            </div>
+        </ui-sidebar>
     </div>
 </template>
 <script>
@@ -68,3 +75,5 @@
         }
     }
 </script>
+<style lang="scss">
+</style>
