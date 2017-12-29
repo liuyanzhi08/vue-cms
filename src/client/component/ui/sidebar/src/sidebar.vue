@@ -29,9 +29,6 @@
                 })
             $main
                 .addClass('main')
-                .css({
-                    paddingLeft: width
-                })
             let mouseDown = false
             let lastCursorX
             $document.mousemove(e => {
@@ -39,10 +36,10 @@
                 if (mouseDown) {
                     let offset = cursorX - lastCursorX
                     $side.css('width', '+=' + offset)
-                    $main.css('paddingLeft', '+=' + offset)
+                    // $main.css('marginLeft', '+=' + offset)
                 }
                 lastCursorX = cursorX
-
+                return false
             })
 
             $side.mousedown(e => {
@@ -67,14 +64,15 @@
                     return false
                 }
             }
-            console.log($side[0].getBoundingClientRect())
         }
     }
 </script>
 <style lang="scss">
     .ui-sidebar {
+        display: flex;
         .side {
-            position: absolute;
+            flex-shrink: 0;
+            position: relative;
             min-height: 100%;
             border-right: 1px solid #c9c9c9;
             white-space: nowrap;
@@ -94,6 +92,9 @@
                  align-items: center;
                  justify-content: center;
             }
+        }
+        .main {
+            width: 100%;
         }
     }
 </style>

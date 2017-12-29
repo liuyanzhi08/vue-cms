@@ -5,7 +5,7 @@
                 <ui-tree :data="rootCategories" :load="load"></ui-tree>
             </aside>
             <div>
-                ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+                <app-article></app-article>
             </div>
         </ui-sidebar>
     </div>
@@ -13,6 +13,7 @@
 <script>
     import Article from '../../api/article'
     import Category from '../../api/category'
+    import AppArticle from './article.vue'
     import _ from 'lodash'
     export default {
         data: function () {
@@ -72,8 +73,16 @@
                 this.total = res.data.total
                 this.page = +this.$route.query._page || 1
             })
+        },
+        components: {
+            AppArticle
         }
     }
 </script>
 <style lang="scss">
+    .category-list {
+        .main {
+            padding: 10px;
+        }
+    }
 </style>
