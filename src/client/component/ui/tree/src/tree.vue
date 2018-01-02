@@ -1,6 +1,6 @@
 <template>
     <div class="ui-tree">
-        <ui-tree-nodes :data="data" :load="load" :click="click"></ui-tree-nodes>
+        <ui-tree-nodes :data="data" :load="load" :click="click" :render-content="renderContent"></ui-tree-nodes>
     </div>
 </template>
 <script>
@@ -19,7 +19,8 @@
             click: {
                 type: Function,
                 default: _.noop
-            }
+            },
+            renderContent: Function
         },
         data: function () {
             return {

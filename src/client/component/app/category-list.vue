@@ -2,7 +2,7 @@
     <div class="category-list">
         <ui-sidebar>
             <aside>
-                <ui-tree :data="rootCategories" :load="load" :click="click"></ui-tree>
+                <ui-tree :data="rootCategories" :load="load" :click="click" :render-content="renderContent"></ui-tree>
             </aside>
             <div>
                 <app-article :id="selectedId"></app-article>
@@ -60,6 +60,18 @@
             },
             click: function (node) {
                 this.selectedId = node.data.id;
+            },
+            test (node) { console.log(node) },
+            renderContent(h, { node}) {
+                return (
+                    <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
+                    <span>
+                    <span>{node.label}</span>
+                </span>
+                <span>
+                <div style="font-size: 12px;" type="text" on-click={ () => this.test(node) }>Append</div>
+                </span>
+                </span>);
             }
         },
         created: function () {

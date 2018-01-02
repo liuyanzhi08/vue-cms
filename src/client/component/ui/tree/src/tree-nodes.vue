@@ -14,9 +14,11 @@
                     <i class="fa fa-folder-o" aria-hidden="true"></i>
                     <span>{{node.label}}</span>
                 </div>
-                <ui-tree-nodes v-if="node.children !== -1" :data="node.children" :load="load" :click="click"></ui-tree-nodes>
+                <ui-tree-nodes v-if="node.children !== -1" :data="node.children" :load="load" :click="click" :render-content="renderContent"></ui-tree-nodes>
             </div>
-            <div class="leaf" v-if="!node.children" @click="click(node)">{{node.label}}</div>
+            <div class="leaf" v-if="!node.children" @click="click(node)">
+                <node-content :node="node"></node-content>
+            </div>
         </template>
         <div v-if="!data.length" class="leaf">(空)</div>
     </div>
@@ -37,10 +39,12 @@
             click: {
                 type: Function,
                 default: _.noop
-            }
+            },
+            renderContent: Function
         },
         data: function () {
             return {
+                test: '<span style="color:red">red</span>'
             }
         },
         methods: {
@@ -57,6 +61,26 @@
             }
         },
         created: function () {
+        },
+        components: {
+            NodeContent: {
+                props: {
+                    node: {
+                        required: true
+                    }
+                },
+                render(h) {
+                    const parent = this.$parent;
+                    const node = this.node;
+                    const data = node.data;
+                    const store = node.store;
+                    return (
+                        parent.renderContent
+                            ? parent.renderContent.call(parent._renderProxy, h, { node })
+                            : <span>{ this.node.label }</span>
+                    );
+                }
+            }
         }
     }
 </script>
