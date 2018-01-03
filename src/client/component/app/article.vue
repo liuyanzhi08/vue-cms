@@ -29,6 +29,10 @@
             id: {
                 type: Number,
                 default: 0
+            },
+            categoryId: {
+                type: Number,
+                default: 0
             }
         },
         data: function () {
@@ -44,6 +48,7 @@
             },
             setForm: function () {
                 var id = this.id || this.$route.params.id;
+                console.log(id, this.categoryId)
                 if (id) {
                     Article
                         .get({ id: id})
@@ -55,15 +60,26 @@
                                 simplemde.value(res.body.content)
                             }
                         )
+                } else {
+                    this.article = {
+                        category_id: this.categoryId
+                    }
                 }
             }
         },
         watch: {
             id: {
-                handler: function (val) {
+                handler: function () {
+                    console.log('t')
                     this.setForm()
                 },
                 immediate:true
+            },
+            categoryId: {
+                handler: function () {
+                    console.log('c')
+                    this.setForm()
+                }
             }
         },
         created: function () {

@@ -5,7 +5,8 @@
                 <ui-tree :data="rootCategories" :load="load" :click="click" :render-content="renderContent"></ui-tree>
             </aside>
             <div>
-                <app-article :id="selectedId"></app-article>
+                <app-article :id="selected.id" :category-id="selected.categoryId" v-if="selected.type === 'article'"></app-article>
+                <app-category :id="selected.id" v-if="selected.type === 'category'"></app-category>
             </div>
         </ui-sidebar>
     </div>
@@ -14,6 +15,7 @@
     import Article from '../../api/article'
     import Category from '../../api/category'
     import AppArticle from './article.vue'
+    import AppCategory from './category.vue'
     import _ from 'lodash'
     export default {
         data: function () {
@@ -21,7 +23,10 @@
                 rootCategories : [],
                 page: null,
                 total: null,
-                selectedId: null
+                selected: {
+                    id: null,
+                    type: 'article'
+                }
             }
         },
         computed: {
@@ -59,19 +64,25 @@
                 })
             },
             click: function (node) {
-                this.selectedId = node.data.id;
+                this.selected = {
+                    id: node.data.id,
+                    type: 'article'
+                }
             },
-            test (node) { console.log(node) },
-            renderContent(h, { node}) {
-                return (
-                    <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
-                    <span>
-                    <span>{node.label}</span>
-                </span>
-                <span>
-                <div style="font-size: 12px;" type="text" on-click={ () => this.test(node) }>Append</div>
-                </span>
-                </span>);
+            editCategory (node) { this.selected = { id: node.data.id, type: 'category'} },
+            addArticle (node) { this.selected = { id: 0, type: 'article', categoryId: node.data.id}},
+            renderContent(h, {node}) {
+                if (!node.children) {
+                   return (<span>{node.label}</span>)
+                } else {
+                    return (
+                        <span class="node-edit">
+                            {node.label}
+                            <i class="fa fa-pencil" on-click={ (e) => {this.editCategory(node);e.stopPropagation()} }></i>
+                            <i class="fa fa-plus" on-click={ (e) => {this.addArticle(node);e.stopPropagation()} }></i>
+                        </span>
+                    )
+                }
             }
         },
         created: function () {
@@ -91,7 +102,8 @@
             })
         },
         components: {
-            AppArticle
+            AppArticle,
+            AppCategory
         }
     }
 </script>
@@ -99,6 +111,11 @@
     .category-list {
         .main {
             padding: 10px;
+        }
+        .node-edit {
+            i {
+                margin-left: 5px;
+            }
         }
     }
 </style>

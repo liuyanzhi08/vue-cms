@@ -12,7 +12,7 @@
                         }"
                     ></i>
                     <i class="fa fa-folder-o" aria-hidden="true"></i>
-                    <span>{{node.label}}</span>
+                    <node-content :node="node"></node-content>
                 </div>
                 <ui-tree-nodes v-if="node.children !== -1" :data="node.children" :load="load" :click="click" :render-content="renderContent"></ui-tree-nodes>
             </div>

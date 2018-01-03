@@ -23,6 +23,12 @@
     let isNew = true
 
     export default {
+        props: {
+            id: {
+                type: Number,
+                default: 0
+            }
+        },
         data: function () {
             return {
                 category: {parent_id: 0},
@@ -32,23 +38,33 @@
             submit: function (data) {
                 var method = isNew ? 'save' : 'update'
                 category[method](data).then(res => console.log(res))
+            },
+            setForm: function () {
+                // get category info if not new
+                var id = this.id || this.$route.params.id;
+                if (id != 0) {
+                    category
+                        .get({ id: id})
+                        .then(
+                            res => {
+                                this.category = res.body
+                                isNew = false
+                            }
+                        )
+                }
             }
         },
         created: function () {
-            // get category info if not new
-            var id = this.$route.params.id;
-            if (id != 0) {
-                category
-                    .get({ id: id})
-                    .then(
-                        res => {
-                            this.category = res.body
-                            isNew = false
-                        }
-                    )
-            }
         },
         mounted: function () {
+        },
+        watch: {
+            id: {
+                handler: function () {
+                    this.setForm()
+                },
+                immediate:true
+            }
         },
         components: {
             AppCategoryTree
