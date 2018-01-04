@@ -48,7 +48,6 @@
             },
             setForm: function () {
                 var id = this.id || this.$route.params.id;
-                console.log(id, this.categoryId)
                 if (id) {
                     Article
                         .get({ id: id})
@@ -70,14 +69,12 @@
         watch: {
             id: {
                 handler: function () {
-                    console.log('t')
                     this.setForm()
                 },
                 immediate:true
             },
             categoryId: {
                 handler: function () {
-                    console.log('c')
                     this.setForm()
                 }
             }

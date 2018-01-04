@@ -12,7 +12,9 @@
                         }"
                     ></i>
                     <i class="fa fa-folder-o" aria-hidden="true"></i>
-                    <node-content :node="node"></node-content>
+                    <span @click.stop="click(node)" @dblclick="toggle(node)">
+                        <node-content :node="node"></node-content>
+                    </span>
                 </div>
                 <ui-tree-nodes v-if="node.children !== -1" :data="node.children" :load="load" :click="click" :render-content="renderContent"></ui-tree-nodes>
             </div>

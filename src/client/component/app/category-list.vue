@@ -64,12 +64,18 @@
                 })
             },
             click: function (node) {
-                this.selected = {
-                    id: node.data.id,
-                    type: 'article'
+                if (node.children) {
+                    this.selected = {
+                        id: node.data.id,
+                        type: 'category'
+                    }
+                } else {
+                    this.selected = {
+                        id: node.data.id,
+                        type: 'article'
+                    }
                 }
             },
-            editCategory (node) { this.selected = { id: node.data.id, type: 'category'} },
             addArticle (node) { this.selected = { id: 0, type: 'article', categoryId: node.data.id}},
             renderContent(h, {node}) {
                 if (!node.children) {
@@ -78,7 +84,6 @@
                     return (
                         <span class="node-edit">
                             {node.label}
-                            <i class="fa fa-pencil" on-click={ (e) => {this.editCategory(node);e.stopPropagation()} }></i>
                             <i class="fa fa-plus" on-click={ (e) => {this.addArticle(node);e.stopPropagation()} }></i>
                         </span>
                     )
