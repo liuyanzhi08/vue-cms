@@ -27,11 +27,16 @@
             id: {
                 type: Number,
                 default: 0
+            },
+            parentId: {
+                type: Number,
+                default: 0
             }
         },
         data: function () {
+            console.log(this.parentId)
             return {
-                category: {parent_id: 0},
+                category: {parent_id: this.parentId},
             }
         },
         methods: {
@@ -42,7 +47,7 @@
             setForm: function () {
                 // get category info if not new
                 var id = this.id || this.$route.params.id;
-                if (id != 0) {
+                if (id) {
                     category
                         .get({ id: id})
                         .then(
@@ -51,6 +56,10 @@
                                 isNew = false
                             }
                         )
+                } else {
+                    this.category = {
+                        parent_id: this.parentId
+                    }
                 }
             }
         },
@@ -64,6 +73,11 @@
                     this.setForm()
                 },
                 immediate:true
+            },
+            parentId: {
+                handler: function () {
+                    this.setForm()
+                }
             }
         },
         components: {
