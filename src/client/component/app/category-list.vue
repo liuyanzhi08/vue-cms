@@ -4,9 +4,7 @@
             <aside>
                 <ui-tree :data="rootCategories" :load="load" :click="click" :render-content="renderContent"></ui-tree>
                 <div class="menu root-add ">
-                    <i class="fa fa-plus more"></i>
-                    <i class="fa fa-plus article" @click="addArticle({data: {id: 0}})"></i>
-                    <i class="fa fa-folder category" @click="addCategory({data: {id: 0}})"></i>
+                    <i class="fa fa-plus article" @click="addArticle({data: {id: 0}})" @dblclick="addCategory({data: {id: 0}})"></i>
                 </div>
             </aside>
             <div>
@@ -91,9 +89,9 @@
                         <span class="node-edit">
                             {node.label}
                             <span class="menu">
-                                <i class="fa fa-plus more"></i>
-                                <i class="fa fa-plus article" on-click={ (e) => {this.addArticle(node);e.stopPropagation()} }></i>
-                                <i class="fa fa-folder category" on-click={ (e) => {this.addCategory(node);e.stopPropagation()} }></i>
+                                <i class="fa fa-plus article"
+                                    on-click={ (e) => {this.addArticle(node);e.stopPropagation()} }
+                                    on-dblclick={ (e) => {this.addCategory(node);e.stopPropagation()} }></i>
                             </span>
                         </span>
                     )
@@ -128,17 +126,6 @@
             padding: 10px;
         }
         .menu {
-            .category, .article {
-                display: none;
-            }
-            &:hover {
-                .more {
-                    display: none;
-                }
-                .category, .article {
-                    display: inline;
-                }
-            }
             i {
                 margin-left: 5px;
             }

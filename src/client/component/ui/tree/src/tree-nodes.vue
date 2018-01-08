@@ -12,7 +12,7 @@
                         }"
                     ></i>
                     <i class="fa fa-folder-o" aria-hidden="true"></i>
-                    <span @click.stop="toggle(node)" @dblclick="click(node)">
+                    <span @click.stop="toggle(node)" @dblclick.stop.prev="click(node)">
                         <node-content :node="node"></node-content>
                     </span>
                 </div>

@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import Ui from './component/ui/index'
 
-
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(Vuex)
