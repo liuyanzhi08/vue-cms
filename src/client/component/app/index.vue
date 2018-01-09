@@ -1,33 +1,13 @@
 <template>
     <div>
-        <div  class="card">
-            <h2>{{fstArticle.title}}</h2>
-            <ui-collapse>
-                <p v-html="fstArticle.html"></p>
-            </ui-collapse>
-        </div>
+        <app-index></app-index>
     </div>
 </template>
 <script>
-    import Article from '../../api/article.js'
-    import marked from 'marked'
+    import AppIndex from '../../theme/default/index.vue'
     export default {
-        data: function () {
-            return {
-                articles: [],
-                fstArticle: {}
-            }
-        },
-        created: function () {
-            Article.get(this.$route.query).then(res => {
-                this.articles = res.data.items.map(article => {
-                    article.html = marked(article.content)
-                    return article
-                })
-                this.fstArticle = this.articles[0] || {}
-                this.total = res.data.total
-                this.page = +this.$route.query._page || 1
-            })
+        components: {
+            AppIndex
         }
     }
 </script>
