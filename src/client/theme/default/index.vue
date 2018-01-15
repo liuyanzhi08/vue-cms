@@ -2,7 +2,12 @@
     <div>
         我可以写好多内容
         <s-list>
-            test
+            <li
+                slot="item"
+                slot-scope="props"
+                class="my-fancy-item">
+                {{ props.text }}
+            </li>
         </s-list>
     </div>
 </template>
