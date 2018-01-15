@@ -8,6 +8,5 @@ Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(Ui)
-var Directive = require('./component/directive/index')
-console.log(Directive.default)
-Vue.use(Directive.default)
+
+// Vue.use(Directive)
