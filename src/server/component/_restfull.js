@@ -22,7 +22,9 @@ class Restfull {
                 // add where logic
                 let excludes = {
                     _page: true,
-                    _num: true
+                    _num: true,
+                    _from: true,
+                    _size: true
                 }
                 let whereLogic = []
                 _.each(params, function (value, key) {
@@ -40,11 +42,9 @@ class Restfull {
                     sql = `SELECT * FROM ${this.name} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`
                 }
 
-                query(sql, [
-                    (+params._page - 1) * +params._num,
-                    +params._num,
-                    this.name
-                ], function (error, results, fields) {
+                let from = params._from ? +params._from : (+params._page - 1) * +params._num
+                let size = params._size ? +params._size : +params._num;
+                query(sql, [from, size], function (error, results, fields) {
                     ctx.response.body = {
                         items: results[0],
                         total: results[1][0].total
