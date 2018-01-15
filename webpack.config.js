@@ -47,6 +47,7 @@ module.exports = {
     resolve: {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
+            'vue-resource': 'vue-resource/dist/vue-resource.esm.js',
             //'jquery': 'jquery/dist/jquery.js',
             'bootstrap.style': 'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
             'bootstrap.script': 'bootstrap-sass/assets/javascripts/bootstrap.js',
