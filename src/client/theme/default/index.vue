@@ -1,10 +1,12 @@
 <template>
     <div>
-        <s-list cid="6" limit="0,5" slot="item">
+        <s-list cid="6" limit="0,5">
             <h1
                 slot="category"
                 slot-scope="category"
-            >{{category.title}}</h1>
+            >
+                <a :href="category.url">{{category.title}}</a>
+            </h1>
             <div
                 slot="article"
                 slot-scope="article"

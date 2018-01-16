@@ -6,6 +6,7 @@
             :title="category.title"
             :description="category.description"
             :create_time="category.create_time"
+            :url="category.url"
         >
         </slot>
         <slot
@@ -16,6 +17,7 @@
             :content="article.content"
             :category_id="article.category_id"
             :create_time="article.create_time"
+            :url="article.url"
         >
         </slot>
     </div>
@@ -43,18 +45,21 @@
         },
         created: function () {
             let [from, size] = this.limit.split(',')
-            console.log(from, size)
             Article.get({
                 _from: from,
                 _size: size,
                 category_id: this.cid
             }).then((res) => {
-                this.articles = res.data.items
+                this.articles = res.data.items.map((item) => {
+                    item.url = '/article/' + item.id
+                    return item
+                })
             })
             Category.get({
                 id: this.cid
             }).then((res) => {
                 this.category = res.data
+                this.category.url = '/category/' + this.category.id
             })
         }
     }

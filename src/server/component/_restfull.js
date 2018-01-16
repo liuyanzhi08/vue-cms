@@ -45,9 +45,11 @@ class Restfull {
                 let from = params._from ? +params._from : (+params._page - 1) * +params._num
                 let size = params._size ? +params._size : +params._num;
                 query(sql, [from, size], function (error, results, fields) {
+                    var items = results ? results[0] : []
+                    var total = results ? results[1][0].total : 0
                     ctx.response.body = {
-                        items: results[0],
-                        total: results[1][0].total
+                        items: items,
+                        total: total
                     }
 
                     if (error) throw error
