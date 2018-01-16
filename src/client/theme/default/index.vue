@@ -1,19 +1,22 @@
 <template>
     <div>
-        我可以写好多内容
-        <s-list cid="6" limit="0,5">
+        <s-list cid="6" limit="0,5" slot="item">
+            <h1
+                slot="category"
+                slot-scope="category"
+            >{{category.title}}</h1>
             <div
-                slot="item"
-                slot-scope="item"
+                slot="article"
+                slot-scope="article"
             >
                 <div style="color:red">
-                    标题: {{ item.title }}
+                    标题: {{ article.title }}
                 </div>
                 <div>
-                    标题: <div v-html="item.content"></div>
+                    标题: <div v-html="article.content"></div>
                 </div>
                 <div style="color:red">
-                    标题: {{ item.create_time }}
+                    标题: {{ article.create_time }}
                 </div>
             </div>
         </s-list>

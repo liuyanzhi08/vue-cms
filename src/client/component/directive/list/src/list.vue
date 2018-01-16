@@ -1,20 +1,28 @@
 <template>
     <div>
         <slot
-            name="item"
-            v-for="item in items"
-            :id="item.id"
-            :title="item.title"
-            :content="item.content"
-            :category_id="item.category_id"
-            :create_time="item.create_time"
+            name="category"
+            :id="category.id"
+            :title="category.title"
+            :description="category.description"
+            :create_time="category.create_time"
         >
-            <!-- 这里写入备用内容 -->
+        </slot>
+        <slot
+            name="article"
+            v-for="article in articles"
+            :id="article.id"
+            :title="article.title"
+            :content="article.content"
+            :category_id="article.category_id"
+            :create_time="article.create_time"
+        >
         </slot>
     </div>
 </template>
 <script>
     import Article from '../../../../api/article'
+    import Category from '../../../../api/Category'
     export default {
         name: 's-list',
         props: {
@@ -29,7 +37,8 @@
         },
         data: function () {
             return {
-                items: []
+                articles: [],
+                category: {}
             }
         },
         created: function () {
@@ -40,8 +49,12 @@
                 _size: size,
                 category_id: this.cid
             }).then((res) => {
-                console.log(res.data.items)
-                this.items = res.data.items;
+                this.articles = res.data.items
+            })
+            Category.get({
+                id: this.cid
+            }).then((res) => {
+                this.category = res.data
             })
         }
     }
