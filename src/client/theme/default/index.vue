@@ -12,11 +12,8 @@
                 <div style="color:red">
                     标题: {{ article.title }}
                 </div>
-                <div>
-                    标题: <div v-html="article.content"></div>
-                </div>
                 <div style="color:red">
-                    标题: {{ article.create_time }}
+                    时间: {{ article.create_time }}
                 </div>
             </div>
         </s-list>
