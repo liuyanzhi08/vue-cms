@@ -11,17 +11,26 @@ const pool = mysql.createPool({
 })
 
 var query = function (sql, options, callback) {
-    pool.getConnection(function(err, connection) {
-        if (err) {
-            console.error(err)
-            return
-        }
-        // Use the connection
-        connection.query(sql, options, function (error, results, fields) {
-            callback && callback(error, results, fields)
-            connection.release()
+    return new Promise ((resolve, reject) => {
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                reject(err)
+                return
+            }
+            // Use the connection
+            connection.query(sql, options, function (error, results, fields) {
+                if (error) {
+                    reject(error)
+                    return
+                }
+                connection.release()
+                resolve({
+                    results: results,
+                    fields: fields
+                })
+            });
         });
-    });
+    })
 }
 
 export default query

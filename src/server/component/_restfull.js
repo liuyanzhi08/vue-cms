@@ -44,27 +44,35 @@ class Restfull {
 
                 let from = params._from ? +params._from : (+params._page - 1) * +params._num
                 let size = params._size ? +params._size : +params._num;
-                query(sql, [from, size], function (error, results, fields) {
-                    var items = results ? results[0] : []
-                    var total = results ? results[1][0].total : 0
-                    ctx.response.body = {
-                        items: items,
-                        total: total
+                query(sql, [from, size]).then(
+                    (res) => {
+                        var results = res.results
+                        var items = results ? results[0] : []
+                        var total = results ? results[1][0].total : 0
+                        ctx.response.body = {
+                            items: items,
+                            total: total
+                        }
+                        resolve(res)
+                    },
+                    (err) => {
+                        reject(err)
                     }
-
-                    if (error) throw error
-                    resolve(results)
-                })
+                )
             }
             // detail
             else {
                 _.extend(params, {id: ctx.params.id});
-                query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id], function (error, results, fields) {
-                    ctx.response.body = results[0]
-
-                    if (error) throw error
-                    resolve(results)
-                })
+                query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]).then(
+                    (res) => {
+                        var results = res.results
+                        ctx.response.body = results[0]
+                        resolve(res)
+                    },
+                    (err) => {
+                        reject(err)
+                    }
+                )
             }
         })
     }
@@ -73,16 +81,17 @@ class Restfull {
         return new Promise((resolve, reject) => {
             let obj = ctx.request.body
             obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss')
-            query(`INSERT INTO ${this.name} SET ?`, obj, function (error, results, fields) {
-                if (error) {
-                    console.error(error)
-                } else {
-                    obj.id = results.insertId;
+            query(`INSERT INTO ${this.name} SET ?`, obj).then(
+                (res) => {
+                    var results = res.results
+                    obj.id = results.insertId
                     ctx.response.body = obj
                     resolve(obj)
+                },
+                (err) => {
+                    reject(err)
                 }
-            });
-
+            )
         })
     }
 
@@ -90,12 +99,15 @@ class Restfull {
         return new Promise((resolve, reject) => {
             let obj = ctx.request.body
 
-            query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id], function (error, results, fields) {
-                ctx.response.body = obj
-
-                if (error) throw error;
-                resolve(obj)
-            });
+            query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id]).then(
+                (res) => {
+                    ctx.response.body = obj
+                    resolve(res)
+                },
+                (err) => {
+                    reject(err)
+                }
+            )
         })
     }
 }

@@ -6,6 +6,8 @@
 <script>
     import themeIndex from '../../../theme/default/index.vue'
     export default {
+        created: function () {
+        },
         components: {
             themeIndex
         }
