@@ -12,3 +12,5 @@ $ cd cms
 $ npm install
 $ npm start
 ```
+
+## Copyright
