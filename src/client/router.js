@@ -12,6 +12,7 @@ import install from './component/app/admin/install.vue'
 
 import path from 'path'
 import { adminRoot } from './config'
+import installer from './helper/installer'
 
 const routes = [
     // admin
@@ -19,6 +20,7 @@ const routes = [
     { path: path.join(adminRoot, '/category'), component: categoryList, name: 'categoryList' },
     { path: path.join(adminRoot, '/article/:id'), component: article, name: 'article' },
     { path: path.join(adminRoot, '/article'), component: articleList, name: 'articleList' },
+    { path: path.join(adminRoot, '/install'), component: install, name: 'install' },
     // user
     { path: '/', component: index, name: 'root' },
     { path: '/index', component: index, name: 'index' },
@@ -29,6 +31,21 @@ const routes = [
 const router = new VueRouter({
     mode: 'history',
     routes,
+})
+
+router.beforeEach((to, from, next) => {
+    var isInInstallPage = to.name === 'install'
+    if (isInInstallPage) {
+        next()
+        return
+    }
+
+    var installed = installer.get()
+    if (!installed) {
+        router.push({ name: 'install'})
+    } else {
+        next()
+    }
 })
 
 export default router;
