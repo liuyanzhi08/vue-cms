@@ -24,7 +24,7 @@
 </template>
 <script>
     import Article from '../../../../api/article'
-    import Category from '../../../../api/Category'
+    import Category from '../../../../api/category'
     export default {
         name: 's-list',
         props: {

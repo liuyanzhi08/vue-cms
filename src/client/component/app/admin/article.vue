@@ -17,7 +17,7 @@
 </template>
 <script>
     import Article from '../../../api/article'
-    import Category from '../../../api/Category'
+    import Category from '../../../api/category'
     import SimpleMDE from 'simplemde'
     import AppCategoryTree from './category-tree.vue'
 
