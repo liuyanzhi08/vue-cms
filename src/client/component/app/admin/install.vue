@@ -12,6 +12,7 @@
         methods: {
         },
         created: function () {
+            alert()
         },
         components: {
         }

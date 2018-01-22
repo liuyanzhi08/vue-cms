@@ -1,7 +1,7 @@
 import mysql from 'mysql'
 import {db} from '../config'
 
-const pool = mysql.createPool({
+const currentPool = mysql.createPool({
     host: 'localhost',
     user: db.user,
     password : db.password,
@@ -10,7 +10,16 @@ const pool = mysql.createPool({
     dateStrings: true
 })
 
-var query = function (sql, options, callback) {
+const globalPool = mysql.createPool({
+    host: 'localhost',
+    user: db.user,
+    password : db.password,
+    multipleStatements: true,
+    dateStrings: true
+})
+
+var query = function (sql, options) {
+    var pool = options === true ? globalPool : currentPool
     return new Promise ((resolve, reject) => {
         pool.getConnection(function(err, connection) {
             if (err) {

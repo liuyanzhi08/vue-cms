@@ -1,14 +1,34 @@
 import query from '../db/query'
+import fs from 'fs'
+import path from 'path'
+import {db} from '../config'
 
 export default {
     get: function (ctx) {
         return new Promise((resolve, reject) => {
-            console.log(query)
-            query('CREATE DATABASE cms', (error, result, fields) => {
-                console.log(error, result)
-                ctx.response.body = error
-                resolve(result)
-            })
+            query(`CREATE DATABASE IF NOT EXISTS ${db.database}`, true)
+            .then(
+                (res) => {
+                    return query(`use ${db.database}`)
+                }
+            )
+            .then(
+                (res) => {
+                    var sqlPath = path.join(__dirname, '../db/data.sql')
+                    var data = fs.readFileSync(sqlPath, 'utf8')
+                    return query(data)
+                }
+            )
+            .then(
+                (res) => {
+                    ctx.response.body = res
+                    resolve()
+                },
+                (err) => {
+                    ctx.response.body = err
+                    reject(err)
+                }
+            )
         })
     }
 }
