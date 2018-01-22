@@ -4,6 +4,8 @@
 
 Mysql: [official site link](https://www.mysql.com/)
 
+Node: ~7.6.0
+
 ## Starting 
 
 ```

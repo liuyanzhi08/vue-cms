@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/server/index.js -w src/server & webpack -w",
-    "pub": "webpack && NODE_ENV=production node src/server/index.js"
+    "pub": "NODE_ENV=production webpack && node src/server/index.js &"
   },
   "repository": {
     "type": "git",
