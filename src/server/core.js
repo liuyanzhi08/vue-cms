@@ -20,7 +20,7 @@ app
     .use(router.routes())
     .use(router.allowedMethods())
 
-app.listen(1993)
+app.listen(1993, '127.0.0.1')
 console.log('cms is running, listening on 1993')
 
 
