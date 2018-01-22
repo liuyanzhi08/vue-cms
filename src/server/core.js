@@ -21,5 +21,6 @@ app
     .use(router.allowedMethods())
 
 app.listen(1993)
+console.log('cms is running, listening on 1993')
 
 
