@@ -1,10 +1,13 @@
 <template>
     <div>
-        <div v-if="state === 0">
+        <div v-if="!resolved">
             installing db...
         </div>
-        <div v-if="state === 1">
+        <div v-if="resolved && !error">
             db installed.
+        </div>
+        <div v-if="error">
+            <pre>{{error}}</pre>
         </div>
     </div>
 </template>
@@ -16,7 +19,8 @@
     export default {
         data: function () {
             return {
-                state: 0
+                resolved: 0,
+                error: null
             }
         },
         methods: {
@@ -24,9 +28,14 @@
         created: function () {
             var _this = this;
             Install.get().then(function (res) {
-                _this.state = 1
-                installer.set()
-                router.push({ name: 'root'})
+                _this.resolved = 1
+                var data = res.data
+                if (data.errno) {
+                    _this.error = data
+                } else {
+                    installer.set()
+                    router.push({ name: 'root'})
+                }
             })
         },
         components: {

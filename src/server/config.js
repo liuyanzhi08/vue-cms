@@ -1,7 +1,7 @@
 const db = {
     user: 'root',
     password: 'root',
-    database: 'cms',
+    database: 'cmss',
 }
 
 export {

@@ -10,6 +10,9 @@ export default {
             .then(
                 (res) => {
                     return query(`use ${db.database}`)
+                },
+                (err) => {
+                    throw err
                 }
             )
             .then(
@@ -17,6 +20,9 @@ export default {
                     var sqlPath = path.join(__dirname, '../db/data.sql')
                     var data = fs.readFileSync(sqlPath, 'utf8')
                     return query(data)
+                },
+                (err) => {
+                    throw err
                 }
             )
             .then(
