@@ -31,7 +31,7 @@
     </div>
 </template>
 <script>
-    import 'bootstrap.script'
+    import(/* webpackChunkName: "bootstrap" */ 'bootstrap.script')
     export default {
         data: function () {
             return {
