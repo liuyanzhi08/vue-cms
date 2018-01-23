@@ -60,6 +60,8 @@
                             }
                         )
                 } else {
+                    isNew = true
+                    simplemde && simplemde.value('')
                     this.article = {
                         category_id: this.categoryId
                     }

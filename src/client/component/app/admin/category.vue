@@ -56,6 +56,7 @@
                             }
                         )
                 } else {
+                    isNew = true
                     this.category = {
                         parent_id: this.parentId
                     }
