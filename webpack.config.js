@@ -5,11 +5,14 @@ const BrowserSync = require('browser-sync')
 const browserSync = BrowserSync.create()
 
 module.exports = {
-    entry: './src/client/index.js',
+    entry: {
+        app: './src/client/index.js'
+    },
     output: {
         path: path.resolve(__dirname, './dist/client'),
         publicPath: '/dist/client/',
-        filename: 'build.js'
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js',
     },
     devtool: 'source-map',
     module: {

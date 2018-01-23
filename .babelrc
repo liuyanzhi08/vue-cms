@@ -1,4 +1,4 @@
 {
     "presets": ["latest"],
-    "plugins": ["transform-async-to-generator", "transform-vue-jsx"]
+    "plugins": ["transform-async-to-generator", "transform-vue-jsx", "syntax-dynamic-import"]
 }

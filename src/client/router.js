@@ -1,18 +1,18 @@
 import VueRouter from 'vue-router'
 
-import index from './component/app/user/index.vue'
-import list from './component/app/user/list.vue'
-import detail from './component/app/user/detail.vue'
-
-import category from './component/app/admin/category.vue'
-import categoryList from './component/app/admin/category-list.vue'
-import article from './component/app/admin/article.vue'
-import articleList from './component/app/admin/article-list.vue'
-import install from './component/app/admin/install.vue'
-
 import path from 'path'
 import { adminRoot } from './config'
 import installer from './helper/installer'
+
+var index = () => import(/* webpackChunkName: "index" */ './component/app/user/index.vue')
+var list = () => import(/* webpackChunkName: "list" */ './component/app/user/list.vue')
+var detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail.vue')
+
+var category = () => import(/* webpackChunkName: "category" */ './component/app/admin/category.vue')
+var categoryList = () => import(/* webpackChunkName: "category-list" */ './component/app/admin/category-list.vue')
+var article = () => import(/* webpackChunkName: "article" */ './component/app/admin/article.vue')
+var articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list.vue')
+var install = () => import(/* webpackChunkName: "install" */ './component/app/admin/install.vue')
 
 const routes = [
     // admin
