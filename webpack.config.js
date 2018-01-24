@@ -1,6 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
 const BrowserSync = require('browser-sync')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
 const browserSync = BrowserSync.create()
 
@@ -72,7 +74,8 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
-        })
+        }),
+        // new VueSSRServerPlugin()
     ],
     devtool: '#eval-source-map'
 }
@@ -101,4 +104,13 @@ if (process.env.NODE_ENV === 'production') {
         proxy: 'localhost:1993',
         files: ['dist/**/*']
     })
+
+    // const { createBundleRenderer } = require('vue-server-renderer')
+    // const bundle = require('./dist/client/vue-ssr-server-bundle.json')
+    // const renderer = createBundleRenderer(bundle)
+    // const context = { url: '/article/1' }
+    // renderer.renderToString(context, (err, html) => {
+    //     // 处理异常……
+    //     console.log('t:', err, html)
+    // })
 }
