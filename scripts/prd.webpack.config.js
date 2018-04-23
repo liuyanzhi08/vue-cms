@@ -71,10 +71,10 @@ module.exports = {
     historyApiFallback: true,
   },
   plugins: [
-    // new webpack.ProvidePlugin({
-    //     $: 'jquery',
-    //     jQuery: 'jquery'
-    // }),
+    new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery'
+    }),
     new HtmlWebpackPlugin({
       title: 'My App',
       template: './src/client/index.html'
