@@ -75,6 +75,10 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery'
         }),
+      new HtmlWebpackPlugin({
+        title: 'My App',
+        template: 'src/client/index.html'
+      }),
         // new VueSSRServerPlugin()
     ],
     devtool: '#eval-source-map'

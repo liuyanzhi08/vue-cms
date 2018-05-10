@@ -24,7 +24,7 @@ async function assetHandler (ctx) {
 }
 
 async function indexHandler (ctx) {
-    await KoaSend(ctx, 'src/client/index.html')
+    await KoaSend(ctx, 'dist/client/index.html')
 }
 
 export default router

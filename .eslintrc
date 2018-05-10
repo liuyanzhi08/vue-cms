@@ -1,0 +1,23 @@
+// refer: https://github.com/airbnb/javascript
+{
+  "extends": "airbnb",
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
+  },
+  "globals": {
+    // mocha
+    "describe": false,
+    "it": false,
+    "before": false,
+    "beforeEach": false,
+    "beforeAll": false,
+    "after": false,
+    "afterEach": false,
+    "expect": false
+  }
+}
