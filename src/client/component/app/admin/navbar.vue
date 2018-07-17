@@ -14,10 +14,10 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active">
+          <li :class="{active: $route.path === '/admin/category'}">
             <router-link to="/admin/category">文章管理</router-link>
           </li>
-          <li><router-link to="/admin/staticize">静态化</router-link></li>
+          <li :class="{active: $route.path === '/admin/staticize'}"><router-link to="/admin/staticize">静态化</router-link></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -50,3 +50,5 @@
     </div><!-- /.container-fluid -->
   </nav>
 </template>
+<style lang="scss">
+</style>

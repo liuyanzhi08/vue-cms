@@ -31,6 +31,7 @@
 <style lang="scss">
   @import "~bootstrap.style";
   @import "~fontawesome";
+  @import "~style/overwrite";
 
   body {
     font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
