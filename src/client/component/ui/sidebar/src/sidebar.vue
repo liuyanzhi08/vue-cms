@@ -85,7 +85,7 @@
                 right: 0;
                 width: 20px;
                 height: 100%;
-                cursor: move;
+                cursor: col-resize;
                  display: flex;
                  align-items: center;
                  justify-content: center;
