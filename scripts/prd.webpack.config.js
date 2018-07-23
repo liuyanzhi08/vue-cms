@@ -62,7 +62,8 @@ module.exports = {
       '../fonts/fontawesome-webfont.woff': 'font-awesome/fonts/fontawesome-webfont.woff',
       '../fonts/fontawesome-webfont.woff2': 'font-awesome/fonts/fontawesome-webfont.woff2',
       '../fonts/fontawesome-webfont.eot': 'font-awesome/fonts/fontawesome-webfont.eot',
-      'simplemde.style': 'simplemde/dist/simplemde.min.css'
+      'simplemde.style': 'simplemde/dist/simplemde.min.css',
+      'style': path.resolve(__dirname, '../src/client/asset/style'),
     }
   },
   devServer: {
