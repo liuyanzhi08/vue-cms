@@ -15,7 +15,6 @@
     methods: {
     },
     created: function () {
-      alert();
       Staticize.get().then(() => {
         alert()
       })

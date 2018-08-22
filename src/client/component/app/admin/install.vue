@@ -26,16 +26,18 @@
         methods: {
         },
         created: function () {
-            var _this = this;
-            Install.get().then(function (res) {
-                _this.resolved = 1
-                var data = res.data
-                if (data.errno) {
-                    _this.error = data
-                } else {
-                    installer.set()
-                    router.push({ name: 'root'})
-                }
+            Install.get().then((res) => {
+              this.resolved = 1
+              var data = res.data
+              if (data.errno) {
+                this.error = data
+              } else {
+                installer.set()
+                router.push({
+                  name: this.$router.currentRoute.params.to.name,
+                  params: this.$router.currentRoute.params.to.params
+                })
+              }
             })
         },
         components: {

@@ -52,7 +52,7 @@ router.beforeEach((to, from, next) => {
 
     const installed = installer.get()
     if (!installed) {
-        router.push({ name: 'install'})
+        router.push({ name: 'install', params: { to } })
     } else {
         next()
     }

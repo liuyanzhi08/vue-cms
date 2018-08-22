@@ -12,9 +12,12 @@ export default {
           }).then(async browser => {
             const page = await browser.newPage();
 
-            await page.goto('https://www.baidu.com');
+            await page.goto('http://localhost:1991/article/1', {"waitUntil" : "networkidle0"});
 
-            console.log(page.content())
+            const content = await page.content();
+            fs.writeFileSync(path.resolve(__dirname, 'test.html'), content);
+            // await page.close();
+            resolve();
           });
         })
     }
