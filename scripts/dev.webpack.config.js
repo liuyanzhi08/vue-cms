@@ -8,13 +8,13 @@ const browserSync = BrowserSync.create()
 
 module.exports = {
   entry: {
-    app: './src/client/index.js'
+    index: path.resolve(__dirname, '../src/client/index.js')
   },
   output: {
-    path: path.resolve(__dirname, './dist/client'),
-    publicPath: '/dist/client/',
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    path: path.resolve(__dirname, '../dist'),
+    publicPath: '/dist/',
+    filename: '[name].bundle.[chunkhash].js',
+    chunkFilename: '[name].bundle.[chunkhash].js',
   },
   devtool: 'source-map',
   module: {

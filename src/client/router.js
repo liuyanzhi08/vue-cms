@@ -4,7 +4,7 @@ import path from 'path'
 import { adminRoot } from './config'
 import installer from './helper/installer'
 
-const index = () => import(/* webpackChunkName: "index" */ './component/app/user/index.vue')
+const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index.vue')
 const list = () => import(/* webpackChunkName: "list" */ './component/app/user/list.vue')
 const detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail.vue')
 

@@ -7,7 +7,7 @@ var router = new KoaRouter()
 router
     .all('/api/:component/:id', componentHandler)
     .all('/api/:component', componentHandler)
-    .all('/dist/client/*', assetHandler)
+    .all('/dist/*', assetHandler)
     .all('*', indexHandler)
 
 async function componentHandler (ctx) {
@@ -20,11 +20,11 @@ async function componentHandler (ctx) {
 }
 
 async function assetHandler (ctx) {
-    await KoaSend(ctx, path.join('dist/client', ctx.params[0]))
+    await KoaSend(ctx, path.join('dist/', ctx.params[0]))
 }
 
 async function indexHandler (ctx) {
-    await KoaSend(ctx, 'dist/client/index.html')
+    await KoaSend(ctx, 'dist/index.html')
 }
 
 export default router
