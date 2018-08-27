@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/liuyanzhi08/blog",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-latest": "^6.24.1",
     "bootstrap-sass": "^3.3.7",
@@ -39,7 +40,7 @@
     "moment": "^2.20.1",
     "mysql": "^2.14.1",
     "puppeteer": "^1.7.0",
-    "resource-axios": "^1.0.2",
+    "resource-axios": "^1.1.2",
     "simplemde": "^1.11.2",
     "store": "^2.0.12",
     "vue": "^2.5.13",

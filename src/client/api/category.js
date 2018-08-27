@@ -1,7 +1,6 @@
-import Vue from 'vue'
+import resource from 'resource-axios';
+import axios from 'axios';
 
-const Category = Vue.resource('/api/category{/id}', {}, {}, {
-    emulateJSON: true
-})
+const Category = resource('/api/category', axios);
 
 export default Category;

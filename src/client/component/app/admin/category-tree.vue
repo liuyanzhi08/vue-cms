@@ -29,7 +29,7 @@
         methods: {
         },
         created: function () {
-            Category.get().then(res => {
+            Category.query().then(res => {
                 let categories = res.data.items;
                 let idMap = {}
                 let roots = []

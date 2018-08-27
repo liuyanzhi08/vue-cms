@@ -39,7 +39,7 @@
         },
         methods: {
             load: function (node) {
-                return Category.get({
+                return Category.query({
                     parent_id: node.data.id
                 }).then(res => {
                     let subCategories = []
@@ -99,7 +99,7 @@
             }
         },
         created: function () {
-            Category.get({
+            Category.query({
                 parent_id: 0
             }).then(res => {
                 let _this = this

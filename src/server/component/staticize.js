@@ -12,11 +12,13 @@ export default {
           }).then(async browser => {
             const page = await browser.newPage();
 
-            await page.goto('http://localhost:1991/article/1', {"waitUntil" : "networkidle0"});
+            await page.goto('http://localhost:1991/article/1', { waitUntil : 'networkidle0'});
 
             const content = await page.content();
             fs.writeFileSync(path.resolve(__dirname, 'test.html'), content);
-            // await page.close();
+            await page.close();
+            await browser.close();
+            ctx.response.body = { code: 200 };
             resolve();
           });
         })
