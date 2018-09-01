@@ -44,19 +44,19 @@
             submit: function (data) {
                 var method = isNew ? 'save' : 'update'
                 data.content = simplemde.value()
-                Article[method](data).then(res => console.log(res))
+                Article[method](data.id, data).then(res => console.log(res))
             },
             setForm: function () {
                 var id = this.id || this.$route.params.id;
                 if (id) {
                     Article
-                        .get({ id: id})
+                        .get(id)
                         .then(
                             res => {
-                                this.article = res.body
+                                this.article = res.data;
                                 this.article.create_time = new Date(this.article.create_time);
-                                isNew = false
-                                simplemde.value(res.body.content)
+                                isNew = false;
+                                simplemde.value(res.data.content);
                             }
                         )
                 } else {

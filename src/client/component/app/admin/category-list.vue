@@ -52,7 +52,7 @@
                     })
                     return subCategories
                 }).then(subCategories => {
-                    return Article.get({
+                    return Article.query({
                         category_id: node.data.id
                     }).then(res => {
                         let subArticles = []

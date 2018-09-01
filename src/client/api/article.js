@@ -1,7 +1,6 @@
-import Vue from 'vue'
+import resource from 'resource-axios';
+import axios from 'axios';
 
-const Article = Vue.resource('/api/article{/id}', {}, {}, {
-    emulateJSON: true
-})
+const Article = resource('/api/article', axios);
 
 export default Article;

@@ -41,12 +41,11 @@
     methods: {
       submit: function (data) {
         var method = isNew ? 'save' : 'update'
-        category[method](data).then(res => console.log(res))
+        category[method](data.id, data).then(res => console.log(res))
       },
       setForm: function () {
         // get category info if not new
         var id = this.id || this.$route.params.id;
-        debugger
         if (id) {
           category.get(id)
             .then(
