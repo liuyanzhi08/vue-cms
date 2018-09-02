@@ -31,19 +31,18 @@ export default {
         case 'login':
           return passport.authenticate('local',
             function(err, user, info, status) {
-              ctx.body = {user, err, info, status};
               if (user) {
                 ctx.login(user);
+                success(resovle, ctx, user);
               } else {
-                fail(reject, ctx, { msg: 'user and password are unmatched'});
+                fail(reject, ctx, { msg: 'user and password are unmatched' });
               }
-              resovle();
             })(ctx);
           break;
         case 'logout':
+          ctx.cookies.set('koa:sess.sig', null)
           ctx.logout();
-          ctx.body = {auth: ctx.isAuthenticated(), user: ctx.state.user};
-          resovle();
+          success(resovle, ctx, { msg: 'successfully logout' });
           break;
         default:
           resovle();

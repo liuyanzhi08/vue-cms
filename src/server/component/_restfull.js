@@ -6,7 +6,7 @@ import moment from 'moment'
 import { success, fail } from '../helper/ctx';
 
 class Restfull {
-  constructor(name, options = {}) {
+  constructor(name, options = { auth: true }) {
     this.name = name;
     this.options = options;
   }

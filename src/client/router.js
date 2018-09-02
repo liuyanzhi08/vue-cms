@@ -1,4 +1,5 @@
 import VueRouter from 'vue-router'
+import axios from 'axios';
 
 import path from 'path'
 import { adminRoot } from './config'
@@ -15,6 +16,7 @@ const article = () => import(/* webpackChunkName: "article" */ './component/app/
 const articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list.vue')
 const install = () => import(/* webpackChunkName: "install" */ './component/app/admin/install.vue')
 const staticize = () => import(/* webpackChunkName: "staticize" */ './component/app/admin/staticize.vue')
+const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login.vue')
 
 const routes = [
   // admin
@@ -29,6 +31,7 @@ const routes = [
       { path: 'article', component: articleList, name: 'articleList' },
       { path: 'install', component: install, name: 'install' },
       { path: 'staticize', component: staticize, name: 'staticize' },
+      { path: 'login', component: login, name: 'login' },
     ]
   },
   // user
@@ -56,6 +59,15 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
-})
+});
+
+axios.interceptors.request.use(function (config) {
+  console.log(config)
+  // Do something before request is sent
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
 
 export default router;

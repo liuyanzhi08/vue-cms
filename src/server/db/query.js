@@ -12,7 +12,7 @@ const currentPool = mysql.createPool({
 
 const globalPool = mysql.createPool({
   host: 'localhost',
-  user: db.user,
+  user: db.username,
   password: db.password,
   multipleStatements: true,
   dateStrings: true
