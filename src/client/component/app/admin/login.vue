@@ -15,7 +15,7 @@
   import Install from '../../../api/install'
   import router from '../../../router'
   import installer from '../../../helper/installer'
-  import {AUTH_REQUEST} from '../../../store';
+  import { AUTH_LOGIN } from '../../../store';
 
   export default {
     data() {
@@ -27,8 +27,12 @@
     methods: {
       login: function () {
         const {username, password} = this;
-        this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
-          this.$router.push('/admin/category')
+        this.$store.dispatch(AUTH_LOGIN, { username, password }).then(() => {
+          console.log(this.$router.currentRoute)
+          this.$router.push({
+            name: this.$router.currentRoute.params.to.name,
+            params: this.$router.currentRoute.params.to.params
+          })
         })
       }
     },

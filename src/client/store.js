@@ -3,6 +3,7 @@ import Cookie from 'js-cookie';
 import Auth from './api/auth';
 
 const AUTH_REQUEST = 'AUTH_REQUEST';
+const AUTH_LOGIN = 'AUTH_LOGIN';
 const AUTH_LOGOUT = 'AUTH_LOGOUT';
 const AUTH_SUCCESS = 'AUTH_SUCCESS';
 const AUTH_ERROR = 'AUTH_ERROR';
@@ -11,6 +12,11 @@ const auth = {
   state: {
     status: null,
     user: null
+  },
+  getters: {
+    isAuthenticated: (state) => {
+      return !!state.user;
+    },
   },
   mutations: {
     [AUTH_REQUEST]: (state) => {
@@ -29,7 +35,7 @@ const auth = {
     },
   },
   actions: {
-    [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
+    [AUTH_LOGIN]: ({ commit, dispatch }, user) => {
       return new Promise((resolve, reject) => { // The Promise used for router redirect in login
         commit(AUTH_REQUEST);
         Auth.login(user)
@@ -49,10 +55,6 @@ const auth = {
           commit(AUTH_LOGOUT);
         });
     }
-  },
-  getters: {
-    isAuthenticated: state => !!state.token,
-    authStatus: state => state.status,
   }
 }
 
@@ -64,7 +66,7 @@ const store = new Vuex.Store({
 });
 
 export {
-  AUTH_REQUEST,
+  AUTH_LOGIN,
   AUTH_LOGOUT
 };
 
