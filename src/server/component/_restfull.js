@@ -87,6 +87,10 @@ class Restfull {
 
   post(ctx) {
     return new Promise((resolve, reject) => {
+      if (this.options.auth && !ctx.isAuthenticated()) {
+        return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
+      }
+
       let obj = ctx.request.body
       obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss')
       query(`INSERT INTO ${this.name} SET ?`, obj).then(
@@ -105,6 +109,10 @@ class Restfull {
 
   put(ctx) {
     return new Promise((resolve, reject) => {
+      if (this.options.auth && !ctx.isAuthenticated()) {
+        return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
+      }
+
       let obj = ctx.request.body
       obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss')
       query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id]).then(

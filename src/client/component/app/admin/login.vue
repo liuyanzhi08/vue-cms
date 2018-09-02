@@ -28,11 +28,12 @@
       login: function () {
         const {username, password} = this;
         this.$store.dispatch(AUTH_LOGIN, { username, password }).then(() => {
-          console.log(this.$router.currentRoute)
-          this.$router.push({
-            name: this.$router.currentRoute.params.to.name,
-            params: this.$router.currentRoute.params.to.params
-          })
+          const to = this.$router.currentRoute.params.to;
+          const togo = to ? {
+              name: this.$router.currentRoute.params.to.name,
+              params: this.$router.currentRoute.params.to.params
+            } : { name: 'categoryList'};
+          this.$router.push(togo);
         })
       }
     },

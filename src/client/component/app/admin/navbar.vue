@@ -65,7 +65,9 @@
     },
     methods: {
       logout () {
-        this.$store.dispatch(AUTH_LOGOUT);
+        this.$store.dispatch(AUTH_LOGOUT).then(() => {
+          this.$router.push({ name: 'categoryList' });
+        })
       }
     }
   }
