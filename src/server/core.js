@@ -1,6 +1,10 @@
-import Koa from 'koa'
-import KoaBody from 'koa-body'
-import router from './router'
+import Koa from 'koa';
+import KoaBody from 'koa-body';
+import session from 'koa-session';
+
+import router from './router';
+import passport from './passport';
+
 // import KoaWebpack from 'koa-webpack'
 // import Webpack from 'webpack'
 // import config from '../../webpack.config.js'
@@ -15,12 +19,14 @@ const app = new Koa()
 //     }))
 // }
 
-app
-    .use(KoaBody())
-    .use(router.routes())
-    .use(router.allowedMethods())
+app.keys = ['super-secret-key'];
+
+app.use(KoaBody())
+  .use(session(app))
+  .use(passport.initialize())
+  .use(passport.session())
+  .use(router.routes())
+  .use(router.allowedMethods())
 
 app.listen(1993, '0.0.0.0')
-console.log('cms is running, listening on 0.0.0.0:1993')
-
-
+console.log('cms is running, listening on 0.0.0.0:1993');

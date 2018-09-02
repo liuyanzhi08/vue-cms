@@ -3,7 +3,7 @@ import {db} from '../config'
 
 const currentPool = mysql.createPool({
   host: 'localhost',
-  user: db.user,
+  user: db.username,
   password: db.password,
   database: db.database,
   multipleStatements: true,

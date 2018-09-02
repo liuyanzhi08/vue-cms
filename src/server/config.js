@@ -1,5 +1,5 @@
 const db = {
-    user: 'root',
+    username: 'root',
     password: 'root',
     database: 'cms',
 }
