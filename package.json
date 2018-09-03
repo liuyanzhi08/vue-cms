@@ -35,6 +35,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap-sass": "^3.3.7",
     "ejs": "^2.5.7",
+    "element-ui": "^2.4.6",
     "font-awesome": "^4.7.0",
     "html-webpack-plugin": "^2.30.1",
     "jquery": "^3.2.1",

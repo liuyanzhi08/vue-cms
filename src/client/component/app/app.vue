@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <div class="container-fluid">
-      <router-view></router-view>
+    <div>
+        <div class="container-fluid">
+            <router-view></router-view>
+        </div>
     </div>
-  </div>
 </template>
 <script>
   import(/* webpackChunkName: "bootstrap" */ 'bootstrap.script')
@@ -24,16 +24,16 @@
         ]
       }
     },
-    components: {
-    }
+    components: {}
   }
 </script>
 <style lang="scss">
-  @import "~bootstrap.style";
-  @import "~fontawesome";
-  @import "~style/overwrite";
+    @import "~element-ui.style";
+    @import "~bootstrap.style";
+    @import "~fontawesome";
+    @import "~style/overwrite";
 
-  body {
-    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-  }
+    body {
+        font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    }
 </style>

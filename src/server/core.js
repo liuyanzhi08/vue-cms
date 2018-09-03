@@ -19,10 +19,14 @@ const app = new Koa()
 //     }))
 // }
 
+const sessionConfig = {
+  maxAge: 60 * 60 * 1000, // expires 60min
+};
+
 app.keys = ['super-secret-key'];
 
 app.use(KoaBody())
-  .use(session(app))
+  .use(session(sessionConfig, app))
   .use(passport.initialize())
   .use(passport.session())
   .use(router.routes())
