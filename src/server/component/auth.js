@@ -35,6 +35,12 @@ export default {
             function(err, user, info, status) {
               if (user && !err) {
                 ctx.login(user);
+                ctx.cookies.set('auth:user', user.id, {
+                  path: '/',       // 写cookie所在的路径
+                  maxAge:  60 * 60 * 1000, // cookie有效时长
+                  httpOnly: false,  // 是否只用于http请求中获取
+                  overwrite: false  // 是否允许重写
+                });
                 success(resovle, ctx, user);
               } else {
                 fail(reject, ctx, err);
@@ -45,6 +51,8 @@ export default {
           // ctx.logout();
           ctx.cookies.set('koa:sess', null);
           ctx.cookies.set('koa:sess.sig', null);
+          ctx.cookies.set('auth:user', null);
+          ctx.cookies.set('auth:user.sig', null);
           success(resovle, ctx, { msg: 'successfully logout' });
           break;
         default:
@@ -53,6 +61,23 @@ export default {
     });
   },
   get: (ctx) => {
-    ctx.status = 404;
+    return new Promise((resolve, reject) => {
+      const action = ctx.params.id;
+      switch (action) {
+        case 'login':
+        case 'logout':
+          ctx.status = 404;
+          break;
+        case 'user':
+          if (!ctx.isAuthenticated()) {
+            return fail(reject, ctx, { msg: 'unlogined' }, { code: 401 })
+          }
+          success(resolve, ctx, ctx.user);
+          break;
+        default:
+          break;
+      }
+    })
+
   },
 };

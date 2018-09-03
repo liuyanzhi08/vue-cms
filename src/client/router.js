@@ -47,7 +47,9 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   routes,
-})
+});
+
+store.dispatch('auth:user');
 
 router.beforeEach((to, from, next) => {
   if (to.name !== 'login' && !store.getters.isAuthenticated) {

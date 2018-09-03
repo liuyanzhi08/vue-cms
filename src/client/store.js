@@ -2,21 +2,27 @@ import Vuex from 'vuex';
 import Cookie from 'js-cookie';
 import Auth from './api/auth';
 
-const AUTH_REQUEST = 'AUTH_REQUEST';
-const AUTH_LOGIN = 'AUTH_LOGIN';
-const AUTH_LOGOUT = 'AUTH_LOGOUT';
-const AUTH_SUCCESS = 'AUTH_SUCCESS';
-const AUTH_ERROR = 'AUTH_ERROR';
+const AUTH_REQUEST = 'auth:request';
+const AUTH_LOGIN = 'auth:login';
+const AUTH_LOGOUT = 'auth:logout';
+const AUTH_SUCCESS = 'auth:success';
+const AUTH_ERROR = 'auth:error';
+const AUTH_USER = 'auth:user';
+
 
 const auth = {
   state: {
     status: null,
-    user: null
+    user: null,
+    userId: Cookie.get(AUTH_USER),
   },
   getters: {
     isAuthenticated: (state) => {
-      return !!state.user;
+      return !!state.userId;
     },
+    user: (state) => {
+      return state.user || {};
+    }
   },
   mutations: {
     [AUTH_REQUEST]: (state) => {
@@ -26,6 +32,7 @@ const auth = {
     [AUTH_SUCCESS]: (state, user) => {
       state.status = 'success'
       state.user = user
+      localStorage.setItem('auth:user', user);
     },
     [AUTH_ERROR]: (state) => {
       state.status = 'error'
@@ -54,7 +61,14 @@ const auth = {
         .then(() => {
           commit(AUTH_LOGOUT);
         });
-    }
+    },
+    [AUTH_USER]: ({commit, dispatch}) => {
+      return Auth.user()
+        .then((user) => {
+          console.log(user)
+          commit(AUTH_LOGOUT);
+        });
+    },
   }
 }
 

@@ -8,6 +8,9 @@ const Auth = {
   },
   logout: () => {
     return axios({url: '/api/auth/logout', method: 'POST' });
+  },
+  user: () => {
+    return axios({url: '/api/auth/user', method: 'GET' });
   }
 }
 

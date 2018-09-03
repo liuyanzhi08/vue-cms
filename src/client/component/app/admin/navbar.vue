@@ -39,7 +39,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
-                            Tommy
+                            {{user.username}}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
@@ -56,12 +56,18 @@
     </nav>
 </template>
 <script>
+  import { mapGetters } from 'vuex';
   import { AUTH_LOGOUT } from "../../../store";
 
   export default {
     data: function () {
       return {
       }
+    },
+    computed: {
+      ...mapGetters([
+        'user'
+      ])
     },
     methods: {
       logout () {
