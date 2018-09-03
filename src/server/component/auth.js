@@ -1,5 +1,5 @@
 import moment from 'moment'
-
+import bcrypt from 'bcrypt';
 import passport from '../passport';
 import query from '../db/query';
 import user from '../models/user';
@@ -13,7 +13,9 @@ export default {
         case 'register':
           const data = ctx.request.body;
           // obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss');
-
+          const salt = bcrypt.genSaltSync();
+          const hash = bcrypt.hashSync(data.password, salt);
+          data.password = hash;
           user.query(data).then((res) => {
             if (res.length) {
               success(resovle, ctx, { msg: 'user exists' });
@@ -31,11 +33,11 @@ export default {
         case 'login':
           return passport.authenticate('local',
             function(err, user, info, status) {
-              if (user) {
+              if (user && !err) {
                 ctx.login(user);
                 success(resovle, ctx, user);
               } else {
-                fail(reject, ctx, { msg: 'user and password are unmatched' });
+                fail(reject, ctx, err);
               }
             })(ctx);
           break;
