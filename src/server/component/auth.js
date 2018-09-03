@@ -40,8 +40,9 @@ export default {
             })(ctx);
           break;
         case 'logout':
-          ctx.cookies.set('koa:sess.sig', null)
-          ctx.logout();
+          // ctx.logout();
+          ctx.cookies.set('koa:sess', null);
+          ctx.cookies.set('koa:sess.sig', null);
           success(resovle, ctx, { msg: 'successfully logout' });
           break;
         default:
