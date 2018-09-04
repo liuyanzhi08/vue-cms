@@ -2,14 +2,13 @@ import query from '../db/query'
 import fs from 'fs'
 import path from 'path'
 import {db} from '../config'
-import {savePage} from '../helper'
+import {saveSite} from '../helper/spider'
+import {userRoot} from "../../client/config";
 
 export default {
-  get: function (ctx) {
-    return new Promise(async (resolve, reject) => {
-      await savePage('http://localhost:1991', path.resolve(__dirname, 'test.html'));
-      resolve();
-    })
+  get: async (ctx) => {
+    await saveSite(`http://localhost:1991${userRoot}`, path.resolve(__dirname));
+    ctx.body = { msg: 'success' };
   }
 }
 
