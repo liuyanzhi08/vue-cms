@@ -19,7 +19,6 @@ const articleList = () => import(/* webpackChunkName: "article-list" */ './compo
 const staticize = () => import(/* webpackChunkName: "staticize" */ './component/app/admin/staticize.vue')
 const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login.vue')
 
-
 const routes = [
   // admin
   {
@@ -98,7 +97,7 @@ const routes = [
         name: 'detail'
       },
     ]
-  }
+  },
 ]
 
 const router = new VueRouter({
