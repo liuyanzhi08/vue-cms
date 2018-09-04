@@ -1,6 +1,3 @@
-require("babel-register");
-require("babel-polyfill");
-
 import { db } from '../../config';
 
 const userTable = `${db.prefix}_user`;
