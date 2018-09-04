@@ -1,7 +1,7 @@
 <template>
-  <div>
-    {{test}}
-  </div>
+    <div>
+        {{test}}
+    </div>
 </template>
 <script>
   import Staticize from '../../../api/staticize'
@@ -12,13 +12,11 @@
         test: 'hello',
       }
     },
-    methods: {
-    },
+    methods: {},
     created: function () {
       Staticize.get().then(() => {
       })
     },
-    components: {
-    }
+    components: {}
   }
 </script>

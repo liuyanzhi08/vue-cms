@@ -2,10 +2,11 @@ import VueRouter from 'vue-router'
 import axios from 'axios';
 import _ from 'lodash';
 import path from 'path'
-import { adminRoot } from './config'
+import { adminRoot, userRoot } from './config'
 import store from './store';
 import { AUTH_LOGIN } from "./store";
 
+const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user.vue')
 const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index.vue')
 const list = () => import(/* webpackChunkName: "list" */ './component/app/user/list.vue')
 const detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail.vue')
@@ -15,7 +16,6 @@ const category = () => import(/* webpackChunkName: "category" */ './component/ap
 const categoryList = () => import(/* webpackChunkName: "category-list" */ './component/app/admin/category-list.vue')
 const article = () => import(/* webpackChunkName: "article" */ './component/app/admin/article.vue')
 const articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list.vue')
-const install = () => import(/* webpackChunkName: "install" */ './component/app/admin/install.vue')
 const staticize = () => import(/* webpackChunkName: "staticize" */ './component/app/admin/staticize.vue')
 const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login.vue')
 
@@ -61,14 +61,6 @@ const routes = [
         },
       },
       {
-        path: 'install',
-        component: install,
-        name: 'install',
-        meta: {
-          auth: true,
-        },
-      },
-      {
         path: 'staticize',
         component: staticize,
         name: 'staticize',
@@ -85,25 +77,28 @@ const routes = [
   },
   // user
   {
-    path: '/',
-    component: index,
-    name: 'root'
-  },
-  {
-    path: '/index',
-    component: index,
-    name: 'index'
-  },
-  {
-    path: '/category/:id',
-    component: list,
-    name: 'list'
-  },
-  {
-    path: '/article/:id',
-    component: detail,
-    name: 'detail'
-  },
+    path: userRoot,
+    component: user,
+    name: 'admin',
+    children: [
+      {
+        path: '',
+        component: index,
+        name: 'root',
+        alias: 'index',
+      },
+      {
+        path: 'category/:id',
+        component: list,
+        name: 'list'
+      },
+      {
+        path: 'article/:id',
+        component: detail,
+        name: 'detail'
+      },
+    ]
+  }
 ]
 
 const router = new VueRouter({
@@ -114,7 +109,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.getters.isAuthenticated;
   const isAuthRoute = to.meta && to.meta.auth;
-  if (isAuthenticated && isAuthRoute) {
+  if (isAuthRoute && !isAuthenticated) {
     return router.push({
       name: 'login',
       params: { to }

@@ -1,5 +1,7 @@
-const adminRoot = '/admin'
+const adminRoot = '/admin';
+const userRoot = '/user';
 
 export {
-    adminRoot
+  adminRoot,
+  userRoot
 }

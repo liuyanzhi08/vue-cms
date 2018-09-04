@@ -1,28 +1,29 @@
 <template>
-  <div>
-    <slot
-        name="category"
-        :id="category.id"
-        :title="category.title"
-        :description="category.description"
-        :create_time="category.create_time"
-        :url="category.url"
-    >
-    </slot>
-    <slot
-        name="article"
-        v-for="article in articles"
-        :id="article.id"
-        :title="article.title"
-        :content="article.content"
-        :category_id="article.category_id"
-        :create_time="article.create_time"
-        :url="article.url"
-    >
-    </slot>
-  </div>
+    <div>
+        <slot
+                name="category"
+                :id="category.id"
+                :title="category.title"
+                :description="category.description"
+                :create_time="category.create_time"
+                :url="category.url"
+        >
+        </slot>
+        <slot
+                name="article"
+                v-for="article in articles"
+                :id="article.id"
+                :title="article.title"
+                :content="article.content"
+                :category_id="article.category_id"
+                :create_time="article.create_time"
+                :url="article.url"
+        >
+        </slot>
+    </div>
 </template>
 <script>
+  import { userRoot } from "../../../../config";
   import Article from '../../../../api/article'
   import Category from '../../../../api/category'
 
@@ -52,14 +53,14 @@
         category_id: this.cid
       }).then((res) => {
         this.articles = res.data.items.map((item) => {
-          item.url = '/article/' + item.id
+          item.url = `${userRoot}/article/${item.id}`;
           return item
         })
       })
       Category.get(this.cid).then((res) => {
         this.category = res.data
-        this.category.url = '/category/' + this.category.id
-      })
+        this.category.url = `${userRoot}/category/${this.category.id}`;
+      });
     }
   }
 </script>

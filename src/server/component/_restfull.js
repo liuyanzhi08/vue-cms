@@ -6,14 +6,14 @@ import moment from 'moment'
 import { success, fail } from '../helper/ctx';
 
 class Restfull {
-  constructor(name, options = { auth: true }) {
+  constructor(name, options = { auth: { get: false, post: true, put: true} }) {
     this.name = name;
     this.options = options;
   }
 
   get(ctx) {
     return new Promise((resolve, reject) => {
-      if (this.options.auth && !ctx.isAuthenticated()) {
+      if (this.options.auth.get && !ctx.isAuthenticated()) {
         return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
       }
       let params = {}
@@ -87,7 +87,7 @@ class Restfull {
 
   post(ctx) {
     return new Promise((resolve, reject) => {
-      if (this.options.auth && !ctx.isAuthenticated()) {
+      if (this.options.auth.post && !ctx.isAuthenticated()) {
         return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
       }
 
@@ -109,7 +109,7 @@ class Restfull {
 
   put(ctx) {
     return new Promise((resolve, reject) => {
-      if (this.options.auth && !ctx.isAuthenticated()) {
+      if (this.options.auth.put && !ctx.isAuthenticated()) {
         return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
       }
 
