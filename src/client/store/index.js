@@ -3,7 +3,7 @@ import auth from './module/auth';
 import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_USER } from "./module/auth";
 
 
-const index = new Vuex.Store({
+const store = new Vuex.Store({
   modules: {
     auth
   }
@@ -15,4 +15,4 @@ export {
   AUTH_USER
 };
 
-export default index;
+export default store;

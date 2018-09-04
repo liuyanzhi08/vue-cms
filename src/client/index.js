@@ -7,8 +7,8 @@ import store from './store'
 import app from './component/app/app.vue'
 
 new Vue({
-    el: '#app',
-    router,
-    store,
-    components: { app }
+  el: '#app',
+  router,
+  store,
+  components: { app }
 })

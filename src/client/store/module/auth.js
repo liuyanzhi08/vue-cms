@@ -30,16 +30,17 @@ export default {
   },
   mutations: {
     [AUTH_REQUEST]: (state) => {
-      state.status = 'loading'
+      state.status = 'loading';
     },
 
     [AUTH_SUCCESS]: (state, user) => {
-      state.status = 'success'
-      state.user = user
+      state.status = 'success';
+      state.user = user;
+      state.userId = user.id;
       localStorage.setItem('auth:user', user);
     },
     [AUTH_ERROR]: (state) => {
-      state.status = 'error'
+      state.status = 'error';
     },
     [AUTH_LOGOUT]: (state) => {
       state.user = null;
@@ -54,12 +55,12 @@ export default {
         commit(AUTH_REQUEST);
         Auth.login(user)
           .then(res => {
-            commit(AUTH_SUCCESS, res)
-            resolve(res)
+            commit(AUTH_SUCCESS, res);
+            resolve(res);
           })
           .catch(err => {
-            commit(AUTH_ERROR, err)
-            reject(err)
+            commit(AUTH_ERROR, err);
+            reject(err);
           })
       })
     },
