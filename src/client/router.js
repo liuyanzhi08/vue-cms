@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router'
 import axios from 'axios';
-
+import _ from 'lodash';
 import path from 'path'
 import { adminRoot } from './config'
 import store from './store';
@@ -30,33 +30,51 @@ const routes = [
       {
         path: 'category/:id',
         component: category,
-        name: 'category'
+        name: 'category',
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'category',
         component: categoryList,
         name: 'categoryList',
-        alias: ''
+        alias: '',
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'article/:id',
         component: article,
-        name: 'article'
+        name: 'article',
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'article',
         component: articleList,
-        name: 'articleList'
+        name: 'articleList',
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'install',
         component: install,
-        name: 'install'
+        name: 'install',
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'staticize',
         component: staticize,
-        name: 'staticize'
+        name: 'staticize',
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'login',
@@ -94,7 +112,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (!store.getters.isAuthenticated && to.name !== 'login') {
+  const isAuthenticated = store.getters.isAuthenticated;
+  const isAuthRoute = to.meta && to.meta.auth;
+  if (isAuthenticated && isAuthRoute) {
     return router.push({
       name: 'login',
       params: { to }

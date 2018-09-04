@@ -19,7 +19,7 @@
             <router-link to="/admin/category">文章管理</router-link>
           </li>
           <li :class="{active: $route.path === '/admin/staticize'}">
-            <router-link to="/admin/staticize">静态化</router-link>
+            <router-link to="/admin/staticize">发布</router-link>
           </li>
           <!--<li class="dropdown">-->
             <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"-->

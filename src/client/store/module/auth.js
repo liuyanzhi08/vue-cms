@@ -44,6 +44,7 @@ export default {
     },
     [AUTH_LOGOUT]: (state) => {
       state.user = null;
+      state.userId = null;
     },
     [AUTH_USER]: (state, user) => {
       state.user = user;

@@ -46,7 +46,7 @@
     },
     created: function () {
       let [from, size] = this.limit.split(',')
-      Article.get({
+      Article.query({
         _from: from,
         _size: size,
         category_id: this.cid

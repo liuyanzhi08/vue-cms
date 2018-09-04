@@ -28,9 +28,7 @@
             }
         },
         created: function () {
-            Article.get({
-                id: this.aid
-            }).then((res) => {
+            Article.get(this.aid).then((res) => {
                 this.article = res.data
             })
         }

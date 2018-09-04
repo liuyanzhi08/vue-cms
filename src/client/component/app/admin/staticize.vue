@@ -16,7 +16,6 @@
     },
     created: function () {
       Staticize.get().then(() => {
-        alert()
       })
     },
     components: {
