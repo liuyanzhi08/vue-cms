@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer'
 import fse from 'fs-extra';
 import {server} from "../config";
 import _ from 'lodash';
+import cheerio from 'cheerio';
 import {userRoot} from "../../client/config";
 
 const getContent = (url) => {
@@ -44,7 +45,11 @@ const savePageRecurse = async (url, root, name) => {
   });
   const savePath = `${root}/${name}`;
 
-  fse.outputFile(savePath, content, (err) => {
+  // move index.bundle.js to head
+  const $ = cheerio.load(content);
+  $('head script:first-of-type').before($('body script'));
+
+  fse.outputFile(savePath, $.html(), (err) => {
     if (err) {
       console.error(`fail to save => ${savePath}`);
     };

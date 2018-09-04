@@ -35,6 +35,7 @@
     "bcrypt": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "bootstrap-sass": "^3.3.7",
+    "cheerio": "^1.0.0-rc.2",
     "ejs": "^2.5.7",
     "element-ui": "^2.4.6",
     "font-awesome": "^4.7.0",
