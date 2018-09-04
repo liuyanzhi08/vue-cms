@@ -10,7 +10,9 @@ const Auth = {
     return axios({url: '/api/auth/logout', method: 'POST' });
   },
   user: () => {
-    return axios({url: '/api/auth/user', method: 'GET' });
+    return axios({url: '/api/auth/user', method: 'GET' }).then((res) => {
+      return res.data;
+    });
   }
 }
 

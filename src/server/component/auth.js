@@ -70,9 +70,12 @@ export default {
           break;
         case 'user':
           if (!ctx.isAuthenticated()) {
-            return fail(reject, ctx, { msg: 'unlogined' }, { code: 401 })
+            return fail(reject, ctx, { msg: 'unauthorized' }, { code: 401 })
           }
-          success(resolve, ctx, ctx.user);
+          success(resolve, ctx, {
+            id: ctx.state.user.id,
+            username: ctx.state.user.username
+          });
           break;
         default:
           break;

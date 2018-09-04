@@ -1,6 +1,5 @@
-import Vuex from 'vuex';
 import Cookie from 'js-cookie';
-import Auth from './api/auth';
+import Auth from '../../api/auth';
 
 const AUTH_REQUEST = 'auth:request';
 const AUTH_LOGIN = 'auth:login';
@@ -9,8 +8,13 @@ const AUTH_SUCCESS = 'auth:success';
 const AUTH_ERROR = 'auth:error';
 const AUTH_USER = 'auth:user';
 
+export {
+  AUTH_LOGIN,
+  AUTH_LOGOUT,
+  AUTH_USER,
+};
 
-const auth = {
+export default {
   state: {
     status: null,
     user: null,
@@ -40,6 +44,9 @@ const auth = {
     [AUTH_LOGOUT]: (state) => {
       state.user = null;
     },
+    [AUTH_USER]: (state, user) => {
+      state.user = user;
+    }
   },
   actions: {
     [AUTH_LOGIN]: ({ commit, dispatch }, user) => {
@@ -65,23 +72,8 @@ const auth = {
     [AUTH_USER]: ({commit, dispatch}) => {
       return Auth.user()
         .then((user) => {
-          console.log(user)
-          commit(AUTH_LOGOUT);
+          commit(AUTH_USER, user);
         });
     },
   }
 }
-
-
-const store = new Vuex.Store({
-  modules: {
-    auth
-  }
-});
-
-export {
-  AUTH_LOGIN,
-  AUTH_LOGOUT
-};
-
-export default store;

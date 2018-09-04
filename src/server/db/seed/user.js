@@ -21,5 +21,15 @@ exports.seed = (knex, Promise) => {
           password: hash
         })
       );
+    })
+    .then(() => {
+      const salt = bcrypt.genSaltSync();
+      const hash = bcrypt.hashSync('1', salt);
+      return Promise.join(
+        knex('vms_user').insert({
+          username: '1',
+          password: hash
+        })
+      );
     });
 };
