@@ -111,7 +111,7 @@ if (process.env.NODE_ENV === 'production') {
       port: 1992
     },
     proxy: 'localhost:1993',
-    files: ['dist/**/*']
+    files: ['dist/**/*', '!dist/static/**/*']
   })
 
   // const { createBundleRenderer } = require('vue-server-renderer')

@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import KoaBody from 'koa-body';
 import session from 'koa-session';
-
+import { server } from "./config";
 import router from './router';
 import passport from './passport';
 
@@ -32,5 +32,5 @@ app.use(KoaBody())
   .use(router.routes())
   .use(router.allowedMethods())
 
-app.listen(1993, '0.0.0.0')
-console.log('cms is running, listening on 0.0.0.0:1993');
+app.listen(server.port, '0.0.0.0')
+console.log(`cms is running, listening on 0.0.0.0:${server.port}`);

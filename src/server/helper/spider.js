@@ -1,7 +1,10 @@
 import puppeteer from 'puppeteer'
-import fs from 'fs';
+import fse from 'fs-extra';
+import {server} from "../config";
+import _ from 'lodash';
+import {userRoot} from "../../client/config";
 
-const savePage = (url, path) => {
+const getContent = (url) => {
   return puppeteer.launch({
     headless:false
   }).then(async browser => {
@@ -10,21 +13,43 @@ const savePage = (url, path) => {
     await page.goto(url, { waitUntil : 'networkidle0'});
 
     const content = await page.content();
-    fs.writeFileSync(path, content);
     await page.close();
     await browser.close();
     return content;
   });
 };
 
-const saveSite = async (url, path) => {
-  const content = await savePage(url, `${path}/index.html`);
-  var reg = /<a[^<]+href=['"]([^'"]+)['"][^<]*>/gi;
+const savePageRecurse = async (url, root, name) => {
+  let content = await getContent(url);
+  const reg = /<a[^<]+href=['"]([^'"]+)['"][^<]*>/gi;
+  const subPaths = {};
   let result;
   while((result = reg.exec(content)) !== null) {
     const subPath = result[1];
-    console.log(subPath)
+    subPaths[subPath] = 1;
   }
+  _.forEach(subPaths, (value, subPath) => {
+    const userRootReg = new RegExp(`^${userRoot}/`)
+    const subSaveName = subPath.replace(userRootReg, '')
+      .replace(/\//gi, '-') + '.html';
+
+    // replace link in parent html
+    const subLink = `./${subSaveName}`;
+    const subReg = new RegExp(subPath, 'gi');
+    content = content.replace(subReg, subLink);
+
+    // recurse save sub pages
+    const subUrl = `${server.url}${subPath}`;
+    savePageRecurse(subUrl, root, subSaveName)
+  });
+  const savePath = `${root}/${name}`;
+
+  fse.outputFile(savePath, content, (err) => {
+    if (err) {
+      console.error(`fail to save => ${savePath}`);
+    };
+    console.log(`saved => ${savePath}`);
+  });
 };
 
-export { savePage, saveSite };
+export { savePageRecurse };
