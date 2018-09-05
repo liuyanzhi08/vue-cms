@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const BrowserSync = require('browser-sync')
-// const browserSync = BrowserSync.create()
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WebpackDevMiddleware = require('webpack-dev-middleware');
 const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin');
@@ -21,7 +21,10 @@ module.exports = {
       {
         test: /\.vue$/,
         use: {
-          loader: 'vue-loader'
+          loader: 'vue-loader',
+          options: {
+            extractCSS: true
+          }
         }
       },
       {
@@ -67,7 +70,9 @@ module.exports = {
       '../fonts/fontawesome-webfont.eot': 'font-awesome/fonts/fontawesome-webfont.eot',
       'simplemde.style': 'simplemde/dist/simplemde.min.css',
       'style': path.resolve(__dirname, '../src/client/asset/style'),
-    }
+    },
+    extensions:['.js','.css','.scss', '.vue']  //用于配置程序可以自行补全哪些文件后缀
+
   },
   devServer: {
     contentBase: path.join(__dirname, "../dist"),
@@ -81,9 +86,20 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: 'My App',
-      template: './src/client/index.html'
+      template: './src/client/index.html',
+      minify:{ //压缩HTML文件
+        removeComments:true,    //移除HTML中的注释
+        collapseWhitespace:true    //删除空白符与换行符
+      }
     }),
-    new UglifyJSWebpackPlugin()
+    new ExtractTextPlugin("[name].[hash].css"),
+    new UglifyJSWebpackPlugin({
+      compress: {     //压缩代码
+        dead_code: true,    //移除没被引用的代码
+        warnings: false,     //当删除没有用处的代码时，显示警告
+        loops: true //当do、while 、 for循环的判断条件可以确定是，对其进行优化
+      },
+    })
   ],
-  devtool: '#eval-source-map'
+  devtool: '#source-map'
 }

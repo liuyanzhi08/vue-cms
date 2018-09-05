@@ -2,8 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const BrowserSync = require('browser-sync')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
-
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const browserSync = BrowserSync.create()
 
 module.exports = {
@@ -22,7 +21,10 @@ module.exports = {
       {
         test: /\.vue$/,
         use: {
-          loader: 'vue-loader'
+          loader: 'vue-loader',
+          options: {
+            extractCSS: true
+          }
         }
       },
       {
@@ -69,7 +71,8 @@ module.exports = {
       '../fonts/fontawesome-webfont.eot': 'font-awesome/fonts/fontawesome-webfont.eot',
       'simplemde.style': 'simplemde/dist/simplemde.min.css',
       'style': path.resolve(__dirname, '../src/client/asset/style'),
-    }
+    },
+    extensions:['.js','.css','.scss', '.vue']  //用于配置程序可以自行补全哪些文件后缀
   },
   devServer: {
     historyApiFallback: true,
@@ -84,7 +87,7 @@ module.exports = {
       title: 'My App',
       template: 'src/client/index.html'
     }),
-    // new VueSSRServerPlugin()
+    new ExtractTextPlugin("style.css")
   ],
   devtool: '#eval-source-map'
 }
@@ -99,7 +102,9 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false
+        dead_code: true,    //移除没被引用的代码
+        warnings: false,     //当删除没有用处的代码时，显示警告
+        loops: true //当do、while 、 for循环的判断条件可以确定是，对其进行优化
       }
     }),
     new webpack.optimize.OccurrenceOrderPlugin()
