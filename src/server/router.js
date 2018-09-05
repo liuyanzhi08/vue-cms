@@ -39,7 +39,6 @@ async function assetHandler(ctx) {
 }
 
 async function indexHandler(ctx) {
-  console.log(ctx.path)
   await KoaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/'});
   log(ctx.url);
 }
