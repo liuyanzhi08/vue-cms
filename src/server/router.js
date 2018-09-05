@@ -31,6 +31,7 @@ async function componentHandler(ctx) {
 async function assetHandler(ctx) {
   var filePath = _path.join(path.dist, ctx.params[0]);
   if (fs.existsSync(filePath)) {
+    ctx.set('Cache-Control', `max-age=${3600*24*7}`);
     await KoaSend(ctx, filePath, { root: '/'});
   } else {
     ctx.status = 404;
@@ -48,6 +49,7 @@ async function staticHandle(ctx) {
   const file = param !== '/' ? param : '/index.html';
   const filePath = _path.join(path.static, file);
   if (fs.existsSync(filePath)) {
+    ctx.set('Cache-Control', `max-age=${3600*24*7}`);
     await KoaSend(ctx, filePath, { root: '/'});
   } else {
     ctx.status = 404;
