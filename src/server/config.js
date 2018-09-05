@@ -13,8 +13,14 @@ const server = {
   url: `http://127.0.0.1:${port}`,
 };
 
+const root = _path.resolve(__dirname, '../..');
 const path = {
-  static: _path.resolve(__dirname, '../../dist/static')
+  root,
+  static: _path.join(root, 'dist/static'),
+  log: {
+    access: _path.join(root, 'log/vms-access.log'),
+    error: _path.join(root, 'log/vms-error.log'),
+  },
 }
 
 export {
