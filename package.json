@@ -9,7 +9,7 @@
     "publish": "npm run build && node src/server/index.js &",
     "kill": "node scripts/kill",
     "pub": "npm run publish",
-    "server:reload": "npm run kill && npm run server",
+    "reload": "npm run kill && npm run server",
     "build": "webpack --config scripts/prd.webpack.config.js --progress",
     "dev:ui": "webpack -w --config scripts/dev.webpack.config.js",
     "server": "node src/server/index.js &",
