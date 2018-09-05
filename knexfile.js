@@ -2,6 +2,7 @@ require("babel-register");
 require("babel-polyfill");
 
 const path = require('path');
+const db = require('./src/server/config').db;
 
 const BASE_PATH = path.join(__dirname, 'src', 'server', 'db');
 const MIGRATION_PATH = path.join(BASE_PATH, 'migration');
@@ -12,9 +13,9 @@ module.exports = {
   development: {
     client: 'mysql',
     connection: {
-      database: 'cms',
-      user: 'root',
-      password: 'root'
+      database: db.database,
+      user: db.username,
+      password: db.password
     },
     pool: {
       min: 2,
@@ -31,9 +32,9 @@ module.exports = {
   staging: {
     client: 'mysql',
     connection: {
-      database: 'cms',
-      user: 'root',
-      password: 'root'
+      database: db.database,
+      user: db.username,
+      password: db.password
     },
     pool: {
       min: 2,
@@ -50,9 +51,9 @@ module.exports = {
   production: {
     client: 'mysql',
     connection: {
-      database: 'cms',
-      user: 'root',
-      password: 'root'
+      database: db.database,
+      user: db.username,
+      password: db.password
     },
     pool: {
       min: 2,
