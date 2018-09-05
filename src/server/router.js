@@ -1,9 +1,10 @@
 import KoaRouter from 'koa-router'
 import KoaSend from 'koa-send'
-import path from 'path'
+import _path from 'path'
 import fs from 'fs';
-import {adminRoot, userRoot} from "../client/config";
-import log from  './helper/log';
+import { adminRoot, userRoot } from "../client/config";
+import { path } from "./config";
+import log from './helper/log';
 
 var router = new KoaRouter()
 
@@ -28,24 +29,30 @@ async function componentHandler(ctx) {
 }
 
 async function assetHandler(ctx) {
-  await KoaSend(ctx, path.join('dist/', ctx.params[0]));
+  var filePath = _path.join(path.dist, ctx.params[0]);
+  if (fs.existsSync(filePath)) {
+    await KoaSend(ctx, filePath, { root: '/'});
+  } else {
+    ctx.status = 404;
+  }
   log(ctx.url);
 }
 
 async function indexHandler(ctx) {
-  await KoaSend(ctx, 'dist/index.html');
+  console.log(ctx.path)
+  await KoaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/'});
   log(ctx.url);
 }
 
 async function staticHandle(ctx) {
   const param = ctx.params[0];
   const file = param !== '/' ? param : '/index.html';
-  const filePath = path.join('dist/static', file);
+  const filePath = _path.join(path.static, file);
   if (fs.existsSync(filePath)) {
-    await KoaSend(ctx, path.join('dist/static', file));
+    await KoaSend(ctx, filePath, { root: '/'});
   } else {
     ctx.status = 404;
-  };
+  }
   log(ctx.url);
 }
 

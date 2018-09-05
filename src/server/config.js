@@ -14,9 +14,12 @@ const server = {
 };
 
 const root = _path.resolve(__dirname, '../..');
+const dist = _path.join(root, 'dist');
+const _static = _path.join(dist, 'static');
 const path = {
   root,
-  static: _path.join(root, 'dist/static'),
+  dist,
+  static: _static,
   log: {
     access: _path.join(root, 'log/vms-access.log'),
     error: _path.join(root, 'log/vms-error.log'),
