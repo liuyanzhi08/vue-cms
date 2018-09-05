@@ -8,7 +8,7 @@ import {userRoot} from "../../client/config";
 const getContent = (url) => {
   return puppeteer.launch({
     headless:false,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: ['--no-sandbox'],
   }).then(async browser => {
     const page = await browser.newPage();
 
