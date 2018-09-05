@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/server/index.js -w src/server & webpack -w --config scripts/dev.webpack.config.js",
-    "pub": "NODE_ENV=production webpack && node src/server/index.js &",
+    "pubish": "npm run build && node src/server/index.js &",
     "build": "webpack --config scripts/prd.webpack.config.js --progress",
     "dev:ui": "webpack -w --config scripts/dev.webpack.config.js",
     "dev:server": "node $NODE_DEBUG_OPTION src/server/index.js -w src/server",
