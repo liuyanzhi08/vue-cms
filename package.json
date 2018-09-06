@@ -1,6 +1,6 @@
 {
   "name": "blog",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "CMS. Proudly using Koa2 & VueJS",
   "main": "index.js",
   "scripts": {
