@@ -19,6 +19,7 @@
     import Article from '../../../api/article'
     import Category from '../../../api/category'
     import SimpleMDE from 'simplemde'
+    import 'simplemde/dist/simplemde.min.css';
     import AppCategoryTree from './category-tree.vue'
 
     let isNew = true
@@ -93,5 +94,4 @@
     }
 </script>
 <style lang="scss">
-    @import "~simplemde.style";
 </style>

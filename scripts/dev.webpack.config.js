@@ -3,15 +3,14 @@ const webpack = require('webpack')
 const BrowserSync = require('browser-sync')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const browserSync = BrowserSync.create();
-const autoprefixer = require('autoprefixer');
-const precss = require('precss')
 const nodeExternals = require('webpack-node-externals')
 const StartServerPlugin = require('start-server-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 
 module.exports = {
-  mode: 'development',
   entry: {
     index: path.resolve(__dirname, '../src/client/index.js')
   },
@@ -21,7 +20,7 @@ module.exports = {
     filename: '[name].bundle.[chunkhash].js',
     chunkFilename: '[name].bundle.[chunkhash].js',
   },
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   module: {
     rules: [
       {
@@ -38,12 +37,45 @@ module.exports = {
         }
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-          'sass-loader',
+          { loader: 'style-loader', options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: "css-loader", options: {
+              sourceMap: true,
+            },
+          },
+        ]
+      },
+      {
+        test: /\.(sa|sc)ss$/,
+        use: [
+          {
+            loader: process.env.NODE_ENV !== 'production'
+              ? 'vue-style-loader'
+              : MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: "css-loader", options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'postcss-loader', options: {
+              sourceMap: true,
+              config: {
+                path: path.resolve(__dirname, 'postcss.config.js'),
+              },
+            },
+          },
+          {
+            loader: "sass-loader", options: {
+              sourceMap: true,
+            },
+          },
         ],
       },
       {test: /\.woff2?$|\.eot?$|\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/, loader: "file-loader"},
@@ -63,21 +95,12 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       'vue-resource': 'vue-resource/dist/vue-resource.esm.js',
-      'element-ui.style': 'element-ui/lib/theme-chalk/index.css',
-      './fonts/element-icons.ttf': 'element-ui/lib/theme-chalk/fonts/element-icons.ttf',
-      './fonts/element-icons.woff': 'element-ui/lib/theme-chalk/fonts/element-icons.woff',
-      'fontawesome': 'font-awesome/scss/font-awesome.scss',
-      '../fonts/fontawesome-webfont.svg': 'font-awesome/fonts/fontawesome-webfont.svg',
-      '../fonts/fontawesome-webfont.ttf': 'font-awesome/fonts/fontawesome-webfont.ttf',
-      '../fonts/fontawesome-webfont.woff': 'font-awesome/fonts/fontawesome-webfont.woff',
-      '../fonts/fontawesome-webfont.woff2': 'font-awesome/fonts/fontawesome-webfont.woff2',
-      '../fonts/fontawesome-webfont.eot': 'font-awesome/fonts/fontawesome-webfont.eot',
-      'simplemde.style': 'simplemde/dist/simplemde.min.css',
       'style': path.resolve(__dirname, '../src/client/asset/style'),
     },
-    extensions:['.js','.css','.scss', '.vue']  //用于配置程序可以自行补全哪些文件后缀
+    extensions: ['.js', '.css', '.scss', '.vue']  //用于配置程序可以自行补全哪些文件后缀
   },
   plugins: [
+    new CleanWebpackPlugin('dist', {} ),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
@@ -99,53 +122,26 @@ module.exports = {
       Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
       Util: 'exports-loader?Util!bootstrap/js/dist/util',
     }),
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       title: 'My App',
       template: 'src/client/index.html'
     }),
-  ],
-  devtool: '#eval-source-map'
-}
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        dead_code: true,    //移除没被引用的代码
-        warnings: false,     //当删除没有用处的代码时，显示警告
-        loops: true //当do、while 、 for循环的判断条件可以确定是，对其进行优化
-      }
-    }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: 'style/[name].css',
+      chunkFilename: 'style/[id].css',
     }),
-  ])
-} else {
-  browserSync.init({
-    port: 1991,
-    ui: {
-      port: 1992
-    },
-    proxy: 'localhost:1993',
-    files: ['dist/**/*', '!dist/static/**/*']
-  })
 
-  // const { createBundleRenderer } = require('vue-server-renderer')
-  // const bundle = require('./dist/client/vue-ssr-server-bundle.json')
-  // const renderer = createBundleRenderer(bundle)
-  // const context = { url: '/article/1' }
-  // renderer.renderToString(context, (err, html) => {
-  //     // 处理异常……
-  //     console.log('t:', err, html)
-  // })
+  ],
 }
+
+browserSync.init({
+  port: 1991,
+  ui: {
+    port: 1992
+  },
+  proxy: 'localhost:1993',
+  files: ['dist/**/*', '!dist/static/**/*']
+})

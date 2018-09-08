@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" :class="{active: $route.path === '/admin/category'}">
-                    <router-link  class="nav-link"  to="/admin/category">文章管理</router-link>
+                    <router-link  class="nav-link"  to="/admin/category">文章管理<i class="fa fa-bell"></i></router-link>
                 </li>
                 <li class="nav-item" :class="{active: $route.path === '/admin/staticize'}">
                     <router-link  class="nav-link"  to="/admin/staticize">发布</router-link>

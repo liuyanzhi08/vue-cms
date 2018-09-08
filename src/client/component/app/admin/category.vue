@@ -15,9 +15,10 @@
   </form>
 </template>
 <script>
-  import category from '../../../api/category'
-  import AppCategoryTree from './category-tree.vue'
-  import SimpleMDE from 'simplemde'
+  import category from '../../../api/category';
+  import AppCategoryTree from './category-tree.vue';
+  import SimpleMDE from 'simplemde';
+  import 'simplemde/dist/simplemde.min.css';
 
   let isNew = true
 
@@ -85,5 +86,9 @@
   }
 </script>
 <style lang="scss">
-  @import "~simplemde.style";
+    @import "test.scss";
+  body {
+      transition: all .2s;
+      display: flex;
+  }
 </style>

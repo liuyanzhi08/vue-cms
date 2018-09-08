@@ -1,18 +1,10 @@
 <template>
-  <div class="row">
-    <div class="col-12">
-        <div class="row">
-            <div class="col-12">
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <router-view></router-view>
-            </div>
+    <div>
+        <navbar></navbar>
+        <div class="container-fluid">
+            <router-view></router-view>
         </div>
     </div>
-  </div>
 </template>
 <script>
   import categoryList from './category-list.vue';
@@ -20,17 +12,14 @@
 
   export default {
     data: function () {
-      return {
-      }
+      return {}
     },
-    methods: {
-    },
+    methods: {},
     created: function () {
     },
     mounted: function () {
     },
-    watch: {
-    },
+    watch: {},
     components: {
       categoryList,
       navbar,
