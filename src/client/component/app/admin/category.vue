@@ -86,7 +86,6 @@
   }
 </script>
 <style lang="scss">
-    @import "test.scss";
   body {
       transition: all .2s;
       display: flex;

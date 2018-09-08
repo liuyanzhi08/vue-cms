@@ -17,8 +17,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../dist/'),
     publicPath: '/dist/',
-    filename: '[name].bundle.[chunkhash].js',
-    chunkFilename: '[name].bundle.[chunkhash].js',
+    filename: '[name].js',
+    chunkFilename: '[name].bundle.js',
   },
   devtool: 'eval-source-map',
   module: {
@@ -128,12 +128,9 @@ module.exports = {
       template: 'src/client/index.html'
     }),
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
       filename: 'style/[name].css',
       chunkFilename: 'style/[id].css',
     }),
-
   ],
 }
 
