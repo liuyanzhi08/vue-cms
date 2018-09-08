@@ -3,7 +3,12 @@ const webpack = require('webpack')
 const BrowserSync = require('browser-sync')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const browserSync = BrowserSync.create()
+const browserSync = BrowserSync.create();
+const autoprefixer = require('autoprefixer');
+const precss = require('precss')
+const nodeExternals = require('webpack-node-externals')
+const StartServerPlugin = require('start-server-webpack-plugin')
+
 
 module.exports = {
   entry: {
@@ -36,30 +41,45 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [
-          {
-            loader: "style-loader"
-          },
-          {
-            loader: "css-loader"
-          },
-          {
-            loader: "sass-loader"
-          }
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader', // translates CSS into CommonJS modules
+            }, {
+              loader: 'postcss-loader', // Run post css actions
+              options: {
+                plugins() {
+                  // post css plugins, can be exported to postcss.config.js
+                  return [
+                    precss,
+                    autoprefixer
+                  ];
+                }
+              }
+            }, {
+              loader: 'sass-loader' // compiles SASS to CSS
+            }
+          ]
+        })
       },
       {test: /\.woff2?$|\.eot?$|\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/, loader: "file-loader"},
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          'file-loader?name=images/[name].[ext]',
+          'image-webpack-loader?bypassOnDebug'
+        ]
+      },
+      {
+        test: /bootstrap\/dist\/js\/umd\//, use: 'imports-loader?jQuery=jquery'
+      }
     ]
   },
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       'vue-resource': 'vue-resource/dist/vue-resource.esm.js',
-      //'jquery': 'jquery/dist/jquery.js',
-      'bootstrap.style': 'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
-      'bootstrap.script': 'bootstrap-sass/assets/javascripts/bootstrap.js',
-      './fonts/bootstrap': 'bootstrap-sass/assets/fonts/bootstrap',
-      '../fonts/bootstrap': 'bootstrap-sass/assets/fonts/bootstrap',
       'element-ui.style': 'element-ui/lib/theme-chalk/index.css',
       './fonts/element-icons.ttf': 'element-ui/lib/theme-chalk/fonts/element-icons.ttf',
       './fonts/element-icons.woff': 'element-ui/lib/theme-chalk/fonts/element-icons.woff',
@@ -81,7 +101,24 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',
-      jQuery: 'jquery'
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      tether: 'tether',
+      Tether: 'tether',
+      'window.Tether': 'tether',
+      Popper: ['popper.js', 'default'],
+      'window.Tether': 'tether',
+      Alert: 'exports-loader?Alert!bootstrap/js/dist/alert',
+      Button: 'exports-loader?Button!bootstrap/js/dist/button',
+      Carousel: 'exports-loader?Carousel!bootstrap/js/dist/carousel',
+      Collapse: 'exports-loader?Collapse!bootstrap/js/dist/collapse',
+      Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown',
+      Modal: 'exports-loader?Modal!bootstrap/js/dist/modal',
+      Popover: 'exports-loader?Popover!bootstrap/js/dist/popover',
+      Scrollspy: 'exports-loader?Scrollspy!bootstrap/js/dist/scrollspy',
+      Tab: 'exports-loader?Tab!bootstrap/js/dist/tab',
+      Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
+      Util: 'exports-loader?Util!bootstrap/js/dist/util',
     }),
     new HtmlWebpackPlugin({
       title: 'My App',

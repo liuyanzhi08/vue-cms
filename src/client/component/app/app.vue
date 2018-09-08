@@ -6,7 +6,7 @@
     </div>
 </template>
 <script>
-  import(/* webpackChunkName: "bootstrap" */ 'bootstrap.script')
+  import(/* webpackChunkName: "bootstrap" */ 'bootstrap')
 
   export default {
     data: function () {
@@ -29,7 +29,6 @@
 </script>
 <style lang="scss">
     @import "~element-ui.style";
-    @import "~bootstrap.style";
     @import "~fontawesome";
     @import "~style/overwrite";
 

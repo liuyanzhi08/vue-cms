@@ -14,6 +14,7 @@ const server = {
 };
 
 const root = _path.resolve(__dirname, '../..');
+console.log(root)
 const dist = _path.join(root, 'dist');
 const _static = _path.join(dist, 'static');
 const path = {
