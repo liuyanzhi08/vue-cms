@@ -1,10 +1,16 @@
 <template>
-  <div>
-    <div class="row">
-      <navbar></navbar>
-    </div>
-    <div class="row">
-      <router-view></router-view>
+  <div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <router-view></router-view>
+            </div>
+        </div>
     </div>
   </div>
 </template>

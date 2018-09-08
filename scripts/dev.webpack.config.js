@@ -2,15 +2,16 @@ const path = require('path')
 const webpack = require('webpack')
 const BrowserSync = require('browser-sync')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const browserSync = BrowserSync.create();
 const autoprefixer = require('autoprefixer');
 const precss = require('precss')
 const nodeExternals = require('webpack-node-externals')
 const StartServerPlugin = require('start-server-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
 module.exports = {
+  mode: 'development',
   entry: {
     index: path.resolve(__dirname, '../src/client/index.js')
   },
@@ -27,9 +28,6 @@ module.exports = {
         test: /\.vue$/,
         use: {
           loader: 'vue-loader',
-          options: {
-            extractCSS: true
-          }
         }
       },
       {
@@ -40,34 +38,19 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader', // translates CSS into CommonJS modules
-            }, {
-              loader: 'postcss-loader', // Run post css actions
-              options: {
-                plugins() {
-                  // post css plugins, can be exported to postcss.config.js
-                  return [
-                    precss,
-                    autoprefixer
-                  ];
-                }
-              }
-            }, {
-              loader: 'sass-loader' // compiles SASS to CSS
-            }
-          ]
-        })
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
       {test: /\.woff2?$|\.eot?$|\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/, loader: "file-loader"},
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         use: [
-          'file-loader?name=images/[name].[ext]',
+          'file-loader?name=image/[name].[ext]',
           'image-webpack-loader?bypassOnDebug'
         ]
       },
@@ -93,10 +76,6 @@ module.exports = {
       'style': path.resolve(__dirname, '../src/client/asset/style'),
     },
     extensions:['.js','.css','.scss', '.vue']  //用于配置程序可以自行补全哪些文件后缀
-  },
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true
   },
   plugins: [
     new webpack.ProvidePlugin({
@@ -124,7 +103,6 @@ module.exports = {
       title: 'My App',
       template: 'src/client/index.html'
     }),
-    new ExtractTextPlugin("style.css")
   ],
   devtool: '#eval-source-map'
 }
@@ -144,7 +122,13 @@ if (process.env.NODE_ENV === 'production') {
         loops: true //当do、while 、 for循环的判断条件可以确定是，对其进行优化
       }
     }),
-    new webpack.optimize.OccurrenceOrderPlugin()
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
   ])
 } else {
   browserSync.init({

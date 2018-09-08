@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navbar></navbar>
         <div class="container-fluid">
             <router-view></router-view>
         </div>
@@ -7,6 +8,7 @@
 </template>
 <script>
   import(/* webpackChunkName: "bootstrap" */ 'bootstrap')
+  import navbar from './admin/navbar'
 
   export default {
     data: function () {
@@ -24,10 +26,13 @@
         ]
       }
     },
-    components: {}
+    components: {
+      navbar,
+    }
   }
 </script>
 <style lang="scss">
+    @import "~bootstrap/scss/bootstrap";
     @import "~element-ui.style";
     @import "~fontawesome";
     @import "~style/overwrite";
