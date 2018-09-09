@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-  import { userRoot } from "../../../../config";
+  import { path } from "../../../../config";
   import Article from '../../../../api/article'
   import Category from '../../../../api/category'
 
@@ -53,13 +53,13 @@
         category_id: this.cid
       }).then((res) => {
         this.articles = res.data.items.map((item) => {
-          item.url = `${userRoot}/article/${item.id}`;
+          item.url = `${path.user}/article/${item.id}`;
           return item
         })
       })
       Category.get(this.cid).then((res) => {
         this.category = res.data
-        this.category.url = `${userRoot}/category/${this.category.id}`;
+        this.category.url = `${path.user}/category/${this.category.id}`;
       });
     }
   }

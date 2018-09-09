@@ -1,9 +1,8 @@
 import puppeteer from 'puppeteer'
 import fse from 'fs-extra';
-import {server} from "../config";
+import {server, path} from "../config";
 import _ from 'lodash';
 import cheerio from 'cheerio';
-import {userRoot} from "../../client/config";
 import { log, err } from './logger';
 
 const getContent = (url) => {
@@ -14,7 +13,6 @@ const getContent = (url) => {
     dumpio: false,
   }).then(async browser => {
     const page = await browser.newPage();
-
     await page.goto(url, { waitUntil : 'networkidle0'});
 
     const content = await page.content();
@@ -34,7 +32,7 @@ const savePageRecurse = async (url, root, name) => {
     subPaths[subPath] = 1;
   }
   _.forEach(subPaths, (value, subPath) => {
-    const userRootReg = new RegExp(`^${userRoot}/`)
+    const userRootReg = new RegExp(`^${path.user}`)
     const subSaveName = subPath.replace(userRootReg, '')
       .replace(/\//gi, '-') + '.html';
 
