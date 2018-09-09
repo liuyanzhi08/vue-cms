@@ -8,19 +8,31 @@ const StartServerPlugin = require('start-server-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const config = require('../src/config');
 
 
 module.exports = {
-  entry: {
-    index: path.resolve(__dirname, '../src/client/index.js')
-  },
+  entry: [
+    path.resolve(__dirname, '../src/client/index.js')
+  ],
   output: {
-    path: path.resolve(__dirname, '../dist/'),
+    path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist/',
     filename: '[name].js',
     chunkFilename: '[name].bundle.js',
   },
   devtool: 'eval-source-map',
+  devServer: {
+    hot: true,
+    historyApiFallback: {
+      index: '/dist/index.html',
+    },
+    publicPath: '/dist/',
+    proxy: {
+      '/api': 'http://localhost:${config.server.port}'
+    },
+    port: 8080,
+  },
   module: {
     rules: [
       {
@@ -100,7 +112,7 @@ module.exports = {
     extensions: ['.js', '.css', '.scss', '.vue']  //用于配置程序可以自行补全哪些文件后缀
   },
   plugins: [
-    new CleanWebpackPlugin('dist', {} ),
+    new CleanWebpackPlugin(path.resolve(__dirname, '../dist')),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
@@ -134,11 +146,11 @@ module.exports = {
   ],
 }
 
-browserSync.init({
-  port: 1991,
-  ui: {
-    port: 1992
-  },
-  proxy: 'localhost:1993',
-  files: ['dist/**/*', '!dist/static/**/*']
-})
+// browserSync.init({
+//   port: 1991,
+//   ui: {
+//     port: 1992
+//   },
+//   proxy: 'localhost:1993',
+//   files: ['dist/**/*', '!dist/static/**/*']
+// })

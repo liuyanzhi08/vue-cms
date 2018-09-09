@@ -2,7 +2,6 @@ import KoaRouter from 'koa-router'
 import KoaSend from 'koa-send'
 import _path from 'path'
 import fs from 'fs';
-import { adminRoot, userRoot } from "../client/config";
 import { path } from "./config";
 import log from './helper/log';
 
@@ -12,10 +11,10 @@ router
   .all('/api/:component/:id', componentHandler)
   .all('/api/:component', componentHandler)
   .all('/dist/*', assetHandler)
-  .all(adminRoot, indexHandler)
-  .all(userRoot, indexHandler)
-  .all(`${userRoot}/*`, indexHandler)
-  .all(`${adminRoot}/*`, indexHandler)
+  .all(path.admin, indexHandler)
+  .all(path.user, indexHandler)
+  .all(`${path.user}/*`, indexHandler)
+  .all(`${path.admin}/*`, indexHandler)
   .all('*', staticHandle)
 
 async function componentHandler(ctx) {

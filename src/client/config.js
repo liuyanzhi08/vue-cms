@@ -1,7 +1,10 @@
-const adminRoot = '/admin';
-const userRoot = '/user';
+import config from '../config';
+
+const path = {
+  user: config.server.path.user,
+  admin: config.server.path.admin,
+}
 
 export {
-  adminRoot,
-  userRoot
+  path,
 }

@@ -1,8 +1,8 @@
 import VueRouter from 'vue-router'
 import axios from 'axios';
 import _ from 'lodash';
-import path from 'path'
-import { adminRoot, userRoot } from './config'
+import _path from 'path'
+import { path } from './config'
 import store from './store';
 import { AUTH_LOGIN } from "./store";
 
@@ -22,7 +22,7 @@ const login = () => import(/* webpackChunkName: "login" */ './component/app/admi
 const routes = [
   // admin
   {
-    path: adminRoot,
+    path: path.admin,
     component: admin,
     name: 'admin',
     children: [
@@ -76,7 +76,7 @@ const routes = [
   },
   // user
   {
-    path: userRoot,
+    path: path.user,
     component: user,
     name: 'admin',
     children: [

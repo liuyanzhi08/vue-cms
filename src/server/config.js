@@ -1,30 +1,30 @@
 import _path from 'path';
+import config from '../config';
 
-const db = {
-  username: 'root',
-  password: 'root',
-  database: 'cms',
-  prefix: 'vms'
-};
+const db = config.db;
 
-const port = 1993;
 const server = {
-  port,
-  url: `http://127.0.0.1:${port}`,
+  port: config.server.port,
+  url: `http://127.0.0.1:${config.server.port}`,
 };
 
 const root = _path.resolve(__dirname, '../..');
-console.log(root)
 const dist = _path.join(root, 'dist');
 const _static = _path.join(dist, 'static');
+const accessLogPath = _path.isAbsolute(config.server.log.access) ?
+  config.server.log.access : _path.join(root, config.server.log.access);
+const errorLogPath = _path.isAbsolute(config.server.log.error) ?
+  config.server.log.error : _path.join(root, config.server.log.error);
 const path = {
   root,
   dist,
   static: _static,
   log: {
-    access: _path.join(root, 'log/vms-access.log'),
-    error: _path.join(root, 'log/vms-error.log'),
+    access: accessLogPath,
+    error: errorLogPath,
   },
+  user: config.server.path.user,
+  admin: config.server.path.admin,
 }
 
 export {
