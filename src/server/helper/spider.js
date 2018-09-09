@@ -32,7 +32,7 @@ const savePageRecurse = async (url, root, name) => {
     subPaths[subPath] = 1;
   }
   _.forEach(subPaths, (value, subPath) => {
-    const userRootReg = new RegExp(`^${path.user}`)
+    const userRootReg = new RegExp(`^${path.user}/`)
     const subSaveName = subPath.replace(userRootReg, '')
       .replace(/\//gi, '-') + '.html';
 
