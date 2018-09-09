@@ -30,5 +30,5 @@ const path = {
 export {
   db,
   server,
-  path
-}
+  path,
+};
