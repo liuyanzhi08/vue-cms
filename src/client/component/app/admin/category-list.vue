@@ -122,7 +122,6 @@
 </script>
 <style lang="scss">
     .category-list {
-        background: red;
         width: 100%;
         .main {
             padding: 10px;

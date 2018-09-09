@@ -8,7 +8,7 @@ const StartServerPlugin = require('start-server-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const config = require('../src/config');
+import config from '../src/config';
 
 
 module.exports = {
@@ -29,9 +29,12 @@ module.exports = {
     },
     publicPath: '/dist/',
     proxy: {
-      '/api': 'http://localhost:${config.server.port}'
+      '/api': `http://localhost:${config.server.port}`
     },
     port: 8080,
+    open: true,
+    openPage: 'admin',
+    overlay: true,
   },
   module: {
     rules: [

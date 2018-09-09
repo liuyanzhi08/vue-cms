@@ -88,6 +88,5 @@
 <style lang="scss">
   body {
       transition: all .2s;
-      display: flex;
   }
 </style>
