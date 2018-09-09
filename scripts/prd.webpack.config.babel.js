@@ -3,35 +3,19 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
-import config from '../src/config';
 
 const publicPath = '/dist/';
+const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
   entry: [
-    path.resolve(__dirname, '../src/client/index.js'),
+    path.join(rootPath, 'src/client/index.js'),
   ],
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: path.join(rootPath, publicPath),
     publicPath,
-    filename: '[name].js',
-    chunkFilename: '[name].bundle.js',
-  },
-  devtool: 'eval-source-map',
-  devServer: {
-    hot: true,
-    historyApiFallback: {
-      index: '/dist/index.html',
-    },
-    publicPath,
-    proxy: {
-      '/api': `http://localhost:${config.server.port}`,
-    },
-    port: 8080,
-    open: true,
-    openPage: 'admin',
-    overlay: true,
+    filename: '[name].[hash:7].js',
+    chunkFilename: '[name].bundle.[hash:7].js',
   },
   module: {
     rules: [
@@ -51,16 +35,10 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          {
-            loader: 'style-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
             },
           },
         ],
@@ -68,19 +46,15 @@ module.exports = {
       {
         test: /\.(sa|sc)ss$/,
         use: [
-          {
-            loader: 'vue-style-loader',
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
             },
           },
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: true,
               config: {
                 path: path.resolve(__dirname, 'postcss.config.js'),
               },
@@ -89,37 +63,37 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
             },
           },
         ],
       },
       {
-        test: /\.woff2?$|\.eot?$|\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/,
-        loader: 'file-loader',
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'img/[name].[hash:7].[ext]',
+        },
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        use: [
-          'file-loader?name=image/[name].[ext]',
-          'image-webpack-loader?bypassOnDebug',
-        ],
-      },
-      {
-        test: /bootstrap\/dist\/js\/umd\//, use: 'imports-loader?jQuery=jquery',
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'font/[name].[hash:7].[ext]',
+        },
       },
     ],
   },
   resolve: {
     alias: {
       vue$: 'vue/dist/vue.esm.js',
-      'vue-resource': 'vue-resource/dist/vue-resource.esm.js',
-      style: path.resolve(__dirname, '../src/client/asset/style'),
+      '@image': path.join(rootPath, 'src/client/asset/image'),
+      '@style': path.join(rootPath, 'src/client/asset/style'),
     },
     extensions: ['.js', '.css', '.scss', '.vue'],
   },
   plugins: [
-    new CleanWebpackPlugin(path.resolve(__dirname, '../dist')),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
@@ -146,8 +120,8 @@ module.exports = {
       template: 'src/client/index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: 'style/[name].css',
-      chunkFilename: 'style/[id].css',
+      filename: 'style/[name].[hash:7].css',
+      chunkFilename: 'style/[id].[hash:7].css',
     }),
   ],
 };

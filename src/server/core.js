@@ -1,7 +1,8 @@
 import Koa from 'koa';
 import koaBody from 'koa-body';
+import koaCompress from 'koa-compress';
 import session from 'koa-session';
-import { server } from "./config";
+import { server } from './config';
 import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
@@ -15,6 +16,7 @@ const sessionConfig = {
 app.keys = ['super-secret-key'];
 
 app.use(koaBody())
+  .use(koaCompress())
   .use(session(sessionConfig, app))
   .use(passport.initialize())
   .use(passport.session())

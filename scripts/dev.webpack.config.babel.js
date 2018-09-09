@@ -3,17 +3,17 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
 import config from '../src/config';
 
 const publicPath = '/dist/';
+const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
   entry: [
-    path.resolve(__dirname, '../src/client/index.js'),
+    path.join(rootPath, 'src/client/index.js'),
   ],
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: path.join(rootPath, publicPath),
     publicPath,
     filename: '[name].js',
     chunkFilename: '[name].bundle.js',
@@ -22,7 +22,7 @@ module.exports = {
   devServer: {
     hot: true,
     historyApiFallback: {
-      index: '/dist/index.html',
+      index: path.join(publicPath, 'index.html'),
     },
     publicPath,
     proxy: {
@@ -95,31 +95,32 @@ module.exports = {
         ],
       },
       {
-        test: /\.woff2?$|\.eot?$|\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/,
-        loader: 'file-loader',
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'img/[name].[ext]',
+        },
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        use: [
-          'file-loader?name=image/[name].[ext]',
-          'image-webpack-loader?bypassOnDebug',
-        ],
-      },
-      {
-        test: /bootstrap\/dist\/js\/umd\//, use: 'imports-loader?jQuery=jquery',
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'font/[name].[ext]',
+        },
       },
     ],
   },
   resolve: {
     alias: {
       vue$: 'vue/dist/vue.esm.js',
-      'vue-resource': 'vue-resource/dist/vue-resource.esm.js',
-      style: path.resolve(__dirname, '../src/client/asset/style'),
+      '@image': path.join(rootPath, 'src/client/asset/image'),
+      '@style': path.join(rootPath, 'src/client/asset/style'),
     },
     extensions: ['.js', '.css', '.scss', '.vue'],
   },
   plugins: [
-    new CleanWebpackPlugin(path.resolve(__dirname, '../dist')),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',

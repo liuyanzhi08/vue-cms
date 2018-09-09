@@ -1,11 +1,11 @@
-import KoaRouter from 'koa-router'
-import KoaSend from 'koa-send'
-import _path from 'path'
+import KoaRouter from 'koa-router';
+import koaSend from 'koa-send';
+import _path from 'path';
 import fs from 'fs';
-import { path } from "./config";
+import { path } from './config';
 import { log, err } from './helper/logger';
 
-var router = new KoaRouter()
+const router = new KoaRouter()
 
 router
   .all('/api/:component/:id', componentHandler)
@@ -15,7 +15,7 @@ router
   .all(path.user, indexHandler)
   .all(`${path.user}/*`, indexHandler)
   .all(`${path.admin}/*`, indexHandler)
-  .all('*', staticHandle)
+  .all('*', staticHandle);
 
 async function componentHandler(ctx) {
   try {
@@ -31,7 +31,7 @@ async function assetHandler(ctx) {
   var filePath = _path.join(path.dist, ctx.params[0]);
   if (fs.existsSync(filePath)) {
     ctx.set('Cache-Control', `max-age=${3600*24*7}`);
-    await KoaSend(ctx, filePath, { root: '/'});
+    await koaSend(ctx, filePath, { root: '/'});
   } else {
     ctx.status = 404;
   }
@@ -39,7 +39,7 @@ async function assetHandler(ctx) {
 }
 
 async function indexHandler(ctx) {
-  await KoaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/'});
+  await koaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/'});
   log(ctx.url);
 }
 
@@ -49,7 +49,7 @@ async function staticHandle(ctx) {
   const filePath = _path.join(path.static, file);
   if (fs.existsSync(filePath)) {
     ctx.set('Cache-Control', `max-age=${3600*24*7}`);
-    await KoaSend(ctx, filePath, { root: '/'});
+    await koaSend(ctx, filePath, { root: '/'});
   } else {
     ctx.status = 404;
   }

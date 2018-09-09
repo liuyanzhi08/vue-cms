@@ -2,6 +2,7 @@
     <div class="category-list">
         <ui-sidebar>
             <aside>
+                <!--222<img src="~@image/test.jpg" alt="">222-->
                 <ui-tree :data="rootCategories" :load="load" :click="click" :render-content="renderContent"></ui-tree>
                 <div class="menu root-add ">
                     <i class="fa fa-plus article" @click="addArticle({data: {id: 0}})" @dblclick="addCategory({data: {id: 0}})"></i>
@@ -15,6 +16,7 @@
     </div>
 </template>
 <script>
+    import '@style/overwrite.scss';
     import Article from '../../../api/article'
     import Category from '../../../api/category'
     import AppArticle from './article.vue'
