@@ -3,7 +3,7 @@ import KoaSend from 'koa-send'
 import _path from 'path'
 import fs from 'fs';
 import { path } from "./config";
-import log from './helper/log';
+import { log, err } from './helper/logger';
 
 var router = new KoaRouter()
 
@@ -22,9 +22,9 @@ async function componentHandler(ctx) {
     let component = require('./component/' + ctx.params.component).default
     await component[ctx.method.toLowerCase()](ctx)
   } catch (e) {
-    console.warn(e);
+    err(e);
   }
-  log(ctx.url);
+  log(`${ctx.method} ${ctx.url} @${ctx.ip}`);
 }
 
 async function assetHandler(ctx) {

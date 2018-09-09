@@ -4,7 +4,9 @@ const success = (resolve, ctx, data) => {
 };
 
 const fail = (reject, ctx, err, options = { code: 500 }) => {
-  ctx.body = err;
+  if (err) {
+    ctx.body = err;
+  }
   ctx.status = options.code;
   reject(err);
 };

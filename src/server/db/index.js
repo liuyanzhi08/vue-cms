@@ -1,7 +1,7 @@
-import knex from 'knex';
-import {db} from '../config'
+import _knex from 'knex';
+import {db} from '../config';
 
-export default knex({
+const knex = _knex({
   client: 'mysql',
   connection: {
     host : '127.0.0.1',
@@ -10,3 +10,9 @@ export default knex({
     database : db.database
   }
 });
+
+export {
+  knex,
+};
+
+export default knex;

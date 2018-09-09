@@ -1,7 +1,6 @@
 import moment from 'moment'
 import bcrypt from 'bcrypt';
 import passport from '../passport';
-import query from '../db/query';
 import user from '../models/user';
 import { success, fail } from "../helper/ctx";
 
@@ -64,20 +63,19 @@ export default {
     return new Promise((resolve, reject) => {
       const action = ctx.params.id;
       switch (action) {
-        case 'login':
-        case 'logout':
-          ctx.status = 404;
-          break;
         case 'user':
           if (!ctx.isAuthenticated()) {
-            return fail(reject, ctx, { msg: 'unauthorized' }, { code: 401 })
+            return fail(reject, ctx, { msg: 'unauthorized' }, { code: 401 });
           }
           success(resolve, ctx, {
             id: ctx.state.user.id,
-            username: ctx.state.user.username
+            username: ctx.state.user.username,
           });
           break;
+        case 'login':
+        case 'logout':
         default:
+          return fail(reject, ctx, null, { code: 404 });
           break;
       }
     })

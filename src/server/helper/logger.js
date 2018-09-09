@@ -2,9 +2,11 @@ import { path } from '../config';
 import fse from 'fs-extra';
 import moment from 'moment';
 
-const error = function (content) {
+const err = function (content) {
   var now = moment().format('YYYY-MM-DD hh:mm:ss');
-  return fse.outputFile(path.log.error, `${now} ${content}\n`, {
+  const msg = `[${now}] ${content}\n`;
+  console.error(msg);
+  return fse.outputFile(path.log.error, msg, {
     flag: 'a'
   }, (err) => {
     if (err) return console.error(err);
@@ -13,15 +15,17 @@ const error = function (content) {
 
 const log = function (content) {
   var now = moment().format('YYYY-MM-DD hh:mm:ss');
-  return fse.outputFile(path.log.access, `${now} ${content}\n`, {
+  const msg = `[${now}] ${content}\n`;
+  console.log(msg);
+  return fse.outputFile(path.log.access, msg, {
     flag: 'a'
-  }, (err) => {
-    if (err) return error(`fail to write file: ${path.log.access}`);
+  }, (_err) => {
+    if (_err) return err(`fail to write file '${path.log.access}'`);
   });
 };
 
 export {
-  error,
+  err,
   log,
 }
 

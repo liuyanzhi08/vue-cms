@@ -4,6 +4,7 @@ import session from 'koa-session';
 import { server } from "./config";
 import router from './router';
 import passport from './passport';
+import { log } from './helper/logger';
 
 const app = new Koa()
 
@@ -18,7 +19,7 @@ app.use(koaBody())
   .use(passport.initialize())
   .use(passport.session())
   .use(router.routes())
-  .use(router.allowedMethods())
+  .use(router.allowedMethods());
 
-app.listen(server.port, '0.0.0.0')
-console.log(`cms is running, listening on 0.0.0.0:${server.port}`);
+app.listen(server.port, '0.0.0.0');
+log(`cms is running, listening on 0.0.0.0:${server.port}`);

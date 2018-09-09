@@ -4,6 +4,7 @@ import {server} from "../config";
 import _ from 'lodash';
 import cheerio from 'cheerio';
 import {userRoot} from "../../client/config";
+import { log, err } from './logger';
 
 const getContent = (url) => {
   return puppeteer.launch({
@@ -54,9 +55,9 @@ const savePageRecurse = async (url, root, name) => {
 
   fse.outputFile(savePath, $.html(), (err) => {
     if (err) {
-      console.error(`fail to save => ${savePath}`);
+      err(`fail to save => ${savePath}`);
     };
-    console.log(`saved => ${savePath}`);
+    log(`saved => ${savePath}`);
   });
 };
 

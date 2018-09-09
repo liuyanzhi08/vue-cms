@@ -7,7 +7,7 @@ export default {
     prefix: 'vms',
   },
   server: {
-    port: 1991,
+    port: 8081,
     log: {
       access: 'log/vms-access.log',
       error: 'log/vms-error.log',

@@ -1,22 +1,25 @@
-import { db as dbs } from '../config'
-import db from '../db/index';
+import { db } from '../config'
+import { knex } from '../db/index';
+import { err } from "../helper/logger";
 
-const userTable = `${dbs.prefix}_user`;
+const userTable = `${db.prefix}_user`;
 
 export default {
   get: (id) => {
-    return db(userTable).where({ id }).then((res) => {
+    return knex(userTable).where({ id }).then((res) => {
       if (res.length) {
         return res[0];
       } else {
         return res;
       }
+    }, (_err) => {
+      err(_err);
     });
   },
   query: (query) => {
-    return db(userTable).where(query);
+    return knex(userTable).where(query);
   },
   create: (data) => {
-    return db(userTable).insert(data);
+    return knex(userTable).insert(data);
   },
 };
