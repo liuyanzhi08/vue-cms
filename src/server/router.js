@@ -39,7 +39,7 @@ async function assetHandler(ctx) {
 }
 
 async function indexHandler(ctx) {
-  await koaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/'});
+  await koaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/' });
   log(ctx);
 }
 
@@ -48,8 +48,28 @@ async function staticHandle(ctx) {
   const file = param !== '/' ? param : '/index.html';
   const filePath = _path.join(path.static, file);
   if (fs.existsSync(filePath)) {
-    ctx.set('Cache-Control', `max-age=${3600*24*7}`);
-    await koaSend(ctx, filePath, { root: '/'});
+    const stats = fs.statSync(filePath);
+    const fileModified = new Date(stats.ctime);
+    fileModified.setMilliseconds(0);
+    // compare file writing time and the request header['if-modified-since']
+    let isModified;
+    const lastModifiedStr = ctx.headers['if-modified-since'];
+    if (!lastModifiedStr) {
+      isModified = true;
+    } else {
+      const lastModified = new Date(lastModifiedStr);
+      if (lastModified.getTime() !== fileModified.getTime()) {
+        isModified = true;
+      } else {
+        isModified = false;
+      }
+    }
+    if (isModified) {
+      ctx.lastModified = fileModified;
+      await koaSend(ctx, filePath, { root: '/' });
+    } else {
+      ctx.status = 304;
+    }
   } else {
     ctx.status = 404;
   }

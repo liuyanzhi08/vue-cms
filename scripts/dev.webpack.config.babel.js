@@ -16,7 +16,7 @@ module.exports = {
     path: path.join(rootPath, publicPath),
     publicPath,
     filename: '[name].js',
-    chunkFilename: '[name].bundle.js',
+    chunkFilename: 'script/[name].bundle.js',
   },
   devtool: 'eval-source-map',
   devServer: {
