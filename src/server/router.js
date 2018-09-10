@@ -3,7 +3,7 @@ import koaSend from 'koa-send';
 import _path from 'path';
 import fs from 'fs';
 import { path } from './config';
-import { log, err } from './helper/logger';
+import { log as _log, err } from './helper/logger';
 
 const router = new KoaRouter()
 
@@ -24,7 +24,7 @@ async function componentHandler(ctx) {
   } catch (e) {
     err(e);
   }
-  log(`${ctx.method} ${ctx.url} @${ctx.ip}`);
+  log(ctx);
 }
 
 async function assetHandler(ctx) {
@@ -35,12 +35,12 @@ async function assetHandler(ctx) {
   } else {
     ctx.status = 404;
   }
-  log(ctx.url);
+  log(ctx);
 }
 
 async function indexHandler(ctx) {
   await koaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/'});
-  log(ctx.url);
+  log(ctx);
 }
 
 async function staticHandle(ctx) {
@@ -53,7 +53,11 @@ async function staticHandle(ctx) {
   } else {
     ctx.status = 404;
   }
-  log(ctx.url);
+  log(ctx);
+}
+
+function log (ctx) {
+  _log(`${ctx.method} ${ctx.url} @${ctx.ip}`);
 }
 
 export default router

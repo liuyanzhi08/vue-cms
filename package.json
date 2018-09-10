@@ -1,21 +1,25 @@
 {
   "name": "vue-cms",
   "version": "0.0.1",
-  "description": "CMS. Proudly using Koa2 & VueJS",
+  "description": "CMS. Proudly using Koa2 & VueJS & Webpack 4",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server/index.js -w src/server & webpack -w --config scripts/dev.webpack.config.js",
-    "publish": "npm run build && node src/server/index.js &",
-    "stop": "node scripts/stop",
-    "pub": "npm run publish",
-    "pub!": "npm run stop && npm run publish",
-    "reload": "npm run stop && npm run server",
-    "build": "cross-env NODE_ENV=production webpack --mode=production --progress --config scripts/prd.webpack.config.babel.js",
+    "start": "npm run dev",
+
     "dev:ui": "cross-env NODE_ENV=development webpack-dev-server --hot --watch --mode=development --config scripts/dev.webpack.config.babel.js",
-    "server": "node src/server/index.js &",
-    "dev:server": "nodemon src/server/index.js -w src/server",
-    "debug": "node $NODE_DEBUG_OPTION src/server/index.js",
+    "dev:server": "npm run server:stop && nodemon src/server",
+    "dev": "npm run dev:ui & npm run dev:server",
+
+    "debug": "node $NODE_DEBUG_OPTION src/server",
+
+    "build": "cross-env NODE_ENV=production webpack --mode=production --progress --config scripts/prd.webpack.config.babel.js",
+    "publish": "npm run build && npm run server:restart",
+    "pub": "npm run publish",
+
+    "server:start": "node src/server &",
+    "server:stop": "node scripts/stop",
+    "server:restart": "npm run server:stop && npm run server:start",
+
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback",
     "db:seed": "knex seed:run"
@@ -25,10 +29,12 @@
     "url": "https://github.com/liuyanzhi08/blog.git"
   },
   "keywords": [
-    "blog"
+    "cms",
+    "vue-cms",
+    "vuecms"
   ],
-  "author": "nobody",
-  "license": "ISC",
+  "author": "liuyanzhi08(702368372@qq.com)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/liuyanzhi08/blog/issues"
   },

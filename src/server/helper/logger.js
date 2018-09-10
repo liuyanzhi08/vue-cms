@@ -4,13 +4,13 @@ import _ from 'lodash';
 import chalk from 'chalk';
 import { path } from '../config';
 
-const err = function (content) {
+const err = function (content, color = 'red') {
   if (_.isObject(content)) {
     content = JSON.stringify(content);
   }
   var now = moment().format('YYYY-MM-DD hh:mm:ss');
-  const msg = `[${chalk.blue(now)}] ${chalk.red(content)}`;
-  console.error(chalk.red(msg));
+  const msg = `[${chalk.blue(now)}] ${chalk[color](content)}`;
+  console.error(msg);
   return fse.outputFile(path.log.error, `${msg}\n`, {
     flag: 'a'
   }, (err) => {
@@ -18,12 +18,12 @@ const err = function (content) {
   });
 };
 
-const log = function (content) {
+const log = function (content, color = 'green') {
   if (_.isObject(content)) {
     content = JSON.stringify(content);
   }
   var now = moment().format('YYYY-MM-DD hh:mm:ss');
-  const msg = `[${chalk.blue(now)}] ${chalk.green(content)}`;
+  const msg = `[${chalk.blue(now)}] ${chalk[color](content)}`;
   console.log(msg);
   return fse.outputFile(path.log.access, `${msg}\n`, {
     flag: 'a'
