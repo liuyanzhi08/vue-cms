@@ -39,6 +39,7 @@ async function assetHandler(ctx) {
 }
 
 async function indexHandler(ctx) {
+  ctx.set('Cache-Control', 'no-cache');
   await koaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/' });
   log(ctx);
 }
