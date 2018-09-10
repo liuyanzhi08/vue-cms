@@ -33,7 +33,6 @@ export default {
         case 'login':
           return passport.authenticate('local',
             function(err, user, info, status) {
-              console.log(user, err);
               if (user && !err) {
                 ctx.login(user);
                 ctx.cookies.set('auth:user', user.id, {

@@ -5,21 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run dev",
-
     "dev:ui": "cross-env NODE_ENV=development webpack-dev-server --hot --watch --mode=development --config scripts/dev.webpack.config.babel.js",
-    "dev:server": "npm run server:stop && nodemon src/server",
+    "dev:server": "nodemon src/server",
     "dev": "npm run dev:ui & npm run dev:server",
-
     "debug": "node $NODE_DEBUG_OPTION src/server",
-
     "build": "cross-env NODE_ENV=production webpack --mode=production --progress --config scripts/prd.webpack.config.babel.js",
     "publish": "npm run build && npm run server:restart",
     "pub": "npm run publish",
-
     "server:start": "node src/server &",
     "server:stop": "node scripts/stop",
     "server:restart": "npm run server:stop && npm run server:start",
-
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback",
     "db:seed": "knex seed:run"
@@ -117,11 +112,12 @@
     "imports-loader": "^0.8.0",
     "mini-css-extract-plugin": "^0.4.2",
     "node-sass": "^4.9.3",
-    "nodemon": "^1.17.3",
+    "nodemon": "^1.18.4",
     "postcss-preset-env": "^5.3.0",
     "sass-loader": "^7.1.0",
     "start-server-webpack-plugin": "^2.2.5",
     "style-loader": "^0.23.0",
+    "supervisor": "^0.12.0",
     "url-loader": "^1.1.1",
     "vue-loader": "^15.4.1",
     "vue-template-compiler": "^2.5.17",

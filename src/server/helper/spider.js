@@ -53,7 +53,7 @@ const savePageRecurse = async (url, root, name) => {
 
   fse.outputFile(savePath, $.html(), (err) => {
     if (err) {
-      err(`spidder: fail to save -> ${savePath}`);
+      err(`spider: fail to save -> ${savePath}`);
     };
     log(`spider: saved -> ${savePath}`, 'cyan');
   });
