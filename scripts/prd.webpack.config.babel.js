@@ -126,7 +126,7 @@ module.exports = {
     }),
     new FaviconsWebpackPlugin({
       logo: path.join(rootPath, 'src/client/asset/image', 'logo.png'),
-      prefix: 'image/icons-[hash:7]/',
+      prefix: 'icons-[hash:7]/',
       icons: {
         android: false,
         appleIcon: false,
