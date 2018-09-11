@@ -9,8 +9,8 @@ export default {
   server: {
     port: 8081,
     log: {
-      access: 'log/vms-access.log',
-      error: 'log/vms-error.log',
+      access: 'log/access.log',
+      error: 'log/error.log',
     },
     path: {
       user: '/user',
