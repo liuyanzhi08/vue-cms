@@ -1,4 +1,4 @@
-# CMS. Proudly using Koa2 & VueJS2 & Webpack4
+# CMS. Proudly using Koa2 & VueJS2 & Webpack 4
 
 ## Dependency
 
@@ -12,6 +12,8 @@ Node: ~7.6.0
 $ git clone https://github.com/liuyanzhi08/cms.git
 $ cd cms
 $ npm install
+$ npm run db:migrate
+$ npm run db:seed
 $ npm start
 ```
 

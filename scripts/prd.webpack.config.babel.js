@@ -124,21 +124,5 @@ module.exports = {
       filename: 'style/[name].[hash:7].css',
       chunkFilename: 'style/[id].[hash:7].css',
     }),
-    new FaviconsWebpackPlugin({
-      logo: path.join(rootPath, 'src/client/asset/image', 'logo.png'),
-      prefix: 'icons-[hash:7]/',
-      icons: {
-        android: false,
-        appleIcon: false,
-        appleStartup: false,
-        coast: false,
-        favicons: true,
-        firefox: false,
-        opengraph: false,
-        twitter: false,
-        yandex: false,
-        windows: false,
-      },
-    }),
   ],
 };

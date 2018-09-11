@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
-import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import config from '../src/config';
 
 const publicPath = '/dist/';
@@ -150,22 +150,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'style/[name].css',
       chunkFilename: 'style/[id].css',
-    }),
-    new FaviconsWebpackPlugin({
-      logo: path.join(rootPath, 'src/client/asset/image', 'logo.png'),
-      prefix: 'icons/',
-      icons: {
-        android: false,
-        appleIcon: false,
-        appleStartup: false,
-        coast: false,
-        favicons: true,
-        firefox: false,
-        opengraph: false,
-        twitter: false,
-        yandex: false,
-        windows: false,
-      },
     }),
   ],
 };
