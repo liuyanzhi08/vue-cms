@@ -14,6 +14,7 @@ const sessionConfig = {
 };
 
 app.keys = ['super-secret-key'];
+app.proxy = true;
 
 app.use(koaBody())
   .use(koaCompress())
