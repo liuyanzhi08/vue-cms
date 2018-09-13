@@ -45,7 +45,7 @@
             submit: function (data) {
                 var method = isNew ? 'save' : 'update'
                 data.content = simplemde.value()
-                Article[method](data.id, data).then(res => console.log(res))
+                Article[method](data).then(res => console.log(res))
             },
             setForm: function () {
                 var id = this.id || this.$route.params.id;

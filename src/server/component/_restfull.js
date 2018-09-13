@@ -97,11 +97,10 @@ class Restfull {
         (res) => {
           var results = res.results
           obj.id = results.insertId
-          ctx.response.body = obj
-          resolve(obj)
+          return success(resolve, ctx, obj);
         },
         (err) => {
-          reject(err)
+          return fail(reject, ctx, err);
         }
       )
     })
