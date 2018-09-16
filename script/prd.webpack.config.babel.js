@@ -3,7 +3,6 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const publicPath = '/dist/';
 const rootPath = path.resolve(__dirname, '..');
@@ -129,6 +128,8 @@ module.exports = {
     }),
   ],
   optimization: {
-    minimizer: [new UglifyJsPlugin()],
+    minimize: {
+      sourceMap: false,
+    },
   },
 };
