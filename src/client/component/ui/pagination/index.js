@@ -1,7 +1,5 @@
-import pagination from './src/pagination.vue'
+import pagination from './src/pagination';
 
-pagination.install = function(Vue) {
-    Vue.component(pagination.name, pagination)
-};
+pagination.install = Vue => Vue.component(pagination.name, pagination);
 
 export default pagination;

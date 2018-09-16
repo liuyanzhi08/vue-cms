@@ -1,22 +1,22 @@
 <template>
-    <div>
-        {{test}}
-    </div>
+  <div>
+    {{ test }}
+  </div>
 </template>
 <script>
-  import Staticize from '../../../api/staticize'
+import Staticize from '../../../api/staticize';
 
-  export default {
-    data: function () {
-      return {
-        test: 'hello',
-      }
-    },
-    methods: {},
-    created: function () {
-      Staticize.get().then(() => {
-      })
-    },
-    components: {}
-  }
+export default {
+  components: {},
+  data() {
+    return {
+      test: 'hello',
+    };
+  },
+  created() {
+    Staticize.get().then(() => {
+    });
+  },
+  methods: {},
+};
 </script>

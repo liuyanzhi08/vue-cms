@@ -1,7 +1,5 @@
-import list from './src/list.vue'
+import list from './src/list';
 
-list.install = function (Vue) {
-    Vue.component(list.name, list)
-}
+list.install = Vue => Vue.component(list.name, list);
 
-export default list
+export default list;

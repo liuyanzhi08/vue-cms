@@ -1,18 +1,16 @@
 import Vuex from 'vuex';
-import auth from './module/auth';
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_USER } from "./module/auth";
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_USER, auth } from './module/auth';
 
 
 const store = new Vuex.Store({
   modules: {
-    auth
-  }
+    auth,
+  },
 });
 
 export {
   AUTH_LOGIN,
   AUTH_LOGOUT,
-  AUTH_USER
+  AUTH_USER,
+  store,
 };
-
-export default store;

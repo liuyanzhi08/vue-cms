@@ -1,7 +1,5 @@
-import detail from './src/detail.vue'
+import detail from './src/detail';
 
-detail.install = function (Vue) {
-    Vue.component(detail.name, detail)
-}
+detail.install = Vue => Vue.component(detail.name, detail);
 
-export default detail
+export default detail;

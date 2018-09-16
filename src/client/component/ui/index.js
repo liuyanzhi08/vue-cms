@@ -1,14 +1,14 @@
-import pagination from './pagination/index.js'
-import collapse from './collapse/index.js'
-import tree from './tree/index.js'
-import sidebar from './sidebar/index.js'
+import pagination from './pagination';
+import collapse from './collapse';
+import tree from './tree';
+import sidebar from './sidebar';
 
-const ui = {}
-ui.install = function (Vue) {
-    Vue.use(pagination)
-    Vue.use(collapse)
-    Vue.use(tree)
-    Vue.use(sidebar)
-}
+const ui = {};
+ui.install = (Vue) => {
+  Vue.use(pagination);
+  Vue.use(collapse);
+  Vue.use(tree);
+  Vue.use(sidebar);
+};
 
-export default ui
+export default ui;

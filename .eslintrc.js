@@ -5,6 +5,7 @@ module.exports = {
     es6: true,
     node: true,
     mocha: true,
+    jquery: true,
   },
   extends: [
     'airbnb-base',
@@ -26,10 +27,12 @@ module.exports = {
       js: 'never',
       vue: 'never',
     }],
-    'import/no-extraneous-dependencies': [
-      'error',
-      {
+    'import/no-extraneous-dependencies': ['error', {
         devDependencies: true,
+      }
+    ],
+    'no-underscore-dangle': ['error', {
+        allow: ['_page'],
       }
     ]
   },

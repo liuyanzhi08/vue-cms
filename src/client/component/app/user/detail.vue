@@ -1,15 +1,16 @@
 <template>
-    <div>
-        <theme-detail></theme-detail>
-    </div>
+  <div>
+    <theme-detail/>
+  </div>
 </template>
 <script>
-    import themeDetail from '../../../theme/default/detail.vue'
-    export default {
-        components: {
-            themeDetail
-        }
-    }
+import themeDetail from '../../../theme/default/detail';
+
+export default {
+  components: {
+    themeDetail,
+  },
+};
 </script>
 <style lang="scss">
 </style>

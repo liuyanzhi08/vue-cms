@@ -8,74 +8,70 @@ const AUTH_SUCCESS = 'auth:success';
 const AUTH_ERROR = 'auth:error';
 const AUTH_USER = 'auth:user';
 
-export {
-  AUTH_LOGIN,
-  AUTH_LOGOUT,
-  AUTH_USER,
-};
-
-export default {
+const auth = {
   state: {
     status: null,
     user: null,
     userId: Cookie.get(AUTH_USER),
   },
   getters: {
-    isAuthenticated: (state) => {
-      return !!state.userId;
-    },
-    user: (state) => {
-      return state.user || {};
-    }
+    isAuthenticated: state => !!state.userId,
+    user: state => state.user || {},
   },
   mutations: {
-    [AUTH_REQUEST]: (state) => {
+    [AUTH_REQUEST]: (_state) => {
+      const state = _state;
       state.status = 'loading';
     },
 
-    [AUTH_SUCCESS]: (state, user) => {
+    [AUTH_SUCCESS]: (_state, user) => {
+      const state = _state;
       state.status = 'success';
       state.user = user;
       state.userId = user.id;
       localStorage.setItem('auth:user', user);
     },
-    [AUTH_ERROR]: (state) => {
+    [AUTH_ERROR]: (_state) => {
+      const state = _state;
       state.status = 'error';
     },
-    [AUTH_LOGOUT]: (state) => {
+    [AUTH_LOGOUT]: (_state) => {
+      const state = _state;
       state.user = null;
       state.userId = null;
     },
-    [AUTH_USER]: (state, user) => {
+    [AUTH_USER]: (_state, user) => {
+      const state = _state;
       state.user = user;
-    }
+    },
   },
   actions: {
-    [AUTH_LOGIN]: ({ commit, dispatch }, user) => {
-      return new Promise((resolve, reject) => { // The Promise used for router redirect in login
-        commit(AUTH_REQUEST);
-        Auth.login(user)
-          .then(res => {
-            commit(AUTH_SUCCESS, res);
-            resolve(res);
-          })
-          .catch(err => {
-            commit(AUTH_ERROR, err);
-            reject(err);
-          })
-      })
-    },
-    [AUTH_LOGOUT]: ({commit, dispatch}) => {
-      return Auth.logout()
-        .then(() => {
-          commit(AUTH_LOGOUT);
+    [AUTH_LOGIN]: ({ commit }, user) => new Promise((resolve, reject) => {
+      commit(AUTH_REQUEST);
+      Auth.login(user)
+        .then((res) => {
+          commit(AUTH_SUCCESS, res);
+          resolve(res);
+        })
+        .catch((err) => {
+          commit(AUTH_ERROR, err);
+          reject(err);
         });
-    },
-    [AUTH_USER]: ({commit, dispatch}) => {
-      return Auth.user()
-        .then((user) => {
-          commit(AUTH_USER, user);
-        });
-    },
-  }
-}
+    }),
+    [AUTH_LOGOUT]: ({ commit }) => Auth.logout()
+      .then(() => {
+        commit(AUTH_LOGOUT);
+      }),
+    [AUTH_USER]: ({ commit }) => Auth.user()
+      .then((user) => {
+        commit(AUTH_USER, user);
+      }),
+  },
+};
+
+export {
+  AUTH_LOGIN,
+  AUTH_LOGOUT,
+  AUTH_USER,
+  auth,
+};

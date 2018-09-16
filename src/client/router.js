@@ -1,23 +1,19 @@
-import VueRouter from 'vue-router'
-import axios from 'axios';
-import _ from 'lodash';
-import _path from 'path'
-import { path } from './config'
-import store from './store';
-import { AUTH_LOGIN } from "./store";
+import VueRouter from 'vue-router';
+import { path } from './config';
+import { store } from './store';
 
-const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user.vue')
-const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index.vue')
-const list = () => import(/* webpackChunkName: "list" */ './component/app/user/list.vue')
-const detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail.vue')
+const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user.vue');
+const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index.vue');
+const list = () => import(/* webpackChunkName: "list" */ './component/app/user/list.vue');
+const detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail.vue');
 
-const admin = () => import(/* webpackChunkName: "admin" */ './component/app/admin/admin.vue')
-const category = () => import(/* webpackChunkName: "category" */ './component/app/admin/category.vue')
-const categoryList = () => import(/* webpackChunkName: "category-list" */ './component/app/admin/category-list.vue')
-const article = () => import(/* webpackChunkName: "article" */ './component/app/admin/article.vue')
-const articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list.vue')
-const staticize = () => import(/* webpackChunkName: "staticize" */ './component/app/admin/staticize.vue')
-const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login.vue')
+const admin = () => import(/* webpackChunkName: "admin" */ './component/app/admin/admin.vue');
+const category = () => import(/* webpackChunkName: "category" */ './component/app/admin/category.vue');
+const categoryList = () => import(/* webpackChunkName: "category-list" */ './component/app/admin/category-list.vue');
+const article = () => import(/* webpackChunkName: "article" */ './component/app/admin/article.vue');
+const articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list.vue');
+const staticize = () => import(/* webpackChunkName: "staticize" */ './component/app/admin/staticize.vue');
+const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login.vue');
 
 const routes = [
   // admin
@@ -70,9 +66,9 @@ const routes = [
       {
         path: 'login',
         component: login,
-        name: 'login'
+        name: 'login',
       },
-    ]
+    ],
   },
   // user
   {
@@ -89,16 +85,16 @@ const routes = [
       {
         path: 'category/:id',
         component: list,
-        name: 'list'
+        name: 'list',
       },
       {
         path: 'article/:id',
         component: detail,
-        name: 'detail'
+        name: 'detail',
       },
-    ]
+    ],
   },
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
@@ -106,24 +102,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = store.getters.isAuthenticated;
+  const { isAuthenticated } = store.getters;
   const isAuthRoute = to.meta && to.meta.auth;
   if (isAuthRoute && !isAuthenticated) {
     return router.push({
       name: 'login',
-      params: { to }
+      params: { to },
     });
   }
-  next();
-});
-
-axios.interceptors.request.use(function (config) {
-  // console.log(config)
-  // Do something before request is sent
-  return config;
-}, function (error) {
-  // Do something with request error
-  return Promise.reject(error);
+  return next();
 });
 
 export default router;

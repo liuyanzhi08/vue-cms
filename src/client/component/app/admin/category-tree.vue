@@ -1,74 +1,80 @@
 <template>
-    <div>
-        <select
-            v-model="value"
-            @change="($event) => { this.$emit('input', value) }"
-            class="form-control"
-        >
-            <option v-for="option in options" :value="option.value">{{option.text}}</option>
-        </select>
-    </div>
+  <div>
+    <select
+      v-model="value"
+      class="form-control"
+      @change="($event) => { this.$emit('input', value) }"
+    >
+      <option
+        v-for="option in options"
+        :value="option.value"
+        :key="option.value"
+      >
+        {{ option.text }}
+      </option>
+    </select>
+  </div>
 </template>
 <script>
-    import Category from '../../../api/category'
-    import _ from 'lodash'
+import _ from 'lodash';
+import Category from '../../../api/category';
 
-    export default {
-        name: 'app-categoryTree',
-        props: {
-            value: {
-                type: Number,
-                default: 0
-            }
-        },
-        data: function () {
-            return {
-                options: []
-            }
-        },
-        methods: {
-        },
-        created: function () {
-            Category.query().then(res => {
-                let categories = res.data.items;
-                let idMap = {}
-                let roots = []
-                _.each(categories, category => {
-                    idMap[category.id] = category
-                    category.children = []
-                })
-                _.each(categories, category => {
-                    let id = category.id
-                    let pid = category.parent_id
-                    if (!pid) {
-                        roots.push(category)
-                    } else {
-                        idMap[pid].children.push(category)
-                    }
-                })
-
-                let options = []
-                let split = ''
-                let root = {title: 'root', id: 0, children: roots}
-                let grnOptions = (node, options) => {
-                    options.push({
-                        text: split + node.title,
-                        value: node.id
-                    })
-                    split += '|--'
-                    _.each(node.children, child => {
-                        let _split = split
-                        grnOptions(child, options)
-                        split = _split
-                    })
-                }
-                grnOptions(root, options)
-                this.options = options
-            })
-        },
-        mounted: function () {
+export default {
+  name: 'AppCategoryTree',
+  props: {
+    value: {
+      type: Number,
+      default: 0,
+    },
+  },
+  data() {
+    return {
+      options: [],
+    };
+  },
+  created() {
+    Category.query().then((res) => {
+      const categories = res.data.items;
+      const idMap = {};
+      const roots = [];
+      _.each(categories, (item) => {
+        const category = item;
+        idMap[category.id] = category;
+        category.children = [];
+      });
+      _.each(categories, (category) => {
+        const pid = category.parent_id;
+        if (!pid) {
+          roots.push(category);
+        } else {
+          idMap[pid].children.push(category);
         }
-    }
+      });
+
+      const options = [];
+      let split = '';
+      const root = {
+        title: 'root',
+        id: 0,
+        children: roots,
+      };
+      const grnOptions = (node, subOptions) => {
+        subOptions.push({
+          text: split + node.title,
+          value: node.id,
+        });
+        split += '|—';
+        _.each(node.children, (child) => {
+          const parentSplit = split;
+          grnOptions(child, subOptions);
+          split = parentSplit;
+        });
+      };
+      grnOptions(root, options);
+      this.options = options;
+    });
+  },
+};
 </script>
 <style lang="scss">
 </style>

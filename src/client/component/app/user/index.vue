@@ -1,17 +1,18 @@
 <template>
-    <div>
-        <theme-index></theme-index>
-    </div>
+  <div>
+    <theme-index/>
+  </div>
 </template>
 <script>
-    import themeIndex from '../../../theme/default/index.vue'
-    export default {
-        created: function () {
-        },
-        components: {
-            themeIndex
-        }
-    }
+import themeIndex from '../../../theme/default/index';
+
+export default {
+  components: {
+    themeIndex,
+  },
+  created() {
+  },
+};
 </script>
 <style lang="scss">
 </style>

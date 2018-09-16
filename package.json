@@ -117,6 +117,7 @@
     "node-sass": "^4.9.3",
     "nodemon": "^1.18.4",
     "postcss-preset-env": "^5.3.0",
+    "prettier-eslint": "^8.8.2",
     "sass-loader": "^7.1.0",
     "start-server-webpack-plugin": "^2.2.5",
     "style-loader": "^0.23.0",

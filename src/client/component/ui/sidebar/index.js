@@ -1,7 +1,5 @@
-import sidebar from './src/sidebar.vue'
+import sidebar from './src/sidebar';
 
-sidebar.install = function (Vue) {
-    Vue.component(sidebar.name, sidebar)
-}
+sidebar.install = Vue => Vue.component(sidebar.name, sidebar);
 
-export default sidebar
+export default sidebar;
