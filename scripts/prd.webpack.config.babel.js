@@ -91,7 +91,7 @@ module.exports = {
       '@image': path.join(rootPath, 'src/client/asset/image'),
       '@style': path.join(rootPath, 'src/client/asset/style'),
     },
-    extensions: ['.js', '.css', '.scss', '.vue'],
+    extensions: ['.js', '.vue'],
   },
   plugins: [
     new webpack.ProvidePlugin({

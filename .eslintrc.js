@@ -17,8 +17,8 @@ module.exports = {
   settings: {
     'import/resolver': {
       webpack: {
-        config: 'scripts/dev.webpack.conf.babel.js'
-      }
+        config: 'scripts/dev.webpack.config.babel.js'
+      },
     }
   },
   rules: {
@@ -29,7 +29,7 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: true
+        devDependencies: true,
       }
     ]
   },

@@ -1,28 +1,20 @@
 <template>
   <div>
-    <navbar></navbar>
+    <navbar />
     <div class="container-fluid">
-      <router-view></router-view>
+      <router-view />
     </div>
   </div>
 </template>
 <script>
-  import categoryList from './category-list.vue';
-  import navbar from './navbar.vue';
 
-  export default {
-    data: function () {
-      return {}
-    },
-    methods: {},
-    created: function () {
-    },
-    mounted: function () {
-    },
-    watch: {},
-    components: {
-      categoryList,
-      navbar
-    }
-  }
+import categoryList from './category-list';
+import navbar from './navbar';
+
+export default {
+  components: {
+    categoryList,
+    navbar,
+  },
+};
 </script>
