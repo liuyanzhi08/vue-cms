@@ -42,7 +42,7 @@ export default {
               });
               success(resovle, ctx, _user);
             } else {
-              fail(reject, ctx, err);
+              fail(reject, ctx, err.message);
             }
           },
         )(ctx);

@@ -1,4 +1,4 @@
-require('babel-register');
-require('babel-polyfill');
+import knex from './knex';
 
-module.exports = require('./knexfile').default;
+export { knex };
+export default knex;

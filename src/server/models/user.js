@@ -1,5 +1,5 @@
 import { db } from '../config';
-import { knex } from '../db/index';
+import { knex } from '../db';
 import { err } from '../helper/logger';
 
 const userTable = `${db.prefix}_user`;
