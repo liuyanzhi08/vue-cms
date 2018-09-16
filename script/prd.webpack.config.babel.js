@@ -132,8 +132,6 @@ module.exports = {
   ],
   optimization: {
     minimizer: [new UglifyJsPlugin({
-      sourceMap: false,
-      extractComments: 'all',
     })],
   },
 };
