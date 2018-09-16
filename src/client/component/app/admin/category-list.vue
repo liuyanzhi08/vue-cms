@@ -2,7 +2,6 @@
   <div class="category-list">
     <ui-sidebar>
       <aside>
-        <!--222<img src="~@image/test.jpg" alt="">222-->
         <ui-tree
           :data="rootCategories"
           :load="load"
