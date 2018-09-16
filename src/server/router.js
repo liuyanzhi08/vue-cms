@@ -11,7 +11,6 @@ const log = ctx => _log(`${ctx.method} ${ctx.url} @${ctx.ip}`);
 
 const componentHandler = async (ctx) => {
   const component = await import(`./component/${ctx.params.component}`);
-  console.log(component, ctx.method.toLowerCase());
   await component.default[ctx.method.toLowerCase()](ctx).catch(e => err(e));
   log(ctx);
 };
