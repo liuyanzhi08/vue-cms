@@ -5,36 +5,35 @@ import cheerio from 'cheerio';
 import { server, path } from '../config';
 import { log } from './logger';
 
-const getContent = (url) => {
-  return puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    ignoreHTTPSErrors: true,
-    dumpio: false,
-  }).then(async (browser) => {
-    const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle0' });
+const getContent = url => puppeteer.launch({
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  ignoreHTTPSErrors: true,
+  dumpio: false,
+}).then(async (browser) => {
+  const page = await browser.newPage();
+  await page.goto(url, { waitUntil: 'networkidle0' });
 
-    const content = await page.content();
-    await page.close();
-    await browser.close();
-    return content;
-  });
-};
+  const content = await page.content();
+  await page.close();
+  await browser.close();
+  return content;
+});
 
 const savePageRecurse = async (url, root, name) => {
   let content = await getContent(url);
   const reg = /<a[^<]+href=['"]([^'"]+)['"][^<]*>/gi;
   const subPaths = {};
-  let result;
-  while ((result = reg.exec(content)) !== null) {
+  let result = reg.exec(content);
+  while (result !== null) {
     const subPath = result[1];
     subPaths[subPath] = 1;
+    result = reg.exec(content);
   }
   _.forEach(subPaths, (value, subPath) => {
     const userRootReg = new RegExp(`^${path.user}/`);
-    const subSaveName = subPath.replace(userRootReg, '')
-      .replace(/\//gi, '-') + '.html';
+    const subSaveName = `${subPath.replace(userRootReg, '')
+      .replace(/\//gi, '-')}.html`;
 
     // replace link in parent html
     const subLink = `./${subSaveName}`;

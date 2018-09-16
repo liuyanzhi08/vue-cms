@@ -7,7 +7,7 @@ import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
 
-const app = new Koa()
+const app = new Koa();
 
 const sessionConfig = {
   maxAge: 60 * 60 * 1000, // expires 60min

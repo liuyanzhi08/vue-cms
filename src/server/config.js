@@ -1,7 +1,7 @@
 import _path from 'path';
 import config from '../config';
 
-const db = config.db;
+const { db } = config;
 
 const server = {
   port: config.server.port,
@@ -10,7 +10,7 @@ const server = {
 
 const root = _path.resolve(__dirname, '../..');
 const dist = _path.join(root, 'dist');
-const _static = _path.join(dist, 'static');
+const staticPath = _path.join(dist, 'static');
 const accessLogPath = _path.isAbsolute(config.server.log.access) ?
   config.server.log.access : _path.join(root, config.server.log.access);
 const errorLogPath = _path.isAbsolute(config.server.log.error) ?
@@ -18,14 +18,14 @@ const errorLogPath = _path.isAbsolute(config.server.log.error) ?
 const path = {
   root,
   dist,
-  static: _static,
+  static: staticPath,
   log: {
     access: accessLogPath,
     error: errorLogPath,
   },
   user: config.server.path.user,
   admin: config.server.path.admin,
-}
+};
 
 export {
   db,

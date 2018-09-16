@@ -15,9 +15,9 @@
     "server:start": "node src/server &",
     "server:stop": "node scripts/stop",
     "server:restart": "npm run server:stop && npm run server:start",
-    "db:migrate": "knex migrate:latest",
+    "db:migrate": "knex --knexfile src/server/db/knexfile.js migrate:latest",
     "db:rollback": "knex migrate:rollback",
-    "db:seed": "knex seed:run"
+    "db:seed": "knex --knexfile src/server/db seed:run"
   },
   "repository": {
     "type": "git",
@@ -89,6 +89,7 @@
     "babel-eslint": "^9.0.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.1",
+    "babel-plugin-dynamic-import-node": "^2.1.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",

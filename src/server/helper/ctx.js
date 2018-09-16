@@ -13,5 +13,5 @@ const fail = (reject, ctx, err, options = { code: 500 }) => {
 
 export {
   success,
-  fail
+  fail,
 };

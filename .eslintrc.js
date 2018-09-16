@@ -32,7 +32,7 @@ module.exports = {
       }
     ],
     'no-underscore-dangle': ['error', {
-        allow: ['_page'],
+        allow: ['_page', '_num', '_from', '_size'],
       }
     ]
   },

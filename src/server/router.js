@@ -5,46 +5,38 @@ import fs from 'fs';
 import { path } from './config';
 import { log as _log, err } from './helper/logger';
 
-const router = new KoaRouter()
+const router = new KoaRouter();
 
-router
-  .all('/api/:component/:id', componentHandler)
-  .all('/api/:component', componentHandler)
-  .all('/dist/*', assetHandler)
-  .all(path.admin, indexHandler)
-  .all(path.user, indexHandler)
-  .all(`${path.user}/*`, indexHandler)
-  .all(`${path.admin}/*`, indexHandler)
-  .all('*', staticHandle);
+const log = ctx => _log(`${ctx.method} ${ctx.url} @${ctx.ip}`);
 
-async function componentHandler(ctx) {
+const componentHandler = async (ctx) => {
   try {
-    let component = require('./component/' + ctx.params.component).default
-    await component[ctx.method.toLowerCase()](ctx)
+    const component = await import(`./component/${ctx.params.component}`);
+    await component.default[ctx.method.toLowerCase()](ctx);
   } catch (e) {
     err(e);
   }
   log(ctx);
-}
+};
 
-async function assetHandler(ctx) {
-  var filePath = _path.join(path.dist, ctx.params[0]);
+const assetHandler = async (ctx) => {
+  const filePath = _path.join(path.dist, ctx.params[0]);
   if (fs.existsSync(filePath)) {
-    ctx.set('Cache-Control', `max-age=${3600*24*7}`);
-    await koaSend(ctx, filePath, { root: '/'});
+    ctx.set('Cache-Control', `max-age=${3600 * 24 * 7}`);
+    await koaSend(ctx, filePath, { root: '/' });
   } else {
     ctx.status = 404;
   }
   log(ctx);
-}
+};
 
-async function indexHandler(ctx) {
+const indexHandler = async (ctx) => {
   ctx.set('Cache-Control', 'no-cache');
   await koaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/' });
   log(ctx);
-}
+};
 
-async function staticHandle(ctx) {
+const staticHandle = async (ctx) => {
   const param = ctx.params[0];
   const file = param !== '/' ? param : '/index.html';
   const filePath = _path.join(path.static, file);
@@ -75,10 +67,16 @@ async function staticHandle(ctx) {
     ctx.status = 404;
   }
   log(ctx);
-}
+};
 
-function log (ctx) {
-  _log(`${ctx.method} ${ctx.url} @${ctx.ip}`);
-}
+router
+  .all('/api/:component/:id', componentHandler)
+  .all('/api/:component', componentHandler)
+  .all('/dist/*', assetHandler)
+  .all(path.admin, indexHandler)
+  .all(path.user, indexHandler)
+  .all(`${path.user}/*`, indexHandler)
+  .all(`${path.admin}/*`, indexHandler)
+  .all('*', staticHandle);
 
-export default router
+export default router;

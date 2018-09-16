@@ -1,5 +1,5 @@
-import mysql from 'mysql'
-import {db} from '../config'
+import mysql from 'mysql';
+import { db } from '../config';
 
 const currentPool = mysql.createPool({
   host: 'localhost',
@@ -7,39 +7,39 @@ const currentPool = mysql.createPool({
   password: db.password,
   database: db.database,
   multipleStatements: true,
-  dateStrings: true
-})
+  dateStrings: true,
+});
 
 const globalPool = mysql.createPool({
   host: 'localhost',
   user: db.username,
   password: db.password,
   multipleStatements: true,
-  dateStrings: true
-})
+  dateStrings: true,
+});
 
-var query = function (sql, options) {
-  var pool = options === true ? globalPool : currentPool
+const query = (sql, options) => {
+  const pool = options === true ? globalPool : currentPool;
   return new Promise((resolve, reject) => {
-    pool.getConnection(function (err, connection) {
+    pool.getConnection((err, connection) => {
       if (err) {
-        reject(err)
-        return
+        reject(err);
+        return;
       }
       // Use the connection
-      connection.query(sql, options, function (error, results, fields) {
+      connection.query(sql, options, (error, results, fields) => {
         if (error) {
-          reject(error)
-          return
+          reject(error);
+          return;
         }
-        connection.release()
+        connection.release();
         resolve({
-          results: results,
-          fields: fields
-        })
+          results,
+          fields,
+        });
       });
     });
-  })
-}
+  });
+};
 
-export default query
+export default query;

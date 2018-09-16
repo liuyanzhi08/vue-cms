@@ -6,6 +6,7 @@
     "transform-async-to-generator",
     "transform-vue-jsx",
     "syntax-dynamic-import",
+    "dynamic-import-node",
     "transform-object-rest-spread"
   ]
 }

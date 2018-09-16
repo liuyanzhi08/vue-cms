@@ -1,32 +1,28 @@
-require("babel-register");
-require("babel-polyfill");
+import path from 'path';
+import { db } from '../config';
 
-const path = require('path');
-const db = require('./src/server/config').db;
-
-const BASE_PATH = path.join(__dirname, 'src', 'server', 'db');
+const BASE_PATH = __dirname;
 const MIGRATION_PATH = path.join(BASE_PATH, 'migration');
 const SEED_PATH = path.join(BASE_PATH, 'seed');
 
-module.exports = {
-
+export default {
   development: {
     client: 'mysql',
     connection: {
       database: db.database,
       user: db.username,
-      password: db.password
+      password: db.password,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      directory: MIGRATION_PATH
+      directory: MIGRATION_PATH,
     },
     seeds: {
-      directory: SEED_PATH
-    }
+      directory: SEED_PATH,
+    },
   },
 
   staging: {
@@ -34,18 +30,18 @@ module.exports = {
     connection: {
       database: db.database,
       user: db.username,
-      password: db.password
+      password: db.password,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      directory: MIGRATION_PATH
+      directory: MIGRATION_PATH,
     },
     seeds: {
-      directory: SEED_PATH
-    }
+      directory: SEED_PATH,
+    },
   },
 
   production: {
@@ -53,18 +49,17 @@ module.exports = {
     connection: {
       database: db.database,
       user: db.username,
-      password: db.password
+      password: db.password,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      directory: MIGRATION_PATH
+      directory: MIGRATION_PATH,
     },
     seeds: {
-      directory: SEED_PATH
-    }
-  }
-
+      directory: SEED_PATH,
+    },
+  },
 };

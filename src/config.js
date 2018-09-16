@@ -1,4 +1,3 @@
-
 export default {
   db: {
     username: 'root',
@@ -15,6 +14,6 @@ export default {
     path: {
       user: '/user',
       admin: '/admin',
-    }
-  }
+    },
+  },
 };
