@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <navbar></navbar>
-        <div class="container-fluid">
-            <router-view></router-view>
-        </div>
+  <div>
+    <navbar></navbar>
+    <div class="container-fluid">
+      <router-view></router-view>
     </div>
+  </div>
 </template>
 <script>
   import categoryList from './category-list.vue';
@@ -22,7 +22,7 @@
     watch: {},
     components: {
       categoryList,
-      navbar,
+      navbar
     }
   }
 </script>
