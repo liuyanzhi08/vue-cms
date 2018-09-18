@@ -128,7 +128,7 @@ module.exports = {
       filename: 'style/[name].[hash:7].css',
       chunkFilename: 'style/[id].[hash:7].css',
     }),
-    new BabelMinifyPlugin(),
+    // new BabelMinifyPlugin(),
   ],
   optimization: {
     minimizer: [new UglifyJsPlugin({
