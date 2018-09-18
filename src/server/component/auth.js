@@ -34,7 +34,7 @@ export default {
           (err, _user) => {
             if (_user && !err) {
               ctx.login(_user);
-              ctx.cookies.set('auth:user', user.id, {
+              ctx.cookies.set('auth:user', _user.id, {
                 path: '/', // 写cookie所在的路径
                 maxAge: 60 * 60 * 1000, // cookie有效时长
                 httpOnly: false, // 是否只用于http请求中获取
