@@ -9,7 +9,7 @@
     "dev:server": "nodemon src/server",
     "dev": "npm run dev:ui & npm run dev:server",
     "debug": "node $NODE_DEBUG_OPTION src/server",
-    "build": "node --max_old_space_size=2048 node_modules/.bin/webpack --mode=production --progress --config script/prd.webpack.config.babel.js",
+    "build": "cross-env NODE_ENV=development webpack --mode=production --progress --config script/prd.webpack.config.babel.js",
     "publish": "npm run build && npm run server:restart",
     "pub": "npm run publish",
     "server:start": "node src/server &",
