@@ -7,7 +7,11 @@ import { path } from '../config';
 const err = (input, color = 'red') => {
   let content = input;
   if (_.isObject(content)) {
-    content = JSON.stringify(content);
+    if (content instanceof Error) {
+      content = content.toString();
+    } else {
+      content = JSON.stringify(content);
+    }
   }
   const now = moment().format('YYYY-MM-DD hh:mm:ss');
   const msg = `[${chalk.blue(now)}] ${chalk[color](content)}`;
@@ -25,7 +29,11 @@ const err = (input, color = 'red') => {
 const log = function (input, color = 'green') {
   let content = input;
   if (_.isObject(content)) {
-    content = JSON.stringify(content);
+    if (content instanceof Error) {
+      content = content.toString();
+    } else {
+      content = JSON.stringify(content);
+    }
   }
   const now = moment().format('YYYY-MM-DD hh:mm:ss');
   const msg = `[${chalk.blue(now)}] ${chalk[color](content)}`;
