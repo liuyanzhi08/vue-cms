@@ -9,8 +9,8 @@ Node: ~7.6.0
 ## Starting
 
 ```
-$ git clone https://github.com/liuyanzhi08/cms.git
-$ cd cms
+$ git clone https://github.com/liuyanzhi08/vue-cms.git
+$ cd vue-cms
 $ npm install
 $ npm run db:migrate
 $ npm run db:seed
