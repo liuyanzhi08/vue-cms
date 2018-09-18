@@ -17,4 +17,8 @@ $ npm run db:seed
 $ npm start
 ```
 
-## Copyright
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2018-present, liuyanzhi08
