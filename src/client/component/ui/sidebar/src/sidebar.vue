@@ -39,7 +39,7 @@ export default {
     const $doc = $(document);
 
     if ($win.width() < 960) {
-      $side.css({ width: '100%' });
+      $side.css({ width: 'auto' });
       $main.css({ left: 0 });
       return;
     }
@@ -126,7 +126,6 @@ export default {
     .ui-sidebar {
       .side {
         position: static;
-        width: 100%;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         bottom: auto;
         &:after {
