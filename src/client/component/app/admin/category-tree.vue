@@ -2,13 +2,13 @@
   <div>
     <select
       v-model="value"
-      class="form-control"
+      class="uk-select"
       @change="($event) => { this.$emit('input', value) }"
     >
       <option
         v-for="option in options"
-        :value="option.value"
         :key="option.value"
+        :value="option.value"
       >
         {{ option.text }}
       </option>

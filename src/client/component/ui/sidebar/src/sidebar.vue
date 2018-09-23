@@ -78,7 +78,7 @@ export default {
       &:after {
         font: normal normal normal 14px/1 FontAwesome;
         content: '\f104';
-        display: block;
+        display: flex;
         color: #c9c9c9;
         position: absolute;
         top: 0;

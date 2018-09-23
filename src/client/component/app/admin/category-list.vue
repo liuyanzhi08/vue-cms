@@ -1,9 +1,9 @@
 <template>
-  <div class="category-list">
+  <div scoped>
     <ui-sidebar>
       <aside>
         <el-tree
-          :props="{ isLeaf: 'leaf' }"
+          :props="{ isLeaf: 'isLeaf' }"
           :data="rootCategories"
           :render-content="renderContent"
           :load="load"
@@ -72,7 +72,7 @@ export default {
           subCategories.push({
             label: `${category.title} [ id: ${category.id} ]`,
             data: category,
-            leaf: false,
+            isLeaf: false,
           });
         });
         return subCategories;
@@ -84,14 +84,14 @@ export default {
           subArticles.push({
             label: `${article.title} [ id: ${article.id} ]`,
             data: article,
-            leaf: true,
+            isLeaf: true,
           });
         });
         resolve(subCategories.concat(subArticles));
       }));
     },
     click(node) {
-      if (!node.leaf) {
+      if (!node.isLeaf) {
         this.selected = {
           id: node.data.id,
           type: 'category',
@@ -105,41 +105,48 @@ export default {
     },
     addArticle(node) { this.selected = { id: 0, type: 'article', categoryId: node.id }; },
     addCategory(node) { this.selected = { id: 0, type: 'category', parentId: node.id }; },
+    // eslint-disable
     renderContent(h, { node }) {
       if (node.isLeaf) {
-        return (<span>{node.label}</span>);
-      }
-      return (
-        <span className="node-edit">
-          {node.label}
-          <span className="menu">
-            <i
-              className="fa fa-plus article"
-              on-click={(e) => { this.addArticle(node); e.stopPropagation(); }}
-              on-dblclick={(e) => { this.addCategory(node); e.stopPropagation(); }}
+        return (
+          <span>
+            <span
+              class="uk-margin-small-right"
+              uk-icon="icon: file-edit"
             />
+            {node.label}
           </span>
-        </span>
-      );
+        );
+      } else {
+        return (
+          <span>
+            <span
+              class="uk-margin-small-right"
+              uk-icon="icon: folder"
+            />
+            {node.label}
+         </span>
+        );
+      }
     },
   },
 };
 </script>
 <style lang="scss">
-    .category-list {
-        width: 100%;
-        .main {
-            padding: 10px;
-        }
-        .menu {
-            i {
-                margin-left: 5px;
-            }
-        }
-        .root-add {
-            cursor: pointer;
-            margin-left: 3px;
-            margin-top: 10px;
-        }
+  .main {
+    padding: 10px;
+  }
+  .menu {
+    i {
+      margin-left: 5px;
     }
+  }
+  .root-add {
+    cursor: pointer;
+    margin-left: 3px;
+    margin-top: 10px;
+  }
+  aside {
+    padding: 10px 0 0 10px;
+  }
 </style>

@@ -1,30 +1,29 @@
 <template>
   <form @submit.prevent="submit(article)">
-    <div class="form-group">
+    <div class="uk-margin">
       <input
         v-model="article.title"
         type="text"
         placeholder="title"
-        class="form-control"
+        class="uk-input"
       >
     </div>
-    <div class="form-group">
+    <div class="uk-margin">
       <app-category-tree v-model="article.category_id" />
     </div>
-    <div class="form-group">
+    <div class="uk-margin">
       <textarea
         v-model="article.content"
         placeholder="content"
-        class="form-control"
+        class="uk-textarea"
       />
     </div>
-    <div class="form-group">
-      <input
+    <div class="uk-margin">
+      <button
         type="submit"
-        class="btn btn-primary"
-      >
+        class="uk-button uk-button-primary"
+      >提交</button>
     </div>
-
   </form>
 </template>
 <script>
