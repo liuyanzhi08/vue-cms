@@ -1,7 +1,25 @@
 <template>
-  <div scoped>
+  <div>
+    <button
+      class="uk-button uk-button-secondary uk-width-1-1 uk-hidden@m"
+      @click="toggle"
+    >
+      <span v-if="!expanded">展开文件树</span>
+      <span v-if="expanded">收起文件树</span>
+      <span
+        v-if="!expanded"
+        uk-icon="icon: triangle-right"
+      />
+      <span
+        v-if="expanded"
+        uk-icon="icon: triangle-left"
+      />
+    </button>
     <ui-sidebar>
-      <aside>
+      <aside
+        v-show="expanded"
+        slot="side"
+      >
         <el-tree
           :props="{ isLeaf: 'isLeaf' }"
           :data="rootCategories"
@@ -18,7 +36,7 @@
           />
         </div>
       </aside>
-      <div>
+      <div slot="main">
         <app-article
           v-if="selected.type === 'article'"
           :id="selected.id"
@@ -52,6 +70,7 @@ export default {
         id: null,
         type: 'article',
       },
+      expanded: true,
     };
   },
   computed: {
@@ -117,8 +136,8 @@ export default {
             {node.label}
           </span>
         );
-      } else {
-        return (
+      }
+      return (
           <span>
             <span
               class="uk-margin-small-right"
@@ -126,16 +145,15 @@ export default {
             />
             {node.label}
          </span>
-        );
-      }
+      );
+    },
+    toggle() {
+      this.expanded = !this.expanded;
     },
   },
 };
 </script>
-<style lang="scss">
-  .main {
-    padding: 10px;
-  }
+<style lang="scss" scoped>
   .menu {
     i {
       margin-left: 5px;
@@ -145,8 +163,5 @@ export default {
     cursor: pointer;
     margin-left: 3px;
     margin-top: 10px;
-  }
-  aside {
-    padding: 10px 0 0 10px;
   }
 </style>

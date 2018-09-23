@@ -4,6 +4,7 @@
       v-if="isAuthenticated"
       class="uk-navbar-container uk-light"
       uk-navbar
+      uk-sticky
     >
       <div class="uk-navbar-left">
         <a

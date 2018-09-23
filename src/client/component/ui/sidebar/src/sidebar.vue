@@ -1,6 +1,13 @@
 <template>
-  <div class="ui-sidebar">
-    <slot />
+  <div
+    class="ui-sidebar"
+  >
+    <div class="side">
+      <slot name="side" />
+    </div>
+    <div class="main">
+      <slot name="main" />
+    </div>
   </div>
 </template>
 <script>
@@ -25,29 +32,34 @@ export default {
   created() {
   },
   mounted() {
-    const width = 300;
+    const $win = $(window);
+    const sidebarWidth = 300;
     const $side = $(this.$el.children[0]);
     const $main = $(this.$el.children[1]);
-    const $document = $(document);
-    $side
-      .addClass('side')
-      .css({
-        width,
-      });
-    $main
-      .addClass('main');
+    const $doc = $(document);
+
+    if ($win.width() < 960) {
+      $side.css({ width: '100%' });
+      $main.css({ left: 0 });
+      return;
+    }
+
+    $side.css({ width: sidebarWidth });
+    $main.css({ left: sidebarWidth });
+
     let mouseDown = false;
     let lastCursorX;
-    $document.mousemove((e) => {
+    const mousedown = (e) => {
       const cursorX = e.clientX;
       if (mouseDown) {
         const offset = cursorX - lastCursorX;
         $side.css('width', `+=${offset}`);
-        // $main.css('marginLeft', '+=' + offset)
+        $main.css('left', `+=${offset}`);
       }
       lastCursorX = cursorX;
       return false;
-    });
+    };
+    $doc.mousemove(mousedown);
 
     $side.mousedown((e) => {
       const sideRect = $side[0].getBoundingClientRect();
@@ -57,8 +69,17 @@ export default {
         mouseDown = true;
       }
     });
-    $document.mouseup(() => {
+    $doc.mouseup(() => {
       mouseDown = false;
+    });
+    $win.resize(() => {
+      if ($win.width() < 960) {
+        $side.css({ width: '100%' });
+        $main.css({ left: 0 });
+        return;
+      }
+      $side.css({ width: sidebarWidth });
+      $main.css({ left: sidebarWidth });
     });
   },
   methods: {},
@@ -67,14 +88,19 @@ export default {
 </script>
 <style lang="scss">
   .ui-sidebar {
-    display: flex;
+    position: relative;
     .side {
-      flex-shrink: 0;
-      position: relative;
-      min-height: 100%;
-      border-right: 1px solid #c9c9c9;
+      position: fixed;
+      top: 50px;
+      left: 0;
+      bottom: 0;
+      background: white;
+      border-right: 1px solid #e5e5e5;
       white-space: nowrap;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overflow-scrolling: touch;
+      padding: 15px 0 10px 10px;
       &:after {
         font: normal normal normal 14px/1 FontAwesome;
         content: '\f104';
@@ -91,7 +117,26 @@ export default {
       }
     }
     .main {
-      width: 100%;
+      position: absolute;
+      right: 0;
+      padding: 20px 20px 20px 30px;
+    }
+  }
+  @media (max-width: 960px) {
+    .ui-sidebar {
+      .side {
+        position: static;
+        width: 100%;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        bottom: auto;
+        &:after {
+          display: none;
+        }
+      }
+      .main {
+        position: static;
+        padding: 30px 20px 20px 20px;
+      }
     }
   }
 </style>
