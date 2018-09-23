@@ -2,7 +2,7 @@
   <div>
     <nav
       v-if="isAuthenticated"
-      class="uk-navbar-container"
+      class="uk-navbar-container uk-light uk-background-primary"
       uk-navbar
     >
       <div class="uk-navbar-left">
