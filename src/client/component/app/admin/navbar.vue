@@ -2,7 +2,7 @@
   <div>
     <nav
       v-if="isAuthenticated"
-      class="uk-navbar-container uk-light uk-background-primary"
+      class="uk-navbar-container uk-light"
       uk-navbar
     >
       <div class="uk-navbar-left">
@@ -47,7 +47,7 @@
     </nav>
     <div
       id="offcanvas-nav"
-      uk-offcanvas="mode: push;"
+      uk-offcanvas="mode: slide; overlay: true"
     >
       <div class="uk-offcanvas-bar">
         <ul class="uk-nav uk-nav-default">
