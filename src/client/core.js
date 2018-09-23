@@ -3,11 +3,14 @@ import VueResource from 'vue-resource';
 import * as Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import ElementUI from 'element-ui';
-import 'uikit';
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
 import 'uikit/dist/css/uikit.min.css';
 import 'font-awesome/scss/font-awesome.scss';
 import 'element-ui/lib/theme-chalk/index.css';
 import Ui from './component/ui/index';
+
+UIkit.use(Icons);
 
 Vue.use(VueResource);
 Vue.use(Vuex);

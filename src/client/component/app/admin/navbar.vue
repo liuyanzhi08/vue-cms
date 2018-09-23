@@ -1,45 +1,73 @@
 <template>
-  <nav
-    v-if="isAuthenticated"
-    class="uk-navbar-container"
-    uk-navbar
-  >
-    <div class="uk-navbar-left">
-      <a
-        class="uk-navbar-item uk-logo"
-        href="#"
-      >vue-cms</a>
-      <ul class="uk-navbar-nav">
-        <li class="uk-active">
-          <router-link
-            to="/admin/category"
-          >文章管理
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            to="/admin/staticize"
-          >发布
-          </router-link>
-        </li>
-      </ul>
+  <div>
+    <nav
+      v-if="isAuthenticated"
+      class="uk-navbar-container"
+      uk-navbar
+    >
+      <div class="uk-navbar-left">
+        <a
+          class="uk-navbar-item uk-logo"
+          href="#"
+        >vue-cms</a>
+      </div>
+      <div class="uk-navbar-right">
+        <ul class="uk-visible@m uk-navbar-nav">
+          <li class="uk-active">
+            <router-link
+              to="/admin/category"
+            >文章管理
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/admin/staticize"
+            >发布
+            </router-link>
+          </li>
+          <li>
+            <a href="#">{{ user.username }}</a>
+            <div class="uk-navbar-dropdown">
+              <ul class="uk-nav uk-navbar-dropdown-nav">
+                <li
+                  class="uk-active"
+                  @click="logout"
+                ><a href="#">退出</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <a
+          class="uk-hidden@m uk-navbar-toggle"
+          uk-navbar-toggle-icon
+          uk-toggle="target: #offcanvas-nav"
+          href="#"
+        />
+      </div>
+    </nav>
+    <div
+      id="offcanvas-nav"
+      uk-offcanvas="mode: push;"
+    >
+      <div class="uk-offcanvas-bar">
+        <ul class="uk-nav uk-nav-default">
+          <li class="uk-active">
+            <router-link
+              to="/admin/category"
+              uk-icon="icon: pencil"
+            >文章管理
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/admin/staticize"
+            >发布
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="uk-navbar-right">
-      <ul class="uk-navbar-nav">
-        <li>
-          <a href="#">{{ user.username }}</a>
-          <div class="uk-navbar-dropdown">
-            <ul class="uk-nav uk-navbar-dropdown-nav">
-              <li
-                class="uk-active"
-                @click="logout"
-              ><a href="#">退出</a></li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
