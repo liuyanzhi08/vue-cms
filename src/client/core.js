@@ -10,6 +10,9 @@ import 'font-awesome/scss/font-awesome.scss';
 import 'element-ui/lib/theme-chalk/index.css';
 import Ui from './component/ui/index';
 
+// eslint-disable-next-line
+import '@style/overwrite.scss';
+
 UIkit.use(Icons);
 
 Vue.use(VueResource);

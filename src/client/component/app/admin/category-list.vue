@@ -2,38 +2,43 @@
   <div class="category-list">
     <ui-sidebar>
       <aside>
-        <ui-tree
+        <el-tree
+          :props="{ isLeaf: 'leaf' }"
           :data="rootCategories"
+          :render-content="renderContent"
           :load="load"
-          :click="click"
-          :render-content="renderContent"/>
+          lazy
+          @node-click="click"
+        />
         <div class="menu root-add ">
           <i
             class="fa fa-plus article"
             @click="addArticle({data: {id: 0}})"
-            @dblclick="addCategory({data: {id: 0}})"/>
+            @dblclick="addCategory({data: {id: 0}})"
+          />
         </div>
       </aside>
       <div>
         <app-article
           v-if="selected.type === 'article'"
           :id="selected.id"
-          :category-id="selected.categoryId"/>
+          :category-id="selected.categoryId"
+        />
         <app-category
           v-if="selected.type === 'category'"
           :id="selected.id"
-          :parent-id="selected.parentId"/>
+          :parent-id="selected.parentId"
+        />
       </div>
     </ui-sidebar>
   </div>
 </template>
 <script>
-import '@style/overwrite.scss';
+import _ from 'lodash';
 import Article from '../../../api/article';
 import Category from '../../../api/category';
-import AppArticle from './article.vue';
-import AppCategory from './category.vue';
-import _ from 'lodash';
+import AppArticle from './article';
+import AppCategory from './category';
 
 export default {
   components: {
@@ -43,8 +48,6 @@ export default {
   data() {
     return {
       rootCategories: [],
-      page: null,
-      total: null,
       selected: {
         id: null,
         type: 'article',
@@ -57,50 +60,38 @@ export default {
     },
   },
   created() {
-    Category.query({
-      parent_id: 0,
-    }).then((res) => {
-      const _this = this;
-      _.each(res.data.items, (category) => {
-        _this.rootCategories.push({
-          label: `${category.title} [ id: ${category.id} ]`,
-          children: -1,
-          data: category,
-        });
-      });
-      this.total = res.data.total;
-      this.page = +this.$route.query._page || 1;
-    });
   },
   methods: {
-    load(node) {
+    load(node, resolve) {
+      const nodeId = node.data.data ? node.data.data.id : 0;
       return Category.query({
-        parent_id: node.data.id,
+        parent_id: nodeId,
       }).then((res) => {
         const subCategories = [];
         _.each(res.data.items, (category) => {
           subCategories.push({
             label: `${category.title} [ id: ${category.id} ]`,
-            children: -1,
             data: category,
+            leaf: false,
           });
         });
         return subCategories;
       }).then(subCategories => Article.query({
-        category_id: node.data.id,
+        category_id: nodeId,
       }).then((res) => {
         const subArticles = [];
         _.each(res.data.items, (article) => {
           subArticles.push({
             label: `${article.title} [ id: ${article.id} ]`,
             data: article,
+            leaf: true,
           });
         });
-        return subCategories.concat(subArticles);
+        resolve(subCategories.concat(subArticles));
       }));
     },
     click(node) {
-      if (node.children) {
+      if (!node.leaf) {
         this.selected = {
           id: node.data.id,
           type: 'category',
@@ -112,10 +103,10 @@ export default {
         };
       }
     },
-    addArticle(node) { this.selected = { id: 0, type: 'article', categoryId: node.data.id }; },
-    addCategory(node) { this.selected = { id: 0, type: 'category', parentId: node.data.id }; },
+    addArticle(node) { this.selected = { id: 0, type: 'article', categoryId: node.id }; },
+    addCategory(node) { this.selected = { id: 0, type: 'category', parentId: node.id }; },
     renderContent(h, { node }) {
-      if (!node.children) {
+      if (node.isLeaf) {
         return (<span>{node.label}</span>);
       }
       return (

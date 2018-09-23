@@ -54,15 +54,31 @@
           <li class="uk-active">
             <router-link
               to="/admin/category"
-              uk-icon="icon: pencil"
-            >文章管理
+            >
+              <span
+                class="uk-margin-small-right"
+                uk-icon="icon: table"
+              />
+              文章管理
             </router-link>
           </li>
           <li>
             <router-link
               to="/admin/staticize"
-            >发布
+            >
+              <span
+                class="uk-margin-small-right"
+                uk-icon="icon: push"
+              />
+              发布
             </router-link>
+          </li>
+          <li class="uk-nav-divider" />
+          <li class="uk-parent">
+            <a href="#">账户</a>
+            <ul class="uk-nav-sub">
+              <li @click="logout"><a href="#">退出</a></li>
+            </ul>
           </li>
         </ul>
       </div>

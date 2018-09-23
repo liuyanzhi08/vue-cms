@@ -1,6 +1,6 @@
 <template>
   <div class="ui-sidebar">
-    <slot/>
+    <slot />
   </div>
 </template>
 <script>
