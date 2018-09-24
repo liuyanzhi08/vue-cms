@@ -17,7 +17,7 @@
           <li class="uk-active">
             <router-link
               to="/admin/category"
-            >文章管理
+            >目录
             </router-link>
           </li>
           <li>
@@ -41,8 +41,7 @@
         <a
           class="uk-hidden@m uk-navbar-toggle"
           uk-navbar-toggle-icon
-          uk-toggle="target: #offcanvas-nav"
-          href="#"
+          @click="toggleMenu"
         />
       </div>
     </nav>
@@ -60,7 +59,7 @@
                 class="uk-margin-small-right"
                 uk-icon="icon: table"
               />
-              文章管理
+              目录
             </router-link>
           </li>
           <li>
@@ -69,17 +68,19 @@
             >
               <span
                 class="uk-margin-small-right"
-                uk-icon="icon: push"
+                uk-icon="icon: cloud-upload"
               />
               发布
             </router-link>
           </li>
           <li class="uk-nav-divider" />
-          <li class="uk-parent">
-            <a href="#">账户</a>
-            <ul class="uk-nav-sub">
-              <li @click="logout"><a href="#">退出</a></li>
-            </ul>
+          <li>
+            <a @click="logout">
+              <span
+                class="uk-margin-small-right"
+                uk-icon="icon: sign-out"
+              />退出
+            </a>
           </li>
         </ul>
       </div>
@@ -87,8 +88,11 @@
   </div>
 </template>
 <script>
+import UIkit from 'uikit';
 import { mapGetters } from 'vuex';
-import { AUTH_LOGOUT, AUTH_USER } from '../../../store';
+import {
+  AUTH_LOGOUT, AUTH_USER, MENU_SET, MENU_TOGGLE,
+} from '../../../store';
 
 export default {
   data() {
@@ -108,14 +112,18 @@ export default {
       this.$store.dispatch(AUTH_USER);
     }
   },
+  mounted() {
+    const menu = UIkit.offcanvas('#offcanvas-nav');
+    this.$store.dispatch(MENU_SET, menu);
+  },
   methods: {
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
         this.$router.push({ name: 'login' });
       });
     },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+    toggleMenu() {
+      this.$store.dispatch(MENU_TOGGLE);
     },
   },
 };

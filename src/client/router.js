@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router';
 import { path } from './config';
-import { store } from './store';
+import { MENU_HIDE, store } from './store';
 
 const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user.vue');
 const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index.vue');
@@ -110,6 +110,7 @@ router.beforeEach((to, from, next) => {
       params: { to },
     });
   }
+  store.dispatch(MENU_HIDE);
   return next();
 });
 

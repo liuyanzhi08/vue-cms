@@ -38,6 +38,16 @@ export default {
     const $main = $(this.$el.children[1]);
     const $doc = $(document);
 
+    $win.resize(() => {
+      if ($win.width() < 960) {
+        $side.css({ width: '100%' });
+        $main.css({ left: 0 });
+        return;
+      }
+      $side.css({ width: sidebarWidth });
+      $main.css({ left: sidebarWidth });
+    });
+
     if ($win.width() < 960) {
       $side.css({ width: 'auto' });
       $main.css({ left: 0 });
@@ -71,15 +81,6 @@ export default {
     });
     $doc.mouseup(() => {
       mouseDown = false;
-    });
-    $win.resize(() => {
-      if ($win.width() < 960) {
-        $side.css({ width: '100%' });
-        $main.css({ left: 0 });
-        return;
-      }
-      $side.css({ width: sidebarWidth });
-      $main.css({ left: sidebarWidth });
     });
   },
   methods: {},
