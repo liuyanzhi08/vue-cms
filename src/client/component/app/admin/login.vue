@@ -35,14 +35,13 @@
       <div class="uk-margin">
         <button
           class="uk-button uk-button-primary"
-          @click="login"
         >登陆</button>
       </div>
     </form>
   </div>
 </template>
 <script>
-import { AUTH_LOGIN } from '../../../store';
+import { AUTH_LOGIN, NOTICE_SEND } from '../../../store';
 
 export default {
   components: {},
@@ -62,7 +61,7 @@ export default {
           params: this.$router.currentRoute.params.to.params,
         } : { name: 'categoryList' };
         this.$router.push(togo);
-      });
+      }, err => this.$store.dispatch(NOTICE_SEND, err.msg));
     },
   },
 };

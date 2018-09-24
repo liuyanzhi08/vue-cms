@@ -41,8 +41,14 @@ export default {
                 overwrite: false, // 是否允许重写
               });
               success(resovle, ctx, _user);
+            } else if (err) {
+              fail(reject, ctx, {
+                msg: err.msg,
+              });
             } else {
-              fail(reject, ctx, err.message);
+              fail(reject, ctx, {
+                msg: 'missing username or password',
+              });
             }
           },
         )(ctx);
