@@ -1,18 +1,17 @@
 <template>
   <div>
-    <select
+    <el-select
       v-model="value"
-      class="uk-select uk-flex uk-flex-left"
-      @change="($event) => { this.$emit('input', value) }"
+      placeholder="请选择"
+      class="uk-width-1-1"
     >
-      <option
-        v-for="option in options"
-        :key="option.value"
-        :value="option.value"
-      >
-        {{ option.text }}
-      </option>
-    </select>
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.text"
+        :value="item.value"
+      />
+    </el-select>
   </div>
 </template>
 <script>
@@ -76,5 +75,11 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+  option
+  {
+    right: auto;
+    padding: 13px 45px 15px 0px;
+    direction: ltr;
+  }
 </style>
