@@ -15,7 +15,7 @@
       <mavon-editor
         v-model="article.content"
         :toolbars="editor.toolbars"
-        :boxShadow="false"
+        :box-shadow="editor.boxShadow"
       />
     </div>
     <div class="uk-margin">
@@ -86,6 +86,7 @@ export default {
           subfield: true, // 单双栏模式
           preview: true, // 预览
         },
+        boxShadow: false,
       },
     };
   },
