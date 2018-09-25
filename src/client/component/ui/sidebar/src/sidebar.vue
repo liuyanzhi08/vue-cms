@@ -120,13 +120,14 @@ export default {
         position: static;
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         bottom: auto;
-        &:after {
-          display: none;
-        }
+      }
+      .side-toggle {
+        display: none;
       }
       .main {
         position: static;
         padding: 30px 20px 20px 0;
+        margin-top: 10px;
       }
     }
   }
