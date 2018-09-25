@@ -4,6 +4,7 @@
       v-model="value"
       placeholder="请选择"
       class="uk-width-1-1"
+      @change="($event) => { this.$emit('input', value) }"
     >
       <el-option
         v-for="item in options"
