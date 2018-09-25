@@ -4,7 +4,7 @@
   >
     <div class="side">
       <slot name="side" />
-      <div class="side-toggle">
+      <div class="side-toggle uk-visible@m">
         <span uk-icon="icon: chevron-left" />
       </div>
     </div>
