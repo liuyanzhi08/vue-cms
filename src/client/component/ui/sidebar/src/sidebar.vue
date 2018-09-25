@@ -4,6 +4,9 @@
   >
     <div class="side">
       <slot name="side" />
+      <div class="side-toggle">
+        <span uk-icon="icon: chevron-left" />
+      </div>
     </div>
     <div class="main">
       <slot name="main" />
@@ -11,16 +14,6 @@
   </div>
 </template>
 <script>
-const isNearEdge = (cursorX, edgeX) => {
-  const threshold = 20;
-  const leftEdge = edgeX - threshold;
-  const rightEdge = edgeX;
-  if (cursorX > leftEdge && cursorX < rightEdge) {
-    return true;
-  }
-  return false;
-};
-
 export default {
   name: 'UiSidebar',
   props: {},
@@ -33,10 +26,11 @@ export default {
   },
   mounted() {
     const $win = $(window);
+    const $doc = $(document);
     const sidebarWidth = 300;
     const $side = $(this.$el.children[0]);
     const $main = $(this.$el.children[1]);
-    const $doc = $(document);
+    const $toggle = $side.find('.side-toggle');
 
     $win.resize(() => {
       if ($win.width() < 960) {
@@ -71,13 +65,8 @@ export default {
     };
     $doc.mousemove(mousedown);
 
-    $side.mousedown((e) => {
-      const sideRect = $side[0].getBoundingClientRect();
-      const cursorX = e.clientX;
-      const edgeX = sideRect.left + sideRect.width;
-      if (isNearEdge(cursorX, edgeX)) {
-        mouseDown = true;
-      }
+    $toggle.mousedown(() => {
+      mouseDown = true;
     });
     $doc.mouseup(() => {
       mouseDown = false;
@@ -98,29 +87,31 @@ export default {
       background: white;
       border-right: 1px solid #e5e5e5;
       white-space: nowrap;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: visible;
       overflow-scrolling: touch;
       padding: 15px 0 10px 10px;
-      &:after {
-        font: normal normal normal 14px/1 FontAwesome;
-        content: '\f104';
+      .side-toggle {
         display: flex;
+        align-items: center;
         color: #c9c9c9;
         position: absolute;
         top: 0;
-        right: 0;
+        right: -10px;
         width: 20px;
         height: 100%;
         cursor: col-resize;
-        align-items: center;
-        justify-content: center;
+        .uk-icon {
+          position: relative;
+          left: -8px;
+        }
       }
     }
     .main {
       position: absolute;
+      background: white;
       right: 0;
-      padding: 20px 20px 20px 30px;
+      padding: 20px 20px 20px 0px;
+      margin-left: 30px;
     }
   }
   @media (max-width: 960px) {
@@ -135,7 +126,7 @@ export default {
       }
       .main {
         position: static;
-        padding: 30px 20px 20px 20px;
+        padding: 30px 20px 20px 0;
       }
     }
   }
