@@ -10,7 +10,6 @@ const publicPath = '/dist/';
 const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
-  mode: 'production',
   entry: [
     path.join(rootPath, 'src/client/index.js'),
   ],
@@ -68,10 +67,13 @@ module.exports = {
           },
           {
             loader: 'resolve-url-loader',
+            options: {
+            },
           },
           {
             loader: 'sass-loader',
             options: {
+              sourceMap: true, // todo why cannot remove this line
             },
           },
         ],
