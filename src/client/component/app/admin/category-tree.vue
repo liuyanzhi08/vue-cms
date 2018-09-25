@@ -77,10 +77,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  option
-  {
-    right: auto;
-    padding: 13px 45px 15px 0px;
-    direction: ltr;
-  }
 </style>

@@ -27,7 +27,6 @@
   </form>
 </template>
 <script>
-import 'simplemde/dist/simplemde.min.css';
 import category from '../../../api/category';
 import AppCategoryTree from './category-tree';
 
