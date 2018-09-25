@@ -40,7 +40,7 @@ export default {
 
     $win.resize(() => {
       if ($win.width() < 960) {
-        $side.css({ width: '100%' });
+        $side.css({ width: 'auto' });
         $main.css({ left: 0 });
         return;
       }
