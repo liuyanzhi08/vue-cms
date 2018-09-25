@@ -2,7 +2,7 @@
   <div>
     <select
       v-model="value"
-      class="uk-select"
+      class="uk-select uk-flex uk-flex-left"
       @change="($event) => { this.$emit('input', value) }"
     >
       <option

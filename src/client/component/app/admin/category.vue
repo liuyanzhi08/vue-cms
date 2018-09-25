@@ -73,7 +73,7 @@ export default {
   methods: {
     submit(data) {
       const method = isNew ? 'save' : 'update';
-      category[method](data.id, data).then(res => console.log(res));
+      category[method](data.id, data).then(res => {});
     },
     setForm() {
       // get category info if not new

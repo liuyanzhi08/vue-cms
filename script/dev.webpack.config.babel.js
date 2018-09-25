@@ -9,6 +9,7 @@ const publicPath = '/dist/';
 const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
+  mode: 'development',
   entry: [
     path.join(rootPath, 'src/client/index.js'),
   ],
@@ -21,6 +22,8 @@ module.exports = {
   devtool: 'eval-source-map',
   devServer: {
     hot: true,
+    host: '0.0.0.0',
+    useLocalIp: true,
     historyApiFallback: {
       index: path.join(publicPath, 'index.html'),
     },
@@ -29,6 +32,7 @@ module.exports = {
       '/api': `http://localhost:${config.server.port}`,
     },
     port: 8080,
+    disableHostCheck: true,
     open: true,
     openPage: 'admin',
     overlay: true,
