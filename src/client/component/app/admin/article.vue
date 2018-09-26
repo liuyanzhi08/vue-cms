@@ -16,6 +16,7 @@
         v-model="article.content"
         :toolbars="editor.toolbars"
         :box-shadow="editor.boxShadow"
+        :placeholder="editor.placeholder"
       />
     </div>
     <div class="uk-margin">
@@ -88,6 +89,7 @@ export default {
           preview: true, // 预览
         },
         boxShadow: false,
+        placeholder: 'start writing...',
       },
     };
   },
