@@ -4,7 +4,7 @@
       :id="category.id"
       :title="category.title"
       :description="category.description"
-      :create_time="category.create_time"
+      :created_time="category.created_time"
       :url="category.url"
       name="category"
     />
@@ -14,7 +14,7 @@
       :title="article.title"
       :content="article.content"
       :category_id="article.category_id"
-      :create_time="article.create_time"
+      :created_time="article.created_time"
       :url="article.url"
       name="article"
     />

@@ -20,7 +20,7 @@
               标题: {{ article.title }}
             </div>
             <div style="color:red">
-              时间: {{ article.create_time }}
+              时间: {{ article.created_time }}
             </div>
           </li>
         </a>

@@ -29,6 +29,7 @@
 <script>
 import category from '../../../api/category';
 import AppCategoryTree from './category-tree';
+import { NOTICE_SEND } from '../../../store';
 
 let isNew = true;
 
@@ -72,7 +73,9 @@ export default {
   methods: {
     submit(data) {
       const method = isNew ? 'save' : 'update';
-      category[method](data.id, data).then(res => {});
+      category[method](data).then(() => {
+        this.$store.dispatch(NOTICE_SEND, 'updated');
+      });
     },
     setForm() {
       // get category info if not new

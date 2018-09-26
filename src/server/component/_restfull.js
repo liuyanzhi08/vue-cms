@@ -98,7 +98,7 @@ class Restfull {
       }
 
       const obj = ctx.request.body;
-      obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss');
+      console.log(obj);
       return query(`INSERT INTO ${this.name} SET ?`, obj).then(
         (res) => {
           const { results } = res;
@@ -117,7 +117,8 @@ class Restfull {
       }
 
       const obj = ctx.request.body;
-      obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss');
+      obj.updated_time = moment().format('YYYY-MM-DD HH:mm:ss');
+      delete obj.created_time;
       return query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id]).then(
         (res) => {
           ctx.response.body = obj;

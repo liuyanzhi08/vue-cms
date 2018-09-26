@@ -52,7 +52,7 @@ export default {
       let split = '';
       const grnOptions = (node, subOptions) => {
         subOptions.push({
-          label: split + node.title,
+          label: `${split} ${node.title}`,
           value: node.id,
         });
         split += '|—';

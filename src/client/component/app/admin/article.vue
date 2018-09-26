@@ -123,7 +123,7 @@ export default {
           .get(id)
           .then((res) => {
             this.article = res.data;
-            this.article.create_time = new Date(this.article.create_time);
+            this.article.created_time = new Date(this.article.created_time);
             isNew = false;
           });
       } else {

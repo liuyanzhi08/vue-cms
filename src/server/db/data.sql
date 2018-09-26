@@ -26,7 +26,7 @@ CREATE TABLE `article` (
   `title` varchar(100) NOT NULL,
   `content` text NOT NULL,
   `category_id` int(10) unsigned DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
+  `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `CATEGORY_ID` (`category_id`),
   CONSTRAINT `CATEGORY_ID` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
@@ -48,7 +48,7 @@ CREATE TABLE `category` (
   `parent_id` int(10) unsigned DEFAULT NULL,
   `title` varchar(100) NOT NULL,
   `description` text,
-  `create_time` datetime DEFAULT NULL,
+  `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 

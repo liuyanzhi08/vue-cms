@@ -31,11 +31,11 @@
         <div class="menu root-add ">
           <i
             uk-icon="icon: plus"
-            @click="addArticle({data: {id: db.rootId}})"
+            @click="addArticle"
           />
           <i
             uk-icon="icon: album"
-            @click="addCategory({data: {id: db.rootId}})"
+            @click="addCategory"
           />
         </div>
       </aside>
@@ -71,7 +71,8 @@ export default {
     return {
       rootCategories: [],
       selected: {
-        id: null,
+        id: 0,
+        categoryId: db.rootId,
         type: 'article',
       },
       expanded: true,
@@ -143,8 +144,8 @@ export default {
         };
       }
     },
-    addArticle(node) { this.selected = { id: 0, type: 'article', categoryId: node.data.id }; },
-    addCategory(node) { this.selected = { id: 0, type: 'category', parentId: node.data.id }; },
+    addArticle() { this.selected = { id: 0, type: 'article', categoryId: db.rootId }; },
+    addCategory() { this.selected = { id: 0, type: 'category', parentId: db.rootId }; },
     // eslint-disable
     renderContent(h, { node, data }) {
       if (data.isEmpty) {

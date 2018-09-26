@@ -9,7 +9,7 @@ export default {
     switch (action) {
       case 'register': {
         const data = ctx.request.body;
-        // obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss');
+        // obj.created_time = moment().format('YYYY-MM-DD HH:mm:ss');
         const salt = bcrypt.genSaltSync();
         const hash = bcrypt.hashSync(data.password, salt);
         data.password = hash;
