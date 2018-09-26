@@ -2,7 +2,7 @@ export default {
   db: {
     username: 'root',
     password: 'root',
-    database: 'vms_dnc8~MRzMP',
+    database: 'vms',
     prefix: 'vms',
   },
   server: {

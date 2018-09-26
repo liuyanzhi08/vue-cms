@@ -1,4 +1,4 @@
-import knex from './knex';
+import knex from './knex/knex';
 import query from './query';
 
 export { knex, query };

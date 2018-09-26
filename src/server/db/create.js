@@ -4,20 +4,23 @@ require('@babel/polyfill');
 const fs = require('fs');
 const path = require('path');
 const nanoid = require('nanoid');
-const { db } = require('../src/config').default;
-const { query } = require('../src/server/db');
+const chalk = require('chalk');
+const { db } = require('../../config').default;
+const { query } = require('../db');
 
 const log = (msg, method = 'log') => {
   // eslint-disable-next-line
+  const color = method === 'log' ? 'green' : 'red';
+  const print = chalk[color];
   if (typeof msg === 'object') {
-    console[method]('db:', msg);
+    console[method](print('[db]'), print(msg));
   } else {
-    console[method](`db: ${msg}`);
+    console[method](print(`[db]: ${msg}`));
   }
 };
 
 const modifyConfig = (dbName) => {
-  const configPath = path.resolve(__dirname, '../src/config.js');
+  const configPath = path.resolve(__dirname, '../../config.js');
   let configText = fs.readFileSync(configPath).toString();
   const reg = /database\s*:\s*['"][^'"]+['"]/gi;
   const matches = configText.match(reg);
@@ -26,7 +29,7 @@ const modifyConfig = (dbName) => {
     configText = configText.replace(reg, newConfig);
     fs.writeFileSync(configPath, configText);
     const oldConfig = matches[0];
-    log(`successfully wrote \`config.js\` | \`${oldConfig}\` -> \`${newConfig}\``);
+    log(`successfully wrote \`config.js\`: \`${oldConfig}\` -> \`${newConfig}\``);
   } else {
     log('fail to find `database` config in `config.js`', 'error');
   }
@@ -47,8 +50,8 @@ const createDB = (dbName) => {
 
 let dbName;
 // random mode: create a db with a random name
-const isRandomMode = process.argv.includes('--random');
-if (isRandomMode) {
+const isProductionMode = process.env.NODE_ENV === 'production';
+if (isProductionMode) {
   dbName = `vms_${nanoid(10)}`;
   modifyConfig(dbName);
 } else {

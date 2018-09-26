@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { db } from '../../config';
+import { db } from '../../../config';
 
 const tableName = `${db.prefix}_user`;
 
