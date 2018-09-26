@@ -9,14 +9,14 @@
       >
     </div>
     <div class="uk-margin">
+      <app-category-tree v-model="category.parent_id" />
+    </div>
+    <div class="uk-margin">
       <textarea
         v-model="category.description"
         placeholder="description"
         class="uk-textarea"
       />
-    </div>
-    <div class="uk-margin">
-      <app-category-tree v-model="category.parent_id" />
     </div>
     <div class="uk-margin">
       <button
@@ -30,6 +30,7 @@
 import category from '../../../api/category';
 import AppCategoryTree from './category-tree';
 import { NOTICE_SEND } from '../../../store';
+import { db } from '../../../config';
 
 let isNew = true;
 
@@ -44,7 +45,7 @@ export default {
     },
     parentId: {
       type: Number,
-      default: 0,
+      default: db.rootId,
     },
   },
   data() {

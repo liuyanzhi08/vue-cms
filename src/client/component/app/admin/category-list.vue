@@ -72,7 +72,6 @@ export default {
       rootCategories: [],
       selected: {
         id: 0,
-        categoryId: db.rootId,
         type: 'article',
       },
       expanded: true,
@@ -144,8 +143,8 @@ export default {
         };
       }
     },
-    addArticle() { this.selected = { id: 0, type: 'article', categoryId: db.rootId }; },
-    addCategory() { this.selected = { id: 0, type: 'category', parentId: db.rootId }; },
+    addArticle() { this.selected = { id: 0, type: 'article' }; },
+    addCategory() { this.selected = { id: 0, type: 'category' }; },
     // eslint-disable
     renderContent(h, { node, data }) {
       if (data.isEmpty) {

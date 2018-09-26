@@ -1,10 +1,9 @@
 <template>
   <div>
     <el-select
-      v-model="value"
+      v-model="selectValue"
       placeholder="select..."
       class="uk-width-1-1"
-      @change="($event) => { this.$emit('input', value) }"
     >
       <el-option
         v-for="item in options"
@@ -23,16 +22,19 @@ import { db } from '../../../config';
 
 export default {
   name: 'AppCategoryTree',
-  props: {
-    value: {
-      type: Number,
-      default: 0,
-    },
-  },
   data() {
     return {
       options: [],
+      selectValue: db.rootId,
     };
+  },
+  watch: {
+    value() {
+      this.selectValue = this.value;
+    },
+    selectValue() {
+      this.$emit('input', this.selectValue);
+    },
   },
   created() {
     Category.query().then((res) => {

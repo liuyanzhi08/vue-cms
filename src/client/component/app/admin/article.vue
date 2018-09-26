@@ -30,6 +30,7 @@
 import Article from '../../../api/article';
 import AppCategoryTree from './category-tree';
 import { NOTICE_SEND } from '../../../store';
+import { db } from '../../../config';
 
 let isNew = true;
 
@@ -44,7 +45,7 @@ export default {
     },
     categoryId: {
       type: Number,
-      default: 0,
+      default: db.rootId,
     },
   },
   data() {
