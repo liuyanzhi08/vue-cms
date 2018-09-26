@@ -32,24 +32,18 @@ export default {
     const $main = $(this.$el.children[1]);
     const $toggle = $side.find('.side-toggle');
 
-    $win.resize(() => {
+    const resize = () => {
       if ($win.width() < 960) {
         $side.css({ width: 'auto' });
         $main.css({ left: 0 });
-        return;
+      } else {
+        $side.css({ width: sidebarWidth });
+        $main.css({ left: sidebarWidth });
       }
-      $side.css({ width: sidebarWidth });
-      $main.css({ left: sidebarWidth });
-    });
+    };
 
-    if ($win.width() < 960) {
-      $side.css({ width: 'auto' });
-      $main.css({ left: 0 });
-      return;
-    }
-
-    $side.css({ width: sidebarWidth });
-    $main.css({ left: sidebarWidth });
+    resize();
+    $win.resize(resize);
 
     let mouseDown = false;
     let lastCursorX;
@@ -59,6 +53,9 @@ export default {
         const offset = cursorX - lastCursorX;
         $side.css('width', `+=${offset}`);
         $main.css('left', `+=${offset}`);
+        if (parseInt($main.css('left'), 10) < 0) {
+          $main.css('left', 0);
+        }
       }
       lastCursorX = cursorX;
       return false;
@@ -128,6 +125,7 @@ export default {
         position: static;
         padding: 30px 20px 20px 0;
         margin-top: 10px;
+        margin-left: 20px;
       }
     }
   }
