@@ -4,15 +4,15 @@
       class="uk-button uk-button-secondary uk-width-1-1 uk-hidden@m"
       @click="toggle"
     >
-      <span v-if="!expanded">展开文件树</span>
-      <span v-if="expanded">收起文件树</span>
+      <span v-if="!expanded">展开目录</span>
+      <span v-if="expanded">收起目录</span>
       <span
         v-if="!expanded"
-        uk-icon="icon: triangle-right"
+        uk-icon="icon: triangle-down"
       />
       <span
         v-if="expanded"
-        uk-icon="icon: triangle-left"
+        uk-icon="icon: triangle-up"
       />
     </button>
     <ui-sidebar>
@@ -82,7 +82,12 @@ export default {
   },
   methods: {
     load(node, resolve) {
-      const nodeId = node.data.data ? node.data.data.id : 0;
+      let { data } = node.data;
+      if (!data) {
+        node.data.data = { id: 0 };
+        ({ data } = node.data);
+      }
+      const nodeId = data.id;
       return Category.query({
         parent_id: nodeId,
       }).then((res) => {
@@ -106,7 +111,16 @@ export default {
             isLeaf: true,
           });
         });
-        resolve(subCategories.concat(subArticles));
+        const subs = subCategories.concat(subArticles);
+        data.subs = subs;
+        if (!subs.length) {
+          subs.push({
+            label: '空',
+            isEmpty: true,
+            isLeaf: true,
+          });
+        }
+        resolve(subs);
       }));
     },
     click(node) {
@@ -122,11 +136,15 @@ export default {
         };
       }
     },
-    addArticle(node) { this.selected = { id: 0, type: 'article', categoryId: node.id }; },
-    addCategory(node) { this.selected = { id: 0, type: 'category', parentId: node.id }; },
+    addArticle(node) { this.selected = { id: 0, type: 'article', categoryId: node.data.id }; },
+    addCategory(node) { this.selected = { id: 0, type: 'category', parentId: node.data.id }; },
     // eslint-disable
-    renderContent(h, { node }) {
-      if (node.isLeaf) {
+    renderContent(h, { node, data }) {
+      if (data.isEmpty) {
+        return (<span>{node.label}</span>);
+      }
+      const { subs } = data.data;
+      if (node.isLeaf && !subs) {
         return (
           <span>
             <span
