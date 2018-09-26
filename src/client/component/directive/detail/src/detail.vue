@@ -5,7 +5,7 @@
       :title="article.title"
       :content="article.content"
       :category_id="article.category_id"
-      :create_time="article.create_time"
+      :created_at="article.created_at"
       :url="article.url"
       name="article"
     />

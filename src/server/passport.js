@@ -5,12 +5,11 @@ import user from './models/user';
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-
-// 序列化ctx.login()触发
+// ctx.login() will trigger
 passport.serializeUser((_user, done) => {
   done(null, _user.id);
 });
-// 反序列化（请求时，session中存在"passport":{"user":"1"}触发）
+// when a request with session("passport":{"user":"1"}) will trigger
 passport.deserializeUser(async (id, done) => {
   user.get(id).then((res) => {
     if (res) {
@@ -27,21 +26,21 @@ passport.use(new LocalStrategy({
   // usernameField: 'email', //
   // passwordField: 'passwd'
 }, ((username, password, done) => {
-    user.query({ username }).then((res) => {
-      if (res.length) {
-        const hash = res[0].password;
-        if (bcrypt.compareSync(password, hash)) {
-          done(null, res[0]);
-        } else {
-          done({ msg: 'username and password are unmatched' }, false);
-        }
+  user.query({ username }).then((res) => {
+    if (res.length) {
+      const hash = res[0].password;
+      if (bcrypt.compareSync(password, hash)) {
+        done(null, res[0]);
       } else {
-        done({ msg: 'username is not existed' }, false);
+        done({ msg: 'username and password are unmatched' }, false);
       }
-    }, (err) => {
-      done(err);
-    });
-  })));
+    } else {
+      done({ msg: 'username is not existed' }, false);
+    }
+  }, (err) => {
+    done(err);
+  });
+})));
 
 
 module.exports = passport;

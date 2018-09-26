@@ -9,6 +9,7 @@ const publicPath = '/dist/';
 const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
+  mode: 'development',
   entry: [
     path.join(rootPath, 'src/client/index.js'),
   ],
@@ -21,6 +22,8 @@ module.exports = {
   devtool: 'eval-source-map',
   devServer: {
     hot: true,
+    host: '0.0.0.0',
+    useLocalIp: true,
     historyApiFallback: {
       index: path.join(publicPath, 'index.html'),
     },
@@ -29,6 +32,7 @@ module.exports = {
       '/api': `http://localhost:${config.server.port}`,
     },
     port: 8080,
+    disableHostCheck: true,
     open: true,
     openPage: 'admin',
     overlay: true,
@@ -55,10 +59,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader',
-            options: {
-              sourceMap: true,
-            },
+            loader: 'vue-style-loader',
           },
           {
             loader: 'css-loader',
@@ -87,6 +88,12 @@ module.exports = {
               config: {
                 path: path.resolve(__dirname, 'postcss.config.js'),
               },
+            },
+          },
+          {
+            loader: 'resolve-url-loader',
+            options: {
+              sourceMap: true,
             },
           },
           {
@@ -128,21 +135,6 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
-      tether: 'tether',
-      Tether: 'tether',
-      'window.Tether': 'tether',
-      Popper: ['popper.js', 'default'],
-      Alert: 'exports-loader?Alert!bootstrap/js/dist/alert',
-      Button: 'exports-loader?Button!bootstrap/js/dist/button',
-      Carousel: 'exports-loader?Carousel!bootstrap/js/dist/carousel',
-      Collapse: 'exports-loader?Collapse!bootstrap/js/dist/collapse',
-      Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown',
-      Modal: 'exports-loader?Modal!bootstrap/js/dist/modal',
-      Popover: 'exports-loader?Popover!bootstrap/js/dist/popover',
-      Scrollspy: 'exports-loader?Scrollspy!bootstrap/js/dist/scrollspy',
-      Tab: 'exports-loader?Tab!bootstrap/js/dist/tab',
-      Tooltip: 'exports-loader?Tooltip!bootstrap/js/dist/tooltip',
-      Util: 'exports-loader?Util!bootstrap/js/dist/util',
     }),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({

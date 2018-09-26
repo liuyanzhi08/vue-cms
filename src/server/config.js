@@ -2,6 +2,7 @@ import _path from 'path';
 import config from '../config';
 
 const { db } = config;
+db.rootId = 1;
 
 const server = {
   port: config.server.port,

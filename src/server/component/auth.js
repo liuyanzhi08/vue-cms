@@ -9,7 +9,7 @@ export default {
     switch (action) {
       case 'register': {
         const data = ctx.request.body;
-        // obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss');
+        // obj.created_at = moment().format('YYYY-MM-DD HH:mm:ss');
         const salt = bcrypt.genSaltSync();
         const hash = bcrypt.hashSync(data.password, salt);
         data.password = hash;
@@ -41,8 +41,14 @@ export default {
                 overwrite: false, // 是否允许重写
               });
               success(resovle, ctx, _user);
+            } else if (err) {
+              fail(reject, ctx, {
+                msg: err.msg,
+              });
             } else {
-              fail(reject, ctx, err.message);
+              fail(reject, ctx, {
+                msg: 'missing username or password',
+              });
             }
           },
         )(ctx);

@@ -29,12 +29,13 @@ module.exports = {
     }],
     'import/no-extraneous-dependencies': ['error', {
         devDependencies: true,
-      }
-    ],
+    }],
     'no-underscore-dangle': ['error', {
         allow: ['_page', '_num', '_from', '_size'],
-      }
-    ]
+    }],
+    'no-param-reassign': ['error', {
+        props: false,
+    }],
   },
   plugins: [
     'vue',

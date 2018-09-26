@@ -1,35 +1,36 @@
 <template>
   <form @submit.prevent="submit(category)">
-    <div class="form-group">
+    <div class="uk-margin">
       <input
         v-model="category.title"
         type="text"
         placeholder="title"
-        class="form-control"
+        class="uk-input"
       >
     </div>
-    <div class="form-group">
+    <div class="uk-margin">
+      <app-category-tree v-model="category.parent_id" />
+    </div>
+    <div class="uk-margin">
       <textarea
         v-model="category.description"
         placeholder="description"
-        class="form-control"
+        class="uk-textarea"
       />
     </div>
-    <div class="form-group">
-      <app-category-tree v-model="category.parent_id" />
-    </div>
-    <div class="form-group">
-      <input
+    <div class="uk-margin">
+      <button
         type="submit"
-        class="btn btn-primary"
-      >
+        class="uk-button uk-button-primary"
+      >submit</button>
     </div>
   </form>
 </template>
 <script>
-import 'simplemde/dist/simplemde.min.css';
 import category from '../../../api/category';
 import AppCategoryTree from './category-tree';
+import { NOTICE_SEND } from '../../../store';
+import { db } from '../../../config';
 
 let isNew = true;
 
@@ -44,7 +45,7 @@ export default {
     },
     parentId: {
       type: Number,
-      default: 0,
+      default: db.rootId,
     },
   },
   data() {
@@ -73,7 +74,9 @@ export default {
   methods: {
     submit(data) {
       const method = isNew ? 'save' : 'update';
-      category[method](data.id, data).then(res => console.log(res));
+      category[method](data).then(() => {
+        this.$store.dispatch(NOTICE_SEND, 'updated');
+      });
     },
     setForm() {
       // get category info if not new

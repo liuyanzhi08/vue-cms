@@ -1,76 +1,105 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a
-      class="navbar-brand"
-      href="#">
-      <img
-        src="@image/logo.png"
-        alt="logo">
-      vue-cms
-    </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"/>
-    </button>
-
+  <div>
+    <nav
+      v-if="isAuthenticated"
+      class="uk-navbar-container uk-light"
+      uk-navbar
+      uk-sticky
+    >
+      <div class="uk-navbar-left">
+        <a
+          class="uk-navbar-item uk-logo"
+          href="#"
+        >vue-cms</a>
+      </div>
+      <div class="uk-navbar-right">
+        <ul class="uk-visible@m uk-navbar-nav">
+          <li class="uk-active">
+            <router-link
+              to="/admin/category"
+            >Catalog
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/admin/staticize"
+            >Publish
+            </router-link>
+          </li>
+          <li>
+            <a href="#">{{ user.username }}</a>
+            <div class="uk-navbar-dropdown">
+              <ul class="uk-nav uk-navbar-dropdown-nav">
+                <li
+                  class="uk-active"
+                  @click="logout"
+                ><a href="#">Logout</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <a
+          class="uk-hidden@m uk-navbar-toggle"
+          uk-navbar-toggle-icon
+          @click="toggleMenu"
+        />
+      </div>
+    </nav>
     <div
-      id="navbarSupportedContent"
-      class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-        <li
-          :class="{active: $route.path === '/admin/category'}"
-          class="nav-item">
-          <router-link
-            class="nav-link"
-            to="/admin/category">文章管理</router-link>
-        </li>
-        <li
-          :class="{active: $route.path === '/admin/staticize'}"
-          class="nav-item">
-          <router-link
-            class="nav-link"
-            to="/admin/staticize">发布</router-link>
-        </li>
-      </ul>
-      <ul
-        v-if="isAuthenticated"
-        class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a
-            href="#"
-            class="dropdown-toggle"
-            data-toggle="dropdown"
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false">
-            {{ user.username }}
-            <span class="caret"/>
-          </a>
-          <ul class="dropdown-menu">
-            <!--<li><a href="#">Action</a></li>-->
-            <!--<li><a href="#">Another action</a></li>-->
-            <!--<li><a href="#">Something else here</a></li>-->
-            <!--<li role="separator" class="divider"></li>-->
-            <li @click="logout"><a href="#">退出</a></li>
-          </ul>
-        </li>
-      </ul>
+      id="offcanvas-nav"
+      uk-offcanvas="mode: slide; overlay: true"
+    >
+      <div class="uk-offcanvas-bar">
+        <ul class="uk-nav uk-nav-default">
+          <li class="uk-active">
+            <router-link
+              to="/admin/category"
+            >
+              <span
+                class="uk-margin-small-right"
+                uk-icon="icon: table"
+              />
+              Catalog
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/admin/staticize"
+            >
+              <span
+                class="uk-margin-small-right"
+                uk-icon="icon: cloud-upload"
+              />
+              Publish
+            </router-link>
+          </li>
+          <li class="uk-nav-divider" />
+          <li>
+            <a @click="logout">
+              <span
+                class="uk-margin-small-right"
+                uk-icon="icon: sign-out"
+              />Logout
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </nav>
+  </div>
 </template>
 <script>
+import UIkit from 'uikit';
 import { mapGetters } from 'vuex';
-import { AUTH_LOGOUT, AUTH_USER } from '../../../store';
+import {
+  AUTH_LOGOUT, AUTH_USER, MENU_SET, MENU_TOGGLE,
+} from '../../../store';
 
 export default {
   data() {
-    return {};
+    return {
+      activeIndex: '1',
+      activeIndex2: '1',
+    };
   },
   computed: {
     ...mapGetters([
@@ -83,15 +112,24 @@ export default {
       this.$store.dispatch(AUTH_USER);
     }
   },
+  mounted() {
+    const menu = UIkit.offcanvas('#offcanvas-nav');
+    this.$store.dispatch(MENU_SET, menu);
+  },
   methods: {
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => {
         this.$router.push({ name: 'login' });
       });
     },
+    toggleMenu() {
+      this.$store.dispatch(MENU_TOGGLE);
+    },
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+  .logo {
+    font-size: 16px;
+  }
 </style>
-

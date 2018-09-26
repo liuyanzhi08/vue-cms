@@ -1,66 +1,60 @@
 <template>
   <div>
-    <select
-      v-model="value"
-      class="form-control"
-      @change="($event) => { this.$emit('input', value) }"
+    <el-select
+      v-model="selectValue"
+      placeholder="select..."
+      class="uk-width-1-1"
     >
-      <option
-        v-for="option in options"
-        :value="option.value"
-        :key="option.value"
-      >
-        {{ option.text }}
-      </option>
-    </select>
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
   </div>
 </template>
 <script>
 import _ from 'lodash';
 import Category from '../../../api/category';
 
+import { db } from '../../../config';
+
 export default {
   name: 'AppCategoryTree',
-  props: {
-    value: {
-      type: Number,
-      default: 0,
-    },
-  },
   data() {
     return {
       options: [],
+      selectValue: db.rootId,
     };
+  },
+  watch: {
+    value() {
+      this.selectValue = this.value;
+    },
+    selectValue() {
+      this.$emit('input', this.selectValue);
+    },
   },
   created() {
     Category.query().then((res) => {
       const categories = res.data.items;
-      const idMap = {};
-      const roots = [];
-      _.each(categories, (item) => {
-        const category = item;
+      const idMap = { null: { children: [] } };
+      _.each(categories, (category) => {
         idMap[category.id] = category;
         category.children = [];
       });
       _.each(categories, (category) => {
         const pid = category.parent_id;
-        if (!pid) {
-          roots.push(category);
-        } else {
-          idMap[pid].children.push(category);
-        }
+        idMap[pid].children.push(category);
       });
+      const root = idMap.null.children[0];
 
       const options = [];
       let split = '';
-      const root = {
-        title: 'root',
-        id: 0,
-        children: roots,
-      };
       const grnOptions = (node, subOptions) => {
         subOptions.push({
-          text: split + node.title,
+          label: `${split} ${node.title}`,
           value: node.id,
         });
         split += '|—';
@@ -76,5 +70,5 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 </style>

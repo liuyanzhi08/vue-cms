@@ -44,7 +44,7 @@
     </div>
     <div
       v-if="!data.length"
-      class="leaf">(空)</div>
+      class="leaf">none</div>
   </div>
 </template>
 <script>

@@ -29,7 +29,6 @@ const auth = {
       state.status = 'success';
       state.user = user;
       state.userId = user.id;
-      localStorage.setItem('auth:user', user);
     },
     [AUTH_ERROR]: (_state) => {
       const state = _state;

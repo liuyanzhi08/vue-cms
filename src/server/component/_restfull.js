@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import query from '../db/query';
 import { success, fail } from '../helper/ctx';
+import { db } from '../config';
 
 class Restfull {
   constructor(name, options = {
@@ -11,7 +12,7 @@ class Restfull {
       put: true,
     },
   }) {
-    this.name = name;
+    this.name = `${db.prefix}_${name}`;
     this.options = options;
   }
 
@@ -54,6 +55,7 @@ class Restfull {
 
         const from = params._from ? +params._from : (+params._page - 1) * +params._num;
         const size = params._size ? +params._size : +params._num;
+        console.log(sql)
         query(sql, [from, size]).then(
           (res) => {
             const { results } = res;
@@ -96,7 +98,7 @@ class Restfull {
       }
 
       const obj = ctx.request.body;
-      obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss');
+      console.log(obj);
       return query(`INSERT INTO ${this.name} SET ?`, obj).then(
         (res) => {
           const { results } = res;
@@ -115,7 +117,8 @@ class Restfull {
       }
 
       const obj = ctx.request.body;
-      obj.create_time = moment().format('YYYY-MM-DD HH:mm:ss');
+      obj.updated_at = moment().format('YYYY-MM-DD HH:mm:ss');
+      delete obj.created_at;
       return query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id]).then(
         (res) => {
           ctx.response.body = obj;

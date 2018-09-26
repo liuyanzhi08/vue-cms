@@ -1,39 +1,66 @@
 <template>
-  <div class="category-list">
+  <div>
+    <button
+      class="uk-button uk-button-secondary uk-width-1-1 uk-hidden@m"
+      @click="toggle"
+    >
+      <span v-if="!expanded">expand catalog</span>
+      <span v-if="expanded">collapse catalog </span>
+      <span
+        v-if="!expanded"
+        uk-icon="icon: triangle-down"
+      />
+      <span
+        v-if="expanded"
+        uk-icon="icon: triangle-up"
+      />
+    </button>
     <ui-sidebar>
-      <aside>
-        <ui-tree
+      <aside
+        v-show="expanded"
+        slot="side"
+      >
+        <el-tree
+          :props="{ isLeaf: 'isLeaf' }"
           :data="rootCategories"
+          :render-content="renderContent"
           :load="load"
-          :click="click"
-          :render-content="renderContent"/>
+          lazy
+          @node-click="click"
+        />
         <div class="menu root-add ">
           <i
-            class="fa fa-plus article"
-            @click="addArticle({data: {id: 0}})"
-            @dblclick="addCategory({data: {id: 0}})"/>
+            uk-icon="icon: plus"
+            @click="addArticle"
+          />
+          <i
+            uk-icon="icon: album"
+            @click="addCategory"
+          />
         </div>
       </aside>
-      <div>
+      <div slot="main">
         <app-article
           v-if="selected.type === 'article'"
           :id="selected.id"
-          :category-id="selected.categoryId"/>
+          :category-id="selected.categoryId"
+        />
         <app-category
           v-if="selected.type === 'category'"
           :id="selected.id"
-          :parent-id="selected.parentId"/>
+          :parent-id="selected.parentId"
+        />
       </div>
     </ui-sidebar>
   </div>
 </template>
 <script>
-import '@style/overwrite.scss';
+import _ from 'lodash';
 import Article from '../../../api/article';
 import Category from '../../../api/category';
-import AppArticle from './article.vue';
-import AppCategory from './category.vue';
-import _ from 'lodash';
+import AppArticle from './article';
+import AppCategory from './category';
+import { db } from '../../../config';
 
 export default {
   components: {
@@ -43,12 +70,11 @@ export default {
   data() {
     return {
       rootCategories: [],
-      page: null,
-      total: null,
       selected: {
-        id: null,
+        id: 0,
         type: 'article',
       },
+      expanded: true,
     };
   },
   computed: {
@@ -57,50 +83,55 @@ export default {
     },
   },
   created() {
-    Category.query({
-      parent_id: 0,
-    }).then((res) => {
-      const _this = this;
-      _.each(res.data.items, (category) => {
-        _this.rootCategories.push({
-          label: `${category.title} [ id: ${category.id} ]`,
-          children: -1,
-          data: category,
-        });
-      });
-      this.total = res.data.total;
-      this.page = +this.$route.query._page || 1;
-    });
   },
   methods: {
-    load(node) {
+    load(node, resolve) {
+      let { data } = node.data;
+      if (!data) {
+        node.data.data = { id: db.rootId };
+        ({ data } = node.data);
+      }
+      const nodeId = data.id;
       return Category.query({
-        parent_id: node.data.id,
+        parent_id: nodeId,
       }).then((res) => {
         const subCategories = [];
         _.each(res.data.items, (category) => {
           subCategories.push({
             label: `${category.title} [ id: ${category.id} ]`,
-            children: -1,
             data: category,
+            isLeaf: false,
           });
         });
         return subCategories;
       }).then(subCategories => Article.query({
-        category_id: node.data.id,
+        category_id: nodeId,
       }).then((res) => {
         const subArticles = [];
         _.each(res.data.items, (article) => {
           subArticles.push({
             label: `${article.title} [ id: ${article.id} ]`,
             data: article,
+            isLeaf: true,
           });
         });
-        return subCategories.concat(subArticles);
+        const subs = subCategories.concat(subArticles);
+        data.subs = subs;
+        if (!subs.length) {
+          subs.push({
+            label: 'none',
+            isEmpty: true,
+            isLeaf: true,
+          });
+        }
+        resolve(subs);
       }));
     },
     click(node) {
-      if (node.children) {
+      if (node.isEmpty) {
+        return;
+      }
+      if (!node.isLeaf) {
         this.selected = {
           id: node.data.id,
           type: 'category',
@@ -112,43 +143,50 @@ export default {
         };
       }
     },
-    addArticle(node) { this.selected = { id: 0, type: 'article', categoryId: node.data.id }; },
-    addCategory(node) { this.selected = { id: 0, type: 'category', parentId: node.data.id }; },
-    renderContent(h, { node }) {
-      if (!node.children) {
+    addArticle() { this.selected = { id: 0, type: 'article' }; },
+    addCategory() { this.selected = { id: 0, type: 'category' }; },
+    // eslint-disable
+    renderContent(h, { node, data }) {
+      if (data.isEmpty) {
         return (<span>{node.label}</span>);
       }
-      return (
-        <span className="node-edit">
-          {node.label}
-          <span className="menu">
-            <i
-              className="fa fa-plus article"
-              on-click={(e) => { this.addArticle(node); e.stopPropagation(); }}
-              on-dblclick={(e) => { this.addCategory(node); e.stopPropagation(); }}
+      const { subs } = data.data;
+      if (node.isLeaf && !subs) {
+        return (
+          <span>
+            <span
+              class="uk-margin-small-right"
+              uk-icon="icon: file-edit"
             />
+            {node.label}
           </span>
-        </span>
+        );
+      }
+      return (
+          <span>
+            <span
+              class="uk-margin-small-right"
+              uk-icon="icon: folder"
+            />
+            {node.label}
+         </span>
       );
+    },
+    toggle() {
+      this.expanded = !this.expanded;
     },
   },
 };
 </script>
-<style lang="scss">
-    .category-list {
-        width: 100%;
-        .main {
-            padding: 10px;
-        }
-        .menu {
-            i {
-                margin-left: 5px;
-            }
-        }
-        .root-add {
-            cursor: pointer;
-            margin-left: 3px;
-            margin-top: 10px;
-        }
+<style lang="scss" scoped>
+  .menu {
+    i {
+      margin-left: 5px;
     }
+  }
+  .root-add {
+    cursor: pointer;
+    margin-left: 3px;
+    margin-top: 10px;
+  }
 </style>
