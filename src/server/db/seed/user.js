@@ -1,27 +1,30 @@
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
+import { db } from '../../config';
 
-exports.seed = (knex, Promise) => knex('vms_user').del()
+const tableName = `${db.prefix}_user`;
+
+exports.seed = knex => knex(tableName).del()
   .then(() => {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync('jack', salt);
-    return Promise.join(knex('vms_user').insert({
+    return knex(tableName).insert({
       username: 'jack',
       password: hash,
-    }));
+    });
   })
   .then(() => {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync('rose', salt);
-    return Promise.join(knex('vms_user').insert({
+    return knex(tableName).insert({
       username: 'rose',
       password: hash,
-    }));
+    });
   })
   .then(() => {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync('1', salt);
-    return Promise.join(knex('vms_user').insert({
+    return knex(tableName).insert({
       username: '1',
       password: hash,
-    }));
+    });
   });

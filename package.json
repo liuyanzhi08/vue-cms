@@ -13,11 +13,14 @@
     "publish": "npm run build && npm run server:restart",
     "pub": "npm run publish",
     "server:start": "node src/server &",
-    "server:stop": "node script/stop",
+    "server:stop": "node script/server-stop",
     "server:restart": "npm run server:stop && npm run server:start",
-    "db:migrate": "knex --knexfile src/server/db/knexfile.js migrate:latest",
-    "db:rollback": "knex migrate:rollback",
-    "db:seed": "knex --knexfile src/server/db/knexfile.babel.js seed:run"
+    "db:create": "node script/db-create",
+    "db:migrate:make": "knex --knexfile src/server/db/knexfile.babel.js migrate:make",
+    "db:migrate:latest": "knex --knexfile src/server/db/knexfile.babel.js migrate:latest",
+    "db:migrate:rollback": "knex --knexfile src/server/db/knexfile.babel.js migrate:rollback",
+    "db:seed:make": "knex --knexfile src/server/db/knexfile.babel.js seed:make",
+    "db:seed:run": "knex --knexfile src/server/db/knexfile.babel.js seed:run"
   },
   "repository": {
     "type": "git",

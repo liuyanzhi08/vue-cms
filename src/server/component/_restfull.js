@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import query from '../db/query';
 import { success, fail } from '../helper/ctx';
+import { db } from '../config';
 
 class Restfull {
   constructor(name, options = {
@@ -11,7 +12,7 @@ class Restfull {
       put: true,
     },
   }) {
-    this.name = name;
+    this.name = `${db.prefix}_${name}`;
     this.options = options;
   }
 

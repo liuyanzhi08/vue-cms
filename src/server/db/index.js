@@ -1,4 +1,5 @@
 import knex from './knex';
+import query from './query';
 
-export { knex };
+export { knex, query };
 export default knex;

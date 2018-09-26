@@ -2,7 +2,7 @@ export default {
   db: {
     username: 'root',
     password: 'root',
-    database: 'cms',
+    database: 'vms',
     prefix: 'vms',
   },
   server: {
