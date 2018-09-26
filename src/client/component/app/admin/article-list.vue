@@ -5,7 +5,7 @@
         <tr>
           <th>ID</th>
           <th>Title</th>
-          <th>created_time</th>
+          <th>created_at</th>
         </tr>
       </thead>
       <tbody>
@@ -19,7 +19,7 @@
               {{ article.title }}
             </router-link>
           </td>
-          <td>{{ article.created_time }}</td>
+          <td>{{ article.created_at }}</td>
         </tr>
       </tbody>
     </table>

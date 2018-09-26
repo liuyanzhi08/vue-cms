@@ -6,7 +6,7 @@
         slot-scope="article"
       >
         <h2>{{ article.title }}</h2>
-        <h3>{{ article.created_time }}</h3>
+        <h3>{{ article.created_at }}</h3>
         {{ article.content }}
       </div>
     </s-detail>

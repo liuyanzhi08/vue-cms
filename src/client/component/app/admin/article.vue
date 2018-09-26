@@ -126,7 +126,7 @@ export default {
           .get(id)
           .then((res) => {
             this.article = res.data;
-            this.article.created_time = new Date(this.article.created_time);
+            this.article.created_at = new Date(this.article.created_at);
             isNew = false;
           });
       } else {

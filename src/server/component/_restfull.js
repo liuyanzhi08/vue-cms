@@ -117,8 +117,8 @@ class Restfull {
       }
 
       const obj = ctx.request.body;
-      obj.updated_time = moment().format('YYYY-MM-DD HH:mm:ss');
-      delete obj.created_time;
+      obj.updated_at = moment().format('YYYY-MM-DD HH:mm:ss');
+      delete obj.created_at;
       return query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id]).then(
         (res) => {
           ctx.response.body = obj;
