@@ -55,6 +55,7 @@ class Restfull {
 
         const from = params._from ? +params._from : (+params._page - 1) * +params._num;
         const size = params._size ? +params._size : +params._num;
+        console.log(sql)
         query(sql, [from, size]).then(
           (res) => {
             const { results } = res;

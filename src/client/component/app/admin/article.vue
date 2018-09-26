@@ -22,7 +22,7 @@
       <button
         type="submit"
         class="uk-button uk-button-primary"
-      >提交</button>
+      >submit</button>
     </div>
   </form>
 </template>

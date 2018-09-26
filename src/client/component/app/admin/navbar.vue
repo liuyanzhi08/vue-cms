@@ -17,13 +17,13 @@
           <li class="uk-active">
             <router-link
               to="/admin/category"
-            >目录
+            >Catalog
             </router-link>
           </li>
           <li>
             <router-link
               to="/admin/staticize"
-            >发布
+            >Publish
             </router-link>
           </li>
           <li>
@@ -33,7 +33,7 @@
                 <li
                   class="uk-active"
                   @click="logout"
-                ><a href="#">退出</a></li>
+                ><a href="#">Logout</a></li>
               </ul>
             </div>
           </li>
@@ -59,7 +59,7 @@
                 class="uk-margin-small-right"
                 uk-icon="icon: table"
               />
-              目录
+              Catalog
             </router-link>
           </li>
           <li>
@@ -70,7 +70,7 @@
                 class="uk-margin-small-right"
                 uk-icon="icon: cloud-upload"
               />
-              发布
+              Publish
             </router-link>
           </li>
           <li class="uk-nav-divider" />
@@ -79,7 +79,7 @@
               <span
                 class="uk-margin-small-right"
                 uk-icon="icon: sign-out"
-              />退出
+              />Logout
             </a>
           </li>
         </ul>

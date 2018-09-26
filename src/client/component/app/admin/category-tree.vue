@@ -2,14 +2,14 @@
   <div>
     <el-select
       v-model="value"
-      placeholder="请选择"
+      placeholder="select..."
       class="uk-width-1-1"
       @change="($event) => { this.$emit('input', value) }"
     >
       <el-option
         v-for="item in options"
         :key="item.value"
-        :label="item.text"
+        :label="item.label"
         :value="item.value"
       />
     </el-select>
@@ -18,6 +18,8 @@
 <script>
 import _ from 'lodash';
 import Category from '../../../api/category';
+
+import { db } from '../../../config';
 
 export default {
   name: 'AppCategoryTree',
@@ -35,32 +37,22 @@ export default {
   created() {
     Category.query().then((res) => {
       const categories = res.data.items;
-      const idMap = {};
-      const roots = [];
-      _.each(categories, (item) => {
-        const category = item;
+      const idMap = { null: { children: [] } };
+      _.each(categories, (category) => {
         idMap[category.id] = category;
         category.children = [];
       });
       _.each(categories, (category) => {
         const pid = category.parent_id;
-        if (!pid) {
-          roots.push(category);
-        } else {
-          idMap[pid].children.push(category);
-        }
+        idMap[pid].children.push(category);
       });
+      const root = idMap.null.children[0];
 
       const options = [];
       let split = '';
-      const root = {
-        title: 'root',
-        id: 0,
-        children: roots,
-      };
       const grnOptions = (node, subOptions) => {
         subOptions.push({
-          text: split + node.title,
+          label: split + node.title,
           value: node.id,
         });
         split += '|—';

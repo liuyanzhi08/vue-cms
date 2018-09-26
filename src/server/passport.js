@@ -5,11 +5,11 @@ import user from './models/user';
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-// 序列化ctx.login()触发
+// ctx.login() will trigger
 passport.serializeUser((_user, done) => {
   done(null, _user.id);
 });
-// 反序列化（请求时，session中存在"passport":{"user":"1"}触发）
+// when a request with session("passport":{"user":"1"}) will trigger
 passport.deserializeUser(async (id, done) => {
   user.get(id).then((res) => {
     if (res) {

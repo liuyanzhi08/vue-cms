@@ -4,8 +4,8 @@
       class="uk-button uk-button-secondary uk-width-1-1 uk-hidden@m"
       @click="toggle"
     >
-      <span v-if="!expanded">展开目录</span>
-      <span v-if="expanded">收起目录</span>
+      <span v-if="!expanded">expand catalog</span>
+      <span v-if="expanded">collapse catalog </span>
       <span
         v-if="!expanded"
         uk-icon="icon: triangle-down"
@@ -30,9 +30,12 @@
         />
         <div class="menu root-add ">
           <i
-            class="fa fa-plus article"
-            @click="addArticle({data: {id: 0}})"
-            @dblclick="addCategory({data: {id: 0}})"
+            uk-icon="icon: plus"
+            @click="addArticle({data: {id: db.rootId}})"
+          />
+          <i
+            uk-icon="icon: album"
+            @click="addCategory({data: {id: db.rootId}})"
           />
         </div>
       </aside>
@@ -57,6 +60,7 @@ import Article from '../../../api/article';
 import Category from '../../../api/category';
 import AppArticle from './article';
 import AppCategory from './category';
+import { db } from '../../../config';
 
 export default {
   components: {
@@ -84,7 +88,7 @@ export default {
     load(node, resolve) {
       let { data } = node.data;
       if (!data) {
-        node.data.data = { id: 0 };
+        node.data.data = { id: db.rootId };
         ({ data } = node.data);
       }
       const nodeId = data.id;
@@ -115,7 +119,7 @@ export default {
         data.subs = subs;
         if (!subs.length) {
           subs.push({
-            label: '空',
+            label: 'none',
             isEmpty: true,
             isLeaf: true,
           });
@@ -124,6 +128,9 @@ export default {
       }));
     },
     click(node) {
+      if (node.isEmpty) {
+        return;
+      }
       if (!node.isLeaf) {
         this.selected = {
           id: node.data.id,

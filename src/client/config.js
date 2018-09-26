@@ -5,5 +5,8 @@ const path = {
   admin: config.server.path.admin,
 };
 
-export { path };
+const { db } = config;
+db.rootId = 1;
+
+export { path, db };
 export default path;
