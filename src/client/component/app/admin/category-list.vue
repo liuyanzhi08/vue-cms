@@ -46,12 +46,13 @@
           v-if="selected.type === 'article'"
           :id="selected.id"
           :category-id="selected.categoryId"
-          @article-updated="updateNode"
+          @updated="updateArticle"
         />
         <app-category
           v-if="selected.type === 'category'"
           :id="selected.id"
           :parent-id="selected.parentId"
+          @updated="updateCategory"
         />
       </div>
     </ui-sidebar>
@@ -60,7 +61,6 @@
 <script>
 import _ from 'lodash';
 import { mapGetters } from 'vuex';
-import { RENDER_NODE } from '../../../store';
 import Article from '../../../api/article';
 import Category from '../../../api/category';
 import AppArticle from './article';
@@ -126,21 +126,10 @@ export default {
         });
         const subs = subCategories.concat(subArticles);
         node.data.subs = subs;
-        if (!subs.length) {
-          subs.push({
-            treeId: `empty-${nodeId}`,
-            label: 'none',
-            isEmpty: true,
-            isLeaf: true,
-          });
-        }
         resolve(subs);
       }));
     },
     click(node) {
-      if (node.isEmpty) {
-        return;
-      }
       if (!node.isLeaf) {
         this.selected = {
           id: node.id,
@@ -157,9 +146,6 @@ export default {
     addCategory() { this.selected = { id: 0, type: 'category' }; },
     // eslint-disable
     renderContent(h, { node, data }) {
-      if (data.isEmpty) {
-        return (<span>{node.label}</span>);
-      }
       const { subs } = data;
       if (node.isLeaf && !subs) {
         return (
@@ -182,14 +168,27 @@ export default {
          </span>
       );
     },
-    updateNode(node) {
+    updateArticle(node) {
       const { tree } = this.$refs;
-      tree.remove(id(node, 'article'));
+      const aid = id(node, 'article');
+      tree.remove(aid);
       node.label = label(node);
       node.treeId = id(node, 'article');
       node.isLeaf = true;
       const cid = node.category_id === db.rootId ? null : `category-${node.category_id}`;
       tree.append(node, cid);
+    },
+    updateCategory(node) {
+      const { tree } = this.$refs;
+      const cid = id(node, 'category');
+      const nodeInTree = tree.getNode(cid);
+      tree.remove(cid);
+      node.children = nodeInTree.children;
+      node.label = label(node);
+      node.treeId = id(node, 'category');
+      node.isLeaf = false;
+      const pid = node.parent_id === db.rootId ? null : `category-${node.parent_id}`;
+      tree.append(node, pid);
     },
     toggle() {
       this.expanded = !this.expanded;

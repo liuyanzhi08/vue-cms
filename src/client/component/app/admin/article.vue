@@ -119,7 +119,7 @@ export default {
       const data = inputData;
       Article[method](data).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
-        this.$emit('article-updated', res.data);
+        this.$emit('updated', res.data);
       });
     },
     setForm() {
