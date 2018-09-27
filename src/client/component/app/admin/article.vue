@@ -51,7 +51,9 @@ export default {
   },
   data() {
     return {
-      article: {},
+      article: {
+        category_id: 1,
+      },
       editor: {
         toolbars: {
           bold: true, // 粗体
@@ -115,8 +117,9 @@ export default {
     submit(inputData) {
       const method = isNew ? 'save' : 'update';
       const data = inputData;
-      Article[method](data).then(() => {
+      Article[method](data).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
+        this.$emit('article-updated', res.data);
       });
     },
     setForm() {

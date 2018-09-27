@@ -21,8 +21,10 @@
         slot="side"
       >
         <el-tree
+          ref="tree"
+          node-key="treeId"
           :props="{ isLeaf: 'isLeaf' }"
-          :data="rootCategories"
+          :data="rootCategory"
           :render-content="renderContent"
           :load="load"
           lazy
@@ -44,6 +46,7 @@
           v-if="selected.type === 'article'"
           :id="selected.id"
           :category-id="selected.categoryId"
+          @article-updated="updateNode"
         />
         <app-category
           v-if="selected.type === 'category'"
@@ -56,11 +59,21 @@
 </template>
 <script>
 import _ from 'lodash';
+import { mapGetters } from 'vuex';
+import { RENDER_NODE } from '../../../store';
 import Article from '../../../api/article';
 import Category from '../../../api/category';
 import AppArticle from './article';
 import AppCategory from './category';
 import { db } from '../../../config';
+
+const label = (obj) => {
+  return `${obj.title} [ id: ${obj.id} ]`;
+};
+
+const id = (obj, type) => {
+  return `${type}-${obj.id}`;
+};
 
 export default {
   components: {
@@ -69,7 +82,6 @@ export default {
   },
   data() {
     return {
-      rootCategories: [],
       selected: {
         id: 0,
         type: 'article',
@@ -78,29 +90,25 @@ export default {
     };
   },
   computed: {
-    doneTodosCount() {
-      return this.$store.getters.doneTodos;
-    },
+    ...mapGetters([
+      'rootCategory',
+    ]),
   },
   created() {
   },
   methods: {
     load(node, resolve) {
-      let { data } = node.data;
-      if (!data) {
-        node.data.data = { id: db.rootId };
-        ({ data } = node.data);
-      }
-      const nodeId = data.id;
+      const nodeId = node.data.id || db.rootId;
       return Category.query({
         parent_id: nodeId,
       }).then((res) => {
         const subCategories = [];
         _.each(res.data.items, (category) => {
           subCategories.push({
-            label: `${category.title} [ id: ${category.id} ]`,
-            data: category,
+            treeId: id(category, 'category'),
+            label: label(category),
             isLeaf: false,
+            ...category,
           });
         });
         return subCategories;
@@ -110,15 +118,17 @@ export default {
         const subArticles = [];
         _.each(res.data.items, (article) => {
           subArticles.push({
-            label: `${article.title} [ id: ${article.id} ]`,
-            data: article,
+            treeId: id(article, 'article'),
+            label: label(article),
             isLeaf: true,
+            ...article,
           });
         });
         const subs = subCategories.concat(subArticles);
-        data.subs = subs;
+        node.data.subs = subs;
         if (!subs.length) {
           subs.push({
+            treeId: `empty-${nodeId}`,
             label: 'none',
             isEmpty: true,
             isLeaf: true,
@@ -133,12 +143,12 @@ export default {
       }
       if (!node.isLeaf) {
         this.selected = {
-          id: node.data.id,
+          id: node.id,
           type: 'category',
         };
       } else {
         this.selected = {
-          id: node.data.id,
+          id: node.id,
           type: 'article',
         };
       }
@@ -150,7 +160,7 @@ export default {
       if (data.isEmpty) {
         return (<span>{node.label}</span>);
       }
-      const { subs } = data.data;
+      const { subs } = data;
       if (node.isLeaf && !subs) {
         return (
           <span>
@@ -171,6 +181,15 @@ export default {
             {node.label}
          </span>
       );
+    },
+    updateNode(node) {
+      const { tree } = this.$refs;
+      tree.remove(id(node, 'article'));
+      node.label = label(node);
+      node.treeId = id(node, 'article');
+      node.isLeaf = true;
+      const cid = node.category_id === db.rootId ? null : `category-${node.category_id}`;
+      tree.append(node, cid);
     },
     toggle() {
       this.expanded = !this.expanded;
