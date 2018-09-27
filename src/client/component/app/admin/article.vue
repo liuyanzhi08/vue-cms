@@ -51,9 +51,7 @@ export default {
   },
   data() {
     return {
-      article: {
-        category_id: 1,
-      },
+      article: {},
       editor: {
         toolbars: {
           bold: true, // 粗体
@@ -120,6 +118,9 @@ export default {
       Article[method](data).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
         this.$emit('updated', res.data);
+        if (isNew) {
+          this.article = {};
+        }
       });
     },
     setForm() {

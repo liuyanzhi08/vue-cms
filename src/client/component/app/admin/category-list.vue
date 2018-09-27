@@ -183,7 +183,9 @@ export default {
       const cid = id(node, 'category');
       const nodeInTree = tree.getNode(cid);
       tree.remove(cid);
-      node.children = nodeInTree.children;
+      if (nodeInTree) {
+        node.children = nodeInTree.children;
+      }
       node.label = label(node);
       node.treeId = id(node, 'category');
       node.isLeaf = false;

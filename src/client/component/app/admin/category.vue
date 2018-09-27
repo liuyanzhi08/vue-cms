@@ -77,6 +77,9 @@ export default {
       category[method](data).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
         this.$emit('updated', res.data);
+        if (isNew) {
+          this.category = {};
+        }
       });
     },
     setForm() {
