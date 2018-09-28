@@ -10,7 +10,7 @@
         <a
           class="uk-navbar-item uk-logo"
           href="#"
-        >vue-cms</a>
+        >{{ name }}</a>
       </div>
       <div class="uk-navbar-right">
         <ul class="uk-visible@m uk-navbar-nav">
@@ -93,12 +93,12 @@ import { mapGetters } from 'vuex';
 import {
   AUTH_LOGOUT, AUTH_USER, MENU_SET, MENU_TOGGLE,
 } from '../../../store';
+import { name } from '../../../config';
 
 export default {
   data() {
     return {
-      activeIndex: '1',
-      activeIndex2: '1',
+      name,
     };
   },
   computed: {

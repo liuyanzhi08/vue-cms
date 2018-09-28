@@ -60,7 +60,6 @@
 </template>
 <script>
 import _ from 'lodash';
-import { mapGetters } from 'vuex';
 import Article from '../../../api/article';
 import Category from '../../../api/category';
 import AppArticle from './article';
@@ -82,6 +81,7 @@ export default {
   },
   data() {
     return {
+      rootCategory: [],
       selected: {
         id: 0,
         type: 'article',
@@ -90,9 +90,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      'rootCategory',
-    ]),
   },
   created() {
   },

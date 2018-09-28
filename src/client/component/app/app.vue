@@ -8,19 +8,7 @@
 export default {
   components: {},
   data() {
-    return {
-      brand: 'VMS',
-      navs: [
-        {
-          id: 'categoryList',
-          label: 'category',
-        },
-        {
-          id: 'about',
-          label: 'about',
-        },
-      ],
-    };
+    return {};
   },
 };
 </script>

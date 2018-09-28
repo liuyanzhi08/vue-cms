@@ -1,6 +1,6 @@
 <template>
   <div>
-    <theme-index/>
+    <theme-index />
   </div>
 </template>
 <script>

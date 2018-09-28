@@ -9,19 +9,12 @@ import {
   NOTICE_SEND,
   notice,
 } from './module/notice';
-import {
-  ARTICLE_UPDATED,
-  RENDER_NODE,
-  catalog,
-} from './module/catalog';
-
 
 const store = new Vuex.Store({
   modules: {
     auth,
     menu,
     notice,
-    catalog,
   },
 });
 
@@ -34,7 +27,5 @@ export {
   MENU_HIDE,
   MENU_TOGGLE,
   NOTICE_SEND,
-  ARTICLE_UPDATED,
-  RENDER_NODE,
   store,
 };
