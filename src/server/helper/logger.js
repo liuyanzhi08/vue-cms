@@ -1,24 +1,21 @@
 import fse from 'fs-extra';
+import moment from 'moment/moment';
 import _ from 'lodash';
+import chalk from 'chalk';
 import { path } from '../config';
-import { isDev } from './env';
 
-const resolve = (data) => {
-  let obj = data;
+const stringify = (data, color) => {
   let msg = data;
   if (_.isObject(data)) {
     if (data instanceof Error) {
       msg = data.stack;
-      obj = data;
     } else {
       msg = JSON.stringify(data);
-      obj = new Error(msg);
     }
   }
-  return {
-    obj,
-    msg,
-  };
+  const now = moment().format('YYYY-MM-DD hh:mm:ss');
+  const timeTag = `[${chalk.blue(now)}]`;
+  return `${timeTag} ${color ? chalk[color](msg) : msg}`;
 };
 
 const writeLog = (logPath, logMsg) => {
@@ -33,20 +30,17 @@ const writeLog = (logPath, logMsg) => {
 };
 
 const err = (error) => {
-  const { obj, msg } = resolve(error);
-  // if (isDev) {
-  //   throw obj;
-  // }
+  const msg = stringify(error, 'red');
   // eslint-disable-next-line
   console.error(msg);
   writeLog(path.log.error, msg);
 };
 
 const log = (data) => {
-  const { msg } = resolve(data);
+  const msg = stringify(data);
   // eslint-disable-next-line
   console.log(msg);
-  writeLog(path.log.error, msg);
+  writeLog(path.log.access, msg);
 };
 
 export {
