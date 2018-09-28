@@ -5,6 +5,8 @@ import { success, fail } from '../helper/ctx';
 import { db } from '../config';
 import { knex } from '../db';
 
+const { reject } = Promise;
+
 class Restfull {
   constructor(name, options = {
     auth: {
@@ -17,136 +19,111 @@ class Restfull {
     this.options = options;
   }
 
-  get(ctx) {
-    return new Promise((resolve, reject) => {
-      if (this.options.auth.get && !ctx.isAuthenticated()) {
-        return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
-      }
-      let params = {};
-      // list
-      if (ctx.params.id === undefined) {
-        params = {
-          _page: '1',
-          _num: '10',
-        };
-        _.extend(params, ctx.query);
+  async get(ctx) {
+    if (this.options.auth.get && !ctx.isAuthenticated()) {
+      await reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
+      return;
+    }
+    let params = {};
+    // list
+    if (ctx.params.id === undefined) {
+      params = {
+        _page: '1',
+        _num: '10',
+      };
+      _.extend(params, ctx.query);
 
-        // add where logic
-        const excludes = {
-          _page: true,
-          _num: true,
-          _from: true,
-          _size: true,
-        };
-        let whereLogic = [];
-        _.each(params, (value, key) => {
-          if (!(key in excludes)) {
-            whereLogic.push([key, value].join(' = '));
-          }
-        });
-
-        let sql;
-        if (whereLogic.length) {
-          whereLogic = whereLogic.join(' and ');
-          whereLogic = ` WHERE ${whereLogic}`;
-          sql = `SELECT * FROM ${this.name} ${whereLogic} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name} ${whereLogic}`;
-        } else {
-          sql = `SELECT * FROM ${this.name} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`;
+      // add where logic
+      const excludes = {
+        _page: true,
+        _num: true,
+        _from: true,
+        _size: true,
+      };
+      let whereLogic = [];
+      _.each(params, (value, key) => {
+        if (!(key in excludes)) {
+          whereLogic.push([key, value].join(' = '));
         }
+      });
 
-        const from = params._from ? +params._from : (+params._page - 1) * +params._num;
-        const size = params._size ? +params._size : +params._num;
-        query(sql, [from, size]).then(
-          (res) => {
-            const { results } = res;
-            const items = results ? results[0] : [];
-            const total = results ? results[1][0].total : 0;
-            ctx.response.body = {
-              items,
-              total,
-            };
-            resolve(res);
-          },
-          (err) => {
-            ctx.body = err;
-            ctx.status = 500;
-            reject(err);
-          },
-        );
+      let sql;
+      if (whereLogic.length) {
+        whereLogic = whereLogic.join(' and ');
+        whereLogic = ` WHERE ${whereLogic}`;
+        sql = `SELECT * FROM ${this.name} ${whereLogic} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name} ${whereLogic}`;
       } else {
-        // detail
-        _.extend(params, { id: ctx.params.id });
-        query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]).then(
-          (res) => {
-            const { results } = res;
-            [ctx.response.body] = results;
-            resolve(res);
-          },
-          (err) => {
-            reject(err);
-          },
-        );
+        sql = `SELECT * FROM ${this.name} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`;
       }
-      return true;
-    });
+
+      const from = params._from ? +params._from : (+params._page - 1) * +params._num;
+      const size = params._size ? +params._size : +params._num;
+      const res = await query(sql, [from, size]).catch(err => reject(fail(ctx, err)));
+      const { results } = res;
+      const items = results ? results[0] : [];
+      const total = results ? results[1][0].total : 0;
+      success(ctx, {
+        items,
+        total,
+      });
+    }
+    // detail
+    _.extend(params, { id: ctx.params.id });
+    await query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]).then(
+      (res) => {
+        const { results } = res;
+        return success(ctx, results);
+      },
+      err => reject(fail(ctx, err)),
+    );
   }
 
-  post(ctx) {
-    return new Promise((resolve, reject) => {
-      if (this.options.auth.post && !ctx.isAuthenticated()) {
-        return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
-      }
+  async post(ctx) {
+    if (this.options.auth.post && !ctx.isAuthenticated()) {
+      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
+      return;
+    }
 
-      const obj = ctx.request.body;
-      return query(`INSERT INTO ${this.name} SET ?`, obj).then(
-        (res) => {
-          const { results } = res;
-          obj.id = results.insertId;
-          return success(resolve, ctx, obj);
-        },
-        err => fail(reject, ctx, err),
-      );
-    });
+    const obj = ctx.request.body;
+    await query(`INSERT INTO ${this.name} SET ?`, obj).then(
+      (res) => {
+        const { results } = res;
+        obj.id = results.insertId;
+        return success(ctx, obj);
+      },
+      err => reject(fail(ctx, err)),
+    );
   }
 
-  put(ctx) {
-    return new Promise((resolve, reject) => {
-      if (this.options.auth.put && !ctx.isAuthenticated()) {
-        return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
-      }
+  async put(ctx) {
+    if (this.options.auth.put && !ctx.isAuthenticated()) {
+      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
+    }
 
-      const obj = ctx.request.body;
-      obj.updated_at = moment().format('YYYY-MM-DD HH:mm:ss');
-      delete obj.created_at;
-      return query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id]).then(
-        (res) => {
-          ctx.response.body = obj;
-          resolve(res);
-        },
-        (err) => {
-          ctx.response.body = err;
-          ctx.response.status = 500;
-          reject(err);
-        },
-      );
-    });
+    const obj = ctx.request.body;
+    obj.updated_at = moment().format('YYYY-MM-DD HH:mm:ss');
+    delete obj.created_at;
+    await query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id]).then(
+      () => success(ctx, obj),
+      err => reject(fail(ctx, err)),
+    );
   }
 
-  dedlete(ctx) {
-    return new Promise((resolve, reject) => {
-      if (this.options.auth.get && !ctx.isAuthenticated()) {
-        return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
-      }
-      if (ctx.params.id === undefined) {
-        return fail(reject, ctx, { msg: 'method `delete` need a `id` params' });
-      }
+  async delete(ctx) {
+    if (this.options.auth.get && !ctx.isAuthenticated()) {
+      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
+      return;
+    }
+    if (ctx.params.id === undefined) {
+      reject(fail(ctx, { msg: 'method `delete` need a `id` params' }));
+      return;
+    }
 
-      return knex(this.name)
-        .where('id', ctx.params.id)
-        .del()
-        .then(res => success(resolve, ctx, { id: res }))
-        .catch(err => fail(reject, ctx, err));
-    });
+    await knex(this.name)
+      .where('id', ctx.params.id)
+      .del()
+      .then(res => success(ctx, { id: res }))
+      .catch(err => reject(fail(ctx, err)));
   }
 }
 

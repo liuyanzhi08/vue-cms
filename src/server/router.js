@@ -3,20 +3,21 @@ import koaSend from 'koa-send';
 import _path from 'path';
 import fs from 'fs';
 import { path } from './config';
-import { log as _log, err } from './helper/logger';
+import { log, err } from './helper/logger';
 
 const router = new KoaRouter();
 
-const log = ctx => {};
-
 const componentHandler = async (ctx) => {
-  const component = await import(`./component/${ctx.params.component}`);
-  const handler = component.default[ctx.method.toLowerCase()];
-  if (!handler) {
-    log(`component \`${ctx.params.component}\` method \`${ctx.method}\` not found`);
+  try {
+    const component = await import(`./component/${ctx.params.component}`);
+    const handler = component.default[ctx.method.toLowerCase()];
+    if (!handler) {
+      return log(`component \`${ctx.params.component}\` method \`${ctx.method}\` not found`);
+    }
+    await component.default[ctx.method.toLowerCase()](ctx).catch(e => Promise.reject(e));
+  } catch (e) {
+    return err(e);
   }
-  await component.default[ctx.method.toLowerCase()](ctx).catch(e => e);
-  log(ctx);
 };
 
 const assetHandler = async (ctx) => {

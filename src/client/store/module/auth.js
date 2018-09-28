@@ -45,18 +45,18 @@ const auth = {
     },
   },
   actions: {
-    [AUTH_LOGIN]: ({ commit }, user) => new Promise((resolve, reject) => {
+    [AUTH_LOGIN]: async ({ commit }, user) => {
       commit(AUTH_REQUEST);
-      Auth.login(user)
+      await Auth.login(user)
         .then((res) => {
           commit(AUTH_SUCCESS, res);
-          resolve(res);
+          return res;
         })
         .catch((err) => {
           commit(AUTH_ERROR, err);
-          reject(err);
+          return Promise.reject(err);
         });
-    }),
+    },
     [AUTH_LOGOUT]: ({ commit }) => Auth.logout()
       .then(() => {
         commit(AUTH_LOGOUT);

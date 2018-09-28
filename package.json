@@ -10,7 +10,7 @@
     "dev:server": "nodemon src/server",
     "dev:db:init": "cross-env NODE_ENV=development npm run db:create && npm run db:migrate:latest && npm run db:seed:run",
     "dev:db:clear": "cross-env NODE_ENV=development npm run db:migrate:rollback && npm run db:delete",
-    "debug": "node $NODE_DEBUG_OPTION src/server",
+    "debug": "npm run dev:ui & node $NODE_DEBUG_OPTION src/server",
     "build": "cross-env NODE_ENV=development webpack --mode=production --progress --config script/prd.webpack.config.babel.js",
     "publish": "npm run build && npm run server:restart",
     "pub": "npm run publish",

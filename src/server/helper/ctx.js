@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { log, err } from './logger';
 
-const success = (resolve, ctx, data, options = { code: 200 }) => {
+const success = (ctx, data, options = { code: 200 }) => {
   if (data) {
     ctx.body = data;
   }
@@ -9,15 +9,14 @@ const success = (resolve, ctx, data, options = { code: 200 }) => {
   // log
   const msg = `${ctx.method.toUpperCase()} ${options.code} ${ctx.url} @${ctx.ip}`;
   log(msg);
-  resolve(data);
+  return Promise.resolve(data);
 };
 
-const fail = (reject, ctx, _err, options = { code: 500 }) => {
+const fail = (ctx, _err, options = { code: 500 }) => {
   if (_err) {
     ctx.body = _err;
   }
   ctx.status = options.code;
-  reject(_err);
   // log
   let content = _err;
   if (_.isObject(content)) {
@@ -30,6 +29,7 @@ const fail = (reject, ctx, _err, options = { code: 500 }) => {
   const msg = `${ctx.method.toUpperCase()} ${options.code} ${ctx.url} @${ctx.ip}`;
   err(msg);
   err(`↳error: ${content}`);
+  return _err;
 };
 
 export {

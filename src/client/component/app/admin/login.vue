@@ -53,27 +53,22 @@ export default {
   created() {
   },
   methods: {
-    login() {
-      this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
+    async login() {
+      try {
+        await this.$store.dispatch(AUTH_LOGIN, this.user);
         const { to } = this.$router.currentRoute.params;
         const togo = to ? {
           name: this.$router.currentRoute.params.to.name,
           params: this.$router.currentRoute.params.to.params,
         } : { name: 'categoryList' };
         this.$router.push(togo);
-      }, (err) => {
-        const { data } = err.response;
+      } catch (e) {
+        const { data } = e.response;
         this.$store.dispatch(NOTICE_SEND, data.msg);
-      });
+      }
     },
   },
 };
 </script>
-<style lang="scss">
-  .el-form {
-    max-width: 460px;
-  }
-
-  body {
-  }
+<style lang="scss" scoped>
 </style>
