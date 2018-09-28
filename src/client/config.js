@@ -1,8 +1,5 @@
 import config from '../config';
 
-// site info
-const name = 'vue-cms';
-
 // client config
 const rnames = {
   admin: 'admin',
@@ -15,6 +12,14 @@ const rnames = {
   root: 'root',
   list: 'list',
   detail: 'detail',
+};
+
+// site info
+const brand = {
+  name: 'vue-cms',
+  router: {
+    name: rnames.categoryList,
+  },
 };
 
 const menu = [
@@ -46,7 +51,7 @@ const { db } = config;
 db.rootId = 1;
 
 export {
-  path, db, name, rnames, menu,
+  path, db, brand, rnames, menu,
 };
 
 export default path;

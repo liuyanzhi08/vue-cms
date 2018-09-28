@@ -10,8 +10,6 @@ export default {
       return res[0];
     }
     return res;
-  }, (_err) => {
-    err(_err);
   }),
   query: query => knex(userTable).where(query),
   create: data => knex(userTable).insert(data),

@@ -7,11 +7,15 @@ import { log as _log, err } from './helper/logger';
 
 const router = new KoaRouter();
 
-const log = ctx => _log(`${ctx.method} ${ctx.url} @${ctx.ip}`);
+const log = ctx => {};
 
 const componentHandler = async (ctx) => {
   const component = await import(`./component/${ctx.params.component}`);
-  await component.default[ctx.method.toLowerCase()](ctx).catch(e => err(e));
+  const handler = component.default[ctx.method.toLowerCase()];
+  if (!handler) {
+    log(`component \`${ctx.params.component}\` method \`${ctx.method}\` not found`);
+  }
+  await component.default[ctx.method.toLowerCase()](ctx).catch(e => e);
   log(ctx);
 };
 

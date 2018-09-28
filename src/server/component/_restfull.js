@@ -3,6 +3,7 @@ import moment from 'moment';
 import query from '../db/query';
 import { success, fail } from '../helper/ctx';
 import { db } from '../config';
+import { knex } from '../db';
 
 class Restfull {
   constructor(name, options = {
@@ -128,6 +129,23 @@ class Restfull {
           reject(err);
         },
       );
+    });
+  }
+
+  dedlete(ctx) {
+    return new Promise((resolve, reject) => {
+      if (this.options.auth.get && !ctx.isAuthenticated()) {
+        return fail(reject, ctx, { msg: 'auth fail' }, { code: 401 });
+      }
+      if (ctx.params.id === undefined) {
+        return fail(reject, ctx, { msg: 'method `delete` need a `id` params' });
+      }
+
+      return knex(this.name)
+        .where('id', ctx.params.id)
+        .del()
+        .then(res => success(resolve, ctx, { id: res }))
+        .catch(err => fail(reject, ctx, err));
     });
   }
 }
