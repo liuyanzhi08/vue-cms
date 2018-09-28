@@ -13,18 +13,17 @@ export default {
         const salt = bcrypt.genSaltSync();
         const hash = bcrypt.hashSync(data.password, salt);
         data.password = hash;
-        user.query(data).then((res) => {
-          if (res.length) {
-            success(resovle, ctx, { msg: 'user exists' });
-          } else {
-            user.create(data).then((_res) => {
-              success(resovle, ctx, { id: _res[0] });
-            }, (err) => {
-              fail(reject, ctx, err);
-            });
+        await user.get(data).then((res) => {
+          if (res) {
+            return success(ctx, { msg: 'user exists' });
           }
+          return user.create(data).then((_res) => {
+            return success(ctx, { id: _res[0] });
+          }, (err) => {
+            fail(ctx, err);
+          });
         }, (err) => {
-          fail(reject, ctx, err);
+          fail(ctx, err);
         });
         break;
       }

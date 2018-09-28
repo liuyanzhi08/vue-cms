@@ -81,7 +81,7 @@ export default {
   },
   data() {
     return {
-      rootCategory: [],
+
       selected: {
         id: 0,
         type: 'article',

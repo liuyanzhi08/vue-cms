@@ -1,35 +1,33 @@
 import _ from 'lodash';
+import chalk from 'chalk';
+import moment from 'moment/moment';
 import { log, err } from './logger';
+
+const visitLog = (ctx, code, color = 'green') => {
+  const now = moment().format('YYYY-MM-DD hh:mm:ss');
+  const msgTag = `[${chalk.blue(now)}]`;
+  const msgBody = `${ctx.method.toUpperCase()} ${code} ${ctx.url} @${ctx.ip}`;
+  const msg = `${msgTag} ${chalk[color](msgBody)}`;
+  return msg;
+};
 
 const success = (ctx, data, options = { code: 200 }) => {
   if (data) {
     ctx.body = data;
   }
-  ctx.status = options.code;
-  // log
-  const msg = `${ctx.method.toUpperCase()} ${options.code} ${ctx.url} @${ctx.ip}`;
-  log(msg);
-  return Promise.resolve(data);
+  const { code } = options;
+  ctx.status = code;
+  log(visitLog(ctx, code, 'green'));
 };
 
-const fail = (ctx, _err, options = { code: 500 }) => {
-  if (_err) {
-    ctx.body = _err;
+const fail = (ctx, e, options = { code: 500 }) => {
+  if (e) {
+    ctx.body = e.stack;
   }
-  ctx.status = options.code;
-  // log
-  let content = _err;
-  if (_.isObject(content)) {
-    if (_err instanceof Error) {
-      content = content.toString();
-    } else {
-      content = JSON.stringify(content);
-    }
-  }
-  const msg = `${ctx.method.toUpperCase()} ${options.code} ${ctx.url} @${ctx.ip}`;
-  err(msg);
-  err(`↳error: ${content}`);
-  return _err;
+  const { code } = options;
+  ctx.status = code;
+  err(e);
+  err(visitLog(ctx, code, 'red'));
 };
 
 export {

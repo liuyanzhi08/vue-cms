@@ -13,6 +13,7 @@ class Restfull {
       get: false,
       post: true,
       put: true,
+      delete: true,
     },
   }) {
     this.name = `${db.prefix}_${name}`;
@@ -66,16 +67,17 @@ class Restfull {
         items,
         total,
       });
+      return;
     }
     // detail
     _.extend(params, { id: ctx.params.id });
-    await query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]).then(
-      (res) => {
-        const { results } = res;
-        return success(ctx, results);
-      },
-      err => reject(fail(ctx, err)),
-    );
+    try {
+      const res = await query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]);
+      const { results } = res;
+      success(ctx, results);
+    } catch (e) {
+      fail(ctx, e);
+    }
   }
 
   async post(ctx) {

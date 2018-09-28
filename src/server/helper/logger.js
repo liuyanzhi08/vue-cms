@@ -1,51 +1,52 @@
 import fse from 'fs-extra';
-import moment from 'moment';
 import _ from 'lodash';
-import chalk from 'chalk';
 import { path } from '../config';
+import { isDev } from './env';
 
-const err = (input, color = 'red') => {
-  let content = input;
-  if (_.isObject(content)) {
-    if (content instanceof Error) {
-      content = content.toString();
+const resolve = (data) => {
+  let obj = data;
+  let msg = data;
+  if (_.isObject(data)) {
+    if (data instanceof Error) {
+      msg = data.stack;
+      obj = data;
     } else {
-      content = JSON.stringify(content);
+      msg = JSON.stringify(data);
+      obj = new Error(msg);
     }
   }
-  const now = moment().format('YYYY-MM-DD hh:mm:ss');
-  const msg = `[${chalk.blue(now)}] ${chalk[color](content)}`;
-  console.error(msg);
-  return fse.outputFile(path.log.error, `${msg}\n`, {
+  return {
+    obj,
+    msg,
+  };
+};
+
+const writeLog = (logPath, logMsg) => {
+  fse.outputFile(logPath, `${logMsg}\n`, {
     flag: 'a',
-  }, (_err) => {
-    if (_err) {
-      console.error(_err);
+  }, (e) => {
+    if (e) {
+      // eslint-disable-next-line
+      console.error(e);
     }
-    return err;
   });
 };
 
-const log = function (input, color = 'green') {
-  let content = input;
-  if (_.isObject(content)) {
-    if (content instanceof Error) {
-      content = content.toString();
-    } else {
-      content = JSON.stringify(content);
-    }
-  }
-  const now = moment().format('YYYY-MM-DD hh:mm:ss');
-  const msg = `[${chalk.blue(now)}] ${chalk[color](content)}`;
+const err = (error) => {
+  const { obj, msg } = resolve(error);
+  // if (isDev) {
+  //   throw obj;
+  // }
+  // eslint-disable-next-line
+  console.error(msg);
+  writeLog(path.log.error, msg);
+};
+
+const log = (data) => {
+  const { msg } = resolve(data);
+  // eslint-disable-next-line
   console.log(msg);
-  return fse.outputFile(path.log.access, `${msg}\n`, {
-    flag: 'a',
-  }, (_err) => {
-    if (_err) {
-      err(`fail to write file '${path.log.access}'`);
-    }
-    return _err;
-  });
+  writeLog(path.log.error, msg);
 };
 
 export {
