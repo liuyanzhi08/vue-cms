@@ -3,16 +3,6 @@ import config from '../config';
 // site info
 const name = 'vue-cms';
 
-// path
-const path = {
-  user: config.server.path.user,
-  admin: config.server.path.admin,
-};
-
-// db
-const { db } = config;
-db.rootId = 1;
-
 // client config
 const rnames = {
   admin: 'admin',
@@ -30,9 +20,30 @@ const rnames = {
 const menu = [
   {
     label: 'Category',
-    name: rnames.categoryList,
+    icon: 'table',
+    router: {
+      name: rnames.categoryList,
+      params: {},
+    },
+  },
+  {
+    icon: 'cloud-upload',
+    router: {
+      name: rnames.publish,
+      params: {},
+    },
   },
 ];
+
+// path
+const path = {
+  user: config.server.path.user,
+  admin: config.server.path.admin,
+};
+
+// db
+const { db } = config;
+db.rootId = 1;
 
 export {
   path, db, name, rnames, menu,

@@ -51,26 +51,19 @@
     >
       <div class="uk-offcanvas-bar">
         <ul class="uk-nav uk-nav-default">
-          <li class="uk-active">
+          <li
+            v-for="item in menu"
+            :key="item.router.name"
+            class="uk-active"
+          >
             <router-link
-              to="/admin/category"
+              :to="item.router"
             >
               <span
                 class="uk-margin-small-right"
-                uk-icon="icon: table"
+                :uk-icon="`icon: ${item.icon}`"
               />
-              Catalog
-            </router-link>
-          </li>
-          <li>
-            <router-link
-              to="/admin/staticize"
-            >
-              <span
-                class="uk-margin-small-right"
-                uk-icon="icon: cloud-upload"
-              />
-              Publish
+              {{ item.label || item.router.name }}
             </router-link>
           </li>
           <li class="uk-nav-divider" />
@@ -93,12 +86,13 @@ import { mapGetters } from 'vuex';
 import {
   AUTH_LOGOUT, AUTH_USER, MENU_SET, MENU_TOGGLE,
 } from '../../../store';
-import { name } from '../../../config';
+import { name, menu } from '../../../config';
 
 export default {
   data() {
     return {
       name,
+      menu,
     };
   },
   computed: {
