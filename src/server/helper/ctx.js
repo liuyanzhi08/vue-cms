@@ -23,7 +23,10 @@ const fail = (ctx, e, options = { code: 500 }) => {
     if (isDev) {
       output = e.stack;
     } else {
-      output = e.message;
+      output = {
+        code: 0,
+        msg: e.message,
+      };
     }
   }
   ctx.body = output;
