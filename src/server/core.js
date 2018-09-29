@@ -7,22 +7,33 @@ import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
 
-const app = new Koa();
+class Core {
+  constructor() {
+    const app = new Koa();
+    this.server = app;
 
-const sessionConfig = {
-  maxAge: 60 * 60 * 1000, // expires 60min
-};
+    const sessionConfig = {
+      maxAge: 60 * 60 * 1000, // expires 60min
+    };
 
-app.keys = ['super-secret-key'];
-app.proxy = true;
+    app.keys = ['super-secret-key'];
+    app.proxy = true;
 
-app.use(koaBody())
-  .use(koaCompress())
-  .use(session(sessionConfig, app))
-  .use(passport.initialize())
-  .use(passport.session())
-  .use(router.routes())
-  .use(router.allowedMethods());
+    app.use(koaBody())
+      .use(koaCompress())
+      .use(session(sessionConfig, app))
+      .use(passport.initialize())
+      .use(passport.session())
+      .use(router.routes())
+      .use(router.allowedMethods());
 
-app.listen(server.port, '0.0.0.0');
-log(`cms is running, listening on 0.0.0.0:${server.port}`);
+    app.listen(server.port, '0.0.0.0');
+    log(`cms is running, listening on 0.0.0.0:${server.port}`);
+  }
+
+  close() {
+    return this.server.close();
+  }
+}
+
+export default Core;

@@ -81,7 +81,7 @@ export default {
   },
   data() {
     return {
-
+      rootCategory: [],
       selected: {
         id: 0,
         type: 'article',
@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     load(node, resolve) {
-      const nodeId = node.data.id || db.rootId;
+      const nodeId = node.data.id;
       return Category.query({
         parent_id: nodeId,
       }).then((res) => {

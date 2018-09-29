@@ -1,7 +1,7 @@
 {
   "name": "vue-cms",
   "version": "0.0.1",
-  "description": "CMS. Proudly using Koa2 & VueJS2 & Webpack 4",
+  "description": "# CMS. Proudly using ES7, Vue 2, Koa 2, Webpack 4 and Babel 7",
   "main": "index.js",
   "scripts": {
     "start": "npm run dev",

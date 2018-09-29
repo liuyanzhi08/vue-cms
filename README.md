@@ -1,4 +1,4 @@
-# CMS. Proudly using Koa 2, Vue 2 , Webpack 4 and Babel 7
+# CMS. Proudly using ES7, Vue 2, Koa 2, Webpack 4 and Babel 7
 
 ## Dependency
 
@@ -20,7 +20,7 @@ $ vim src/config.js    # modify the db config to yours
 $ npm run dev:db:init  # generate the development db
 $ npm run dev          # build Vue files and start a Koa server
 ```
-There you go! **username: admin** and **password: admin**
+**username: admin** & **password: admin**
 
 Enjoy.
 
