@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     load(node, resolve) {
-      const nodeId = node.data.id;
+      const nodeId = node.data.id || db.rootId;
       return Category.query({
         parent_id: nodeId,
       }).then((res) => {

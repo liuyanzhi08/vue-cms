@@ -74,7 +74,8 @@ class Restfull {
     try {
       const res = await query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]);
       const { results } = res;
-      success(ctx, results);
+      const result = results.length ? results[0]: null;
+      success(ctx, result);
     } catch (e) {
       fail(ctx, e);
     }
@@ -93,13 +94,14 @@ class Restfull {
         obj.id = results.insertId;
         return success(ctx, obj);
       },
-      err => reject(fail(ctx, err)),
+      err => fail(ctx, err),
     );
   }
 
   async put(ctx) {
     if (this.options.auth.put && !ctx.isAuthenticated()) {
-      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
+      fail(ctx, { msg: 'auth fail' }, { code: 401 });
+      return;
     }
 
     const obj = ctx.request.body;

@@ -17,11 +17,12 @@ export default {
           if (res) {
             return success(ctx, { msg: 'user exists' });
           }
-          return user.create(data).then((_res) => {
-            return success(ctx, { id: _res[0] });
-          }, (err) => {
-            fail(ctx, err);
-          });
+          return user.create(data).then(
+            _res => success(ctx, { id: _res[0] }),
+            (err) => {
+              fail(ctx, err);
+            },
+          );
         }, (err) => {
           fail(ctx, err);
         });
@@ -67,7 +68,8 @@ export default {
     switch (action) {
       case 'user':
         if (!ctx.isAuthenticated()) {
-          return fail(ctx, { msg: 'unauthorized' }, { code: 401 });
+          fail(ctx, { msg: 'unauthorized' }, { code: 401 });
+          return;
         }
         success(ctx, {
           id: ctx.state.user.id,
@@ -79,6 +81,5 @@ export default {
       default:
         fail(ctx, null, { code: 404 });
     }
-    return true;
   },
 };

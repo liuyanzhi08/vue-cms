@@ -18,8 +18,10 @@ const success = (ctx, data, options = { code: 200 }) => {
 
 const fail = (ctx, e, options = { code: 500 }) => {
   // development mode print the error stack
-  if (e && isDev) {
+  if (e instanceof Error && isDev) {
     ctx.body = e.stack;
+  } else {
+    ctx.body = e;
   }
   const { code } = options;
   ctx.status = code;

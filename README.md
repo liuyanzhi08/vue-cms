@@ -1,4 +1,4 @@
-# CMS. Proudly using ES7, Vue 2, Koa 2, Webpack 4 and Babel 7
+# CMS. Proudly using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 and Mocha
 
 ## Dependency
 
