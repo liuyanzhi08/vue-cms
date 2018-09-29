@@ -30,6 +30,7 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', {
         devDependencies: true,
     }],
+    'import/prefer-default-export': ['off'],
     'no-underscore-dangle': ['error', {
         allow: ['_page', '_num', '_from', '_size'],
     }],

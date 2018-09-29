@@ -1,51 +1,46 @@
 import fse from 'fs-extra';
-import moment from 'moment';
+import moment from 'moment/moment';
 import _ from 'lodash';
 import chalk from 'chalk';
 import { path } from '../config';
 
-const err = (input, color = 'red') => {
-  let content = input;
-  if (_.isObject(content)) {
-    if (content instanceof Error) {
-      content = content.toString();
+const stringify = (data, color) => {
+  let msg = data;
+  if (_.isObject(data)) {
+    if (data instanceof Error) {
+      msg = data.stack;
     } else {
-      content = JSON.stringify(content);
+      msg = JSON.stringify(data);
     }
   }
   const now = moment().format('YYYY-MM-DD hh:mm:ss');
-  const msg = `[${chalk.blue(now)}] ${chalk[color](content)}`;
-  console.error(msg);
-  return fse.outputFile(path.log.error, `${msg}\n`, {
+  const timeTag = `[${chalk.blue(now)}]`;
+  return `${timeTag} ${color ? chalk[color](msg) : msg}`;
+};
+
+const writeLog = (logPath, logMsg) => {
+  fse.outputFile(logPath, `${logMsg}\n`, {
     flag: 'a',
-  }, (_err) => {
-    if (_err) {
-      console.error(_err);
+  }, (e) => {
+    if (e) {
+      // eslint-disable-next-line
+      console.error(e);
     }
-    return err;
   });
 };
 
-const log = function (input, color = 'green') {
-  let content = input;
-  if (_.isObject(content)) {
-    if (content instanceof Error) {
-      content = content.toString();
-    } else {
-      content = JSON.stringify(content);
-    }
-  }
-  const now = moment().format('YYYY-MM-DD hh:mm:ss');
-  const msg = `[${chalk.blue(now)}] ${chalk[color](content)}`;
+const err = (error) => {
+  const msg = stringify(error, 'red');
+  // eslint-disable-next-line
+  console.error(msg);
+  writeLog(path.log.error, msg);
+};
+
+const log = (data) => {
+  const msg = stringify(data);
+  // eslint-disable-next-line
   console.log(msg);
-  return fse.outputFile(path.log.access, `${msg}\n`, {
-    flag: 'a',
-  }, (_err) => {
-    if (_err) {
-      err(`fail to write file '${path.log.access}'`);
-    }
-    return _err;
-  });
+  writeLog(path.log.access, msg);
 };
 
 export {

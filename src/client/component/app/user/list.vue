@@ -1,6 +1,6 @@
 <template>
   <div>
-    <theme-list/>
+    <theme-list />
   </div>
 </template>
 <script>

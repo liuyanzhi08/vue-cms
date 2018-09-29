@@ -1,7 +1,8 @@
 import VueRouter from 'vue-router';
-import { path } from './config';
-import { MENU_HIDE, store } from './store';
+import { path, rnames } from './config';
+import { MENU_HIDE } from './store';
 
+// routes components
 const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user.vue');
 const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index.vue');
 const list = () => import(/* webpackChunkName: "list" */ './component/app/user/list.vue');
@@ -12,20 +13,21 @@ const category = () => import(/* webpackChunkName: "category" */ './component/ap
 const categoryList = () => import(/* webpackChunkName: "category-list" */ './component/app/admin/category-list.vue');
 const article = () => import(/* webpackChunkName: "article" */ './component/app/admin/article.vue');
 const articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list.vue');
-const staticize = () => import(/* webpackChunkName: "staticize" */ './component/app/admin/staticize.vue');
+const publish = () => import(/* webpackChunkName: "publish" */ './component/app/admin/publish.vue');
 const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login.vue');
 
+// routes define
 const routes = [
   // admin
   {
     path: path.admin,
     component: admin,
-    name: 'admin',
+    name: rnames.admin,
     children: [
       {
         path: 'category/:id',
         component: category,
-        name: 'category',
+        name: rnames.category,
         meta: {
           auth: true,
         },
@@ -33,7 +35,7 @@ const routes = [
       {
         path: 'category',
         component: categoryList,
-        name: 'categoryList',
+        name: rnames.categoryList,
         alias: '',
         meta: {
           auth: true,
@@ -42,7 +44,7 @@ const routes = [
       {
         path: 'article/:id',
         component: article,
-        name: 'article',
+        name: rnames.article,
         meta: {
           auth: true,
         },
@@ -50,15 +52,15 @@ const routes = [
       {
         path: 'article',
         component: articleList,
-        name: 'articleList',
+        name: rnames.articleList,
         meta: {
           auth: true,
         },
       },
       {
-        path: 'staticize',
-        component: staticize,
-        name: 'staticize',
+        path: 'publish',
+        component: publish,
+        name: rnames.publish,
         meta: {
           auth: true,
         },
@@ -66,7 +68,7 @@ const routes = [
       {
         path: 'login',
         component: login,
-        name: 'login',
+        name: rnames.login,
       },
     ],
   },
@@ -74,44 +76,48 @@ const routes = [
   {
     path: path.user,
     component: user,
-    name: 'admin',
+    name: rnames.admin,
     children: [
       {
         path: '',
         component: index,
-        name: 'root',
+        name: rnames.root,
         alias: 'index',
       },
       {
         path: 'category/:id',
         component: list,
-        name: 'list',
+        name: rnames.list,
       },
       {
         path: 'article/:id',
         component: detail,
-        name: 'detail',
+        name: rnames.detail,
       },
     ],
   },
 ];
 
-const router = new VueRouter({
-  mode: 'history',
-  routes,
-});
-
-router.beforeEach((to, from, next) => {
-  const { isAuthenticated } = store.getters;
-  const isAuthRoute = to.meta && to.meta.auth;
-  if (isAuthRoute && !isAuthenticated) {
-    return router.push({
-      name: 'login',
-      params: { to },
+class Router {
+  constructor(store) {
+    const router = new VueRouter({
+      mode: 'history',
+      routes,
     });
+    router.beforeEach((to, from, next) => {
+      const { isAuthenticated } = store.getters;
+      const isAuthRoute = to.meta && to.meta.auth;
+      if (isAuthRoute && !isAuthenticated) {
+        return router.push({
+          name: rnames.login,
+          params: { to },
+        });
+      }
+      store.dispatch(MENU_HIDE);
+      return next();
+    });
+    return router;
   }
-  store.dispatch(MENU_HIDE);
-  return next();
-});
+}
 
-export default router;
+export default Router;

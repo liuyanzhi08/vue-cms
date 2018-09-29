@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul>
+    <ul class="uk-card uk-card-default uk-card-body">
       <s-list
         :cid="$route.params.id"
         limit="0,5">

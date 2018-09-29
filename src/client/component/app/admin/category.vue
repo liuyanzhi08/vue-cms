@@ -74,8 +74,12 @@ export default {
   methods: {
     submit(data) {
       const method = isNew ? 'save' : 'update';
-      category[method](data).then(() => {
+      category[method](data).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
+        this.$emit('updated', res.data);
+        if (isNew) {
+          this.category = {};
+        }
       });
     },
     setForm() {

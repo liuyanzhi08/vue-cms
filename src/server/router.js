@@ -3,16 +3,17 @@ import koaSend from 'koa-send';
 import _path from 'path';
 import fs from 'fs';
 import { path } from './config';
-import { log as _log, err } from './helper/logger';
+import { success, fail } from './helper/ctx';
 
 const router = new KoaRouter();
 
-const log = ctx => _log(`${ctx.method} ${ctx.url} @${ctx.ip}`);
-
-const componentHandler = async (ctx) => {
-  const component = await import(`./component/${ctx.params.component}`);
-  await component.default[ctx.method.toLowerCase()](ctx).catch(e => err(e));
-  log(ctx);
+const componentHandler =  async (ctx) => {
+  try {
+    const component = await import(`./component/${ctx.params.component}`);
+    await component.default[ctx.method.toLowerCase()](ctx).catch(e => Promise.reject(e));
+  } catch (e) {
+    fail(ctx, e);
+  }
 };
 
 const assetHandler = async (ctx) => {
@@ -20,16 +21,17 @@ const assetHandler = async (ctx) => {
   if (fs.existsSync(filePath)) {
     ctx.set('Cache-Control', `max-age=${3600 * 24 * 7}`);
     await koaSend(ctx, filePath, { root: '/' });
+    success(ctx);
   } else {
     ctx.status = 404;
+    fail(ctx, { msg: `'${filePath}' not found` }, { code: 404 });
   }
-  log(ctx);
 };
 
 const indexHandler = async (ctx) => {
   ctx.set('Cache-Control', 'no-cache');
   await koaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/' });
-  log(ctx);
+  success(ctx);
 };
 
 const staticHandle = async (ctx) => {
@@ -57,12 +59,11 @@ const staticHandle = async (ctx) => {
       ctx.lastModified = fileModified;
       await koaSend(ctx, filePath, { root: '/' });
     } else {
-      ctx.status = 304;
+      success(ctx, null, { code: 304 });
     }
   } else {
-    ctx.status = 404;
+    fail(ctx, `'${filePath}' not found`, { code: 404 });
   }
-  log(ctx);
 };
 
 router

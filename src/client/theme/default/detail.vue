@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="uk-card uk-card-default uk-card-body">
     <s-detail :aid="$route.params.id">
       <div
         slot="article"

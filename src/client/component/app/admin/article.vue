@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submit(article)">
+  <form @submit.prevent="submit">
     <div class="uk-margin">
       <input
         v-model="article.title"
@@ -20,10 +20,23 @@
       />
     </div>
     <div class="uk-margin">
-      <button
-        type="submit"
-        class="uk-button uk-button-primary"
-      >submit</button>
+      <div class="uk-button-group">
+        <button
+          class="uk-button uk-button-primary"
+          type="submit"
+        >submit</button>
+        <div class="uk-inline">
+          <button
+            class="uk-button uk-button-default"
+            type="button"
+          ><span uk-icon="icon:  triangle-down" /></button>
+          <div uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+            <ul class="uk-nav uk-dropdown-nav">
+              <li @click="del"><a href="#">delete</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
 </template>
@@ -112,11 +125,21 @@ export default {
   mounted() {
   },
   methods: {
-    submit(inputData) {
+    submit() {
       const method = isNew ? 'save' : 'update';
-      const data = inputData;
-      Article[method](data).then(() => {
+      Article[method](this.article).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
+        this.$emit('updated', res.data);
+        if (isNew) {
+          this.article = {};
+        }
+      });
+    },
+    del() {
+      Article.del(this.article).then((res) => {
+        this.$store.dispatch(NOTICE_SEND, 'deleted');
+        this.$emit('deleted', res.data);
+        this.article = {};
       });
     },
     setForm() {

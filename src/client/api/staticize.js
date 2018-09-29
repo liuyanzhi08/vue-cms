@@ -1,8 +1,7 @@
-import Vue from 'vue';
-import path from 'path';
+import axios from 'axios';
 
 export default {
   get() {
-    return Vue.http.get(path.join('/api/staticize'));
+    return axios.get('/api/staticize');
   },
 };

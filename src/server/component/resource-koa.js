@@ -4,11 +4,10 @@ import query from '../db/query';
 import { success, fail } from '../helper/ctx';
 import { db } from '../config';
 import { knex } from '../db';
-import { error } from '../helper/error';
 
 const { reject } = Promise;
 
-class Restfull {
+class ResourceKoa {
   constructor(name, options = {
     auth: {
       get: false,
@@ -23,7 +22,7 @@ class Restfull {
 
   async get(ctx) {
     if (this.options.auth.get && !ctx.isAuthenticated()) {
-      await reject(fail(ctx, error.authUnauthorized, { code: 401 }));
+      await reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
       return;
     }
     let params = {};
@@ -75,8 +74,7 @@ class Restfull {
     try {
       const res = await query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]);
       const { results } = res;
-      const result = results.length ? results[0]: null;
-      success(ctx, result);
+      success(ctx, results);
     } catch (e) {
       fail(ctx, e);
     }
@@ -84,7 +82,7 @@ class Restfull {
 
   async post(ctx) {
     if (this.options.auth.post && !ctx.isAuthenticated()) {
-      reject(fail(ctx, error.authUnauthorized, { code: 401 }));
+      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
       return;
     }
 
@@ -95,14 +93,13 @@ class Restfull {
         obj.id = results.insertId;
         return success(ctx, obj);
       },
-      err => fail(ctx, err),
+      err => reject(fail(ctx, err)),
     );
   }
 
   async put(ctx) {
     if (this.options.auth.put && !ctx.isAuthenticated()) {
-      fail(ctx, error.authUnauthorized, { code: 401 });
-      return;
+      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
     }
 
     const obj = ctx.request.body;
@@ -116,7 +113,7 @@ class Restfull {
 
   async delete(ctx) {
     if (this.options.auth.get && !ctx.isAuthenticated()) {
-      reject(fail(ctx, error.authUnauthorized, { code: 401 }));
+      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
       return;
     }
     if (ctx.params.id === undefined) {
@@ -132,4 +129,4 @@ class Restfull {
   }
 }
 
-export default Restfull;
+export default ResourceKoa;

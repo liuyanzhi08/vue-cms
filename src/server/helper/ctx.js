@@ -1,14 +1,40 @@
-const success = (resolve, ctx, data) => {
-  ctx.body = data;
-  resolve(data);
+import chalk from 'chalk';
+import { isDev } from './env';
+import { log, err } from './logger';
+
+const accessLog = (ctx, color = 'green') => {
+  const msg = `${ctx.method.toUpperCase()} ${ctx.status} ${ctx.url} @${ctx.ip}`;
+  return `${chalk[color](msg)}`;
 };
 
-const fail = (reject, ctx, err, options = { code: 500 }) => {
-  if (err) {
-    ctx.body = err;
+const success = (ctx, data, options = { code: 200 }) => {
+  if (data) {
+    ctx.body = data;
   }
   ctx.status = options.code;
-  reject(err);
+  log(accessLog(ctx, 'green'));
+  return data;
+};
+
+const fail = (ctx, e, options = { code: 500 }) => {
+  // development mode print the error stack
+  let output = e;
+  if (e instanceof Error) {
+    if (isDev) {
+      output = e.stack;
+    } else {
+      output = {
+        code: 0,
+        msg: e.message,
+      };
+    }
+  }
+  ctx.body = output;
+  ctx.status = options.code;
+
+  log(accessLog(ctx, 'red'));
+  err(output);
+  return output;
 };
 
 export {

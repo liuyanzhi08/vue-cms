@@ -1,18 +1,7 @@
 import { db } from '../config';
-import { knex } from '../db';
-import { err } from '../helper/logger';
+import Resource from '../component/resource-knex';
 
 const userTable = `${db.prefix}_user`;
+const user = new Resource(userTable, db);
 
-export default {
-  get: id => knex(userTable).where({ id }).then((res) => {
-    if (res.length) {
-      return res[0];
-    }
-    return res;
-  }, (_err) => {
-    err(_err);
-  }),
-  query: query => knex(userTable).where(query),
-  create: data => knex(userTable).insert(data),
-};
+export default user;

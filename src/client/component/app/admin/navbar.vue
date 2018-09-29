@@ -7,23 +7,24 @@
       uk-sticky
     >
       <div class="uk-navbar-left">
-        <a
-          class="uk-navbar-item uk-logo"
-          href="#"
-        >vue-cms</a>
+        <router-link :to="brand.router" class="uk-navbar-item uk-logo">
+          {{ brand.name }}
+        </router-link>
       </div>
       <div class="uk-navbar-right">
         <ul class="uk-visible@m uk-navbar-nav">
-          <li class="uk-active">
+          <li
+            v-for="item in menu"
+            :key="item.router.name"
+          >
             <router-link
-              to="/admin/category"
-            >Catalog
-            </router-link>
-          </li>
-          <li>
-            <router-link
-              to="/admin/staticize"
-            >Publish
+              :to="item.router"
+            >
+              <span
+                class="uk-margin-small-right"
+                :uk-icon="`icon: ${item.icon}`"
+              />
+              {{ item.label || item.router.name }}
             </router-link>
           </li>
           <li>
@@ -31,7 +32,6 @@
             <div class="uk-navbar-dropdown">
               <ul class="uk-nav uk-navbar-dropdown-nav">
                 <li
-                  class="uk-active"
                   @click="logout"
                 ><a href="#">Logout</a></li>
               </ul>
@@ -51,26 +51,18 @@
     >
       <div class="uk-offcanvas-bar">
         <ul class="uk-nav uk-nav-default">
-          <li class="uk-active">
+          <li
+            v-for="item in menu"
+            :key="item.router.name"
+          >
             <router-link
-              to="/admin/category"
+              :to="item.router"
             >
               <span
                 class="uk-margin-small-right"
-                uk-icon="icon: table"
+                :uk-icon="`icon: ${item.icon}`"
               />
-              Catalog
-            </router-link>
-          </li>
-          <li>
-            <router-link
-              to="/admin/staticize"
-            >
-              <span
-                class="uk-margin-small-right"
-                uk-icon="icon: cloud-upload"
-              />
-              Publish
+              {{ item.label || item.router.name }}
             </router-link>
           </li>
           <li class="uk-nav-divider" />
@@ -93,12 +85,13 @@ import { mapGetters } from 'vuex';
 import {
   AUTH_LOGOUT, AUTH_USER, MENU_SET, MENU_TOGGLE,
 } from '../../../store';
+import { brand, menu } from '../../../config';
 
 export default {
   data() {
     return {
-      activeIndex: '1',
-      activeIndex2: '1',
+      brand,
+      menu,
     };
   },
   computed: {
@@ -113,8 +106,7 @@ export default {
     }
   },
   mounted() {
-    const menu = UIkit.offcanvas('#offcanvas-nav');
-    this.$store.dispatch(MENU_SET, menu);
+    this.$store.dispatch(MENU_SET, UIkit.offcanvas('#offcanvas-nav'));
   },
   methods: {
     logout() {

@@ -18,9 +18,9 @@ const globalPool = mysql.createPool({
   dateStrings: true,
 });
 
-const query = (sql, options) => {
+const query = async (sql, options) => {
   const pool = options === true ? globalPool : currentPool;
-  return new Promise((resolve, reject) => {
+  const res = await new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -40,6 +40,7 @@ const query = (sql, options) => {
       });
     });
   });
+  return res;
 };
 
 export default query;

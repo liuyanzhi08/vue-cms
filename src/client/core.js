@@ -16,6 +16,11 @@ import '@style/el-theme/index.scss';
 import 'font-awesome/scss/font-awesome.scss';
 import UI from './component/ui/index';
 
+import './component/directive/index';
+import Router from './router';
+import { Store } from './store';
+import app from './component/app/app';
+
 UIkit.use(Icons);
 
 Vue.use(VueResource);
@@ -24,3 +29,21 @@ Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(MavonEditor);
 Vue.use(UI);
+
+const store = new Store();
+const router = new Router(store);
+
+class App {
+  constructor() {
+    return new Vue({
+      components: { app },
+      renderError(h, err) {
+        return h('pre', { style: { color: 'red' } }, err.stack);
+      },
+      router,
+      store,
+    }).$mount('#app');
+  }
+}
+
+export default App;

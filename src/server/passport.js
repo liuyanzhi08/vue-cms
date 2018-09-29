@@ -1,6 +1,7 @@
 // passport.js
 import bcrypt from 'bcrypt';
 import user from './models/user';
+import { error } from './helper/error';
 
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -11,7 +12,7 @@ passport.serializeUser((_user, done) => {
 });
 // when a request with session("passport":{"user":"1"}) will trigger
 passport.deserializeUser(async (id, done) => {
-  user.get(id).then((res) => {
+  user.get({ id }).then((res) => {
     if (res) {
       done(null, res);
     } else {
@@ -26,16 +27,17 @@ passport.use(new LocalStrategy({
   // usernameField: 'email', //
   // passwordField: 'passwd'
 }, ((username, password, done) => {
-  user.query({ username }).then((res) => {
-    if (res.length) {
-      const hash = res[0].password;
+  user.get({ username }).then((res) => {
+    if (res) {
+      const hash = res.password;
       if (bcrypt.compareSync(password, hash)) {
-        done(null, res[0]);
+        delete res.password;
+        done(null, res);
       } else {
-        done({ msg: 'username and password are unmatched' }, false);
+        done(error.authUnmatched, false);
       }
     } else {
-      done({ msg: 'username is not existed' }, false);
+      done(error.authUserNotExisted, false);
     }
   }, (err) => {
     done(err);

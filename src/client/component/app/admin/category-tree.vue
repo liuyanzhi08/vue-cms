@@ -22,6 +22,12 @@ import { db } from '../../../config';
 
 export default {
   name: 'AppCategoryTree',
+  props: {
+    value: {
+      type: Number,
+      default: db.rootId,
+    },
+  },
   data() {
     return {
       options: [],

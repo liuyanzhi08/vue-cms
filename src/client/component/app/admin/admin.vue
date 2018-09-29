@@ -7,13 +7,10 @@
   </div>
 </template>
 <script>
-
-import categoryList from './category-list';
 import navbar from './navbar';
 
 export default {
   components: {
-    categoryList,
     navbar,
   },
 };
