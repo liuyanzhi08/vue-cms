@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import moment from 'moment/moment';
+import { isDev } from './env';
 import { log, err } from './logger';
 
 const accessLog = (ctx, color = 'green') => {
@@ -17,7 +17,8 @@ const success = (ctx, data, options = { code: 200 }) => {
 };
 
 const fail = (ctx, e, options = { code: 500 }) => {
-  if (e) {
+  // development mode print the error stack
+  if (e && isDev) {
     ctx.body = e.stack;
   }
   const { code } = options;

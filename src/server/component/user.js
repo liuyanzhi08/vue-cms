@@ -1,4 +1,6 @@
-import Restfull from './_restfull';
+import Resource from './resource-koa';
+import { db } from '../config';
 
-const user = new Restfull('user');
+// const user = new Resource(`${db.prefix}_user`);
+const user = new Resource('user');
 export default user;
