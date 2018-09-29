@@ -19,6 +19,13 @@ exports.seed = knex => knex(categoryTableName).del()
       parent_id: db.rootId,
     },
   ]))
+  .then(res => knex(articleTableName).insert([
+    {
+      title: 'category-d1-b0',
+      content: 'category-d1-b0',
+      category_id: res[0],
+    },
+  ]))
   .then(() => knex(categoryTableName).insert([
     {
       title: 'category-d0-b1',
