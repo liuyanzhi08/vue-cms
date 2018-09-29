@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Hello, vue-cms</h1>
     <s-list
       cid="6"
       limit="0,5">
