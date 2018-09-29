@@ -1,6 +1,7 @@
 // passport.js
 import bcrypt from 'bcrypt';
 import user from './models/user';
+import { error } from './helper/error';
 
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -30,12 +31,13 @@ passport.use(new LocalStrategy({
     if (res) {
       const hash = res.password;
       if (bcrypt.compareSync(password, hash)) {
+        delete res.password;
         done(null, res);
       } else {
-        done({ msg: 'username and password are unmatched' }, false);
+        done(error.authUnmatched, false);
       }
     } else {
-      done({ msg: 'username is not existed' }, false);
+      done(error.authUserNotExisted, false);
     }
   }, (err) => {
     done(err);

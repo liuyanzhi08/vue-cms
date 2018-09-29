@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import passport from '../passport';
 import user from '../models/user';
 import { success, fail } from '../helper/ctx';
+import { error } from '../helper/error';
 
 export default {
   post: async (ctx) => {
@@ -36,16 +37,16 @@ export default {
               if (_user && !err) {
                 ctx.login(_user);
                 ctx.cookies.set('auth:user', _user.id, {
-                  path: '/', // 写cookie所在的路径
-                  maxAge: 60 * 60 * 1000, // cookie有效时长
-                  httpOnly: false, // 是否只用于http请求中获取
-                  overwrite: false, // 是否允许重写
+                  path: '/',
+                  maxAge: 60 * 60 * 1000, // 1 hour to expire
+                  httpOnly: false,
+                  overwrite: false,
                 });
                 resolve(success(ctx, _user));
               } else if (err) {
-                reject(fail(ctx, { msg: err.msg }));
+                reject(fail(ctx, err));
               } else {
-                reject(fail(ctx, { msg: 'missing username or password' }));
+                reject(fail(ctx, error.authUserMissing));
               }
             },
           )(ctx);
@@ -68,7 +69,7 @@ export default {
     switch (action) {
       case 'user':
         if (!ctx.isAuthenticated()) {
-          fail(ctx, { msg: 'unauthorized' }, { code: 401 });
+          fail(ctx, error.unauthorized, { code: 401 });
           return;
         }
         success(ctx, {

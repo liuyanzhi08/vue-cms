@@ -4,6 +4,7 @@ import query from '../db/query';
 import { success, fail } from '../helper/ctx';
 import { db } from '../config';
 import { knex } from '../db';
+import { error } from '../helper/error';
 
 const { reject } = Promise;
 
@@ -22,7 +23,7 @@ class Restfull {
 
   async get(ctx) {
     if (this.options.auth.get && !ctx.isAuthenticated()) {
-      await reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
+      await reject(fail(ctx, error.authUnauthorized, { code: 401 }));
       return;
     }
     let params = {};
@@ -83,7 +84,7 @@ class Restfull {
 
   async post(ctx) {
     if (this.options.auth.post && !ctx.isAuthenticated()) {
-      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
+      reject(fail(ctx, error.authUnauthorized, { code: 401 }));
       return;
     }
 
@@ -100,7 +101,7 @@ class Restfull {
 
   async put(ctx) {
     if (this.options.auth.put && !ctx.isAuthenticated()) {
-      fail(ctx, { msg: 'auth fail' }, { code: 401 });
+      fail(ctx, error.authUnauthorized, { code: 401 });
       return;
     }
 
@@ -115,7 +116,7 @@ class Restfull {
 
   async delete(ctx) {
     if (this.options.auth.get && !ctx.isAuthenticated()) {
-      reject(fail(ctx, { msg: 'auth fail' }, { code: 401 }));
+      reject(fail(ctx, error.authUnauthorized, { code: 401 }));
       return;
     }
     if (ctx.params.id === undefined) {

@@ -23,6 +23,7 @@ const assetHandler = async (ctx) => {
     await koaSend(ctx, filePath, { root: '/' });
     success(ctx);
   } else {
+    ctx.status = 404;
     fail(ctx, { msg: `'${filePath}' not found` }, { code: 404 });
   }
 };

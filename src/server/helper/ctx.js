@@ -11,22 +11,27 @@ const success = (ctx, data, options = { code: 200 }) => {
   if (data) {
     ctx.body = data;
   }
-  const { code } = options;
-  ctx.status = code;
+  ctx.status = options.code;
   log(accessLog(ctx, 'green'));
+  return data;
 };
 
 const fail = (ctx, e, options = { code: 500 }) => {
   // development mode print the error stack
-  if (e instanceof Error && isDev) {
-    ctx.body = e.stack;
-  } else {
-    ctx.body = e;
+  let output = e;
+  if (e instanceof Error) {
+    if (isDev) {
+      output = e.stack;
+    } else {
+      output = e.message;
+    }
   }
-  const { code } = options;
-  ctx.status = code;
+  ctx.body = output;
+  ctx.status = options.code;
+
   log(accessLog(ctx, 'red'));
-  err(e);
+  err(output);
+  return output;
 };
 
 export {
