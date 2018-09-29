@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router';
 import { path, rnames } from './config';
-import { MENU_HIDE, store } from './store';
+import { MENU_HIDE } from './store';
 
 // routes components
 const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user.vue');
@@ -98,22 +98,26 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
-  mode: 'history',
-  routes,
-});
-
-router.beforeEach((to, from, next) => {
-  const { isAuthenticated } = store.getters;
-  const isAuthRoute = to.meta && to.meta.auth;
-  if (isAuthRoute && !isAuthenticated) {
-    return router.push({
-      name: rnames.login,
-      params: { to },
+class Router {
+  constructor(store) {
+    const router = new VueRouter({
+      mode: 'history',
+      routes,
     });
+    router.beforeEach((to, from, next) => {
+      const { isAuthenticated } = store.getters;
+      const isAuthRoute = to.meta && to.meta.auth;
+      if (isAuthRoute && !isAuthenticated) {
+        return router.push({
+          name: rnames.login,
+          params: { to },
+        });
+      }
+      store.dispatch(MENU_HIDE);
+      return next();
+    });
+    return router;
   }
-  store.dispatch(MENU_HIDE);
-  return next();
-});
+}
 
-export default router;
+export default Router;

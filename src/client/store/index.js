@@ -10,13 +10,17 @@ import {
   notice,
 } from './module/notice';
 
-const store = new Vuex.Store({
-  modules: {
-    auth,
-    menu,
-    notice,
-  },
-});
+class Store {
+  constructor() {
+    return new Vuex.Store({
+      modules: {
+        auth,
+        menu,
+        notice,
+      },
+    });
+  }
+}
 
 export {
   AUTH_LOGIN,
@@ -27,5 +31,5 @@ export {
   MENU_HIDE,
   MENU_TOGGLE,
   NOTICE_SEND,
-  store,
+  Store,
 };

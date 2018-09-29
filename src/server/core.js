@@ -7,10 +7,9 @@ import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
 
-class Core {
+class Server {
   constructor() {
     const app = new Koa();
-    this.server = app;
 
     const sessionConfig = {
       maxAge: 60 * 60 * 1000, // expires 60min
@@ -29,11 +28,9 @@ class Core {
 
     app.listen(server.port, '0.0.0.0');
     log(`cms is running, listening on 0.0.0.0:${server.port}`);
-  }
 
-  close() {
-    return this.server.close();
+    return app;
   }
 }
 
-export default Core;
+export default Server;
