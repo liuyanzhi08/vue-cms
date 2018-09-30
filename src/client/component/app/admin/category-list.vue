@@ -1,20 +1,5 @@
 <template>
   <div>
-    <button
-      class="uk-button uk-button-secondary uk-width-1-1 uk-hidden@m"
-      @click="toggle"
-    >
-      <span v-if="!expanded">expand catalog</span>
-      <span v-if="expanded">collapse catalog </span>
-      <span
-        v-if="!expanded"
-        uk-icon="icon: triangle-down"
-      />
-      <span
-        v-if="expanded"
-        uk-icon="icon: triangle-up"
-      />
-    </button>
     <ui-sidebar>
       <aside
         v-show="expanded"

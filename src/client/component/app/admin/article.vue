@@ -162,5 +162,8 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+  .v-note-help-wrapper .v-note-help-content .v-note-help-show {
+    -webkit-overflow-scrolling: touch !important;
+  }
 </style>

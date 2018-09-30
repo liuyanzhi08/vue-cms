@@ -8,7 +8,7 @@ import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 const publicPath = '/dist/';
 const rootPath = path.resolve(__dirname, '..');
 
-module.exports = {
+export default {
   entry: [
     path.join(rootPath, 'src/client/index.js'),
   ],
