@@ -39,6 +39,7 @@ export default {
       },
       {
         test: /\.css$/,
+        sideEffects: true,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -50,6 +51,7 @@ export default {
       },
       {
         test: /\.(sa|sc)ss$/,
+        sideEffects: true,
         use: [
           MiniCssExtractPlugin.loader,
           {
