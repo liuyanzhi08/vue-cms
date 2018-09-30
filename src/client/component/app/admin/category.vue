@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submit(category)">
+  <form @submit.prevent="submit">
     <div class="uk-margin">
       <input
         v-model="category.title"
@@ -19,10 +19,23 @@
       />
     </div>
     <div class="uk-margin">
-      <button
-        type="submit"
-        class="uk-button uk-button-primary"
-      >submit</button>
+      <div class="uk-button-group">
+        <button
+          class="uk-button uk-button-primary"
+          type="submit"
+        >submit</button>
+        <div class="uk-inline">
+          <button
+            class="uk-button uk-button-default"
+            type="button"
+          ><span uk-icon="icon:  triangle-down" /></button>
+          <div uk-dropdown="mode: click; animation: uk-animation-slide-top-small; duration: 200">
+            <ul class="uk-nav uk-dropdown-nav">
+              <li @click="del"><a href="#">delete</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
 </template>
@@ -72,14 +85,21 @@ export default {
   mounted() {
   },
   methods: {
-    submit(data) {
+    submit() {
       const method = isNew ? 'save' : 'update';
-      category[method](data).then((res) => {
+      category[method](this.category).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
         this.$emit('updated', res.data);
         if (isNew) {
           this.category = {};
         }
+      });
+    },
+    del() {
+      category.del(this.category).then((res) => {
+        this.$store.dispatch(NOTICE_SEND, 'deleted');
+        this.$emit('deleted', res.data);
+        this.category = {};
       });
     },
     setForm() {
@@ -101,8 +121,5 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-  body {
-    transition: all .2s;
-  }
+<style lang="scss" scoped>
 </style>

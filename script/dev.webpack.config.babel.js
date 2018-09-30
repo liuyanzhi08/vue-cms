@@ -8,7 +8,7 @@ import config from '../src/config';
 const publicPath = '/dist/';
 const rootPath = path.resolve(__dirname, '..');
 
-module.exports = {
+export default {
   mode: 'development',
   entry: [
     path.join(rootPath, 'src/client/index.js'),

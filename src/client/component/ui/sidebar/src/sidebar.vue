@@ -2,12 +2,33 @@
   <div
     class="ui-sidebar"
   >
-    <div class="side">
-      <slot name="side" />
-      <div class="side-toggle uk-visible@m">
-        <span uk-icon="icon: chevron-left" />
+    <button
+      class="uk-button uk-button-secondary uk-width-1-1 uk-hidden@m"
+      @click="expanded = !expanded"
+    >
+      <div class="button-center">
+        <span>catalog</span>
+        <span
+          v-if="expanded"
+          uk-icon="icon: triangle-down"
+        />
+        <span
+          v-if="!expanded"
+          uk-icon="icon: triangle-up"
+        />
       </div>
-    </div>
+    </button>
+    <el-collapse-transition>
+      <div
+        v-show="expanded"
+        class="side"
+      >
+        <slot name="side" />
+        <div class="side-toggle uk-visible@m">
+          <span uk-icon="icon: chevron-left" />
+        </div>
+      </div>
+    </el-collapse-transition>
     <div class="main">
       <slot name="main" />
     </div>
@@ -19,6 +40,7 @@ export default {
   props: {},
   data() {
     return {
+      expanded: true,
       collapsed: true,
     };
   },
@@ -28,8 +50,8 @@ export default {
     const $win = $(window);
     const $doc = $(document);
     const sidebarWidth = 300;
-    const $side = $(this.$el.children[0]);
-    const $main = $(this.$el.children[1]);
+    const $side = $(this.$el).find('.side');
+    const $main = $(this.$el).find('.main');
     const $toggle = $side.find('.side-toggle');
 
     const resize = () => {
@@ -86,7 +108,7 @@ export default {
       white-space: nowrap;
       overflow: visible;
       overflow-scrolling: touch;
-      padding: 15px 0 10px 10px;
+      padding: 10px 0 10px 10px;
       .side-toggle {
         display: flex;
         align-items: center;
@@ -123,9 +145,13 @@ export default {
       }
       .main {
         position: static;
-        padding: 30px 20px 20px 0;
+        padding: 10px 20px 20px 0;
         margin-top: 10px;
         margin-left: 20px;
+      }
+      .reverse {
+        transition: transform .3s;
+        transform: rotate(-180deg);
       }
     }
   }

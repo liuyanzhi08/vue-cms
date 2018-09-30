@@ -127,7 +127,7 @@ class Restfull {
     await knex(this.name)
       .where('id', ctx.params.id)
       .del()
-      .then(res => success(ctx, { id: res }))
+      .then(() => success(ctx, { id: ctx.params.id }))
       .catch(err => reject(fail(ctx, err)));
   }
 }

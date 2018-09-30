@@ -1,20 +1,5 @@
 <template>
   <div>
-    <button
-      class="uk-button uk-button-secondary uk-width-1-1 uk-hidden@m"
-      @click="toggle"
-    >
-      <span v-if="!expanded">expand catalog</span>
-      <span v-if="expanded">collapse catalog </span>
-      <span
-        v-if="!expanded"
-        uk-icon="icon: triangle-down"
-      />
-      <span
-        v-if="expanded"
-        uk-icon="icon: triangle-up"
-      />
-    </button>
     <ui-sidebar>
       <aside
         v-show="expanded"
@@ -27,6 +12,7 @@
           :data="rootCategory"
           :render-content="renderContent"
           :load="load"
+          :empty-text="'nothing'"
           lazy
           @node-click="click"
         />
@@ -47,12 +33,14 @@
           :id="selected.id"
           :category-id="selected.categoryId"
           @updated="updateArticle"
+          @deleted="deleteArticle"
         />
         <app-category
           v-if="selected.type === 'category'"
           :id="selected.id"
           :parent-id="selected.parentId"
           @updated="updateCategory"
+          @deleted="deleteCategory"
         />
       </div>
     </ui-sidebar>
@@ -66,13 +54,9 @@ import AppArticle from './article';
 import AppCategory from './category';
 import { db } from '../../../config';
 
-const label = (obj) => {
-  return `${obj.title} [ id: ${obj.id} ]`;
-};
+const label = obj => `${obj.title} [ id: ${obj.id} ]`;
 
-const id = (obj, type) => {
-  return `${type}-${obj.id}`;
-};
+const id = (obj, type) => `${type}-${obj.id}`;
 
 export default {
   components: {
@@ -188,6 +172,16 @@ export default {
       node.isLeaf = false;
       const pid = node.parent_id === db.rootId ? null : `category-${node.parent_id}`;
       tree.append(node, pid);
+    },
+    deleteArticle(node) {
+      const { tree } = this.$refs;
+      const aid = id(node, 'article');
+      tree.remove(aid);
+    },
+    deleteCategory(node) {
+      const { tree } = this.$refs;
+      const cid = id(node, 'category');
+      tree.remove(cid);
     },
     toggle() {
       this.expanded = !this.expanded;
