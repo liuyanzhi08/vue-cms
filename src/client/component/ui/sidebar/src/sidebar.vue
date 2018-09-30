@@ -10,11 +10,11 @@
         <span>catalog</span>
         <span
           v-if="expanded"
-          uk-icon="icon: triangle-down"
+          uk-icon="icon: triangle-up"
         />
         <span
           v-if="!expanded"
-          uk-icon="icon: triangle-up"
+          uk-icon="icon: triangle-down"
         />
       </div>
     </button>

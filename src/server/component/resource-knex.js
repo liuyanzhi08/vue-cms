@@ -12,11 +12,14 @@ class KnexResource {
         database: db.database,
       },
     });
-    this.model = this.db(table);
+  }
+
+  connect() {
+    return this.db(this.table);
   }
 
   async get(data) {
-    const item = await this.model.where(data).then((res) => {
+    const item = await this.connect().where(data).then((res) => {
       if (res.length) {
         return res[0];
       }
@@ -26,14 +29,14 @@ class KnexResource {
   }
 
   async query(data) {
-    const list = await this.model.where(data);
+    const list = await this.connect().where(data);
     return list;
   }
 
   async post() {}
 
   async create(data) {
-    const item = await this.model.insert(data);
+    const item = await this.connect().insert(data);
     return item;
   }
 
