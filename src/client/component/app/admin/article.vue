@@ -30,7 +30,7 @@
             class="uk-button uk-button-default"
             type="button"
           ><span uk-icon="icon:  triangle-down" /></button>
-          <div uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+          <div uk-dropdown>
             <ul class="uk-nav uk-dropdown-nav">
               <li @click="del"><a href="#">delete</a></li>
             </ul>
@@ -41,7 +41,7 @@
   </form>
 </template>
 <script>
-import Article from '../../../api/article';
+import article from '../../../api/article';
 import AppCategoryTree from './category-tree';
 import { NOTICE_SEND } from '../../../store';
 import { db } from '../../../config';
@@ -127,7 +127,7 @@ export default {
   methods: {
     submit() {
       const method = isNew ? 'save' : 'update';
-      Article[method](this.article).then((res) => {
+      article[method](this.article).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
         this.$emit('updated', res.data);
         if (isNew) {
@@ -136,7 +136,7 @@ export default {
       });
     },
     del() {
-      Article.del(this.article).then((res) => {
+      article.del(this.article).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'deleted');
         this.$emit('deleted', res.data);
         this.article = {};
@@ -145,7 +145,7 @@ export default {
     setForm() {
       const id = this.id || this.$route.params.id;
       if (id) {
-        Article
+        article
           .get(id)
           .then((res) => {
             this.article = res.data;
@@ -162,5 +162,5 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 </style>
