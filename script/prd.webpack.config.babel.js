@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
 const publicPath = '/dist/';
 const rootPath = path.resolve(__dirname, '..');
@@ -118,13 +119,17 @@ export default {
       filename: 'style/[name].[hash:7].css',
       chunkFilename: 'style/[id].[hash:7].css',
     }),
-    // new BabelMinifyPlugin(),
   ],
   optimization: {
-    minimizer: [new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: false,
-      },
-    })],
+    minimizer: [
+      new UglifyJsPlugin({
+        extractComments: true,
+        uglifyOptions: {
+          cache: true,
+          parallel: true,
+        },
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
   },
 };
