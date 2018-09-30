@@ -30,7 +30,7 @@
             class="uk-button uk-button-default"
             type="button"
           ><span uk-icon="icon:  triangle-down" /></button>
-          <div uk-dropdown>
+          <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
               <li @click="del"><a href="#">delete</a></li>
             </ul>
