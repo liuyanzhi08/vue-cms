@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "# CMS. Proudly using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 and Mocha",
   "main": "index.js",
-  "sideEffects": ["*.css", "*.(sa|sc)ss"],
   "scripts": {
     "start": "npm run dev",
     "dev": "npm run dev:ui & npm run dev:server",

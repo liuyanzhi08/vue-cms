@@ -1,6 +1,10 @@
-import Vue from 'vue';
 import list from './list/index';
 import detail from './detail/index';
 
-Vue.use(list);
-Vue.use(detail);
+const directive = {};
+directive.install = (Vue) => {
+  Vue.use(list);
+  Vue.use(detail);
+};
+
+export default directive;

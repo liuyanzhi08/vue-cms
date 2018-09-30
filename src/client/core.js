@@ -16,10 +16,10 @@ import '@style/el-theme/index.scss';
 import 'font-awesome/scss/font-awesome.scss';
 import UI from './component/ui/index';
 
-import './component/directive/index';
 import Router from './router';
 import { Store } from './store';
 import app from './component/app/app';
+import directive from './component/directive/index';
 
 UIkit.use(Icons);
 
@@ -29,6 +29,7 @@ Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(MavonEditor);
 Vue.use(UI);
+Vue.use(directive);
 
 const store = new Store();
 const router = new Router(store);
