@@ -1,0 +1,110 @@
+// front-end default theme
+
+.theme-df {
+  nav {
+    padding: 18px 0;
+  }
+
+  a {
+    transition: all 200ms ease-in-out 0s;
+  }
+
+  .fa-search {
+    margin-right: 50px;
+  }
+
+  .uk-navbar-nav {
+    a {
+      font-size: 14px;
+      color: #454545;
+      font-family: "Crimson Text",serif;
+      &:hover {
+        color: #2196F3;
+      }
+    }
+
+    > li {
+      padding: 0 12px;
+
+      > a {
+        min-height: auto;
+        height: 28px;
+        padding: 0;
+        border-bottom: 1px solid transparent;
+        &:hover {
+          border-bottom: 1px solid #2196F3;
+        }
+      }
+
+      > .uk-navbar-dropdown {
+        margin-top: 0;
+        padding: 0;
+        box-shadow: 0 0 4px rgba(0,0,0,0.09);
+        > ul {
+          padding: 0;
+          > li {
+            margin: 0;
+            padding: 0;
+            > a {
+              line-height: 20px;
+              min-width: 170px;
+              margin: 0;
+              padding: 10px;
+              border-top: 1px solid #f4f4f4;
+            }
+          }
+        }
+      }
+
+      &.uk-active {
+        > a {
+          color: #2196F3;
+          border-bottom: 1px solid #2196F3;
+        }
+      }
+
+      &.has-children {
+        position: relative;
+        padding-right: 20px;
+        &:after {
+          font: normal normal normal 14px/1 FontAwesome;
+          font-size: inherit;
+          font-size: 14px;
+          position: absolute;
+          top: 7px;
+          right: 5px;
+          display: inline-block;
+          content: "\f107";
+          transform: translate(0, 0);
+          text-rendering: auto;
+        }
+        &:hover {
+          > a {
+            border-bottom: 1px solid transparent;
+          }
+          > .uk-navbar-dropdown {
+            display: block;
+          }
+        }
+        &:hover:after {
+          content: "\f106";
+        }
+      }
+    }
+  }
+
+  article {
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Oswald",sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      margin: 13.5px 0;
+      color: #454545;
+    }
+
+    h1 {
+      font-size: 36px;
+      line-height: 1.1em;
+    }
+  }
+}

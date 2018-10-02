@@ -7,11 +7,13 @@ import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
 import MavonEditor from 'mavon-editor';
 // eslint-disable-next-line
-import '@style/me-theme/index.scss';
+import '@style/theme-mavon-editor/index.scss';
 // eslint-disable-next-line
-import '@style/uk-theme/index.scss';
+import '@style/theme-uikit/index.scss';
 // eslint-disable-next-line
-import '@style/el-theme/index.scss';
+import '@style/theme-element-ui/index.scss';
+// eslint-disable-next-line
+import '@style/google-font/index.scss';
 
 import 'font-awesome/scss/font-awesome.scss';
 import UI from './component/ui/index';
