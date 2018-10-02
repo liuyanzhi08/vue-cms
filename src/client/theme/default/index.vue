@@ -33,9 +33,10 @@
           >
             <article v-if="article">
               <h1>{{ article.title }}</h1>
-              <div class="content">
-                {{ article.content }}
-              </div>
+              <div
+                class="content"
+                v-html="md.parse(article.content)"
+              />
             </article>
           </template>
         </vms-list>
@@ -70,7 +71,15 @@
   </div>
 </template>
 <script>
-export default {};
+import md from '../../helper/md';
+
+export default {
+  data() {
+    return {
+      md,
+    };
+  },
+};
 </script>
 <style lang="scss" scoped>
   .theme-default {

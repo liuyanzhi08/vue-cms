@@ -1,7 +1,13 @@
+import fs from 'fs';
+import _path from 'path';
+import { path } from '../../../config';
 import { db } from '../../../config';
 
 const categoryTableName = `${db.prefix}_category`;
 const articleTableName = `${db.prefix}_article`;
+
+const readmePath = _path.resolve(path.root, 'README.md');
+const readme = fs.readFileSync(readmePath).toString();
 
 exports.seed = knex => knex(categoryTableName).del()
   .then(() => knex(categoryTableName).insert([
@@ -21,8 +27,8 @@ exports.seed = knex => knex(categoryTableName).del()
   ]))
   .then(res => knex(articleTableName).insert([
     {
-      title: 'category-d1-b0',
-      content: 'category-d1-b0',
+      title: 'Hello, vue-cms',
+      content: readme,
       category_id: res[0],
     },
   ]))

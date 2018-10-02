@@ -19,7 +19,8 @@ import UI from './component/ui/index';
 import Router from './router';
 import { Store } from './store';
 import app from './component/app/app';
-import directive from './component/directive/index';
+import directive from './component/directive';
+import filter from './filter';
 
 UIkit.use(Icons);
 
@@ -30,6 +31,7 @@ Vue.use(ElementUI);
 Vue.use(MavonEditor);
 Vue.use(UI);
 Vue.use(directive);
+Vue.use(filter);
 
 const store = new Store();
 const router = new Router(store);
