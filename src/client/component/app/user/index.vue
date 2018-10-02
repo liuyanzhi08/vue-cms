@@ -4,11 +4,11 @@
   </div>
 </template>
 <script>
-import themeIndex from '../../../theme/default/index';
+import ThemeIndex from '../../../theme/default/index';
 
 export default {
   components: {
-    themeIndex,
+    ThemeIndex,
   },
   created() {
   },

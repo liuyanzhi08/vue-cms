@@ -1,22 +1,13 @@
 <template>
   <div>
     <slot
-      :id="category.id"
-      :title="category.title"
-      :description="category.description"
-      :created_at="category.created_at"
-      :url="category.url"
-      name="category"
+      :category="category"
     />
     <slot
-      v-for="article in articles"
-      :id="article.id"
-      :title="article.title"
-      :content="article.content"
-      :category_id="article.category_id"
-      :created_at="article.created_at"
-      :url="article.url"
-      name="article"
+      :articles="articles"
+    />
+    <slot
+      :article="articles[0]"
     />
   </div>
 </template>
@@ -26,7 +17,7 @@ import Article from '../../../../api/article';
 import Category from '../../../../api/category';
 
 export default {
-  name: 'SList',
+  name: 'VmsList',
   props: {
     cid: {
       type: String,
@@ -40,11 +31,17 @@ export default {
   data() {
     return {
       articles: [],
-      category: {},
+      category: null,
     };
   },
+  computed: {
+    article() {
+      return this.articles.length ? this.articles[0] : null;
+    },
+  },
   created() {
-    const [from, size] = this.limit.split(',');
+    const limit = this.limit.replace(/\s/g, '');
+    const [from, size] = limit.split(',');
     Article.query({
       _from: from,
       _size: size,

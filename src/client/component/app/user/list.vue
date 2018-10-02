@@ -4,11 +4,11 @@
   </div>
 </template>
 <script>
-import themeList from '../../../theme/default/list';
+import ThemeList from '../../../theme/default/list';
 
 export default {
   components: {
-    themeList,
+    ThemeList,
   },
 };
 </script>

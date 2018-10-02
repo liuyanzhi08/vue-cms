@@ -6,6 +6,7 @@ const errorMap = {
   authUnmatched: [2, 'username and password are unmatched'],
   authUserNotExisted: [3, 'username is not existed'],
   authUnauthorized: [4, 'unauthorized'],
+  404: [5, 'resource not found'],
 };
 
 const error = _.mapValues(errorMap, value => ({

@@ -15,7 +15,7 @@
 import Article from '../../../../api/article';
 
 export default {
-  name: 'SDetail',
+  name: 'VmsDetail',
   props: {
     aid: {
       type: String,

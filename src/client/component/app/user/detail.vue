@@ -4,11 +4,11 @@
   </div>
 </template>
 <script>
-import themeDetail from '../../../theme/default/detail';
+import ThemeDetail from '../../../theme/default/detail';
 
 export default {
   components: {
-    themeDetail,
+    ThemeDetail,
   },
 };
 </script>

@@ -62,12 +62,16 @@ class Restfull {
       const size = params._size ? +params._size : +params._num;
       const res = await query(sql, [from, size]).catch(err => reject(fail(ctx, err)));
       const { results } = res;
-      const items = results ? results[0] : [];
       const total = results ? results[1][0].total : 0;
-      success(ctx, {
-        items,
-        total,
-      });
+      if (total) {
+        const items = results;
+        success(ctx, {
+          items,
+          total,
+        });
+      } else {
+        fail(ctx, error['404'], { code: 404 });
+      }
       return;
     }
     // detail
@@ -75,8 +79,11 @@ class Restfull {
     try {
       const res = await query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]);
       const { results } = res;
-      const result = results.length ? results[0]: null;
-      success(ctx, result);
+      if (results.length) {
+        success(ctx, results[0]);
+      } else {
+        fail(ctx, error['404'], { code: 404 });
+      }
     } catch (e) {
       fail(ctx, e);
     }

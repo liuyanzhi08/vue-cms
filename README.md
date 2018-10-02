@@ -18,7 +18,7 @@ $ cd vue-cms
 $ npm install          # maybe run `cnpm install`
 $ vim src/config.js    # modify the db config to yours
 $ npm run dev:db:init  # generate the development db
-$ npm run dev          # build Vue files and start a Koa server
+$ npm start            # build Vue files and start a Koa server
 ```
 **username: admin** & **password: admin**
 
