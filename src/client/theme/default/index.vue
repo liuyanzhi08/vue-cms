@@ -25,7 +25,7 @@
       </nav>
       <div>
         <vms-list
-          cid="233"
+          cid="2"
           limit="0, 1"
         >
           <template

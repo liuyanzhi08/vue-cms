@@ -11,7 +11,6 @@ const success = (ctx, data, options = { code: 200 }) => {
   if (data) {
     ctx.body = data;
   }
-  console.log(data, ctx.body = 'undefined');
   ctx.status = options.code;
   log(accessLog(ctx, 'green'));
   return data;

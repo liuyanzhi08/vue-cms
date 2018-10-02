@@ -63,15 +63,11 @@ class Restfull {
       const res = await query(sql, [from, size]).catch(err => reject(fail(ctx, err)));
       const { results } = res;
       const total = results ? results[1][0].total : 0;
-      if (total) {
-        const items = results;
-        success(ctx, {
-          items,
-          total,
-        });
-      } else {
-        fail(ctx, error['404'], { code: 404 });
-      }
+      const items = results[0];
+      success(ctx, {
+        items,
+        total,
+      });
       return;
     }
     // detail
