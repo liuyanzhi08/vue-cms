@@ -1,13 +1,16 @@
 import fs from 'fs';
 import _path from 'path';
-import { path } from '../../../config';
-import { db } from '../../../config';
+import _ from 'lodash';
+import { path, db } from '../../../config';
 
 const categoryTableName = `${db.prefix}_category`;
 const articleTableName = `${db.prefix}_article`;
 
 const readmePath = _path.resolve(path.root, 'README.md');
 const readme = fs.readFileSync(readmePath).toString();
+const firstLineIndex = readme.indexOf('\n');
+const readmeTitle = _.trim(readme.substring(0, firstLineIndex + 1), '#');
+const readmeContent = readme.substring(firstLineIndex);
 
 exports.seed = knex => knex(categoryTableName).del()
   .then(() => knex(categoryTableName).insert([
@@ -27,8 +30,8 @@ exports.seed = knex => knex(categoryTableName).del()
   ]))
   .then(res => knex(articleTableName).insert([
     {
-      title: 'Hello, vue-cms',
-      content: readme,
+      title: readmeTitle,
+      content: readmeContent,
       category_id: res[0],
     },
   ]))

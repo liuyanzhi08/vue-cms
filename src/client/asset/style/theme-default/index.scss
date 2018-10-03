@@ -105,6 +105,15 @@
     h1 {
       font-size: 36px;
       line-height: 1.1em;
+      margin: 50px 0;
+    }
+
+    .content {
+      font: 400 16px "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height: 1.5em;
+      color: #454545;
+      background: #fff;
+      font-smoothing: antialiased;
     }
   }
 }
