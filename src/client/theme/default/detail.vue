@@ -1,6 +1,6 @@
 <template>
   <div class="uk-card uk-card-default uk-card-body">
-    <s-detail :aid="$route.params.id">
+    <vms-detail :aid="$route.params.id">
       <div
         slot="article"
         slot-scope="article"
@@ -9,7 +9,7 @@
         <h3>{{ article.created_at }}</h3>
         {{ article.content }}
       </div>
-    </s-detail>
+    </vms-detail>
   </div>
 </template>
 <script>

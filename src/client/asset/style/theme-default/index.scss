@@ -1,12 +1,38 @@
 // front-end default theme
+@import "./variable";
 
 .theme-df {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Oswald",sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 13.5px 0;
+    color: #454545;
+
+    > a {
+      color: #454545;
+      text-decoration: none;
+      &:hover {
+        color: #2196F3;
+      }
+    }
+  }
+
   nav {
     padding: 18px 0;
   }
 
   a {
-    transition: all 200ms ease-in-out 0s;
+    @include transition();
+    img {
+      filter: grayscale(100%);
+      @include transition();
+    }
+    &:hover {
+      img {
+        filter: grayscale(0);
+      }
+    }
   }
 
   .fa-search {
@@ -91,18 +117,32 @@
         }
       }
     }
+
+    .social-links a {
+      font-size: 16px;
+      line-height: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 25px;
+      height: 25px;
+      margin: 0 5px;
+      text-align: center;
+      color: #fff;
+      border-radius: 50%;
+      //background-image: radial-gradient( rgba(0,0,0, 1), rgba(255,255,255, 0));
+      background: #777;
+      text-decoration: none;
+      box-shadow: 1px 1px 10px rgba(0, 0, 0, .5);
+      &:hover {
+        color: #fff;
+        background-color: #2196F3;
+      }
+    }
   }
 
   article {
     position: relative;
-
-    h1, h2, h3, h4, h5, h6 {
-      font-family: "Oswald",sans-serif;
-      font-weight: 400;
-      font-style: normal;
-      margin: 13.5px 0;
-      color: #454545;
-    }
 
     h1 {
       font-size: 36px;
@@ -124,6 +164,7 @@
       bottom: 0;
       width: 100%;
       padding-top: 160px;
+      cursor: pointer;
       background-image: linear-gradient(-180deg, rgba(255,255,255,0) 0%, #fff 70%);
 
       $slide-top-offset: -5px;
@@ -157,6 +198,15 @@
     &.collapsed {
       height: 600px;
       overflow: hidden;
+    }
+  }
+  footer {
+    font-size: 16px;
+    font-family: "Crimson Text", serif;
+    background-color: #f5f5f5;
+
+    .slogan {
+      font-family: "Oswald",sans-serif;
     }
   }
 }

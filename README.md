@@ -1,4 +1,4 @@
-# VUE-CMS. Proudly using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 and Mocha
+# VUE-CMS. Proudly Using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 And Mocha
 
 ## Dependency
 

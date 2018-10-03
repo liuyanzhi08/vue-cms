@@ -9,17 +9,29 @@
             <li class="uk-active"><a href="#">home</a></li>
             <li><a href="#">about</a></li>
             <li class="has-children">
-              <a href="#">Parent</a>
+              <a href="#">archive</a>
               <div class="uk-navbar-dropdown">
                 <ul class="uk-nav uk-navbar-dropdown-nav">
-                  <li><a href="#">Active</a></li>
-                  <li><a href="#">Item</a></li>
-                  <li><a href="#">Item</a></li>
+                  <li><a href="#">Catalog</a></li>
+                  <li><a href="#">Tag</a></li>
                 </ul>
               </div>
             </li>
-            <li><a href="#">Item</a></li>
           </ul>
+
+          <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav">
+              <li>
+                <div class="social-links uk-flex uk-flex-center">
+                  <a href="#"><i class="fa fa-github" /></a>
+                  <a href="#"><i class="fa fa-weibo" /></a>
+                  <a href="#"><i class="fa fa-twitter" /></a>
+                  <a href="#"><i class="fa fa-facebook" /></a>
+                  <a href="#"><i class="fa fa-weixin" /></a>
+                </div>
+              </li>
+            </ul>
+          </div>
 
         </div>
       </nav>
@@ -56,7 +68,50 @@
           </template>
         </vms-list>
       </div>
+      <h3 class="uk-margin-large">Recent Posts …</h3>
+      <vms-list
+        cid="4"
+        limit="0, 3"
+      >
+        <template slot-scope="{ articles }">
+          <div
+            class="uk-flex uk-flex-left"
+            uk-grid
+          >
+            <div
+              v-for="aritcle in articles"
+              :key="aritcle.id"
+              class="uk-width-1-3"
+            >
+              <a :href="aritcle.url">
+                <img
+                  src="@image/beauty.jpg"
+                  alt="light"
+                >
+              </a>
+              <h2>
+                <a :href="aritcle.url">
+                  {{ aritcle.title }}
+                </a>
+              </h2>
+            </div>
+          </div>
+        </template>
+      </vms-list>
     </div>
+    <footer>
+      <div class="uk-container uk-flex uk-flex-between uk-flex-middle uk-padding-small">
+        <div class="copyright">
+          © Copyright 2018
+          <a href="http://demo.theme-junkie.com/silvia">Silvia</a>
+          · Designed by
+          <a href="http://www.theme-junkie.com/">Theme Junkie</a>
+        </div>
+        <div class="slogan">
+          Hello, vue-cms
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 <script>

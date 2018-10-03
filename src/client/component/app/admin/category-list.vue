@@ -54,7 +54,7 @@ import AppArticle from './article';
 import AppCategory from './category';
 import { db } from '../../../config';
 
-const label = obj => `${obj.title} [ id: ${obj.id} ]`;
+const label = (obj, type) => `${obj.title} [ ${type.substr(0, 1)}id: ${obj.id} ]`;
 
 const id = (obj, type) => `${type}-${obj.id}`;
 
@@ -87,7 +87,7 @@ export default {
         _.each(res.data.items, (category) => {
           subCategories.push({
             treeId: id(category, 'category'),
-            label: label(category),
+            label: label(category, 'category'),
             isLeaf: false,
             ...category,
           });
@@ -100,7 +100,7 @@ export default {
         _.each(res.data.items, (article) => {
           subArticles.push({
             treeId: id(article, 'article'),
-            label: label(article),
+            label: label(article, 'article'),
             isLeaf: true,
             ...article,
           });
@@ -153,7 +153,7 @@ export default {
       const { tree } = this.$refs;
       const aid = id(node, 'article');
       tree.remove(aid);
-      node.label = label(node);
+      node.label = label(node, 'article');
       node.treeId = id(node, 'article');
       node.isLeaf = true;
       const cid = node.category_id === db.rootId ? null : `category-${node.category_id}`;
@@ -167,7 +167,7 @@ export default {
       if (nodeInTree) {
         node.children = nodeInTree.children;
       }
-      node.label = label(node);
+      node.label = label(node, 'category');
       node.treeId = id(node, 'category');
       node.isLeaf = false;
       const pid = node.parent_id === db.rootId ? null : `category-${node.parent_id}`;

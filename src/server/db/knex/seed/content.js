@@ -56,6 +56,16 @@ exports.seed = knex => knex(categoryTableName).del()
       content: faker.lorem.paragraphs(),
       category_id: res[0],
     },
+    {
+      title: faker.lorem.sentence(),
+      content: faker.lorem.paragraphs(),
+      category_id: res[0],
+    },
+    {
+      title: faker.lorem.sentence(),
+      content: faker.lorem.paragraphs(),
+      category_id: res[0],
+    },
   ]))
   .then(() => knex(articleTableName).insert([
     {
