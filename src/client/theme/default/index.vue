@@ -40,8 +40,8 @@
       >
         <div class="uk-navbar-left">
           <ul class="uk-navbar-nav">
-            <li>
-              <div class="social-links uk-flex uk-flex-center">
+            <li class="social-links">
+              <div class="uk-flex uk-flex-center">
                 <a href="#"><i class="fa fa-github" /></a>
                 <a href="#"><i class="fa fa-weibo" /></a>
                 <a href="#"><i class="fa fa-twitter" /></a>
@@ -138,7 +138,7 @@
             <div
               v-for="aritcle in articles"
               :key="aritcle.id"
-              class="uk-width-1-3"
+              class="uk-width-1-1@s uk-width-1-3@m"
             >
               <a :href="aritcle.url">
                 <img
