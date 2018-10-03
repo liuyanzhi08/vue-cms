@@ -94,6 +94,8 @@
   }
 
   article {
+    position: relative;
+
     h1, h2, h3, h4, h5, h6 {
       font-family: "Oswald",sans-serif;
       font-weight: 400;
@@ -113,7 +115,48 @@
       line-height: 1.5em;
       color: #454545;
       background: #fff;
-      font-smoothing: antialiased;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .hide-article-box {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding-top: 160px;
+      background-image: linear-gradient(-180deg, rgba(255,255,255,0) 0%, #fff 70%);
+
+      $slide-top-offset: -5px;
+      @keyframes slide-top {
+        0% {
+          transform: translateY($slide-top-offset);
+        }
+        50% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY($slide-top-offset);
+        }
+      }
+
+      .slide-top {
+        animation-name: slide-top;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+      }
+
+      .uk-icon:first-child {
+        transform: scale(2);
+      }
+
+      .uk-icon:last-child {
+        transform: scale(2.3) translateY(-3px);
+      }
+    }
+
+    &.collapsed {
+      height: 600px;
+      overflow: hidden;
     }
   }
 }

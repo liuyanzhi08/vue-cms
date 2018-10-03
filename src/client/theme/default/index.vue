@@ -31,12 +31,27 @@
           <template
             slot-scope="{ article }"
           >
-            <article v-if="article">
+            <article
+              v-if="article"
+              :class="{ collapsed }"
+            >
               <h1>{{ article.title }}</h1>
               <div
                 class="content"
                 v-html="md.parse(article.content)"
               />
+              <div
+                v-if="collapsed"
+                class="hide-article-box uk-flex uk-flex-center"
+              >
+                <div
+                  class="uk-flex uk-flex-column slide-top"
+                  @click="collapsed = !collapsed"
+                >
+                  <span uk-icon="icon: chevron-down" />
+                  <span uk-icon="icon: chevron-down" />
+                </div>
+              </div>
             </article>
           </template>
         </vms-list>
@@ -53,6 +68,7 @@ export default {
   data() {
     return {
       md,
+      collapsed: true,
     };
   },
 };
