@@ -1,6 +1,7 @@
 import fs from 'fs';
 import _path from 'path';
 import _ from 'lodash';
+import faker from 'faker';
 import { path, db } from '../../../config';
 
 const categoryTableName = `${db.prefix}_category`;
@@ -51,8 +52,8 @@ exports.seed = knex => knex(categoryTableName).del()
   ]))
   .then(res => knex(articleTableName).insert([
     {
-      title: 'article-d2-b1',
-      content: 'article-d2-b1',
+      title: faker.lorem.sentence(),
+      content: faker.lorem.paragraphs(),
       category_id: res[0],
     },
   ]))

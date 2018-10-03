@@ -6,8 +6,8 @@
           <i class="fa fa-search" />
 
           <ul class="uk-navbar-nav">
-            <li><a href="#">home</a></li>
-            <li class="uk-active"><a href="#">about</a></li>
+            <li class="uk-active"><a href="#">home</a></li>
+            <li><a href="#">about</a></li>
             <li class="has-children">
               <a href="#">Parent</a>
               <div class="uk-navbar-dropdown">
@@ -45,7 +45,7 @@
                 class="hide-article-box uk-flex uk-flex-center"
               >
                 <div
-                  class="uk-flex uk-flex-column slide-top"
+                  class="uk-flex uk-flex-column uk-flex-middle  animation-slide-top uk-width-1-1"
                   @click="collapsed = !collapsed"
                 >
                   <span uk-icon="icon: chevron-down" />

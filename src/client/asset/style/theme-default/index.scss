@@ -127,7 +127,7 @@
       background-image: linear-gradient(-180deg, rgba(255,255,255,0) 0%, #fff 70%);
 
       $slide-top-offset: -5px;
-      @keyframes slide-top {
+      @keyframes animation-slide-top {
         0% {
           transform: translateY($slide-top-offset);
         }
@@ -139,8 +139,8 @@
         }
       }
 
-      .slide-top {
-        animation-name: slide-top;
+      .animation-slide-top {
+        animation-name: animation-slide-top;
         animation-duration: 2s;
         animation-iteration-count: infinite;
       }
