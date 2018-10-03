@@ -1,8 +1,5 @@
 // uikit theme
 
-@import './variable.scss';
-@import '~uikit/src/scss/variables-theme.scss';
-@import '~uikit/src/scss/variables.scss';
-@import '~uikit/src/scss/mixins.scss';
-@import '~uikit/src/scss/mixins-theme.scss';
-@import '~uikit/src/scss/uikit-theme.scss';
+@import './variables-theme';
+@import './mixins-theme';
+@import './uikit-theme';

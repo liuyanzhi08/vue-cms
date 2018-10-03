@@ -25,7 +25,7 @@ const brand = {
 const menu = [
   {
     label: 'Category',
-    icon: 'table',
+    icon: 'list',
     router: {
       name: rnames.categoryList,
       params: {},
