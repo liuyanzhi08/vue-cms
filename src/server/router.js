@@ -1,8 +1,8 @@
 import KoaRouter from 'koa-router';
 import koaSend from 'koa-send';
-import _path from 'path';
+import path from 'path';
 import fs from 'fs';
-import { path } from './config';
+import { path as _path } from './config';
 import { success, fail } from './helper/ctx';
 
 const router = new KoaRouter();
@@ -17,7 +17,7 @@ const componentHandler =  async (ctx) => {
 };
 
 const assetHandler = async (ctx) => {
-  const filePath = _path.join(path.dist, ctx.params[0]);
+  const filePath = path.join(_path.dist, ctx.params[0]);
   if (fs.existsSync(filePath)) {
     ctx.set('Cache-Control', `max-age=${3600 * 24 * 7}`);
     await koaSend(ctx, filePath, { root: '/' });
@@ -30,14 +30,14 @@ const assetHandler = async (ctx) => {
 
 const indexHandler = async (ctx) => {
   ctx.set('Cache-Control', 'no-cache');
-  await koaSend(ctx, _path.join(path.dist, 'index.html'), { root: '/' });
+  await koaSend(ctx, path.join(_path.dist, 'index.html'), { root: '/' });
   success(ctx);
 };
 
 const staticHandle = async (ctx) => {
   const param = ctx.params[0];
   const file = param !== '/' ? param : '/index.html';
-  const filePath = _path.join(path.static, file);
+  const filePath = path.join(_path.static, file);
   if (fs.existsSync(filePath)) {
     const stats = fs.statSync(filePath);
     const fileModified = new Date(stats.ctime);
@@ -70,10 +70,10 @@ router
   .all('/api/:component/:id', componentHandler)
   .all('/api/:component', componentHandler)
   .all('/dist/*', assetHandler)
-  .all(path.admin, indexHandler)
-  .all(path.user, indexHandler)
-  .all(`${path.user}/*`, indexHandler)
-  .all(`${path.admin}/*`, indexHandler)
+  .all(_path.admin, indexHandler)
+  .all(_path.user, indexHandler)
+  .all(`${_path.user}/*`, indexHandler)
+  .all(`${_path.admin}/*`, indexHandler)
   .all('*', staticHandle);
 
 export default router;

@@ -11,7 +11,7 @@ const server = {
 
 const root = _path.resolve(__dirname, '../..');
 const dist = _path.join(root, 'dist');
-const staticPath = _path.join(dist, 'static');
+const staticPath = _path.join(root, 'page');
 const accessLogPath = _path.isAbsolute(config.server.log.access)
   ? config.server.log.access : _path.join(root, config.server.log.access);
 const errorLogPath = _path.isAbsolute(config.server.log.error)
