@@ -29,9 +29,8 @@ export default {
       index: path.join(publicPath, 'index.html'),
     },
     publicPath,
-    index: '',
     proxy: [{
-      context: ['**', `!${config.server.path.admin}/**`, `!${config.server.path.user}/**`],
+      context: ['**', `!${config.server.path.admin}`, `!${config.server.path.user}`],
       target: `http://localhost:${config.server.port}`,
     }],
     port: 8080,
