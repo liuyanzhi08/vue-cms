@@ -1,4 +1,5 @@
 import path from 'path';
+import _ from 'lodash';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -30,13 +31,13 @@ export default {
     publicPath,
     index: '',
     proxy: [{
-      context: ['**', '!/user/**', '!/admin/**'],
+      context: ['**', `!${config.server.path.admin}/**`, `!${config.server.path.user}/**`],
       target: `http://localhost:${config.server.port}`,
     }],
     port: 8080,
     disableHostCheck: true,
     open: true,
-    openPage: 'admin',
+    openPage: `${_.trimStart(config.server.path.admin, '/')}`,
     overlay: true,
   },
   module: {
