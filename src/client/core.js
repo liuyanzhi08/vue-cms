@@ -47,7 +47,7 @@ class App {
       },
       router,
       store,
-    }).$mount('#app');
+    });
   }
 }
 

@@ -4,6 +4,7 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
+import VueSSRClientPlugin from 'vue-server-renderer/client-plugin';
 import config from '../src/config';
 
 const publicPath = '/dist/';
@@ -12,7 +13,7 @@ const rootPath = path.resolve(__dirname, '..');
 export default {
   mode: 'development',
   entry: [
-    path.join(rootPath, 'src/client/index.js'),
+    path.join(rootPath, 'src/client/ssr/entry-client.js'),
   ],
   output: {
     path: path.join(rootPath, publicPath),
@@ -21,24 +22,6 @@ export default {
     chunkFilename: 'script/[name].bundle.js',
   },
   devtool: 'eval-source-map',
-  devServer: {
-    hot: true,
-    host: '0.0.0.0',
-    useLocalIp: true,
-    historyApiFallback: {
-      index: path.join(publicPath, 'index.html'),
-    },
-    publicPath,
-    proxy: [{
-      context: ['**', `!${config.server.path.admin}`, `!${config.server.path.user}`],
-      target: `http://localhost:${config.server.port}`,
-    }],
-    port: 8080,
-    disableHostCheck: true,
-    open: true,
-    openPage: `${_.trimStart(config.server.path.admin, '/')}`,
-    overlay: true,
-  },
   module: {
     rules: [
       {
@@ -130,7 +113,7 @@ export default {
       '@image': path.join(rootPath, 'src/client/asset/image'),
       '@style': path.join(rootPath, 'src/client/asset/style'),
     },
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue'],
   },
   plugins: [
     new webpack.ProvidePlugin({
@@ -146,6 +129,9 @@ export default {
     new MiniCssExtractPlugin({
       filename: 'style/[name].css',
       chunkFilename: 'style/[id].css',
+    }),
+    new VueSSRClientPlugin({
+      filename: 'manifest/vue-ssr-client-bundle.json',
     }),
   ],
 };

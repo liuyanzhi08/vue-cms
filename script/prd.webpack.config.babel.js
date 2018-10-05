@@ -104,7 +104,7 @@ export default {
       '@image': path.join(rootPath, 'src/client/asset/image'),
       '@style': path.join(rootPath, 'src/client/asset/style'),
     },
-    extensions: ['.js', '.vue'],
+    extensions: ['.js', '.vue', '.json'],
   },
   plugins: [
     new webpack.ProvidePlugin({

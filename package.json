@@ -27,9 +27,11 @@
     "db:seed:make": "knex --knexfile src/server/db/knex/knexfile.babel.js seed:make",
     "db:seed:run": "knex --knexfile src/server/db/knex/knexfile.babel.js seed:run",
     "db:delete": "cross-env NODE_ENV=production node src/server/db/delete",
-    "build": "cross-env NODE_ENV=development webpack --mode=production --progress --config script/prd.webpack.config.babel.js",
+    "build": "cross-env NODE_ENV=production webpack --mode=production --progress --config script/prd.webpack.config.babel.js",
     "publish": "npm run build && npm run server:restart",
-    "pub": "npm run publish"
+    "pub": "npm run publish",
+    "build:ssr:server": "cross-env NODE_ENV=development webpack --mode=development --progress --config script/dev-ssr-server.webpack.config.babel.js",
+    "build:ssr:client": "cross-env NODE_ENV=development webpack --mode=development --progress --config script/dev-ssr-client.webpack.config.babel.js"
   },
   "repository": {
     "type": "git",
@@ -93,7 +95,6 @@
     "vue-moment": "^3.1.0",
     "vue-resource": "^1.3.5",
     "vue-router": "^2.8.1",
-    "vue-server-renderer": "^2.5.13",
     "vuex": "^2.3.1"
   },
   "devDependencies": {
@@ -151,10 +152,12 @@
     "uglifyjs-webpack-plugin": "^2.0.0",
     "url-loader": "^1.1.1",
     "vue-loader": "^15.4.1",
+    "vue-server-renderer": "^2.5.17",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.8",
+    "webpack-merge": "^4.1.4",
     "webpack-node-externals": "^1.7.2"
   }
 }
