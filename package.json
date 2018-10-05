@@ -30,8 +30,8 @@
     "build": "cross-env NODE_ENV=production webpack --mode=production --progress --config script/prd.webpack.config.babel.js",
     "publish": "npm run build && npm run server:restart",
     "pub": "npm run publish",
-    "build:ssr:server": "cross-env NODE_ENV=development webpack --mode=development --progress --config script/dev-ssr-server.webpack.config.babel.js",
-    "build:ssr:client": "cross-env NODE_ENV=development webpack --mode=development --progress --config script/dev-ssr-client.webpack.config.babel.js"
+    "build:ssr:server": "cross-env NODE_ENV=development webpack --mode=development  --watch --config script/dev-ssr-server.webpack.config.babel.js",
+    "build:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --watch --config script/dev-ssr-client.webpack.config.babel.js"
   },
   "repository": {
     "type": "git",

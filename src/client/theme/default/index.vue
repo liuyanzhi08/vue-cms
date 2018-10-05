@@ -170,7 +170,6 @@
   </div>
 </template>
 <script>
-import UIkit from 'uikit';
 import md from '../../helper/md';
 import { MENU_SET, MENU_TOGGLE } from '../../store';
 // eslint-disable-next-line
@@ -227,8 +226,9 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.$store.dispatch(MENU_SET, UIkit.offcanvas('#offcanvas-nav'));
+  async mounted() {
+    const uk = await import('uikit');
+    this.$store.dispatch(MENU_SET, uk.offcanvas('#offcanvas-nav'));
   },
   methods: {
     toggleMenu() {

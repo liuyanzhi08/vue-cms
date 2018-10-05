@@ -27,34 +27,29 @@ export default {
       },
       {
         test: /\.css$/,
+        sideEffects: true,
         use: [
-          {
-            loader: 'vue-style-loader',
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
             },
           },
         ],
       },
       {
         test: /\.(sa|sc)ss$/,
+        sideEffects: true,
         use: [
-          {
-            loader: 'vue-style-loader',
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
             },
           },
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: true,
               config: {
                 path: path.resolve(__dirname, 'postcss.config.js'),
               },
@@ -63,13 +58,12 @@ export default {
           {
             loader: 'resolve-url-loader',
             options: {
-              sourceMap: true,
             },
           },
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
+              sourceMap: true, // todo why cannot remove this line
             },
           },
         ],
@@ -79,7 +73,7 @@ export default {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'img/[name].[ext]',
+          name: 'img/[name].[hash:7].[ext]',
         },
       },
       {
@@ -87,7 +81,7 @@ export default {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'font/[name].[ext]',
+          name: 'font/[name].[hash:7].[ext]',
         },
       },
     ],

@@ -13,6 +13,6 @@ export default {
   get: async (ctx) => {
     // tod need auth
     // await savePageRecurse(`${server.url}${path.user}`, path.static, 'index.html');
-    ctx.body = renderer.bundleRenderer;
+    ctx.body = renderer.renderToString();
   },
 };

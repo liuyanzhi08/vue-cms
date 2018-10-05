@@ -80,7 +80,6 @@
   </div>
 </template>
 <script>
-import UIkit from 'uikit';
 import { mapGetters } from 'vuex';
 import {
   AUTH_LOGOUT, AUTH_USER, MENU_SET, MENU_TOGGLE,
@@ -105,8 +104,9 @@ export default {
       this.$store.dispatch(AUTH_USER);
     }
   },
-  mounted() {
-    this.$store.dispatch(MENU_SET, UIkit.offcanvas('#offcanvas-nav'));
+  async mounted() {
+    const uk = await import('uikit');
+    this.$store.dispatch(MENU_SET, uk.offcanvas('#offcanvas-nav'));
   },
   methods: {
     logout() {

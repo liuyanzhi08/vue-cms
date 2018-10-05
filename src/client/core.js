@@ -3,19 +3,8 @@ import VueResource from 'vue-resource';
 import * as Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import ElementUI from 'element-ui';
-import UIkit from 'uikit';
-import Icons from 'uikit/dist/js/uikit-icons';
 import MavonEditor from 'mavon-editor';
-// eslint-disable-next-line
-import '@style/theme-mavon-editor/index.scss';
-// eslint-disable-next-line
-import '@style/theme-uikit/index.scss';
-// eslint-disable-next-line
-import '@style/theme-element-ui/index.scss';
-// eslint-disable-next-line
-import '@style/google-font/index.scss';
 
-import 'font-awesome/scss/font-awesome.scss';
 import UI from './component/ui/index';
 
 import Router from './router';
@@ -23,8 +12,6 @@ import { Store } from './store';
 import app from './component/app/app';
 import directive from './component/directive';
 import filter from './filter';
-
-UIkit.use(Icons);
 
 Vue.use(VueResource);
 Vue.use(Vuex);

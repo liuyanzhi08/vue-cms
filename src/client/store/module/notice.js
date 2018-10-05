@@ -1,5 +1,3 @@
-import UIkit from 'uikit';
-
 const NOTICE_SEND = 'notice:send';
 
 const notice = {
@@ -8,8 +6,9 @@ const notice = {
   mutations: {
   },
   actions: {
-    [NOTICE_SEND]: (ctx, msg, options = { timeout: 1000 }) => {
-      UIkit.notification(msg, options);
+    [NOTICE_SEND]: async (ctx, msg, options = { timeout: 1000 }) => {
+      const uk = import('uikit');
+      uk.notification(msg, options);
     },
   },
 };
