@@ -1,6 +1,7 @@
-import core from '../core';
+import Core from '../core';
 
-const { app, router } = core;
+const { app, router } = new Core();
+
 
 export default async context => new Promise((resolve, reject) => {
   // 设置服务器端 router 的位置

@@ -22,17 +22,23 @@ Vue.use(UI);
 Vue.use(directive);
 Vue.use(filter);
 
-const store = new Store();
-const router = new Router(store);
+class Core {
+  constructor() {
+    const store = new Store();
+    const router = new Router(store);
+    const app = new Vue({
+      name: 'App',
+      render: h => h(_app),
+      renderError(h, err) {
+        return h('pre', { style: { color: 'red' } }, err.stack);
+      },
+      router,
+      store,
+    });
+    this.store = store;
+    this.router = router;
+    this.app = app;
+  }
+}
 
-const app = new Vue({
-  name: 'App',
-  render: h => h(_app),
-  renderError(h, err) {
-    return h('pre', { style: { color: 'red' } }, err.stack);
-  },
-  router,
-  store,
-});
-
-export default { app, router, store };
+export default Core;
