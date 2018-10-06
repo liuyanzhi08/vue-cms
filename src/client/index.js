@@ -1,3 +1,7 @@
 import App from './core';
+import {router} from './core';
 
-export default (new App()).$mount('#app');
+const app = new App();
+
+router.onReady(() => app.$mount('#app'));
+export default app;

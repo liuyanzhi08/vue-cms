@@ -1,19 +1,23 @@
 <template>
   <div class="uk-card uk-card-default uk-card-body">
-    <vms-detail :aid="$route.params.id">
-      <div
-        slot="article"
-        slot-scope="article"
-      >
-        <h2>{{ article.title }}</h2>
-        <h3>{{ article.created_at }}</h3>
-        {{ article.content }}
-      </div>
-    </vms-detail>
+    <div v-if="test">{{ text }}</div>
+    <button @click="toggle">toggle</button>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      test: true,
+      text: 'hell',
+    };
+  },
+  methods: {
+    toggle() {
+      this.test = !this.test;
+    },
+  },
+};
 </script>
 <style lang="scss">
 </style>

@@ -22,7 +22,6 @@ const routes = [
   {
     path: path.admin,
     component: admin,
-    name: rnames.admin,
     children: [
       {
         path: 'category/:id',
@@ -76,7 +75,7 @@ const routes = [
   {
     path: path.user,
     component: user,
-    name: rnames.admin,
+    alias: '',
     children: [
       {
         path: '',

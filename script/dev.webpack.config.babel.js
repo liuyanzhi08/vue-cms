@@ -30,7 +30,8 @@ export default {
     },
     publicPath,
     proxy: [{
-      context: ['**', `!${config.server.path.admin}`, `!${config.server.path.user}`],
+      // context: ['**', `!${config.server.path.admin}`, `!${config.server.path.user}`],
+      context: ['**', `!${config.server.path.admin}`],
       target: `http://localhost:${config.server.port}`,
     }],
     port: 8080,

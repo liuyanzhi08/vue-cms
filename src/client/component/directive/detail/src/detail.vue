@@ -1,13 +1,7 @@
 <template>
-  <div>
+  <div class="vms-detail">
     <slot
-      :id="article.id"
-      :title="article.title"
-      :content="article.content"
-      :category_id="article.category_id"
-      :created_at="article.created_at"
-      :url="article.url"
-      name="article"
+      :article="article"
     />
   </div>
 </template>

@@ -7,7 +7,7 @@ import { success, fail } from './helper/ctx';
 
 const router = new KoaRouter();
 
-const componentHandler =  async (ctx) => {
+const componentHandler = async (ctx) => {
   try {
     const component = await import(`./component/${ctx.params.component}`);
     await component.default[ctx.method.toLowerCase()](ctx).catch(e => Promise.reject(e));
@@ -36,8 +36,7 @@ const indexHandler = async (ctx) => {
 
 const staticHandle = async (ctx) => {
   const param = ctx.params[0];
-  const file = param !== '/' ? param : '/index.html';
-  const filePath = path.join(_path.static, file);
+  const filePath = path.join(_path.static, _path.user, param, 'index.html');
   if (fs.existsSync(filePath)) {
     const stats = fs.statSync(filePath);
     const fileModified = new Date(stats.ctime);
@@ -71,8 +70,8 @@ router
   .all('/api/:component', componentHandler)
   .all('/dist/*', assetHandler)
   .all(_path.admin, indexHandler)
-  .all(_path.user, indexHandler)
-  .all(`${_path.user}/*`, indexHandler)
+  .all(_path.user, staticHandle)
+  .all(`${_path.user}/*`, staticHandle)
   .all(`${_path.admin}/*`, indexHandler)
   .all('*', staticHandle);
 

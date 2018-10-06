@@ -28,7 +28,8 @@ const router = new Router(store);
 class App {
   constructor() {
     return new Vue({
-      components: { app },
+      // components: { app },
+      render: h => h(app),
       renderError(h, err) {
         return h('pre', { style: { color: 'red' } }, err.stack);
       },
@@ -37,5 +38,5 @@ class App {
     });
   }
 }
-
+export { router };
 export default App;

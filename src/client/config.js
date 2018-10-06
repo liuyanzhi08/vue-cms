@@ -12,6 +12,7 @@ const rnames = {
   root: 'root',
   list: 'list',
   detail: 'detail',
+  user: 'user',
 };
 
 // site info
