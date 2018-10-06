@@ -22,11 +22,11 @@ export default {
     // await savePageRecurse(`${server.url}${path.user}`, path.static, 'index.html');
     const context = {
       title: 'Vue HN 2.0', // default title
-      url: '/user/article/4',
+      url: '/user/article/6',
     };
     try {
       const html = await renderer.renderToString(context);
-      const filename = path.join(_path.static, 'user/article/4', 'index.html');
+      const filename = path.join(_path.static, 'user/article/6', 'index.html');
       fse.outputFile(filename, html);
       ctx.body = html;
     } catch (e) {

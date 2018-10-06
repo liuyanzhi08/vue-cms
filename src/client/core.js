@@ -9,7 +9,7 @@ import UI from './component/ui/index';
 
 import Router from './router';
 import { Store } from './store';
-import app from './component/app/app';
+import _app from './component/app/app';
 import directive from './component/directive';
 import filter from './filter';
 
@@ -25,18 +25,14 @@ Vue.use(filter);
 const store = new Store();
 const router = new Router(store);
 
-class App {
-  constructor() {
-    return new Vue({
-      // components: { app },
-      render: h => h(app),
-      renderError(h, err) {
-        return h('pre', { style: { color: 'red' } }, err.stack);
-      },
-      router,
-      store,
-    });
-  }
-}
-export { router };
-export default App;
+const app = new Vue({
+  name: 'App',
+  render: h => h(_app),
+  renderError(h, err) {
+    return h('pre', { style: { color: 'red' } }, err.stack);
+  },
+  router,
+  store,
+});
+
+export default { app, router, store };

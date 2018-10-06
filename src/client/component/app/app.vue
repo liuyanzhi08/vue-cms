@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <div>test 1234</div>
     <router-view class="uk-offcanvas-content" />
   </div>
 </template>
