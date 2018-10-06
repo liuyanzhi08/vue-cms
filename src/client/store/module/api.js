@@ -27,7 +27,6 @@ const api = {
   actions: {
     [API_UPDATE]: ({ commit, state }, uri) => {
       commit(API_URI_SET, uri);
-      console.log('ttt:', state.uri);
       commit(API_UPDATE, {
         article: resource(path.join(state.uri, '/api/article'), axios),
         category: resource(path.join(state.uri, '/api/category'), axios),

@@ -21,7 +21,7 @@ const fail = (ctx, e, options = { code: 500 }) => {
   let output = e;
   if (e.stack) {
     if (isDev) {
-      output = e.stack;
+      output = `${e.message}\n${e.stack}`;
     } else {
       output = {
         code: 0,

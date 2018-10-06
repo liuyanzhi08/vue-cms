@@ -39,7 +39,7 @@ export default async context => new Promise((resolve, reject) => {
     // updated.
     return Promise.all(matchedComponents.map(({ asyncData }) => {
       if (isDev) {
-        log('asyncData:', asyncData);
+        // log('asyncData:', asyncData);
       }
       const t = asyncData && asyncData({
         store,
