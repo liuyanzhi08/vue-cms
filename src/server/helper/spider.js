@@ -41,7 +41,7 @@ const savePageRecurse = async (url, root, name) => {
     content = content.replace(subReg, subLink);
 
     // recurse save sub pages
-    const subUrl = `${server.url}${subPath}`;
+    const subUrl = `${server.uri}${subPath}`;
     savePageRecurse(subUrl, root, subSaveName);
   });
   const savePath = `${root}/${name}`;

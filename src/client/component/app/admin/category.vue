@@ -40,7 +40,6 @@
   </form>
 </template>
 <script>
-import category from '../../../api/category';
 import AppCategoryTree from './category-tree';
 import { NOTICE_SEND } from '../../../store';
 import { db } from '../../../config';
@@ -96,17 +95,19 @@ export default {
       });
     },
     del() {
-      category.del(this.category).then((res) => {
+      const { Category } = this.$store.getters;
+      Category.del(this.category).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'deleted');
         this.$emit('deleted', res.data);
         this.category = {};
       });
     },
     setForm() {
+      const { Category } = this.$store.getters;
       // get category info if not new
       const id = this.id || this.$route.params.id;
       if (id) {
-        category.get(id)
+        Category.get(id)
           .then((res) => {
             this.category = res.data;
             isNew = false;

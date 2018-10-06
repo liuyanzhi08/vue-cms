@@ -5,10 +5,10 @@ import {
 import {
   MENU_SET, MENU_SHOW, MENU_HIDE, MENU_TOGGLE, menu,
 } from './module/menu';
-import {
-  NOTICE_SEND,
-  notice,
-} from './module/notice';
+import { NOTICE_SEND, notice } from './module/notice';
+import { ARTICLE_FETCH, article } from './module/article';
+import { URI_GET, URI_SET, uri } from './module/uri';
+import { api } from './module/api';
 
 class Store {
   constructor() {
@@ -17,6 +17,9 @@ class Store {
         auth,
         menu,
         notice,
+        article,
+        uri,
+        api,
       },
     });
   }
@@ -31,5 +34,8 @@ export {
   MENU_HIDE,
   MENU_TOGGLE,
   NOTICE_SEND,
+  ARTICLE_FETCH,
+  URI_SET,
+  URI_GET,
   Store,
 };

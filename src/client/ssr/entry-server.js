@@ -2,6 +2,8 @@ import Core from '../core';
 import { isDev } from '../helper/env';
 import { log } from '../helper/logger';
 import error from '../helper/error';
+import { URI_SET } from '../store';
+import { server } from '../../server/config';
 
 export default async context => new Promise((resolve, reject) => {
   const { app, router, store } = new Core();
@@ -16,7 +18,13 @@ export default async context => new Promise((resolve, reject) => {
   }
 
   // set router's location
+  if (isDev) {
+    log(url);
+  }
   router.push(url);
+
+  // set uri
+  store.dispatch(URI_SET, server.uri);
 
   // wait until router has resolved possible async hooks
   router.onReady(() => {
@@ -29,10 +37,16 @@ export default async context => new Promise((resolve, reject) => {
     // A preFetch hook dispatches a store action and returns a Promise,
     // which is resolved when the action is complete and store state has been
     // updated.
-    return Promise.all(matchedComponents.map(({ asyncData }) => asyncData && asyncData({
-      store,
-      route: router.currentRoute,
-    }))).then(() => {
+    return Promise.all(matchedComponents.map(({ asyncData }) => {
+      if (isDev) {
+        log('asyncData:', asyncData);
+      }
+      const t = asyncData && asyncData({
+        store,
+        route: router.currentRoute,
+      });
+      return t;
+    })).then(() => {
       if (isDev) {
         log(`data pre-fetch: ${Date.now() - start}ms`);
       }

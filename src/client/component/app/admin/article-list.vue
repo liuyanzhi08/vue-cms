@@ -30,8 +30,6 @@
   </div>
 </template>
 <script>
-import Article from '../../../api/article';
-
 export default {
   data() {
     return {
@@ -46,6 +44,7 @@ export default {
     },
   },
   created() {
+    const { Article } = this.$store.getters;
     Article.get(this.$route.query).then((res) => {
       this.articles = res.data.items;
       this.total = res.data.total;

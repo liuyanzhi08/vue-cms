@@ -16,4 +16,5 @@ export default {
       admin: '/admin',
     },
   },
+  // ssr: true,
 };

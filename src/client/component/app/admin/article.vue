@@ -41,7 +41,6 @@
   </form>
 </template>
 <script>
-import article from '../../../api/article';
 import AppCategoryTree from './category-tree';
 import { NOTICE_SEND } from '../../../store';
 import { db } from '../../../config';
@@ -126,8 +125,9 @@ export default {
   },
   methods: {
     submit() {
+      const { Article } = this.$store.getters;
       const method = isNew ? 'save' : 'update';
-      article[method](this.article).then((res) => {
+      Article[method](this.article).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');
         this.$emit('updated', res.data);
         if (isNew) {
@@ -136,16 +136,18 @@ export default {
       });
     },
     del() {
-      article.del(this.article).then((res) => {
+      const { Article } = this.$store.getters;
+      Article.del(this.article).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'deleted');
         this.$emit('deleted', res.data);
         this.article = {};
       });
     },
     setForm() {
+      const { Article } = this.$store.getters;
       const id = this.id || this.$route.params.id;
       if (id) {
-        article
+        Article
           .get(id)
           .then((res) => {
             this.article = res.data;

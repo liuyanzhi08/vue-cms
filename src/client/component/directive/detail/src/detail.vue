@@ -6,8 +6,6 @@
   </div>
 </template>
 <script>
-import Article from '../../../../api/article';
-
 export default {
   name: 'VmsDetail',
   props: {
@@ -22,6 +20,7 @@ export default {
     };
   },
   created() {
+    const { Article } = this.$store.getters;
     Article.get(this.aid).then((res) => {
       this.article = res.data;
     });

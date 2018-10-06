@@ -1,5 +1,4 @@
 import Cookie from 'js-cookie';
-import Auth from '../../api/auth';
 
 const AUTH_REQUEST = 'auth:request';
 const AUTH_LOGIN = 'auth:login';
@@ -45,9 +44,9 @@ const auth = {
     },
   },
   actions: {
-    [AUTH_LOGIN]: async ({ commit }, user) => {
+    [AUTH_LOGIN]: async ({ commit, getters }, user) => {
       commit(AUTH_REQUEST);
-      await Auth.login(user)
+      await getters.Auth.login(user)
         .then((res) => {
           commit(AUTH_SUCCESS, res);
           return res;
@@ -57,11 +56,11 @@ const auth = {
           return Promise.reject(err);
         });
     },
-    [AUTH_LOGOUT]: ({ commit }) => Auth.logout()
+    [AUTH_LOGOUT]: ({ commit, getters }) => getters.Auth.logout()
       .then(() => {
         commit(AUTH_LOGOUT);
       }),
-    [AUTH_USER]: ({ commit }) => Auth.user()
+    [AUTH_USER]: ({ commit, getters }) => getters.Auth.user()
       .then((user) => {
         commit(AUTH_USER, user);
       }),

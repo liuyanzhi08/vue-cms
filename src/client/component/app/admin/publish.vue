@@ -15,8 +15,6 @@
   </div>
 </template>
 <script>
-import staticize from '../../../api/staticize';
-
 export default {
   components: {},
   data() {
@@ -28,8 +26,9 @@ export default {
   },
   methods: {
     publish() {
+      const { Common } = this.$store.getters;
       this.loading = true;
-      staticize.get().then(() => {
+      Common.staticize().then(() => {
         this.loading = false;
       });
     },

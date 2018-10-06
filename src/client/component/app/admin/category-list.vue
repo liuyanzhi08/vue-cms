@@ -48,8 +48,7 @@
 </template>
 <script>
 import _ from 'lodash';
-import Article from '../../../api/article';
-import Category from '../../../api/category';
+import { mapGetters } from 'vuex';
 import AppArticle from './article';
 import AppCategory from './category';
 import { db } from '../../../config';
@@ -73,12 +72,11 @@ export default {
       expanded: true,
     };
   },
-  computed: {
-  },
   created() {
   },
   methods: {
     load(node, resolve) {
+      const { Article, Category } = this.$store.getters;
       const nodeId = node.data.id || db.rootId;
       return Category.query({
         parent_id: nodeId,

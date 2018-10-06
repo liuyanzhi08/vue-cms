@@ -6,7 +6,7 @@ db.rootId = 1;
 
 const server = {
   port: config.server.port,
-  url: `http://127.0.0.1:${config.server.port}`,
+  uri: `http://127.0.0.1:${config.server.port}`,
 };
 
 const root = _path.resolve(__dirname, '../..');

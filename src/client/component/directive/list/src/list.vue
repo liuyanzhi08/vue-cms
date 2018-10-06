@@ -13,8 +13,6 @@
 </template>
 <script>
 import { path } from '../../../../config';
-import Article from '../../../../api/article';
-import Category from '../../../../api/category';
 
 export default {
   name: 'VmsList',
@@ -40,6 +38,7 @@ export default {
     },
   },
   created() {
+    const { Article, Category } = this.$store.getters;
     const limit = this.limit.replace(/\s/g, '');
     const [from, size] = limit.split(',');
     Article.query({

@@ -70,8 +70,8 @@ router
   .all('/api/:component', componentHandler)
   .all('/dist/*', assetHandler)
   .all(_path.admin, indexHandler)
-  .all(_path.user, staticHandle)
-  .all(`${_path.user}/*`, staticHandle)
+  .all(_path.user, indexHandler)
+  .all(`${_path.user}/*`, indexHandler)
   .all(`${_path.admin}/*`, indexHandler)
   .all('*', staticHandle);
 

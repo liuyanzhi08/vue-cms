@@ -16,8 +16,6 @@
 </template>
 <script>
 import _ from 'lodash';
-import Category from '../../../api/category';
-
 import { db } from '../../../config';
 
 export default {
@@ -43,6 +41,7 @@ export default {
     },
   },
   created() {
+    const { Category } = this.$store.getters;
     Category.query().then((res) => {
       const categories = res.data.items;
       const idMap = { null: { children: [] } };
