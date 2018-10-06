@@ -1,20 +1,50 @@
 import Core from '../core';
-
-const { app, router } = new Core();
-
+import { isDev } from '../helper/env';
+import { log } from '../helper/logger';
+import error from '../helper/error';
 
 export default async context => new Promise((resolve, reject) => {
-  // 设置服务器端 router 的位置
-  router.push(context.url);
+  const { app, router, store } = new Core();
 
+  const start = isDev && Date.now();
+
+  const { url } = context;
+  const { fullPath } = router.resolve(url).route;
+
+  if (fullPath !== url) {
+    return reject(new Error(error.routerNotFound.info));
+  }
+
+  // set router's location
+  router.push(url);
+
+  // wait until router has resolved possible async hooks
   router.onReady(() => {
     const matchedComponents = router.getMatchedComponents();
-    // 匹配不到的路由，执行 reject 函数，并返回 404
+    // no matched routes
     if (!matchedComponents.length) {
-      reject(new Error('404'));
+      return reject(new Error(error.routerNotFound.info));
     }
-
-    // Promise 应该 resolve 应用程序实例，以便它可以渲染
-    resolve(app);
+    // Call fetchData hooks on components matched by the route.
+    // A preFetch hook dispatches a store action and returns a Promise,
+    // which is resolved when the action is complete and store state has been
+    // updated.
+    return Promise.all(matchedComponents.map(({ asyncData }) => asyncData && asyncData({
+      store,
+      route: router.currentRoute,
+    }))).then(() => {
+      if (isDev) {
+        log(`data pre-fetch: ${Date.now() - start}ms`);
+      }
+      // After all preFetch hooks are resolved, our store is now
+      // filled with the state needed to render the app.
+      // Expose the state on the render context, and let the request handler
+      // inline the state in the HTML response. This allows the client-side
+      // store to pick-up the server-side state without having to duplicate
+      // the initial data fetching on the client.
+      context.state = store.state;
+      resolve(app);
+    }).catch(reject);
   }, reject);
+  return app;
 });

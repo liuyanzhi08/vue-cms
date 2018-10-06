@@ -125,7 +125,7 @@ export default {
     },
     addArticle() { this.selected = { id: 0, type: 'article' }; },
     addCategory() { this.selected = { id: 0, type: 'category' }; },
-    // eslint-disable
+    /* eslint-disable */
     renderContent(h, { node, data }) {
       const { subs } = data;
       if (node.isLeaf && !subs) {
@@ -149,6 +149,7 @@ export default {
          </span>
       );
     },
+    /* eslint-enable */
     updateArticle(node) {
       const { tree } = this.$refs;
       const aid = id(node, 'article');
