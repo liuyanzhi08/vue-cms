@@ -3,7 +3,7 @@
     <div v-if="test">{{ text }}</div>
     <button @click="toggle">click</button>
     <div>
-      {{ article }}
+      <div>{{ article }}</div>
     </div>
   </div>
 </template>

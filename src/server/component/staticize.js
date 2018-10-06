@@ -20,13 +20,14 @@ export default {
   get: async (ctx) => {
     // tod need auth
     // await savePageRecurse(`${server.uri}${$path.user}`, $path.static, 'index.html');
+    const url = '/user';
     const context = {
       title: 'Vue HN 2.0', // default title
-      url: '/user/article/6',
+      url,
     };
     try {
       const html = await renderer.renderToString(context);
-      const filename = $path.join(dir.static, 'user/article/6', 'index.html');
+      const filename = $path.join(dir.static, url, 'index.html');
       fse.outputFile(filename, html);
       ctx.body = html;
     } catch (e) {

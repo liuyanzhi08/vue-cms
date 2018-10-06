@@ -2,6 +2,7 @@ import fse from 'fs-extra';
 import moment from 'moment/moment';
 import _ from 'lodash';
 import chalk from 'chalk';
+import safeStringify from 'safe-json-stringify';
 import { dir } from '../config';
 
 const stringify = (data, color) => {
@@ -10,7 +11,7 @@ const stringify = (data, color) => {
     if (data instanceof Error) {
       msg = data.stack;
     } else {
-      msg = JSON.stringify(data);
+      msg = safeStringify(data);
     }
   }
   const now = moment().format('YYYY-MM-DD hh:mm:ss');

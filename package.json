@@ -30,8 +30,8 @@
     "build": "cross-env NODE_ENV=production webpack --mode=production --progress --config script/prd.webpack.config.babel.js",
     "publish": "npm run build && npm run server:restart",
     "pub": "npm run publish",
-    "build:ssr:server": "cross-env NODE_ENV=development webpack --mode=development  --watch --config script/dev-ssr-server.webpack.config.babel.js",
-    "build:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --watch --config script/dev-ssr-client.webpack.config.babel.js"
+    "build:ssr:server": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --watch --config script/dev-ssr-server.webpack.config.babel.js",
+    "build:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --watch --config script/dev-ssr-client.webpack.config.babel.js"
   },
   "repository": {
     "type": "git",
@@ -88,6 +88,7 @@
     "postcss-loader": "^3.0.0",
     "puppeteer": "^1.7.0",
     "resource-axios": "^1.2.2",
+    "safe-json-stringify": "^1.2.0",
     "store": "^2.0.12",
     "tether": "^1.4.4",
     "uikit": "^3.0.0-rc.16",

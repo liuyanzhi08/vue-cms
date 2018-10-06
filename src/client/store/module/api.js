@@ -28,12 +28,12 @@ const api = {
     [API_UPDATE]: ({ commit, state }, uri) => {
       commit(API_URI_SET, uri);
       commit(API_UPDATE, {
-        article: resource(path.join(state.uri, '/api/article'), axios),
-        category: resource(path.join(state.uri, '/api/category'), axios),
+        article: resource(`${state.uri}/api/article`, axios),
+        category: resource(`${state.uri}/api/category`, axios),
         auth: {
           async login(user) {
             const res = await axios({
-              url: path.join(state.uri, '/api/auth/login'),
+              url: `${state.uri}/api/auth/login`,
               data: user,
               method: 'POST',
             });
@@ -41,21 +41,21 @@ const api = {
           },
           async logout() {
             const res = await axios({
-              url: path.join(state.uri, '/api/auth/logout'),
+              url: `${state.uri}/api/auth/logout`,
               method: 'POST',
             });
             return res.data;
           },
           async user() {
             const res = axios({
-              url: path.join(state.uri, '/api/auth/user'),
+              url: `${state.uri}/api/auth/user`,
               method: 'GET',
             });
             return res.data;
           },
         },
         common: {
-          staticize: () => axios.get(path.join(state.uri, '/api/staticize')),
+          staticize: () => axios.get(`${state.uri}/api/staticize`),
         },
       });
     },

@@ -10,7 +10,7 @@ const article = {
   },
   mutations: {
     [ARTICLE_SET]: (state, arc) => {
-      state.article = arc;
+      state.article = arc.data;
     },
   },
   actions: {

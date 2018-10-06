@@ -34,6 +34,7 @@ const { app, router, store } = new Core();
 
 // set uri
 store.dispatch(API_UPDATE, '');
+// store.dispatch(API_UPDATE, `${config.server.uri}:${config.server.port}`);
 
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.
