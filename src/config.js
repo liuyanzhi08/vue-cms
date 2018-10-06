@@ -1,3 +1,5 @@
+import path from 'path';
+
 export default {
   db: {
     username: 'root',
@@ -6,6 +8,7 @@ export default {
     prefix: 'vms',
   },
   server: {
+    uri: 'http://127.0.0.1',
     port: 8081,
     log: {
       access: 'log/access.log',
@@ -15,6 +18,9 @@ export default {
       user: '/user',
       admin: '/admin',
     },
+  },
+  dir: {
+    root: path.resolve(__dirname, '..'),
   },
   // ssr: true,
 };

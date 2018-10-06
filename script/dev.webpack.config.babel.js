@@ -7,15 +7,15 @@ import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import config from '../src/config';
 
 const publicPath = '/dist/';
-const rootPath = path.resolve(__dirname, '..');
+const rootDir = config.dir.root;
 
 export default {
   mode: 'development',
   entry: [
-    path.join(rootPath, 'src/client/index.js'),
+    path.join(rootDir, 'src/client/index.js'),
   ],
   output: {
-    path: path.join(rootPath, publicPath),
+    path: path.join(rootDir, publicPath),
     publicPath,
     filename: '[name].js',
     chunkFilename: 'script/[name].bundle.js',
@@ -128,8 +128,8 @@ export default {
   resolve: {
     alias: {
       vue$: 'vue/dist/vue.esm.js',
-      '@image': path.join(rootPath, 'src/client/asset/image'),
-      '@style': path.join(rootPath, 'src/client/asset/style'),
+      '@image': path.join(rootDir, 'src/client/asset/image'),
+      '@style': path.join(rootDir, 'src/client/asset/style'),
     },
     extensions: ['.js', '.vue', '.json'],
   },

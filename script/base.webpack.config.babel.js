@@ -3,8 +3,9 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
+import config from '../src/config';
 
-const rootPath = path.resolve(__dirname, '..');
+const rootDir = config.dir.root;
 
 export default {
   module: {
@@ -89,8 +90,8 @@ export default {
   resolve: {
     alias: {
       vue$: 'vue/dist/vue.esm.js',
-      '@image': path.join(rootPath, 'src/client/asset/image'),
-      '@style': path.join(rootPath, 'src/client/asset/style'),
+      '@image': path.join(rootDir, 'src/client/asset/image'),
+      '@style': path.join(rootDir, 'src/client/asset/style'),
     },
     extensions: ['.js', '.vue', '.json'],
   },

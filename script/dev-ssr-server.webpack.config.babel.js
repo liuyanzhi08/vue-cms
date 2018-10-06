@@ -3,10 +3,11 @@ import nodeExternals from 'webpack-node-externals';
 import VueSSRServerPlugin from 'vue-server-renderer/server-plugin';
 import merge from 'webpack-merge';
 import base from './base.webpack.config.babel';
+import config from '../src/config';
 
-const rootPath = path.resolve(__dirname, '..');
-const clientPath = path.join(rootPath, 'src/client');
-const distPath = path.join(rootPath, 'dist');
+const rootDir = config.dir.root;
+const clientPath = path.join(rootDir, 'src/client');
+const distPath = path.join(rootDir, 'dist');
 
 module.exports = merge(base, {
   // 将 entry 指向应用程序的 server entry 文件

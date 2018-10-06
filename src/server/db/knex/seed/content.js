@@ -1,13 +1,13 @@
 import fs from 'fs';
-import _path from 'path';
+import $path from 'path';
 import _ from 'lodash';
 import faker from 'faker';
-import { path, db } from '../../../config';
+import { db, dir } from '../../../config';
 
 const categoryTableName = `${db.prefix}_category`;
 const articleTableName = `${db.prefix}_article`;
 
-const readmePath = _path.resolve(path.root, 'README.md');
+const readmePath = $path.resolve(dir.root, 'README.md');
 const readme = fs.readFileSync(readmePath).toString();
 const firstLineIndex = readme.indexOf('\n');
 const readmeTitle = _.trim(readme.substring(0, firstLineIndex + 1), '#');

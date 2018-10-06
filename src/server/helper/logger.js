@@ -2,7 +2,7 @@ import fse from 'fs-extra';
 import moment from 'moment/moment';
 import _ from 'lodash';
 import chalk from 'chalk';
-import { path } from '../config';
+import { dir } from '../config';
 
 const stringify = (data, color) => {
   let msg = data;
@@ -33,14 +33,14 @@ const err = (error) => {
   const msg = stringify(error, 'red');
   // eslint-disable-next-line
   console.error(msg);
-  writeLog(path.log.error, msg);
+  writeLog(dir.log.error, msg);
 };
 
 const log = (data) => {
   const msg = stringify(data);
   // eslint-disable-next-line
   console.log(msg);
-  writeLog(path.log.access, msg);
+  writeLog(dir.log.access, msg);
 };
 
 export {

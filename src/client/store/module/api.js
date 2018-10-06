@@ -1,41 +1,14 @@
 import axios from 'axios/index';
 import resource from 'resource-axios';
+import path from 'path';
 
-// const URI_SET = 'uri:set';
+const API_UPDATE = 'api:update';
+const API_URI_SET = 'api:uri:set';
 
 const api = {
   state: {
-    api: {
-      article: resource('/api/article', axios),
-      category: resource('/api/category', axios),
-      auth: {
-        async login(user) {
-          const res = await axios({
-            url: '/api/auth/login',
-            data: user,
-            method: 'POST',
-          });
-          return res.data;
-        },
-        async logout() {
-          const res = await axios({
-            url: '/api/auth/logout',
-            method: 'POST',
-          });
-          return res.data;
-        },
-        async user() {
-          const res = axios({
-            url: '/api/auth/user',
-            method: 'GET',
-          });
-          return res.data;
-        },
-      },
-      common: {
-        staticize: () => axios.get('/api/staticize'),
-      },
-    },
+    uri: '',
+    api: null,
   },
   getters: {
     Article: state => state.api.article,
@@ -44,16 +17,53 @@ const api = {
     Common: state => state.api.common,
   },
   mutations: {
-    // [URI_GET]: (state, value) => {
-    //   state.uri = value;
-    // },
+    [API_UPDATE]: (state, value) => {
+      state.api = value;
+    },
+    [API_URI_SET]: (state, value) => {
+      state.uri = value;
+    },
   },
   actions: {
-    // [URI_GET]: ({ state }) => state.uri,
-    // [URI_SET]: ({ commit }, value) => commit(URI_SET, value),
+    [API_UPDATE]: ({ commit, state }, uri) => {
+      commit(API_URI_SET, uri);
+      console.log('ttt:', state.uri);
+      commit(API_UPDATE, {
+        article: resource(path.join(state.uri, '/api/article'), axios),
+        category: resource(path.join(state.uri, '/api/category'), axios),
+        auth: {
+          async login(user) {
+            const res = await axios({
+              url: path.join(state.uri, '/api/auth/login'),
+              data: user,
+              method: 'POST',
+            });
+            return res.data;
+          },
+          async logout() {
+            const res = await axios({
+              url: path.join(state.uri, '/api/auth/logout'),
+              method: 'POST',
+            });
+            return res.data;
+          },
+          async user() {
+            const res = axios({
+              url: path.join(state.uri, '/api/auth/user'),
+              method: 'GET',
+            });
+            return res.data;
+          },
+        },
+        common: {
+          staticize: () => axios.get(path.join(state.uri, '/api/staticize')),
+        },
+      });
+    },
   },
 };
 
 export {
+  API_UPDATE,
   api,
 };
