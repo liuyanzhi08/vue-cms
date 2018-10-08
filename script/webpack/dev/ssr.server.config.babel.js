@@ -1,15 +1,15 @@
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import VueSSRServerPlugin from 'vue-server-renderer/server-plugin';
-import merge from 'webpack-merge';
-import base from './base.webpack.config.babel';
-import config from '../src/config';
+import webpackMerge from 'webpack-merge';
+import config from '../../../src/config';
+import base from './base.config.babel';
 
 const rootDir = config.dir.root;
 const clientPath = path.join(rootDir, 'src/client');
 const distPath = path.join(rootDir, 'dist');
 
-module.exports = merge(base, {
+export default webpackMerge(base, {
   // 将 entry 指向应用程序的 server entry 文件
   entry: path.join(clientPath, 'ssr/entry-server.js'),
 
@@ -46,4 +46,4 @@ module.exports = merge(base, {
       filename: 'manifest/vue-ssr-server-bundle.json',
     }),
   ],
-});
+})

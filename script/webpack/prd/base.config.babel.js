@@ -1,13 +1,27 @@
 import path from 'path';
 import webpack from 'webpack';
+import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
-import config from '../src/config';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import config from '../../../src/config';
+import base from '../base.config.babel';
 
+const publicPath = '/dist/';
 const rootDir = config.dir.root;
 
-export default {
+export default webpackMerge(base, {
+  entry: [
+    path.join(rootDir, 'src/client/index.js'),
+  ],
+  output: {
+    path: path.join(rootDir, publicPath),
+    publicPath,
+    filename: '[name].[hash:7].js',
+    chunkFilename: 'script/[name].bundle.[hash:7].js',
+  },
   module: {
     rules: [
       {
@@ -87,14 +101,6 @@ export default {
       },
     ],
   },
-  resolve: {
-    alias: {
-      vue$: 'vue/dist/vue.esm.js',
-      '@image': path.join(rootDir, 'src/client/asset/image'),
-      '@style': path.join(rootDir, 'src/client/asset/style'),
-    },
-    extensions: ['.js', '.vue', '.json'],
-  },
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -107,8 +113,20 @@ export default {
       template: 'src/client/index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: 'style/[name].css',
-      chunkFilename: 'style/[id].css',
+      filename: 'style/[name].[hash:7].css',
+      chunkFilename: 'style/[id].[hash:7].css',
     }),
   ],
-};
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        extractComments: true,
+        uglifyOptions: {
+          cache: true,
+          parallel: true,
+        },
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
+  },
+});

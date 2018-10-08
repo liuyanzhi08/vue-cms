@@ -6,7 +6,10 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "npm run dev:ui & npm run dev:server",
-    "dev:ui": "cross-env NODE_ENV=development webpack-dev-server --hot --watch --config script/dev.webpack.config.babel.js",
+    "dev:ui": "cross-env NODE_ENV=development webpack-dev-server --hot --watch --config script/webpack/dev/spa.config.babel.js",
+    "dev:ssr:ui": "cross-env NODE_ENV=development webpack-dev-server  --hot --watch --config script/webpack/dev/ssr.client.config.babel.js",
+    "dev:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --watch --config script/webpack/dev/ssr.client.config.babel.js",
+    "dev:ssr:server": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --watch --config script/webpack/dev/ssr.server.config.babel.js",
     "dev:server": "cross-env NODE_ENV=development nodemon src/server",
     "dev:server:test": "mocha -w",
     "dev:db:init": "cross-env NODE_ENV=development npm run db:create && npm run db:migrate:latest && npm run db:seed:run",
@@ -27,11 +30,9 @@
     "db:seed:make": "knex --knexfile src/server/db/knex/knexfile.babel.js seed:make",
     "db:seed:run": "knex --knexfile src/server/db/knex/knexfile.babel.js seed:run",
     "db:delete": "cross-env NODE_ENV=production node src/server/db/delete",
-    "build": "cross-env NODE_ENV=production webpack --mode=production --progress --config script/prd.webpack.config.babel.js",
+    "build": "cross-env NODE_ENV=production webpack --mode=production --progress --config script/webpack/prd/spa.config.babel.js",
     "publish": "npm run build && npm run server:restart",
-    "pub": "npm run publish",
-    "build:ssr:server": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --watch --config script/dev-ssr-server.webpack.config.babel.js",
-    "build:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --watch --config script/dev-ssr-client.webpack.config.babel.js"
+    "pub": "npm run publish"
   },
   "repository": {
     "type": "git",
@@ -86,7 +87,6 @@
     "passport-local": "^1.0.0",
     "popper.js": "^1.14.4",
     "postcss-loader": "^3.0.0",
-    "puppeteer": "^1.7.0",
     "resource-axios": "^1.2.2",
     "safe-json-stringify": "^1.2.0",
     "store": "^2.0.12",

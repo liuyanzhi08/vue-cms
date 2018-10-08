@@ -5,7 +5,9 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import config from '../src/config';
+import config from '../../../src/config';
+
+const postcssConfigPath = path.resolve(__dirname, '../../postcss.config.js');
 
 const publicPath = '/dist/';
 const rootDir = config.dir.root;
@@ -64,7 +66,7 @@ export default {
             loader: 'postcss-loader',
             options: {
               config: {
-                path: path.resolve(__dirname, 'postcss.config.js'),
+                path: postcssConfigPath,
               },
             },
           },
