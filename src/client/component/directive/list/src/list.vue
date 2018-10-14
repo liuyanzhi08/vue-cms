@@ -12,6 +12,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import { path } from '../../../../config';
 
 export default {
@@ -28,14 +29,13 @@ export default {
   },
   data() {
     return {
-      articles: [],
-      category: null,
     };
   },
   computed: {
-    article() {
-      return this.articles.length ? this.articles[0] : null;
-    },
+    ...mapGetters([
+      'category',
+      'articles',
+    ]),
   },
   created() {
     const { Article, Category } = this.$store.getters;

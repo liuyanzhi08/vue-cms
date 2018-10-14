@@ -7,7 +7,7 @@
     "start": "npm run dev",
     "dev": "npm run dev:ui & npm run dev:server",
     "dev:ui": "cross-env NODE_ENV=development webpack-dev-server --hot --watch --config script/webpack/dev/spa.config.babel.js",
-    "dev:ssr:ui": "cross-env NODE_ENV=development webpack-dev-server  --hot --watch --config script/webpack/dev/ssr.client.config.babel.js",
+    "dev:ssr": "npm run dev:ssr:client & npm run dev:ssr:server & npm run dev:server & npm run dev:ui",
     "dev:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --watch --config script/webpack/dev/ssr.client.config.babel.js",
     "dev:ssr:server": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --watch --config script/webpack/dev/ssr.server.config.babel.js",
     "dev:server": "cross-env NODE_ENV=development nodemon src/server",

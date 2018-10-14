@@ -48,7 +48,7 @@ export default async context => new Promise((resolve, reject) => {
       return t;
     })).then(() => {
       if (isDev) {
-        log(`data pre-fetch: ${Date.now() - start}ms`);
+        log(`ssr: data pre-fetch: ${Date.now() - start}ms`);
       }
       // After all preFetch hooks are resolved, our store is now
       // filled with the state needed to render the app.

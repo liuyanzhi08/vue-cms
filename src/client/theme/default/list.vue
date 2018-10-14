@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="uk-card uk-card-default uk-card-body">
-      <s-list
+      <vms-list
         :cid="$route.params.id"
         limit="0,5">
         <h2
@@ -24,7 +24,7 @@
             </div>
           </li>
         </a>
-      </s-list>
+      </vms-list>
     </ul>
   </div>
 </template>

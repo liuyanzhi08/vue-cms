@@ -1,14 +1,27 @@
 <template>
   <div>
-    <theme-list />
+    {{ category }}
+    <div
+      v-for="article in articles"
+      :key="article.id"
+    >
+      {{ article }}
+    </div>
   </div>
 </template>
 <script>
-import ThemeList from '../../../theme/default/list';
+import { mapGetters } from 'vuex';
+import { CATEGORY_FETCH } from '../../../store';
 
 export default {
-  components: {
-    ThemeList,
+  asyncData({ store, route: { params: { id } } }) {
+    return store.dispatch(CATEGORY_FETCH, { id });
+  },
+  computed: {
+    ...mapGetters([
+      'category',
+      'articles',
+    ]),
   },
 };
 </script>

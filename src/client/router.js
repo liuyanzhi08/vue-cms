@@ -3,18 +3,18 @@ import { path, rnames } from './config';
 import { MENU_HIDE } from './store';
 
 // routes components
-const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user.vue');
-const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index.vue');
-const list = () => import(/* webpackChunkName: "list" */ './component/app/user/list.vue');
-const detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail.vue');
+const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user');
+const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index');
+const list = () => import(/* webpackChunkName: "list" */ './component/app/user/list');
+const detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail');
 
-const admin = () => import(/* webpackChunkName: "admin" */ './component/app/admin/admin.vue');
-const category = () => import(/* webpackChunkName: "category" */ './component/app/admin/category.vue');
-const categoryList = () => import(/* webpackChunkName: "category-list" */ './component/app/admin/category-list.vue');
-const article = () => import(/* webpackChunkName: "article" */ './component/app/admin/article.vue');
-const articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list.vue');
-const publish = () => import(/* webpackChunkName: "publish" */ './component/app/admin/publish.vue');
-const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login.vue');
+const admin = () => import(/* webpackChunkName: "admin" */ './component/app/admin/admin');
+const category = () => import(/* webpackChunkName: "category" */ './component/app/admin/category');
+const categoryList = () => import(/* webpackChunkName: "category-list" */ './component/app/admin/category-list');
+const article = () => import(/* webpackChunkName: "article" */ './component/app/admin/article');
+const articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list');
+const publish = () => import(/* webpackChunkName: "publish" */ './component/app/admin/publish');
+const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login');
 
 // routes define
 const routes = [

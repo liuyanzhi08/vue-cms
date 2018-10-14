@@ -7,10 +7,15 @@
       >
         <div class="uk-navbar-left">
           <i class="fa fa-search" />
-
-          <ul class="uk-navbar-nav" v-for="item in menu">
+          <ul
+            v-for="item in menu"
+            class="uk-navbar-nav"
+          >
             <li v-if="!item.children"><a href="#">{{ item.label }}</a></li>
-            <li v-if="item.children" class="has-children">
+            <li
+              v-if="item.children"
+              class="has-children"
+            >
               <a href="#">archive</a>
               <div class="uk-navbar-dropdown">
                 <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -63,7 +68,11 @@
         uk-offcanvas="mode: slide; overlay: true"
       >
         <div class="uk-offcanvas-bar">
-          <ul class="uk-nav uk-nav-default" v-for="item in menu" :class="{'uk-margin-top': item.children }">
+          <ul
+            v-for="item in menu"
+            class="uk-nav uk-nav-default"
+            :class="{'uk-margin-top': item.children }"
+          >
             <li
               v-if="!item.children"
               :key="item.router.name"
@@ -78,8 +87,14 @@
                 {{ item.label || item.router.name }}
               </router-link>
             </li>
-            <li v-if="item.children" class="uk-nav-header">{{ item.label || item.router.name }}</li>
-            <li v-if="item.children" v-for="child in item.children">
+            <li
+              v-if="item.children"
+              class="uk-nav-header"
+            >{{ item.label || item.router.name }}</li>
+            <li
+              v-for="child in item.children"
+              v-if="item.children"
+            >
               <a href="#">
                 <span
                   class="uk-margin-small-right"

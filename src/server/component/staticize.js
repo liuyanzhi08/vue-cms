@@ -20,7 +20,7 @@ export default {
   get: async (ctx) => {
     // tod need auth
     // await savePageRecurse(`${server.uri}${$path.user}`, $path.static, 'index.html');
-    const url = '/user';
+    const url = '/user/article/4';
     const context = {
       title: 'Vue HN 2.0', // default title
       url,

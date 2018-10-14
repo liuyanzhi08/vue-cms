@@ -9,7 +9,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { ARTICLE_FETCH } from '../../store';
 
 export default {
   data() {
