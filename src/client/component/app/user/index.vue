@@ -59,8 +59,6 @@ import { CATEGORY_FETCH } from '../../../store';
 import md from '../../../helper/md';
 import VmsHeader from './header';
 import VmsFooter from './footer';
-// eslint-disable-next-line
-import '@style/theme-default/index.scss';
 
 export default {
   components: {
@@ -73,8 +71,8 @@ export default {
       md,
     };
   },
-  asyncData({ store }) {
-    return store.dispatch(CATEGORY_FETCH, { id: 4 });
+  async asyncData({ store }) {
+    await store.dispatch(CATEGORY_FETCH, { id: 4 });
   },
   computed: {
     ...mapGetters(['articles']),
@@ -86,5 +84,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-</style>
+<style lang="scss" src="@style/theme-default/index.scss"></style>

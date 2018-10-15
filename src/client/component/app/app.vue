@@ -13,6 +13,7 @@ export default {
   },
 };
 </script>
+<style lang="scss" src="font-awesome/scss/font-awesome.scss" />
 <style lang="scss" src="@style/theme-uikit/index.scss" />
 <style lang="scss" src="@style/theme-mavon-editor/index.scss" />
 <style lang="scss" src="@style/theme-element-ui/index.scss" />

@@ -1,12 +1,10 @@
 <template>
-  <div>
-    {{ category }}
-    <div
-      v-for="article in articles"
-      :key="article.id"
-    >
-      {{ article }}
+  <div class="theme-df">
+    <vms-header />
+    <div class="uk-container">
+      test
     </div>
+    <vms-footer />
   </div>
 </template>
 <script>
