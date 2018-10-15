@@ -2,7 +2,7 @@ import KoaRouter from 'koa-router';
 import koaSend from 'koa-send';
 import $path from 'path';
 import fs from 'fs';
-import { path, dir } from './config';
+import { path, dir, ssr } from './config';
 import { success, fail } from './helper/ctx';
 
 const router = new KoaRouter();
@@ -30,8 +30,22 @@ const assetHandler = async (ctx) => {
 
 const indexHandler = async (ctx) => {
   ctx.set('Cache-Control', 'no-cache');
-  await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });
-  success(ctx);
+  if (!ssr) {
+    await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });
+    success(ctx);
+  } else {
+    const { createBundleRenderer } = await import('vue-server-renderer');
+    const serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
+    const clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
+    const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
+    const template = fs.readFileSync(templatePath, 'utf-8');
+    const renderer = createBundleRenderer(serverManifest, {
+      template,
+      clientManifest,
+    });
+    const html = await renderer.renderToString(ctx);
+    success(ctx, html);
+  }
 };
 
 const staticHandle = async (ctx) => {

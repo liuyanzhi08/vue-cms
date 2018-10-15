@@ -1,8 +1,8 @@
 import MarkdownIt from 'markdown-it';
-import DOMPurify from 'dompurify';
+import sanitizeHtml from 'sanitize-html';
 
 const md = new MarkdownIt();
-const parse = source => md.render(DOMPurify.sanitize(source));
+const parse = source => md.render(sanitizeHtml(source));
 
 export default {
   parse,

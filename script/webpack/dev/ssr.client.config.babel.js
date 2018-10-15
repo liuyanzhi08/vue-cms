@@ -5,9 +5,15 @@ import config from '../../../src/config';
 import base from './base.config.babel';
 
 const rootDir = config.dir.root;
+const publicPath = '/dist/';
 
 export default webpackMerge(base, {
   entry: path.join(rootDir, 'src/client/index.js'),
+  output: {
+    publicPath,
+    filename: '[name].js',
+    chunkFilename: 'script/[name].bundle.js',
+  },
   plugins: [
     new VueSSRClientPlugin({
       filename: 'manifest/vue-ssr-client-bundle.json',

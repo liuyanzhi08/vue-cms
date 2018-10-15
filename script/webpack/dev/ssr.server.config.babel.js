@@ -7,7 +7,8 @@ import base from './base.config.babel';
 
 const rootDir = config.dir.root;
 const clientPath = path.join(rootDir, 'src/client');
-const distPath = path.join(rootDir, 'dist');
+const distDir = path.join(rootDir, 'dist');
+const publicPath = '/dist/';
 
 export default webpackMerge(base, {
   // 将 entry 指向应用程序的 server entry 文件
@@ -23,8 +24,9 @@ export default webpackMerge(base, {
 
   // 此处告知 server bundle 使用 Node 风格导出模块(Node-style exports)
   output: {
-    path: distPath,
+    path: distDir,
     libraryTarget: 'commonjs2',
+    publicPath,
   },
 
   // https://webpack.js.org/configuration/externals/#function
@@ -46,4 +48,4 @@ export default webpackMerge(base, {
       filename: 'manifest/vue-ssr-server-bundle.json',
     }),
   ],
-})
+});

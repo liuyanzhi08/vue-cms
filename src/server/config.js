@@ -31,9 +31,12 @@ const dir = {
   },
 };
 
+const { ssr } = config;
+
 export {
   db,
   server,
   path,
   dir,
+  ssr,
 };
