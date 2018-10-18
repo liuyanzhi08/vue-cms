@@ -4,6 +4,8 @@ import $path from 'path';
 import fs from 'fs';
 import { path, dir, ssr } from './config';
 import { success, fail } from './helper/ctx';
+import { isDev } from './helper/env';
+import setupDevServer from '../../script/setup-dev-server';
 
 const router = new KoaRouter();
 
@@ -35,14 +37,25 @@ const indexHandler = async (ctx) => {
     success(ctx);
   } else {
     const { createBundleRenderer } = await import('vue-server-renderer');
-    const serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
-    const clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
-    const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
-    const template = fs.readFileSync(templatePath, 'utf-8');
-    const renderer = createBundleRenderer(serverManifest, {
-      template,
-      clientManifest,
-    });
+
+    let renderer;
+    if (isDev) {
+      // In development: setup the dev server with watch and hot-reload,
+      // and create a new renderer on bundle / index template update.
+      await setupDevServer(ctx.app, (serverManifest, options) => {
+        renderer = createBundleRenderer(serverManifest, options);
+      });
+    } else {
+      const clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
+      const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
+      const template = fs.readFileSync(templatePath, 'utf-8');
+      const serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
+      const options = {
+        template,
+        clientManifest,
+      };
+      renderer = createBundleRenderer(serverManifest, options);
+    }
     const html = await renderer.renderToString(ctx);
     success(ctx, html);
   }
