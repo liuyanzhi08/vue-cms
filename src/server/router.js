@@ -5,7 +5,6 @@ import fs from 'fs';
 import { path, dir, ssr } from './config';
 import { success, fail } from './helper/ctx';
 import { isDev } from './helper/env';
-import setupDevServer from '../../script/setup-dev-server';
 
 const router = new KoaRouter();
 
@@ -30,6 +29,9 @@ const assetHandler = async (ctx) => {
   }
 };
 
+const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
+const template = fs.readFileSync(templatePath, 'utf-8');
+
 const indexHandler = async (ctx) => {
   ctx.set('Cache-Control', 'no-cache');
   if (!ssr) {
@@ -41,18 +43,21 @@ const indexHandler = async (ctx) => {
     if (isDev) {
       // In development: setup the dev server with watch and hot-reload,
       // and create a new renderer on bundle / index template update.
-      ({ serverManifest, options } = await setupDevServer(ctx.app));
-      console.log(serverManifest, options);
+      ({ serverManifest, options } = await ctx.app.$devServer);
     } else {
       const clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
-      const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
-      const template = fs.readFileSync(templatePath, 'utf-8');
       serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
       options = {
-        template,
         clientManifest,
       };
     }
+    Object.assign(options, {
+      template,
+      // this is only needed when vue-server-renderer is npm-linked
+      basedir: dir.dist,
+      // recommended for performance
+      runInNewContext: false,
+    });
     const { createBundleRenderer } = await import('vue-server-renderer');
     const renderer = createBundleRenderer(serverManifest, options);
     const html = await renderer.renderToString(ctx);

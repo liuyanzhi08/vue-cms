@@ -1,6 +1,7 @@
 import path from 'path';
 import _ from 'lodash';
 import webpackMerge from 'webpack-merge';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import config from '../../../src/config';
 import base from './base.config.babel';
 
@@ -36,4 +37,10 @@ export default webpackMerge(base, {
     openPage: `${_.trimStart(config.server.path.admin, '/')}`,
     overlay: true,
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'My App',
+      template: 'src/client/index.html',
+    }),
+  ],
 });

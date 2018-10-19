@@ -6,6 +6,8 @@ import { server } from './config';
 import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
+import { isDev } from "./helper/env";
+import setupDevServer from "../../script/setup-dev-server";
 
 class Server {
   constructor() {
@@ -28,6 +30,10 @@ class Server {
 
     app.listen(server.port, '0.0.0.0');
     log(`cms is running, listening on 0.0.0.0:${server.port}`);
+
+    if (isDev) {
+      app.$devServer = setupDevServer(app);
+    }
 
     return app;
   }

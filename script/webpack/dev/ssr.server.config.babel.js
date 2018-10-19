@@ -10,6 +10,7 @@ const clientPath = path.join(rootDir, 'src/client');
 const distDir = path.join(rootDir, 'dist');
 const publicPath = '/dist/';
 
+
 export default webpackMerge(base, {
   // 将 entry 指向应用程序的 server entry 文件
   entry: {

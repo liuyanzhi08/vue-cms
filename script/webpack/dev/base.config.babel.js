@@ -1,7 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import base from '../base.config.babel';
 
@@ -102,9 +101,5 @@ export default webpackMerge(base, {
       'window.jQuery': 'jquery',
     }),
     new VueLoaderPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'My App',
-      template: 'src/client/index.html',
-    }),
   ],
 });
