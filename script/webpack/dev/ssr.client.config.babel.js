@@ -8,8 +8,11 @@ const rootDir = config.dir.root;
 const publicPath = '/dist/';
 
 export default webpackMerge(base, {
-  entry: path.join(rootDir, 'src/client/index.js'),
+  entry: {
+    index: path.join(rootDir, 'src/client/index.js'),
+  },
   output: {
+    path: path.join(rootDir, publicPath),
     publicPath,
     filename: '[name].js',
     chunkFilename: 'script/[name].bundle.js',

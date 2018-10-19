@@ -36,26 +36,25 @@ const indexHandler = async (ctx) => {
     await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });
     success(ctx);
   } else {
-    const { createBundleRenderer } = await import('vue-server-renderer');
-
-    let renderer;
+    let serverManifest;
+    let options;
     if (isDev) {
       // In development: setup the dev server with watch and hot-reload,
       // and create a new renderer on bundle / index template update.
-      await setupDevServer(ctx.app, (serverManifest, options) => {
-        renderer = createBundleRenderer(serverManifest, options);
-      });
+      ({ serverManifest, options } = await setupDevServer(ctx.app));
+      console.log(serverManifest, options);
     } else {
       const clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
       const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
       const template = fs.readFileSync(templatePath, 'utf-8');
-      const serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
-      const options = {
+      serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
+      options = {
         template,
         clientManifest,
       };
-      renderer = createBundleRenderer(serverManifest, options);
     }
+    const { createBundleRenderer } = await import('vue-server-renderer');
+    const renderer = createBundleRenderer(serverManifest, options);
     const html = await renderer.renderToString(ctx);
     success(ctx, html);
   }

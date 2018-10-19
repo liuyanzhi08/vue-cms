@@ -12,7 +12,9 @@ const publicPath = '/dist/';
 
 export default webpackMerge(base, {
   // 将 entry 指向应用程序的 server entry 文件
-  entry: path.join(clientPath, 'ssr/entry-server.js'),
+  entry: {
+    index: path.join(clientPath, 'ssr/entry-server.js'),
+  },
 
   // 这允许 webpack 以 Node 适用方式(Node-appropriate fashion)处理动态导入(dynamic import)，
   // 并且还会在编译 Vue 组件时，
