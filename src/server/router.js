@@ -2,6 +2,7 @@ import KoaRouter from 'koa-router';
 import koaSend from 'koa-send';
 import $path from 'path';
 import fs from 'fs';
+import { createBundleRenderer } from 'vue-server-renderer';
 import { path, dir, ssr } from './config';
 import { success, fail } from './helper/ctx';
 import { isDev } from './helper/env';
@@ -18,14 +19,19 @@ const componentHandler = async (ctx) => {
 };
 
 const assetHandler = async (ctx) => {
-  const filePath = $path.join(dir.dist, ctx.params[0]);
-  if (fs.existsSync(filePath)) {
-    ctx.set('Cache-Control', `max-age=${3600 * 24 * 7}`);
-    await koaSend(ctx, filePath, { root: '/' });
-    success(ctx);
+  if (isDev) {
+    const { readWebpackFile } = await ctx.app.$devServer;
+    success(ctx, readWebpackFile(ctx.params[0]));
   } else {
-    ctx.status = 404;
-    fail(ctx, { msg: `'${filePath}' not found` }, { code: 404 });
+    const filePath = $path.join(dir.dist, ctx.params[0]);
+    if (fs.existsSync(filePath)) {
+      ctx.set('Cache-Control', `max-age=${3600 * 24 * 7}`);
+      await koaSend(ctx, filePath, { root: '/' });
+      success(ctx);
+    } else {
+      ctx.status = 404;
+      fail(ctx, { msg: `'${filePath}' not found` }, { code: 404 });
+    }
   }
 };
 
@@ -35,8 +41,15 @@ const template = fs.readFileSync(templatePath, 'utf-8');
 const indexHandler = async (ctx) => {
   ctx.set('Cache-Control', 'no-cache');
   if (!ssr) {
-    await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });
-    success(ctx);
+    if (isDev) {
+      const { readWebpackFile } = await ctx.app.$devServer;
+      console.log(readWebpackFile('manifest/vue-ssr-client-bundle.json'));
+      console.log(readWebpackFile('index.html'));
+      success(ctx, readWebpackFile('index.html'));
+    } else {
+      await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });
+      success(ctx);
+    }
   } else {
     let serverManifest;
     let options;
@@ -58,7 +71,6 @@ const indexHandler = async (ctx) => {
       // recommended for performance
       runInNewContext: false,
     });
-    const { createBundleRenderer } = await import('vue-server-renderer');
     const renderer = createBundleRenderer(serverManifest, options);
     const html = await renderer.renderToString(ctx);
     success(ctx, html);
@@ -104,6 +116,6 @@ router
   .all(path.user, indexHandler)
   .all(`${path.user}/*`, indexHandler)
   .all(`${path.admin}/*`, indexHandler)
-  .all('*', staticHandle);
+  // .all('*', staticHandle);
 
 export default router;

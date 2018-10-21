@@ -13,9 +13,9 @@ const publicPath = '/dist/';
 const rootDir = config.dir.root;
 
 export default {
-  entry: [
-    path.join(rootDir, 'src/client/index.js'),
-  ],
+  entry: {
+    index: path.join(rootDir, 'src/client/index.js'),
+  },
   output: {
     path: path.join(rootDir, publicPath),
     publicPath,

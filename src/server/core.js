@@ -21,7 +21,7 @@ class Server {
     app.proxy = true;
 
     app.use(koaBody())
-      .use(koaCompress())
+      // .use(koaCompress())
       .use(session(sessionConfig, app))
       .use(passport.initialize())
       .use(passport.session())

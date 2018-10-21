@@ -22,5 +22,5 @@ export default {
   dir: {
     root: path.resolve(__dirname, '..'),
   },
-  ssr: true,
+  ssr: false,
 };

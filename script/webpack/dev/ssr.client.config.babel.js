@@ -3,6 +3,7 @@ import VueSSRClientPlugin from 'vue-server-renderer/client-plugin';
 import webpackMerge from 'webpack-merge';
 import config from '../../../src/config';
 import base from './base.config.babel';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const rootDir = config.dir.root;
 const publicPath = '/dist/';
@@ -20,6 +21,10 @@ export default webpackMerge(base, {
   plugins: [
     new VueSSRClientPlugin({
       filename: 'manifest/vue-ssr-client-bundle.json',
+    }),
+    new HtmlWebpackPlugin({
+      title: 'My App',
+      template: 'src/client/index.html',
     }),
   ],
 });
