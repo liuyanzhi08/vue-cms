@@ -9,7 +9,7 @@ import serverConfig from './webpack/dev/ssr.server.config.babel';
 
 const readFile = (fs, file) => {
   try {
-    return fs.readFileSync(path.join(clientConfig.output.path, file), 'utf-8');
+    return fs.readFileSync(path.join(clientConfig.output.path, file));
   } catch (e) {
     return e;
   }
@@ -46,7 +46,6 @@ module.exports = async function setupDevServer(app) {
 
   const readWebpackFile = filename => readFile(devMiddleware.fileSystem, filename);
 
-  // app.use(devMiddleware);
   clientCompiler.plugin('done', (res) => {
     const stats = res.toJson();
     stats.errors.forEach(err => console.error(err));
@@ -63,18 +62,6 @@ module.exports = async function setupDevServer(app) {
       });
     }
   });
-
-  // koaWebpack({
-  //   compiler: clientCompiler,
-  //   devMiddleware: {
-  //     publicPath: clientConfigClone.output.publicPath,
-  //     noInfo: true,
-  //     // serverSideRender: true,
-  //   },
-  // })
-  //   .then((middleware) => {
-  //     app.use(middleware);
-  //   });
 
   // hot middleware
   app.use(e2k(webpackHotMiddleware(clientCompiler, { heartbeat: 5000 })));

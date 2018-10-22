@@ -24,7 +24,7 @@
         <button
           class="uk-button uk-button-primary"
           type="submit"
-        >submit123</button>
+        >submit</button>
         <div class="uk-inline">
           <button
             class="uk-button uk-button-default"
