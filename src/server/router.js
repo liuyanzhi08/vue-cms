@@ -43,8 +43,6 @@ const indexHandler = async (ctx) => {
   if (!ssr) {
     if (isDev) {
       const { readWebpackFile } = await ctx.app.$devServer;
-      console.log(readWebpackFile('manifest/vue-ssr-client-bundle.json'));
-      console.log(readWebpackFile('index.html'));
       success(ctx, readWebpackFile('index.html'));
     } else {
       await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });

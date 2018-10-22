@@ -8,7 +8,7 @@ const postcssConfigPath = path.resolve(__dirname, '../../postcss.config.js');
 
 export default webpackMerge(base, {
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {

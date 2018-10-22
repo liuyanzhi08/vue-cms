@@ -41,7 +41,7 @@ module.exports = async function setupDevServer(app) {
   const clientCompiler = webpack(clientConfigClone);
   const devMiddleware = webpackDevMiddleware(clientCompiler, {
     publicPath: clientConfigClone.output.publicPath,
-    noInfo: true,
+    stats: 'minimal',
   });
 
   const readWebpackFile = filename => readFile(devMiddleware.fileSystem, filename);
