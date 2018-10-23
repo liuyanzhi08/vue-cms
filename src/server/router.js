@@ -43,7 +43,7 @@ const indexHandler = async (ctx) => {
   if (!ssr) {
     if (isDev) {
       const { readWebpackFile } = await ctx.app.$devServer;
-      success(ctx, readWebpackFile('index.html'));
+      success(ctx, readWebpackFile('index.html').toString());
     } else {
       await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });
       success(ctx);
