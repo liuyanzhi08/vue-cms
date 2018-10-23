@@ -2,12 +2,15 @@ import Koa from 'koa';
 import koaBody from 'koa-body';
 import koaCompress from 'koa-compress';
 import session from 'koa-session';
-import { server } from './config';
 import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
-import { isDev } from "./helper/env";
-import setupDevServer from "../../script/setup-dev-server";
+import { isDev } from './helper/env';
+import { ssr, server } from './config';
+import spaDevServer from '../../script/spa-dev-server';
+import ssrDevServer from '../../script/ssr-dev-server';
+
+const setupDevServer = ssr ? ssrDevServer : spaDevServer;
 
 class Server {
   constructor() {
