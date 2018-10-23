@@ -50,25 +50,23 @@ const indexHandler = async (ctx) => {
     }
   } else {
     let serverManifest;
-    let options;
+    let clientManifest;
     if (isDev) {
       // In development: setup the dev server with watch and hot-reload,
       // and create a new renderer on bundle / index template update.
-      ({ serverManifest, options } = await ctx.app.$devServer);
+      ({ serverManifest, clientManifest } = await ctx.app.$devServer);
     } else {
-      const clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
+      clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
       serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
-      options = {
-        clientManifest,
-      };
     }
-    Object.assign(options, {
+    const options = {
+      clientManifest,
       template,
       // this is only needed when vue-server-renderer is npm-linked
       basedir: dir.dist,
       // recommended for performance
       runInNewContext: false,
-    });
+    };
     const renderer = createBundleRenderer(serverManifest, options);
     const html = await renderer.renderToString(ctx);
     success(ctx, html);

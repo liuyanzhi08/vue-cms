@@ -3,7 +3,6 @@ import { path } from '../../config';
 const CATEGORY_FETCH = 'category:fetch';
 const CATEGORY_SET = 'category:set';
 const CATEGORY_ARTICLES_SET = 'category:articles:set';
-const CATEGORY_ARTICLE_SET = 'category:article:set';
 
 const category = {
   state: {

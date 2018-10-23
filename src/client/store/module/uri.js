@@ -1,5 +1,3 @@
-
-
 const URI_SET = 'uri:set';
 const URI_GET = 'uri:get';
 

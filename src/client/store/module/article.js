@@ -15,7 +15,7 @@ const article = {
   },
   actions: {
     [ARTICLE_FETCH]: async ({ commit, state, getters }, { id }) => (
-      await state.article.id === id
+      await state.article.id === +id
         ? Promise.resolve(state.article)
         : getters.Article.get(id).then(res => commit(ARTICLE_SET, res))
     ),
