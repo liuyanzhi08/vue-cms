@@ -16,8 +16,19 @@ const readFile = (fs, file) => {
 };
 
 module.exports = async function setupDevServer(app) {
-  let serverManifest;
   let clientManifest;
+  let serverManifest;
+  let readClientFile;
+  let readServerFile;
+
+  let resolve;
+  const readyPromise = new Promise((r) => { resolve = r; });
+  const ready = () => {
+    resolve({
+      readClientFile,
+      readServerFile,
+    });
+  };
 
   // modify client config to work with hot middleware
   const clientConfigClone = Object.assign({}, clientConfig);
@@ -35,16 +46,7 @@ module.exports = async function setupDevServer(app) {
     stats: 'minimal',
   });
 
-  const readWebpackFile = filename => readFile(devMiddleware.fileSystem, filename);
-  let resolve;
-  const readyPromise = new Promise((r) => { resolve = r; });
-  const ready = () => {
-    resolve({
-      readWebpackFile,
-      serverManifest,
-      clientManifest,
-    });
-  };
+  readClientFile = filename => readFile(devMiddleware.fileSystem, filename).toString();
 
   clientCompiler.plugin('done', (res) => {
     const stats = res.toJson();
@@ -78,6 +80,7 @@ module.exports = async function setupDevServer(app) {
     if (clientManifest) {
       ready();
     }
+    readServerFile = filename => readFile(mfs, filename).toString();
   });
 
   return readyPromise;

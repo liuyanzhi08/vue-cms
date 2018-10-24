@@ -20,8 +20,8 @@ const componentHandler = async (ctx) => {
 
 const assetHandler = async (ctx) => {
   if (isDev) {
-    const { readWebpackFile } = await ctx.app.$devServer;
-    success(ctx, readWebpackFile(ctx.params[0]));
+    const { readClientFile } = await ctx.app.$devServer;
+    success(ctx, readClientFile(ctx.params[0]));
   } else {
     const filePath = $path.join(dir.dist, ctx.params[0]);
     if (fs.existsSync(filePath)) {
@@ -42,8 +42,8 @@ const indexHandler = async (ctx) => {
   ctx.set('Cache-Control', 'no-cache');
   if (!ssr) {
     if (isDev) {
-      const { readWebpackFile } = await ctx.app.$devServer;
-      success(ctx, readWebpackFile('index.html').toString());
+      const { readClientFile } = await ctx.app.$devServer;
+      success(ctx, readClientFile('index.html'));
     } else {
       await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });
       success(ctx);
@@ -54,7 +54,9 @@ const indexHandler = async (ctx) => {
     if (isDev) {
       // In development: setup the dev server with watch and hot-reload,
       // and create a new renderer on bundle / index template update.
-      ({ serverManifest, clientManifest } = await ctx.app.$devServer);
+      const { readClientFile, readServerFile } = await ctx.app.$devServer;
+      clientManifest = JSON.parse(readClientFile('manifest/vue-ssr-client-bundle.json'));
+      serverManifest = JSON.parse(readServerFile('manifest/vue-ssr-server-bundle.json'));
     } else {
       clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
       serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');

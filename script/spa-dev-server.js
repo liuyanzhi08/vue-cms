@@ -30,11 +30,11 @@ module.exports = async function setupDevServer(app) {
     stats: 'minimal',
   });
 
-  const readWebpackFile = filename => readFile(devMiddleware.fileSystem, filename);
+  const readClientFile = filename => readFile(devMiddleware.fileSystem, filename).toString();
   let resolve;
   const readyPromise = new Promise((r) => { resolve = r; });
   const ready = () => {
-    resolve({ readWebpackFile });
+    resolve({ readClientFile });
   };
 
   clientCompiler.plugin('done', (res) => {

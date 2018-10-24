@@ -9,7 +9,7 @@ import { NOTICE_SEND, notice } from './module/notice';
 import { ARTICLE_FETCH, article } from './module/article';
 import { CATEGORY_FETCH, category } from './module/category';
 import { URI_GET, URI_SET, uri } from './module/uri';
-import { API_UPDATE, api } from './module/api';
+import { API_GET, API_SET, api } from './module/api';
 
 class Store {
   constructor() {
@@ -38,8 +38,9 @@ export {
   NOTICE_SEND,
   ARTICLE_FETCH,
   CATEGORY_FETCH,
-  URI_SET,
   URI_GET,
-  API_UPDATE,
+  URI_SET,
+  API_GET,
+  API_SET,
   Store,
 };

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Core from '../core';
-import { API_UPDATE } from '../store';
+import { API_SET } from '../store';
 
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
@@ -32,8 +32,8 @@ Vue.mixin({
 const { app, router, store } = new Core();
 
 // set uri
-store.dispatch(API_UPDATE, '');
-// store.dispatch(API_UPDATE, `${config.server.uri}:${config.server.port}`);
+store.dispatch(API_SET, '');
+// store.dispatch(API_SET, `${config.server.uri}:${config.server.port}`);
 
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.

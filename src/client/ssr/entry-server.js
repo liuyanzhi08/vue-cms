@@ -2,7 +2,7 @@ import Core from '../core';
 import { isDev } from '../helper/env';
 import { log } from '../helper/logger';
 import error from '../helper/error';
-import { API_UPDATE } from '../store';
+import { API_SET } from '../store';
 import config from '../../config';
 
 export default async context => new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ export default async context => new Promise((resolve, reject) => {
   router.push(url);
 
   // set uri
-  store.dispatch(API_UPDATE, `${config.server.uri}:${config.server.port}`);
+  store.dispatch(API_SET, `${config.server.uri}:${config.server.port}`);
 
   // wait until router has resolved possible async hooks
   router.onReady(() => {

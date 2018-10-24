@@ -38,11 +38,7 @@ export default {
       total: null,
     };
   },
-  computed: {
-    doneTodosCount() {
-      return this.$store.getters.doneTodos;
-    },
-  },
+  computed: {},
   created() {
     const { Article } = this.$store.getters;
     Article.get(this.$route.query).then((res) => {
