@@ -16,7 +16,7 @@ const api = {
         const res = await axios({
           url: `${state.uri}/api/auth/login`,
           data: user,
-          method: 'POST',
+          method: 'post',
         });
         return res.data;
       },

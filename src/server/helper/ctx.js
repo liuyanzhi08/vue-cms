@@ -19,7 +19,7 @@ const success = (ctx, data, options = { code: 200 }) => {
 const fail = (ctx, e, options = { code: 500 }) => {
   // development mode print the error stack
   let output = e;
-  if (e.stack) {
+  if (e && e.stack) {
     if (isDev) {
       output = `${e.message}\n${e.stack}`;
     } else {

@@ -12,7 +12,10 @@ const router = new KoaRouter();
 const componentHandler = async (ctx) => {
   try {
     const component = await import(`./component/${ctx.params.component}`);
-    await component.default[ctx.method.toLowerCase()](ctx).catch(e => Promise.reject(e));
+    const action = component.default[ctx.method.toLowerCase()];
+    if (action) {
+      await action.call(component.default, ctx).catch(e => Promise.reject(e));
+    }
   } catch (e) {
     fail(ctx, e);
   }
