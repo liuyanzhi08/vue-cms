@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Core from '../core';
-import { API_SET } from '../store';
+import { API_SET, MENU_HIDE } from '../store';
+import { rnames } from "../config";
 
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
@@ -73,6 +74,21 @@ router.onReady(() => {
         next();
       })
       .catch(next);
+  });
+
+  router.beforeEach((to, from, next) => {
+    const { isAuthenticated } = store.getters;
+    console.log(isAuthenticated, to, to.meta, to.meta.auth)
+    console.log('----------------')
+    const isAuthRoute = to.meta && to.meta.auth;
+    if (isAuthRoute && !isAuthenticated) {
+      return router.push({
+        name: rnames.login,
+        params: { to },
+      });
+    }
+    store.dispatch(MENU_HIDE);
+    return next();
   });
 
   // actually mount to DOM

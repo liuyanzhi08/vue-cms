@@ -103,18 +103,6 @@ class Router {
       mode: 'history',
       routes,
     });
-    router.beforeEach((to, from, next) => {
-      const { isAuthenticated } = store.getters;
-      const isAuthRoute = to.meta && to.meta.auth;
-      if (isAuthRoute && !isAuthenticated) {
-        return router.push({
-          name: rnames.login,
-          params: { to },
-        });
-      }
-      store.dispatch(MENU_HIDE);
-      return next();
-    });
     return router;
   }
 }

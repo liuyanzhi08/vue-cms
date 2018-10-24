@@ -12,12 +12,12 @@
       <app-category-tree v-model="article.category_id" />
     </div>
     <div class="uk-margin">
-      <mavon-editor
-        v-model="article.content"
-        :toolbars="editor.toolbars"
-        :box-shadow="editor.boxShadow"
-        :placeholder="editor.placeholder"
-      />
+      <!--<mavon-editor-->
+        <!--v-model="article.content"-->
+        <!--:toolbars="editor.toolbars"-->
+        <!--:box-shadow="editor.boxShadow"-->
+        <!--:placeholder="editor.placeholder"-->
+      <!--/>-->
     </div>
     <div class="uk-margin">
       <div class="uk-button-group">
