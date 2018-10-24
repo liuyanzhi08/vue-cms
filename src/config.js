@@ -8,7 +8,6 @@ export default {
     prefix: 'vms',
   },
   server: {
-    uri: 'http://127.0.0.1',
     port: 8081,
     log: {
       access: 'log/access.log',
@@ -22,5 +21,5 @@ export default {
   dir: {
     root: path.resolve(__dirname, '..'),
   },
-  ssr: false,
+  ssr: true,
 };
