@@ -30,7 +30,10 @@ module.exports = async function setupDevServer(app) {
     stats: 'minimal',
   });
 
-  const readClientFile = filename => readFile(devMiddleware.fileSystem, filename).toString();
+  const readClientFile = (filename, raw) => {
+    const buffer = readFile(devMiddleware.fileSystem, filename).toString();
+    return raw ? buffer : buffer.toString();
+  };
   let resolve;
   const readyPromise = new Promise((r) => { resolve = r; });
   const ready = () => {

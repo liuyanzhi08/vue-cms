@@ -1,5 +1,4 @@
 import { path } from '../../config';
-import { API_GET } from '..';
 
 const CATEGORY_FETCH = 'category:fetch';
 const CATEGORY_SET = 'category:set';
@@ -23,10 +22,10 @@ const category = {
     },
   },
   actions: {
-    [CATEGORY_FETCH]: async ({ commit, state, dispatch }, { id }) => {
+    [CATEGORY_FETCH]: async ({ commit, state, getters }, { id }) => {
       if (state.category.id !== id) {
-        await dispatch(API_GET, 'category').get(id).then(res => commit(CATEGORY_SET, res));
-        await dispatch(API_GET, 'article').query({ id }).then((res) => {
+        await getters.Category.get(id).then(res => commit(CATEGORY_SET, res));
+        await getters.Article.query({ id }).then((res) => {
           const articles = res.data.items;
           articles.forEach((article) => {
             article.url = `${path.user}/article/${article.id}`;

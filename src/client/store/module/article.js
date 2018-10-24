@@ -1,5 +1,3 @@
-import { API_GET } from '..';
-
 const ARTICLE_FETCH = 'article:fetch';
 const ARTICLE_SET = 'article:set';
 
@@ -16,12 +14,12 @@ const article = {
     },
   },
   actions: {
-    [ARTICLE_FETCH]: async ({ commit, state, dispatch }, { id }) => {
+    [ARTICLE_FETCH]: async ({ commit, state, getters }, { id }) => {
       let arc;
       if (state.article.id === +id) {
         arc = await state.article;
       } else {
-        const res = await dispatch(API_GET, 'article').get(id);
+        const res = await getters.Article.get(id);
         arc = res.data;
         commit(ARTICLE_SET, arc);
       }

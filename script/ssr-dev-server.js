@@ -46,7 +46,10 @@ module.exports = async function setupDevServer(app) {
     stats: 'minimal',
   });
 
-  readClientFile = filename => readFile(devMiddleware.fileSystem, filename).toString();
+  readClientFile = (filename, raw) => {
+    const buffer = readFile(devMiddleware.fileSystem, filename);
+    return raw ? buffer : buffer.toString();
+  };
 
   clientCompiler.plugin('done', (res) => {
     const stats = res.toJson();
@@ -80,7 +83,10 @@ module.exports = async function setupDevServer(app) {
     if (clientManifest) {
       ready();
     }
-    readServerFile = filename => readFile(mfs, filename).toString();
+    readServerFile = (filename, raw) => {
+      const buffer = readFile(mfs, filename);
+      return raw ? buffer : buffer.toString();
+    };
   });
 
   return readyPromise;

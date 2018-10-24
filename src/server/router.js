@@ -21,7 +21,7 @@ const componentHandler = async (ctx) => {
 const assetHandler = async (ctx) => {
   if (isDev) {
     const { readClientFile } = await ctx.app.$devServer;
-    success(ctx, readClientFile(ctx.params[0]));
+    success(ctx, readClientFile(ctx.params[0], true));
   } else {
     const filePath = $path.join(dir.dist, ctx.params[0]);
     if (fs.existsSync(filePath)) {
