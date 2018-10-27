@@ -78,8 +78,6 @@ router.onReady(() => {
 
   router.beforeEach((to, from, next) => {
     const { isAuthenticated } = store.getters;
-    console.log(isAuthenticated, to, to.meta, to.meta.auth)
-    console.log('----------------')
     const isAuthRoute = to.meta && to.meta.auth;
     if (isAuthRoute && !isAuthenticated) {
       return router.push({

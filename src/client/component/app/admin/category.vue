@@ -61,7 +61,6 @@ export default {
     },
   },
   data() {
-    console.log(this.parentId);
     return {
       category: { parent_id: this.parentId },
     };

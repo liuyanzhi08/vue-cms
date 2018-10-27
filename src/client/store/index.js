@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import {
-  AUTH_LOGIN, AUTH_LOGOUT, AUTH_USER, auth,
+  AUTH_LOGIN, AUTH_LOGOUT, AUTH_USER, AUTH_USER_ID, auth,
 } from './module/auth';
 import {
   MENU_SET, MENU_SHOW, MENU_HIDE, MENU_TOGGLE, menu,
@@ -31,6 +31,7 @@ export {
   AUTH_LOGIN,
   AUTH_LOGOUT,
   AUTH_USER,
+  AUTH_USER_ID,
   MENU_SET,
   MENU_SHOW,
   MENU_HIDE,

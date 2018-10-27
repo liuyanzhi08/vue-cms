@@ -1,11 +1,8 @@
 require('@babel/register');
 require('@babel/polyfill');
 
-const os = require('os');
-const dns = require('dns');
+const ip = require('ip');
 const opn = require('opn');
-const config = require('./dev.webpack.config.babel').default;
+const config = require('../src/config').default;
 
-dns.lookup(os.hostname(), (err, add) => {
-  opn(`http://${add}:${config.devServer.port}/${config.devServer.openPage}`);
-});
+opn(`http://${ip.address()}:${config.server.port}/admin`);

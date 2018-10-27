@@ -3,15 +3,16 @@ import Core from '../core';
 import { isDev } from '../helper/env';
 import { log } from '../helper/logger';
 import error from '../helper/error';
-import { API_SET } from '../store';
+import { API_SET, AUTH_USER, AUTH_USER_ID } from '../store';
 import config from '../../config';
 
-export default async context => new Promise((resolve, reject) => {
+export default async ctx => new Promise((resolve, reject) => {
   const { app, router, store } = new Core();
 
   const start = isDev && Date.now();
 
-  const { url } = context;
+  const { url } = ctx;
+
   const { fullPath } = router.resolve(url).route;
 
   if (fullPath !== url) {
@@ -26,6 +27,12 @@ export default async context => new Promise((resolve, reject) => {
 
   // set uri
   store.dispatch(API_SET, `http://${ip.address()}:${config.server.port}`);
+
+  // set auth
+  const userId = ctx.cookies.get(AUTH_USER);
+  if (userId) {
+    store.commit(AUTH_USER_ID, userId);
+  }
 
   // wait until router has resolved possible async hooks
   router.onReady(() => {
@@ -53,11 +60,11 @@ export default async context => new Promise((resolve, reject) => {
       }
       // After all preFetch hooks are resolved, our store is now
       // filled with the state needed to render the app.
-      // Expose the state on the render context, and let the request handler
+      // Expose the state on the render ctx, and let the request handler
       // inline the state in the HTML response. This allows the client-side
       // store to pick-up the server-side state without having to duplicate
       // the initial data fetching on the client.
-      context.state = store.state;
+      ctx.state = store.state;
       resolve(app);
     }).catch(reject);
   }, reject);

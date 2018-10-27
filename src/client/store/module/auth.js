@@ -6,6 +6,7 @@ const AUTH_LOGOUT = 'auth:logout';
 const AUTH_SUCCESS = 'auth:success';
 const AUTH_ERROR = 'auth:error';
 const AUTH_USER = 'auth:user';
+const AUTH_USER_ID = 'auth:user:id';
 
 const auth = {
   state: {
@@ -14,32 +15,32 @@ const auth = {
     userId: Cookie.get(AUTH_USER),
   },
   getters: {
-    isAuthenticated: state => !!state.userId,
+    isAuthenticated: state => {
+      console.log(1, state.userId);
+      return !!state.userId;
+    },
     user: state => state.user || {},
   },
   mutations: {
-    [AUTH_REQUEST]: (_state) => {
-      const state = _state;
+    [AUTH_USER_ID]: (state, id) => {
+      state.userId = id;
+    },
+    [AUTH_REQUEST]: (state) => {
       state.status = 'loading';
     },
-
-    [AUTH_SUCCESS]: (_state, user) => {
-      const state = _state;
+    [AUTH_SUCCESS]: (state, user) => {
       state.status = 'success';
       state.user = user;
       state.userId = user.id;
     },
-    [AUTH_ERROR]: (_state) => {
-      const state = _state;
+    [AUTH_ERROR]: (state) => {
       state.status = 'error';
     },
-    [AUTH_LOGOUT]: (_state) => {
-      const state = _state;
+    [AUTH_LOGOUT]: (state) => {
       state.user = null;
       state.userId = null;
     },
-    [AUTH_USER]: (_state, user) => {
-      const state = _state;
+    [AUTH_USER]: (state, user) => {
       state.user = user;
     },
   },
@@ -71,5 +72,6 @@ export {
   AUTH_LOGIN,
   AUTH_LOGOUT,
   AUTH_USER,
+  AUTH_USER_ID,
   auth,
 };
