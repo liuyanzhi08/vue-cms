@@ -23,7 +23,7 @@ class Restfull {
 
   async get(ctx) {
     if (this.options.auth.get && !ctx.isAuthenticated()) {
-      await reject(fail(ctx, error.authUnauthorized, { code: 401 }));
+      fail(ctx, error.authUnauthorized, { code: 401 });
       return;
     }
     let params = {};
@@ -87,7 +87,7 @@ class Restfull {
 
   async post(ctx) {
     if (this.options.auth.post && !ctx.isAuthenticated()) {
-      reject(fail(ctx, error.authUnauthorized, { code: 401 }));
+      fail(ctx, error.authUnauthorized, { code: 401 });
       return;
     }
 
@@ -118,12 +118,12 @@ class Restfull {
   }
 
   async delete(ctx) {
-    if (this.options.auth.get && !ctx.isAuthenticated()) {
-      reject(fail(ctx, error.authUnauthorized, { code: 401 }));
+    if (this.options.auth.delete && !ctx.isAuthenticated()) {
+      fail(ctx, error.authUnauthorized, { code: 401 });
       return;
     }
     if (ctx.params.id === undefined) {
-      reject(fail(ctx, { msg: 'method `delete` need a `id` params' }));
+      fail(ctx, { msg: 'method `delete` need a `id` params' });
       return;
     }
 

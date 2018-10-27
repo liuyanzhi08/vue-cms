@@ -15,10 +15,7 @@ const auth = {
     userId: Cookie.get(AUTH_USER),
   },
   getters: {
-    isAuthenticated: state => {
-      console.log(1, state.userId);
-      return !!state.userId;
-    },
+    isAuthenticated: state => !!state.userId,
     user: state => state.user || {},
   },
   mutations: {

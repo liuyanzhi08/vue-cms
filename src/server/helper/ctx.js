@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import _ from 'lodash';
 import { isDev } from './env';
 import { log, err } from './logger';
 
@@ -28,6 +29,11 @@ const fail = (ctx, e, options = { code: 500 }) => {
         msg: e.message,
       };
     }
+  } else if (_.isArray(e)) {
+    output = {
+      code: e[0],
+      msg: e[1],
+    };
   }
   ctx.body = output;
   ctx.status = options.code;
