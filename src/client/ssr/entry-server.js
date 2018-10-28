@@ -29,8 +29,7 @@ export default async ctx => new Promise((resolve, reject) => {
     store.commit(AUTH_USER_ID, userId);
   }
 
-  core.create();
-  const { app } = core;
+  const app = core.createApp();
 
   // wait until router has resolved possible async hooks
   router.onReady(() => {

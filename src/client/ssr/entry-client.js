@@ -1,6 +1,7 @@
 import Vue from 'vue';
+import Cookie from 'js-cookie';
 import Core from '../core';
-import { API_SET, MENU_HIDE } from '../store';
+import { API_SET, AUTH_USER, AUTH_USER_ID, MENU_HIDE } from '../store';
 import { rnames } from "../config";
 
 // a global mixin that calls `asyncData` when a route component's params change
@@ -42,11 +43,16 @@ store.dispatch(API_SET, '');
 /* eslint-disable */
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__);
+} else {
+  // for spa
+  const userId = Cookie.get(AUTH_USER);
+  if (userId) {
+    store.commit(AUTH_USER_ID, userId);
+  }
 }
 /* eslint-enable */
 
-core.create();
-const { app } = core;
+const app = core.createApp();
 
 // wait until router has resolved all async before hooks
 // and async components...

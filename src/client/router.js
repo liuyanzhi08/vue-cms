@@ -105,7 +105,6 @@ class Router {
     });
     router.beforeEach((to, from, next) => {
       const { isAuthenticated } = store.getters;
-      console.log('ttt', isAuthenticated)
       const isAuthRoute = to.meta && to.meta.auth;
       if (isAuthRoute && !isAuthenticated) {
         return router.push({

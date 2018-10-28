@@ -13,9 +13,7 @@ const auth = {
     userId: null,
   },
   getters: {
-    isAuthenticated: state => {
-      return !!state.userId;
-    },
+    isAuthenticated: state => !!state.userId,
     user: state => state.user || {},
   },
   mutations: {

@@ -32,7 +32,7 @@ class Core {
     this.router = router;
   }
 
-  create() {
+  createApp() {
     this.app = new Vue({
       name: 'App',
       render: h => h(App),
@@ -42,6 +42,7 @@ class Core {
       router: this.router,
       store: this.store,
     });
+    return this.app;
   }
 }
 
