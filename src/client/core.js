@@ -28,18 +28,20 @@ class Core {
     const store = new Store();
     const router = new Router(store);
     sync(store, router);
-    const app = new Vue({
+    this.store = store;
+    this.router = router;
+  }
+
+  create() {
+    this.app = new Vue({
       name: 'App',
       render: h => h(App),
       renderError(h, err) {
         return h('pre', { style: { color: 'red' } }, err.stack);
       },
-      router,
-      store,
+      router: this.router,
+      store: this.store,
     });
-    this.store = store;
-    this.router = router;
-    this.app = app;
   }
 }
 

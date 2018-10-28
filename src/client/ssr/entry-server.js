@@ -7,7 +7,8 @@ import { API_SET, AUTH_USER, AUTH_USER_ID } from '../store';
 import config from '../../config';
 
 export default async ctx => new Promise((resolve, reject) => {
-  const { app, router, store } = new Core();
+  const core = new Core();
+  const { router, store } = core;
 
   const start = isDev && Date.now();
 
@@ -19,12 +20,6 @@ export default async ctx => new Promise((resolve, reject) => {
     return reject(new Error(error.routerNotFound.info));
   }
 
-  // set router's location
-  if (isDev) {
-    log(url);
-  }
-  router.push(url);
-
   // set uri
   store.dispatch(API_SET, `http://${ip.address()}:${config.server.port}`);
 
@@ -33,6 +28,9 @@ export default async ctx => new Promise((resolve, reject) => {
   if (userId) {
     store.commit(AUTH_USER_ID, userId);
   }
+
+  core.create();
+  const { app } = core;
 
   // wait until router has resolved possible async hooks
   router.onReady(() => {
@@ -68,5 +66,12 @@ export default async ctx => new Promise((resolve, reject) => {
       resolve(app);
     }).catch(reject);
   }, reject);
+
+  // set router's location
+  if (isDev) {
+    log(url);
+  }
+  router.push(url);
+
   return app;
 });

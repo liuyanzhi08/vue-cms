@@ -100,7 +100,7 @@ export default {
   },
   created() {
     if (this.isAuthenticated) {
-      this.$store.dispatch(AUTH_USER);
+      // this.$store.dispatch(AUTH_USER);
     }
   },
   async mounted() {

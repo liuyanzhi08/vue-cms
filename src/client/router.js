@@ -103,6 +103,18 @@ class Router {
       mode: 'history',
       routes,
     });
+    router.beforeEach((to, from, next) => {
+      const { isAuthenticated } = store.getters;
+      console.log('ttt', isAuthenticated)
+      const isAuthRoute = to.meta && to.meta.auth;
+      if (isAuthRoute && !isAuthenticated) {
+        return router.push({
+          name: rnames.login,
+        });
+      }
+      store.dispatch(MENU_HIDE);
+      return next();
+    });
     return router;
   }
 }

@@ -30,7 +30,8 @@ Vue.mixin({
   },
 });
 
-const { app, router, store } = new Core();
+const core = new Core();
+const { router, store } = core;
 
 // set uri
 store.dispatch(API_SET, '');
@@ -43,6 +44,9 @@ if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__);
 }
 /* eslint-enable */
+
+core.create();
+const { app } = core;
 
 // wait until router has resolved all async before hooks
 // and async components...
@@ -76,18 +80,18 @@ router.onReady(() => {
       .catch(next);
   });
 
-  router.beforeEach((to, from, next) => {
-    const { isAuthenticated } = store.getters;
-    const isAuthRoute = to.meta && to.meta.auth;
-    if (isAuthRoute && !isAuthenticated) {
-      return router.push({
-        name: rnames.login,
-        params: { to },
-      });
-    }
-    store.dispatch(MENU_HIDE);
-    return next();
-  });
+  // router.beforeEach((to, from, next) => {
+  //   const { isAuthenticated } = store.getters;
+  //   const isAuthRoute = to.meta && to.meta.auth;
+  //   if (isAuthRoute && !isAuthenticated) {
+  //     return router.push({
+  //       name: rnames.login,
+  //       params: { to },
+  //     });
+  //   }
+  //   store.dispatch(MENU_HIDE);
+  //   return next();
+  // });
 
   // actually mount to DOM
   app.$mount('#app');
