@@ -7,7 +7,7 @@ const notice = {
   },
   actions: {
     [NOTICE_SEND]: async (ctx, msg, options = { timeout: 1000 }) => {
-      const uk = import('uikit');
+      const uk = await import('uikit');
       uk.notification(msg, options);
     },
   },

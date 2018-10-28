@@ -1,5 +1,3 @@
-import Cookie from 'js-cookie';
-
 const AUTH_REQUEST = 'auth:request';
 const AUTH_LOGIN = 'auth:login';
 const AUTH_LOGOUT = 'auth:logout';
@@ -12,10 +10,12 @@ const auth = {
   state: {
     status: null,
     user: null,
-    userId: Cookie.get(AUTH_USER),
+    userId: null,
   },
   getters: {
-    isAuthenticated: state => !!state.userId,
+    isAuthenticated: state => {
+      return !!state.userId;
+    },
     user: state => state.user || {},
   },
   mutations: {
@@ -44,7 +44,7 @@ const auth = {
   actions: {
     [AUTH_LOGIN]: async ({ commit, getters }, user) => {
       commit(AUTH_REQUEST);
-      getters.Auth.login(user)
+      return getters.Auth.login(user)
         .then((res) => {
           commit(AUTH_SUCCESS, res);
           return res;
