@@ -10,6 +10,7 @@ export default {
   resolve: {
     alias: {
       vue$: 'vue/dist/vue.esm.js',
+      '@npm': path.join(rootDir, 'node_modules'),
       '@image': path.join(rootDir, 'src/client/asset/image'),
       '@style': path.join(rootDir, 'src/client/asset/style'),
     },
