@@ -1,6 +1,5 @@
-
 const filter = {};
-filter.install = (Vue) => {
+filter.install = () => {
 };
 
 export default filter;

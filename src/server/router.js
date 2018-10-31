@@ -79,7 +79,7 @@ const indexHandler = async (ctx) => {
 };
 
 const staticHandle = async (ctx) => {
-  const param = ctx.params[0];
+  const param = ctx.params[0] || '';
   const filePath = $path.join(dir.static, path.user, param, 'index.html');
   if (fs.existsSync(filePath)) {
     const stats = fs.statSync(filePath);
@@ -117,6 +117,10 @@ router
   .all(path.user, indexHandler)
   .all(`${path.user}/*`, indexHandler)
   .all(`${path.admin}/*`, indexHandler)
-  // .all('*', staticHandle);
+  .all('/', staticHandle)
+  .all('/category', staticHandle)
+  .all('/article', staticHandle)
+  .all('/category/*', staticHandle)
+  .all('/article/*', staticHandle)
 
 export default router;
