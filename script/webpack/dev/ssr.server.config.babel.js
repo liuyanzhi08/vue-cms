@@ -1,4 +1,5 @@
 import path from 'path';
+import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import VueSSRServerPlugin from 'vue-server-renderer/server-plugin';
 import webpackMerge from 'webpack-merge';
@@ -50,5 +51,11 @@ export default webpackMerge(base, {
     new VueSSRServerPlugin({
       filename: 'manifest/vue-ssr-server-bundle.json',
     }),
+    new webpack.DefinePlugin(
+      {
+        'process.client': false,
+        'process.server': true,
+      },
+    ),
   ],
 });

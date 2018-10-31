@@ -12,12 +12,15 @@
       <app-category-tree v-model="article.category_id" />
     </div>
     <div class="uk-margin">
-      <!--<mavon-editor-->
-        <!--v-model="article.content"-->
-        <!--:toolbars="editor.toolbars"-->
-        <!--:box-shadow="editor.boxShadow"-->
-        <!--:placeholder="editor.placeholder"-->
-      <!--/>-->
+      <no-ssr>
+        <mavon-editor
+          v-if="isClient"
+          v-model="article.content"
+          :toolbars="editor.toolbars"
+          :box-shadow="editor.boxShadow"
+          :placeholder="editor.placeholder"
+        />
+      </no-ssr>
     </div>
     <div class="uk-margin">
       <div class="uk-button-group">
@@ -44,12 +47,14 @@
 import AppCategoryTree from './category-tree';
 import { NOTICE_SEND } from '../../../store';
 import { db } from '../../../config';
+import NoSsr from 'vue-no-ssr';
 
 let isNew = true;
 
 export default {
   components: {
     AppCategoryTree,
+    NoSsr,
   },
   props: {
     id: {

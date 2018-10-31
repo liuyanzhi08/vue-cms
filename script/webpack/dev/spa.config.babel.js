@@ -1,4 +1,5 @@
 import path from 'path';
+import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpackMerge from 'webpack-merge';
 import config from '../../../src/config';
@@ -22,5 +23,11 @@ export default webpackMerge(base, {
       title: 'My App',
       template: 'src/client/index.html',
     }),
+    new webpack.DefinePlugin(
+      {
+        'process.client': true,
+        'process.server': false,
+      },
+    ),
   ],
 });

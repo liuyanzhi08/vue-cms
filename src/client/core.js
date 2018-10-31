@@ -5,14 +5,20 @@ import VueRouter from 'vue-router';
 import ElementUI from 'element-ui';
 import MavonEditor from 'mavon-editor';
 import { sync } from 'vuex-router-sync';
-
 import UI from './component/ui/index';
-
 import Router from './router';
 import { Store } from './store';
 import App from './component/app/app';
 import directive from './component/directive';
 import filter from './filter';
+
+Vue.mixin({
+  data() {
+    return {
+      isClient: process.client === true,
+    };
+  },
+});
 
 Vue.use(VueResource);
 Vue.use(Vuex);
