@@ -2,6 +2,8 @@ import Koa from 'koa';
 import koaBody from 'koa-body';
 import koaCompress from 'koa-compress';
 import session from 'koa-session';
+import opn from 'opn';
+import ip from 'ip';
 import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
@@ -36,6 +38,9 @@ class Server {
 
     if (isDev) {
       app.$devServer = setupDevServer(app);
+      log('wait for webpack finish building...');
+      app.$devServer.then(() => log('webpack finished building'));
+      opn(`http://${ip.address()}:${server.port}/admin`);
     }
 
     return app;
