@@ -28,7 +28,7 @@ class Server {
     app.proxy = true;
 
     app.use(koaBody())
-      // .use(koaCompress())
+      .use(koaCompress())
       .use(session(sessionConfig, app))
       .use(passport.initialize())
       .use(passport.session())
@@ -39,13 +39,17 @@ class Server {
     log(`cms is running, listening on 0.0.0.0:${server.port}`);
 
     if (isDev) {
+      // setup dev server
       app.$devServer = setupDevServer(app);
-      log('[DS] wait for webpack finish building...');
-      app.$devServer.then(() => log('[DS] webpack finished building'));
+      log('[DS] wait for webpack finishes building...');
+      app.$devServer.then(() => {
+        log('[DS] webpack finished building');
+        opn(`http://${ip.address()}:${server.port}/admin`);
+      });
+      // watch for files change
       const watcher = chokidar.watch(path.join(dir.root, '/src'), { ignored: /client/ });
       watcher.on('ready', () => {
         log('[FW] file watcher ready');
-        opn(`http://${ip.address()}:${server.port}/admin`);
         watcher.on('all', (e, p) => {
           log(`[FW] ${p} ${e}`);
           Object.keys(require.cache).forEach((id) => {
