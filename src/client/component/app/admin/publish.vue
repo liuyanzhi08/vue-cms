@@ -1,8 +1,8 @@
 <template>
   <div>
     <app-category-tree
-      ref="categoryTree"
-      :click="click"
+      ref="publishCategoryTree"
+      :show-checkbox="true"
     />
     <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-center">
       <button
@@ -28,20 +28,26 @@ export default {
   data() {
     return {
       loading: false,
+      articles: [],
     };
   },
   created() {
   },
   methods: {
     publish() {
+      const { publishCategoryTree } = this.$refs;
+      const checkedNodes = publishCategoryTree.getCheckedNodes();
+      const articleIds = checkedNodes.filter(item => !!item.isLeaf).map(item => item.id);
+      const categoryIds = checkedNodes.filter(item => !item.isLeaf).map(item => item.id);
+
       const { Common } = this.$store.getters;
       this.loading = true;
-      Common.staticize().then(() => {
+      Common.staticize({
+        articleIds,
+        categoryIds,
+      }).then(() => {
         this.loading = false;
       });
-    },
-    click(node) {
-      console.log(node);
     },
   },
 };

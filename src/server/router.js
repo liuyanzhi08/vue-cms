@@ -2,10 +2,10 @@ import KoaRouter from 'koa-router';
 import koaSend from 'koa-send';
 import $path from 'path';
 import fs from 'fs';
-import { createBundleRenderer } from 'vue-server-renderer';
 import { path, dir, ssr } from './config';
 import { success, fail } from './helper/ctx';
 import { isDev } from './helper/env';
+import { createRenderer } from './helper/ssr';
 
 const router = new KoaRouter();
 
@@ -52,27 +52,7 @@ const indexHandler = async (ctx) => {
       success(ctx);
     }
   } else {
-    let serverManifest;
-    let clientManifest;
-    if (isDev) {
-      // In development: setup the dev server with watch and hot-reload,
-      // and create a new renderer on bundle / index template update.
-      const { readClientFile, readServerFile } = await ctx.app.$devServer;
-      clientManifest = JSON.parse(readClientFile('manifest/vue-ssr-client-bundle.json'));
-      serverManifest = JSON.parse(readServerFile('manifest/vue-ssr-server-bundle.json'));
-    } else {
-      clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
-      serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
-    }
-    const options = {
-      clientManifest,
-      template,
-      // this is only needed when vue-server-renderer is npm-linked
-      basedir: dir.dist,
-      // recommended for performance
-      runInNewContext: false,
-    };
-    const renderer = createBundleRenderer(serverManifest, options);
+    const renderer = await createRenderer(ctx.app.$devServer);
     const html = await renderer.renderToString(ctx);
     success(ctx, html);
   }

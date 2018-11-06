@@ -36,7 +36,7 @@ const api = {
       },
     }),
     Common: state => ({
-      staticize: () => axios.get(`${state.uri}/api/staticize`),
+      staticize: data => axios.post(`${state.uri}/api/staticize`, data),
     }),
   },
   mutations: {

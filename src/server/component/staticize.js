@@ -8,6 +8,7 @@ import { dir } from '../config';
 import { fail } from '../helper/ctx';
 import serverManifest from '../../../dist/manifest/vue-ssr-server-bundle';
 import clientManifest from '../../../dist/manifest/vue-ssr-client-bundle';
+import { error } from '../helper/error';
 
 const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
 const template = fs.readFileSync(templatePath, 'utf-8');
@@ -17,7 +18,16 @@ const renderer = createBundleRenderer(serverManifest, {
 });
 
 export default {
-  get: async (ctx) => {
+  post: async (ctx) => {
+    if (!ctx.isAuthenticated()) {
+      fail(ctx, error.authUnauthorized, { code: 401 });
+      return;
+    }
+
+    const data = ctx.request.body;
+    ctx.body = data;
+    return;
+
     // tod need auth
     // await savePageRecurse(`${server.uri}${$path.user}`, $path.static, 'index.html');
     const url = '/user/article/4';

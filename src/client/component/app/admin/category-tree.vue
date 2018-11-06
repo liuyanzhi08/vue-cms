@@ -8,7 +8,9 @@
     :load="load"
     :empty-text="'nothing'"
     lazy
+    :show-checkbox="showCheckbox"
     @node-click="click"
+    @check-change="checkChange"
   />
 </template>
 <script>
@@ -25,6 +27,10 @@ export default {
     click: {
       type: Function,
       default: _.noop,
+    },
+    showCheckbox: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -134,6 +140,12 @@ export default {
     },
     toggle() {
       this.expanded = !this.expanded;
+    },
+    checkChange(node) {
+      this.$emit('check-change', node);
+    },
+    getCheckedNodes() {
+      return this.$refs.tree.getCheckedNodes();
     },
   },
 };
