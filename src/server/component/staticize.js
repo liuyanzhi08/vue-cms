@@ -1,21 +1,18 @@
-import { createBundleRenderer } from 'vue-server-renderer';
-// import { server, $path } from '../config';
-// import { savePageRecurse } from '../helper/spider';
-import fs from 'fs';
 import fse from 'fs-extra';
 import $path from 'path';
 import { dir } from '../config';
-import { fail } from '../helper/ctx';
-import serverManifest from '../../../dist/manifest/vue-ssr-server-bundle';
-import clientManifest from '../../../dist/manifest/vue-ssr-client-bundle';
+import { success, fail } from '../helper/ctx';
 import { error } from '../helper/error';
+import { createRenderer } from '../helper/ssr';
 
-const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
-const template = fs.readFileSync(templatePath, 'utf-8');
-const renderer = createBundleRenderer(serverManifest, {
-  template,
-  clientManifest,
-});
+const renderArticle = async (ctx, renderer, id) => {
+  const ctxClone = Object.assign(ctx);
+  const url = `/user/article/${id}`;
+  ctxClone.url = url;
+  const html = await renderer.renderToString(ctxClone);
+  const filename = $path.join(dir.static, url, 'index.html');
+  fse.outputFile(filename, html);
+};
 
 export default {
   post: async (ctx) => {
@@ -25,23 +22,9 @@ export default {
     }
 
     const data = ctx.request.body;
-    ctx.body = data;
-    return;
-
-    // tod need auth
-    // await savePageRecurse(`${server.uri}${$path.user}`, $path.static, 'index.html');
-    const url = '/user/article/4';
-    const context = {
-      title: 'Vue HN 2.0', // default title
-      url,
-    };
-    try {
-      const html = await renderer.renderToString(context);
-      const filename = $path.join(dir.static, url, 'index.html');
-      fse.outputFile(filename, html);
-      ctx.body = html;
-    } catch (e) {
-      fail(ctx, e);
-    }
+    const renderer = await createRenderer(ctx.app.$devServer);
+    const promises = data.articleIds.map(id => renderArticle(ctx, renderer, id));
+    await Promise.all(promises);
+    success(ctx, { msg: 'success' });
   },
 };

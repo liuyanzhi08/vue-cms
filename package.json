@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=development npm run dev:server",
     "dev:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --config script/webpack/dev/ssr.client.config.babel.js",
     "dev:ssr:server": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --config script/webpack/dev/ssr.server.config.babel.js",
-    "dev:server": "cross-env NODE_ENV=development node src/server --ignore 'dist/**' --ignore 'src/client/**'",
+    "dev:server": "cross-env NODE_ENV=development node src/server",
     "dev:server:test": "mocha -w",
     "dev:db:init": "cross-env NODE_ENV=development npm run db:create && npm run db:migrate:latest && npm run db:seed:run",
     "dev:db:clear": "cross-env NODE_ENV=development npm run db:migrate:rollback && npm run db:delete",

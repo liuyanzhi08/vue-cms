@@ -38,10 +38,9 @@ const assetHandler = async (ctx) => {
   }
 };
 
-const templatePath = $path.join(dir.root, 'src/server/ssr/template.html');
-const template = fs.readFileSync(templatePath, 'utf-8');
-
 const indexHandler = async (ctx) => {
+  // console.log('--------------------------------');
+  // console.log(ctx);
   ctx.set('Cache-Control', 'no-cache');
   if (!ssr) {
     if (isDev) {
