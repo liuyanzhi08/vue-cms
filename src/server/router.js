@@ -58,8 +58,7 @@ const indexHandler = async (ctx) => {
 };
 
 const staticHandle = async (ctx) => {
-  const param = ctx.params[0] || '';
-  const filePath = $path.join(dir.static, path.user, param, 'index.html');
+  const filePath = $path.join(dir.static, path.user, ctx.request.url, 'index.html');
   if (fs.existsSync(filePath)) {
     const stats = fs.statSync(filePath);
     const fileModified = new Date(stats.ctime);
@@ -100,6 +99,6 @@ router
   .all('/category', staticHandle)
   .all('/article', staticHandle)
   .all('/category/*', staticHandle)
-  .all('/article/*', staticHandle)
+  .all('/article/*', staticHandle);
 
 export default router;
