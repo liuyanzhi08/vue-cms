@@ -107,11 +107,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .menu {
-    i {
-      margin-left: 5px;
-    }
-  }
   .root-add {
     cursor: pointer;
     margin-left: 3px;

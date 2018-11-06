@@ -73,8 +73,6 @@ export default {
         resolve(subs);
       }));
     },
-    addArticle() { this.selected = { id: 0, type: 'article' }; },
-    addCategory() { this.selected = { id: 0, type: 'category' }; },
     /* eslint-disable */
     renderContent(h, { node, data }) {
       const { subs } = data;
@@ -145,10 +143,5 @@ export default {
     i {
       margin-left: 5px;
     }
-  }
-  .root-add {
-    cursor: pointer;
-    margin-left: 3px;
-    margin-top: 10px;
   }
 </style>
