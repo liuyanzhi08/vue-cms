@@ -10,8 +10,7 @@
         />
       </article>
       <div v-if="!article">
-        <h1 class="uk-flex uk-flex-center">404</h1>
-        <h2 class="uk-flex uk-flex-center">Resource Not Found</h2>
+        <vms404 />
       </div>
       <h3 class="uk-margin-large">Related Posts …</h3>
       <div
@@ -46,11 +45,13 @@ import { ARTICLE_FETCH, CATEGORY_FETCH } from '../../../store';
 import md from '../../../helper/md';
 import VmsHeader from './header';
 import VmsFooter from './footer';
+import Vms404 from './404';
 
 export default {
   components: {
     VmsHeader,
     VmsFooter,
+    Vms404,
   },
   data() {
     return {
