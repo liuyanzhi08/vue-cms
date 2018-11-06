@@ -19,7 +19,7 @@ import _ from 'lodash';
 import { db } from '../../../config';
 
 export default {
-  name: 'AppCategoryTree',
+  name: 'AppCategoryOption',
   props: {
     value: {
       type: Number,

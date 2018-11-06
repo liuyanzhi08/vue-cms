@@ -9,7 +9,7 @@
       >
     </div>
     <div class="uk-margin">
-      <app-category-tree v-model="category.parent_id" />
+      <app-category-option v-model="category.parent_id" />
     </div>
     <div class="uk-margin">
       <textarea
@@ -40,7 +40,7 @@
   </form>
 </template>
 <script>
-import AppCategoryTree from './category-tree';
+import AppCategoryOption from './category-option';
 import { NOTICE_SEND } from '../../../store';
 import { db } from '../../../config';
 
@@ -48,7 +48,7 @@ let isNew = true;
 
 export default {
   components: {
-    AppCategoryTree,
+    AppCategoryOption,
   },
   props: {
     id: {

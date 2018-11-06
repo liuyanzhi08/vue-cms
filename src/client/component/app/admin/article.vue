@@ -9,7 +9,7 @@
       >
     </div>
     <div class="uk-margin">
-      <app-category-tree v-model="article.category_id" />
+      <app-category-option v-model="article.category_id" />
     </div>
     <div class="uk-margin">
       <no-ssr>
@@ -44,16 +44,16 @@
   </form>
 </template>
 <script>
-import AppCategoryTree from './category-tree';
+import NoSsr from 'vue-no-ssr';
+import AppCategoryOption from './category-option';
 import { NOTICE_SEND } from '../../../store';
 import { db } from '../../../config';
-import NoSsr from 'vue-no-ssr';
 
 let isNew = true;
 
 export default {
   components: {
-    AppCategoryTree,
+    AppCategoryOption,
     NoSsr,
   },
   props: {
