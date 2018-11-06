@@ -2,13 +2,17 @@
   <div class="theme-df">
     <vms-header />
     <div class="uk-container">
-      <article>
+      <article v-if="article">
         <h1>{{ article.title }}</h1>
         <div
           class="content"
           v-html="md.parse(article.content)"
         />
       </article>
+      <div v-if="!article">
+        <h1 class="uk-flex uk-flex-center">404</h1>
+        <h2 class="uk-flex uk-flex-center">Resource Not Found</h2>
+      </div>
       <h3 class="uk-margin-large">Related Posts …</h3>
       <div
         class="uk-flex uk-flex-left"

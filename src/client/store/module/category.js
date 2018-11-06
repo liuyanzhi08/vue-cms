@@ -1,3 +1,4 @@
+import { log } from '../../helper/logger';
 import { path } from '../../config';
 
 const CATEGORY_FETCH = 'category:fetch';
@@ -24,14 +25,18 @@ const category = {
   actions: {
     [CATEGORY_FETCH]: async ({ commit, state, getters }, { id }) => {
       if (state.category.id !== id) {
-        await getters.Category.get(id).then(res => commit(CATEGORY_SET, res));
-        await getters.Article.query({ id }).then((res) => {
-          const articles = res.data.items;
-          articles.forEach((article) => {
-            article.url = `${path.user}/article/${article.id}`;
+        try {
+          await getters.Category.get(id).then(res => commit(CATEGORY_SET, res));
+          await getters.Article.query({ id }).then((res) => {
+            const articles = res.data.items;
+            articles.forEach((article) => {
+              article.url = `${path.user}/article/${article.id}`;
+            });
+            commit(CATEGORY_ARTICLES_SET, articles);
           });
-          commit(CATEGORY_ARTICLES_SET, articles);
-        });
+        } catch (e) {
+          log(`category id=${id} not found`);
+        }
       }
     },
   },

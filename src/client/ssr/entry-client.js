@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import Cookie from 'js-cookie';
 import Core from '../core';
-import { API_SET, AUTH_USER, AUTH_USER_ID, MENU_HIDE } from '../store';
-import { rnames } from "../config";
+import { API_SET, AUTH_USER, AUTH_USER_ID } from '../store';
 
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
@@ -75,7 +74,6 @@ router.onReady(() => {
     if (!asyncDataHooks.length) {
       return next();
     }
-
     return Promise.all(asyncDataHooks.map(hook => hook({
       store,
       route: to,
@@ -85,19 +83,6 @@ router.onReady(() => {
       })
       .catch(next);
   });
-
-  // router.beforeEach((to, from, next) => {
-  //   const { isAuthenticated } = store.getters;
-  //   const isAuthRoute = to.meta && to.meta.auth;
-  //   if (isAuthRoute && !isAuthenticated) {
-  //     return router.push({
-  //       name: rnames.login,
-  //       params: { to },
-  //     });
-  //   }
-  //   store.dispatch(MENU_HIDE);
-  //   return next();
-  // });
 
   // actually mount to DOM
   app.$mount('#app');

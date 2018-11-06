@@ -10,6 +10,9 @@ import { ARTICLE_FETCH, article } from './module/article';
 import { CATEGORY_FETCH, category } from './module/category';
 import { URI_GET, URI_SET, uri } from './module/uri';
 import { API_SET, api } from './module/api';
+import {
+  STATUS_SET, STATUS_INIT, STATUS_FETCH, STATUS_GOT, STATUS_404, status,
+} from './module/status';
 
 class Store {
   constructor() {
@@ -22,6 +25,7 @@ class Store {
         category,
         uri,
         api,
+        status,
       },
     });
   }
@@ -42,5 +46,10 @@ export {
   URI_GET,
   URI_SET,
   API_SET,
+  STATUS_SET,
+  STATUS_INIT,
+  STATUS_FETCH,
+  STATUS_GOT,
+  STATUS_404,
   Store,
 };

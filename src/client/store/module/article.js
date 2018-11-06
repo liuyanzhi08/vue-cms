@@ -1,5 +1,11 @@
+import { log } from '../../helper/logger';
+import {
+  STATUS_SET, STATUS_FETCH, STATUS_GOT, STATUS_404,
+} from './status';
+
 const ARTICLE_FETCH = 'article:fetch';
 const ARTICLE_SET = 'article:set';
+const type = 'article';
 
 const article = {
   state: {
@@ -14,13 +20,32 @@ const article = {
     },
   },
   actions: {
-    [ARTICLE_FETCH]: async ({ commit, state, getters }, { id }) => {
+    [ARTICLE_FETCH]: async ({
+      commit, state, getters,
+    }, { id }) => {
+      const finalStatus = [STATUS_GOT, STATUS_404];
+      if (finalStatus.indexOf(getters.articleStatus) !== -1) {
+        return state.article;
+      }
+
+
       let arc;
       if (state.article.id === +id) {
-        arc = await state.article;
+        arc = state.article;
       } else {
-        const res = await getters.Article.get(id);
-        arc = res.data;
+        try {
+          commit(STATUS_SET, { type, status: STATUS_FETCH });
+          const res = await getters.Article.get(id);
+          if (res.data) {
+            arc = res.data;
+          }
+          commit(STATUS_SET, { type, status: STATUS_GOT });
+        } catch (e) {
+          if (e.response.status === 404) {
+            log(`article id:${id} not found`);
+          }
+          commit(STATUS_SET, { type, status: STATUS_404 });
+        }
         commit(ARTICLE_SET, arc);
       }
       return arc;
