@@ -1,5 +1,9 @@
 <template>
   <div>
+    <app-category-tree
+      ref="categoryTree"
+      :click="click"
+    />
     <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-center">
       <button
         class="uk-button uk-button-primary"
@@ -15,8 +19,12 @@
   </div>
 </template>
 <script>
+import AppCategoryTree from './category-tree';
+
 export default {
-  components: {},
+  components: {
+    AppCategoryTree,
+  },
   data() {
     return {
       loading: false,
@@ -31,6 +39,9 @@ export default {
       Common.staticize().then(() => {
         this.loading = false;
       });
+    },
+    click(node) {
+      console.log(node);
     },
   },
 };
