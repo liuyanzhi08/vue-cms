@@ -3,8 +3,9 @@ import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import base from '../base.config.babel';
+import config from '../../../src/config';
 
-const postcssConfigPath = path.resolve(__dirname, '../../postcss.config.js');
+const postcssConfigPath = path.join(config.dir.root, 'script/postcss.config.js');
 
 export default webpackMerge(base, {
   mode: 'development',

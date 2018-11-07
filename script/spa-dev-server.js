@@ -13,7 +13,7 @@ const readFile = (fs, file) => {
   }
 };
 
-module.exports = async function setupDevServer(app) {
+export default async function setupDevServer(app) {
   // modify client config to work with hot middleware
   const spaConfigClone = Object.assign({}, spaConfig);
   spaConfigClone.entry.index = ['webpack-hot-middleware/client', spaConfig.entry.index];
@@ -53,4 +53,4 @@ module.exports = async function setupDevServer(app) {
   app.use(e2k(webpackHotMiddleware(clientCompiler, { heartbeat: 5000 })));
 
   return readyPromise;
-};
+}

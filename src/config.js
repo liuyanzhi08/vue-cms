@@ -19,7 +19,7 @@ export default {
     },
   },
   dir: {
-    root: path.resolve(__dirname, '..'),
+    root: path.resolve(),
   },
   ssr: true,
 };

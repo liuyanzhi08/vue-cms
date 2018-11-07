@@ -4,6 +4,7 @@ import _ from 'lodash';
 import chalk from 'chalk';
 import safeStringify from 'safe-json-stringify';
 import { dir } from '../config';
+import { isDev } from './env';
 
 const stringify = (data, color) => {
   let msg = data;
@@ -20,6 +21,10 @@ const stringify = (data, color) => {
 };
 
 const writeLog = (logPath, logMsg) => {
+  if (isDev) {
+    return;
+  }
+
   fse.outputFile(logPath, `${logMsg}\n`, {
     flag: 'a',
   }, (e) => {

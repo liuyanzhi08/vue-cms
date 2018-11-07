@@ -1,6 +1,3 @@
-require('@babel/register', { cache: false });
-require('@babel/polyfill');
-const core = require('./core.js');
+import Server from './core';
 
-const Server = core.default;
-module.exports = new Server();
+export default new Server();

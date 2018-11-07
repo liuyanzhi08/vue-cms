@@ -47,19 +47,19 @@ class Server {
         opn(`http://${ip.address()}:${server.port}/admin`);
       });
       // watch for files change (back-end only, refresh nodeJS modules cache)
-      const watcher = chokidar.watch(path.join(dir.root, '/src'), { ignored: /client/ });
-      watcher.on('ready', () => {
-        log('[FW] file watcher ready');
-        watcher.on('all', (e, p) => {
-          Object.keys(require.cache).forEach((id) => {
-            if (/vue-cms\/src/.test(id)) {
-              // console.log(id)
-              delete require.cache[id];
-            }
-          });
-          log(`[FW] ${p} ${e}`);
-        });
-      });
+      // const watcher = chokidar.watch(path.join(dir.root, '/src'), { ignored: /client/ });
+      // watcher.on('ready', () => {
+      //   log('[FW] file watcher ready');
+      //   watcher.on('all', (e, p) => {
+      //     Object.keys(require.cache).forEach((id) => {
+      //       if (/vue-cms\/src/.test(id)) {
+      //         // console.log(id)
+      //         delete require.cache[id];
+      //       }
+      //     });
+      //     log(`[FW] ${p} ${e}`);
+      //   });
+      // });
     }
 
     return app;

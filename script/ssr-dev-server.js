@@ -15,7 +15,7 @@ const readFile = (fs, file) => {
   }
 };
 
-module.exports = async function setupDevServer(app) {
+export default async function setupDevServer(app) {
   let clientManifest;
   let serverManifest;
   let readClientFile;

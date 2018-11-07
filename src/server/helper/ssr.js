@@ -3,9 +3,7 @@ import fs from 'fs';
 import { createBundleRenderer } from 'vue-server-renderer';
 import { isDev } from './env';
 import { dir } from '../config';
-
-const templatePath = path.join(dir.root, 'src/server/ssr/template.html');
-const template = fs.readFileSync(templatePath, 'utf-8');
+import template from '../ssr/template.html';
 
 const createRenderer = async ($devServer) => {
   let serverManifest;
@@ -17,8 +15,8 @@ const createRenderer = async ($devServer) => {
     clientManifest = JSON.parse(readClientFile('manifest/vue-ssr-client-bundle.json'));
     serverManifest = JSON.parse(readServerFile('manifest/vue-ssr-server-bundle.json'));
   } else {
-    clientManifest = await import('../../dist/manifest/vue-ssr-client-bundle');
-    serverManifest = await import('../../dist/manifest/vue-ssr-server-bundle');
+    clientManifest = await import('../../../dist/manifest/vue-ssr-client-bundle');
+    serverManifest = await import('../../../dist/manifest/vue-ssr-server-bundle');
   }
   const options = {
     clientManifest,

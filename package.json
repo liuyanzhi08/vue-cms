@@ -2,8 +2,9 @@
   "name": "vue-cms",
   "version": "0.0.1",
   "description": "VUE-CMS. Proudly Using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 And Mocha",
-  "main": "index.js",
+  "main": "dist/server/index.js",
   "scripts": {
+    "start:server": "cross-env NODE_ENV=development webpack --config  script/webpack/dev/server.config.babel.js",
     "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development npm run dev:server",
     "dev:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --config script/webpack/dev/ssr.client.config.babel.js",
@@ -136,6 +137,7 @@
     "express-to-koa": "^1.0.6",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^2.0.0",
+    "html-loader": "^0.5.5",
     "html-webpack-plugin": "^4.0.0-beta.2",
     "image-webpack-loader": "^4.3.1",
     "imports-loader": "^0.8.0",
