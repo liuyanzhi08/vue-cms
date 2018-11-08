@@ -4,7 +4,7 @@ require('@babel/polyfill');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const { db } = require('../../config').default;
+const { db, dir } = require('../../config').default;
 const { query } = require('../db');
 
 const log = (msg, method = 'log') => {
@@ -19,7 +19,7 @@ const log = (msg, method = 'log') => {
 };
 
 const modifyConfig = () => {
-  const configPath = path.resolve(__dirname, '../../config.js');
+  const configPath = path.join(dir.root, 'src/config.js');
   let configText = fs.readFileSync(configPath).toString();
   const reg = /database\s*:\s*['"][^'"]+['"]/gi;
   const matches = configText.match(reg);

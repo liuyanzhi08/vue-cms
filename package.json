@@ -4,7 +4,7 @@
   "description": "VUE-CMS. Proudly Using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 And Mocha",
   "main": "dist/server/index.js",
   "scripts": {
-    "start:server": "cross-env NODE_ENV=development webpack --config  script/webpack/dev/server.config.babel.js",
+    "start:server": "rm -rf dist/server && cross-env NODE_ENV=development webpack --config  script/webpack/dev/server.config.babel.js",
     "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development npm run dev:server",
     "dev:ssr:client": "cross-env NODE_ENV=development webpack --mode=development  --progress --hide-modules --config script/webpack/dev/ssr.client.config.babel.js",

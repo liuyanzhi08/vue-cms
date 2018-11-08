@@ -11,10 +11,11 @@ import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
 import { isDev } from './helper/env';
-import { ssr, server, dir } from './config';
+import config from './config';
 import spaDevServer from '../../script/spa-dev-server';
 import ssrDevServer from '../../script/ssr-dev-server';
 
+const { ssr, server, dir } = config;
 const setupDevServer = ssr ? ssrDevServer : spaDevServer;
 
 const createApp = () => {
@@ -52,19 +53,63 @@ class Server {
       log('[DS] wait for webpack finishes building...');
       app.$devServer.then(() => {
         log('[DS] webpack finished building');
-        opn(`http://${ip.address()}:${server.port}/admin`);
+        // opn(`http://${ip.address()}:${server.port}/admin`);
       });
 
+      let context = require.context('./', false, /\.js$/);
+
       if (module.hot) {
-        module.hot.accept('./router', () => {
-          console.log('------ reload -----');
-          webServer.removeListener('request', currentHandler);
-          const newApp = createApp();
-          newApp.$devServer = app.$devServer;
-          const newHandler = newApp.callback();
-          webServer.on('request', newHandler);
-          currentHandler = newHandler;
-        });
+        console.log(context.keys());
+        // module.hot.accept(['./config'], () => {
+        //   context = require.context('./', false, /\.js$/)
+        //   console.log('------ reload -----');
+        //   webServer.removeListener('request', currentHandler);
+        //   const newApp = createApp();
+        //   newApp.$devServer = app.$devServer;
+        //   const newHandler = newApp.callback();
+        //   webServer.on('request', newHandler);
+        //   currentHandler = newHandler;
+        // });
+        module.hot.accept();
+        console.log('----- reload -------');
+
+        // const customReloadLogic = (name, module, isReload) => {
+        //   console.log('module ' + name + (isReload ? ' re' : '') + 'loaded');
+        // };
+        //
+        // const modules = {};
+        // context.keys().forEach((key) => {
+        //   const module = context(key);
+        //   modules[key] = module;
+        // });
+        //
+        // console.log(context.keys(), context.id);
+        //
+        // if (module.hot) {
+        //   module.hot.accept('./router', () => {
+        //     console.log('======= reoad =========');
+        //     return;
+        //     // You can't use context here. You _need_ to call require.context again to
+        //     // get the new version. Otherwise you might get errors about using disposed
+        //     // modules
+        //     const reloadedContext = require.context('./', false, /\.js$/);
+        //     // To find out what module was changed you just compare the result of the
+        //     // require call with the version stored in the modules hash using strict
+        //     // equality. Equal means it is unchanged.
+        //     console.log(reloadedContext.keys());
+        //     const changedModules = reloadedContext.keys()
+        //       .map(key => [key, reloadedContext(key)])
+        //       .filter(reloadedModule => {
+        //         console.log(reloadedModule, reloadedModule[0], reloadedModule[1]);
+        //         modules[reloadedModule[0]] !== reloadedModule[1];
+        //       });
+        //     changedModules.forEach((module) => {
+        //       // eslint-disable-next-line
+        //       modules[module[0]] = module[1];
+        //       customReloadLogic(module[0], module[1], true);
+        //     });
+        //   });
+        // }
       }
 
       // watch for files change (back-end only, refresh nodeJS modules cache)

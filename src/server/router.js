@@ -6,15 +6,16 @@ import { path, dir, ssr } from './config';
 import { success, fail } from './helper/ctx';
 import { isDev } from './helper/env';
 import { createRenderer } from './helper/ssr';
+import component from './component';
 
 const router = new KoaRouter();
 
 const componentHandler = async (ctx) => {
   try {
-    const component = await import(`./component/${ctx.params.component}`);
-    const action = component.default[ctx.method.toLowerCase()];
+    const components = component[ctx.params.component];
+    const action = components[ctx.method.toLowerCase()];
     if (action) {
-      await action.call(component.default, ctx).catch(e => Promise.reject(e));
+      await action.call(components, ctx).catch(e => Promise.reject(e));
     }
   } catch (e) {
     fail(ctx, e);
@@ -59,7 +60,7 @@ const indexHandler = async (ctx) => {
 
 const staticHandle = async (ctx) => {
   // console.log('----------------------');
-  // console.log(ctx, '123');
+  console.log(ctx, '123');
   const filePath = $path.join(dir.static, path.user, ctx.request.url, 'index.html');
   if (fs.existsSync(filePath)) {
     const stats = fs.statSync(filePath);

@@ -31,9 +31,19 @@ const dir = {
   },
 };
 
+// console.log('t')
+
 const { ssr } = config;
 
 export {
+  db,
+  server,
+  path,
+  dir,
+  ssr,
+};
+
+export default {
   db,
   server,
   path,
