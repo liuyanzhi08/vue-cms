@@ -58,7 +58,8 @@ const indexHandler = async (ctx) => {
 };
 
 const staticHandle = async (ctx) => {
-  console.log(ctx);
+  // console.log('----------------------');
+  // console.log(ctx, '123');
   const filePath = $path.join(dir.static, path.user, ctx.request.url, 'index.html');
   if (fs.existsSync(filePath)) {
     const stats = fs.statSync(filePath);

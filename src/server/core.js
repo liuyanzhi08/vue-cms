@@ -6,6 +6,7 @@ import opn from 'opn';
 import ip from 'ip';
 import chokidar from 'chokidar';
 import path from 'path';
+import http from 'http';
 import router from './router';
 import passport from './passport';
 import { log } from './helper/logger';
@@ -16,27 +17,34 @@ import ssrDevServer from '../../script/ssr-dev-server';
 
 const setupDevServer = ssr ? ssrDevServer : spaDevServer;
 
+const createApp = () => {
+  const app = new Koa();
+
+  const sessionConfig = {
+    maxAge: 60 * 60 * 1000, // expires 60min
+  };
+
+  app.keys = ['super-secret-key'];
+  app.proxy = true;
+
+  app.use(koaBody())
+    .use(koaCompress())
+    .use(session(sessionConfig, app))
+    .use(passport.initialize())
+    .use(passport.session())
+    .use(router.routes())
+    .use(router.allowedMethods());
+
+  return app;
+};
+
 class Server {
   constructor() {
-    const app = new Koa();
-
-    const sessionConfig = {
-      maxAge: 60 * 60 * 1000, // expires 60min
-    };
-
-    app.keys = ['super-secret-key'];
-    app.proxy = true;
-
-    app.use(koaBody())
-      .use(koaCompress())
-      .use(session(sessionConfig, app))
-      .use(passport.initialize())
-      .use(passport.session())
-      .use(router.routes())
-      .use(router.allowedMethods());
-
-    app.listen(server.port, '0.0.0.0');
-    log(`cms is running, listening on 0.0.0.0:${server.port}`);
+    const app = createApp();
+    let currentHandler = app.callback();
+    const webServer = http.createServer(currentHandler);
+    webServer.listen(server.port);
+    log(`cms is running, listening on ${ip.address()}:${server.port}`);
 
     if (isDev) {
       // setup dev server
@@ -46,6 +54,19 @@ class Server {
         log('[DS] webpack finished building');
         opn(`http://${ip.address()}:${server.port}/admin`);
       });
+
+      if (module.hot) {
+        module.hot.accept('./router', () => {
+          console.log('------ reload -----');
+          webServer.removeListener('request', currentHandler);
+          const newApp = createApp();
+          newApp.$devServer = app.$devServer;
+          const newHandler = newApp.callback();
+          webServer.on('request', newHandler);
+          currentHandler = newHandler;
+        });
+      }
+
       // watch for files change (back-end only, refresh nodeJS modules cache)
       // const watcher = chokidar.watch(path.join(dir.root, '/src'), { ignored: /client/ });
       // watcher.on('ready', () => {
