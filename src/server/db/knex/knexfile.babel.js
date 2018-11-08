@@ -1,5 +1,7 @@
 import path from 'path';
-import { db } from '../../config';
+import config from '../../config';
+
+const { db } = config;
 
 const BASE_PATH = __dirname;
 const MIGRATION_PATH = path.join(BASE_PATH, 'migration');

@@ -1,5 +1,7 @@
 import knex from 'knex';
-import { db } from '../../config';
+import config from '../../config';
+
+const { db } = config;
 
 export default knex({
   client: 'mysql',

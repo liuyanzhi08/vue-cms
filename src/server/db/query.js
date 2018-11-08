@@ -1,5 +1,7 @@
 import mysql from 'mysql';
-import { db } from '../config';
+import config from '../config';
+
+const { db } = config;
 
 const currentPool = mysql.createPool({
   host: 'localhost',

@@ -1,10 +1,12 @@
 import _ from 'lodash';
 import moment from 'moment';
 import query from '../db/query';
-import { success, fail } from '../helper/ctx';
-import { db } from '../config';
-import { knex } from '../db';
+import ctxHelper from '../helper/ctx';
+import config from '../config';
+import db from '../db';
 
+const { success, fail } = ctxHelper;
+const { knex } = db;
 const { reject } = Promise;
 
 class ResourceKoa {
@@ -16,7 +18,7 @@ class ResourceKoa {
       delete: true,
     },
   }) {
-    this.name = `${db.prefix}_${name}`;
+    this.name = `${config.db.prefix}_${name}`;
     this.options = options;
   }
 

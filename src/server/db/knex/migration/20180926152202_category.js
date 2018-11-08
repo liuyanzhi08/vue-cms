@@ -1,6 +1,6 @@
-import { db } from '../../../config';
+import config from '../../../config';
 
-const categoryTable = `${db.prefix}_category`;
+const categoryTable = `${config.db.prefix}_category`;
 
 exports.up = knex => knex.schema.createTable(categoryTable, (table) => {
   table.increments();

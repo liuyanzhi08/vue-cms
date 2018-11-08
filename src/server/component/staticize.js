@@ -1,16 +1,19 @@
 import fse from 'fs-extra';
 import $path from 'path';
-import { dir } from '../config';
-import { success, fail } from '../helper/ctx';
-import { error } from '../helper/error';
-import { createRenderer } from '../helper/ssr';
+import config from '../config';
+import ctxHelper from '../helper/ctx';
+import ssrHelper from '../helper/ssr';
+import error from '../helper/error';
+
+const { success, fail } = ctxHelper;
+const { createRenderer } = ssrHelper;
 
 const renderArticle = async (ctx, renderer, id) => {
   const ctxClone = Object.assign(ctx);
   const url = `/user/article/${id}`;
   ctxClone.url = url;
   const html = await renderer.renderToString(ctxClone);
-  const filename = $path.join(dir.static, url, 'index.html');
+  const filename = $path.join(config.dir.static, url, 'index.html');
   fse.outputFile(filename, html);
 };
 

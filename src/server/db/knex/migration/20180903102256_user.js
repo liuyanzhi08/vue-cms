@@ -1,6 +1,6 @@
-import { db } from '../../../config';
+import config from '../../../config';
 
-const userTable = `${db.prefix}_user`;
+const userTable = `${config.db.prefix}_user`;
 
 exports.up = knex => knex.schema.createTable(userTable, (table) => {
   table.increments();

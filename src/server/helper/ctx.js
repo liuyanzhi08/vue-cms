@@ -1,7 +1,10 @@
 import chalk from 'chalk';
 import _ from 'lodash';
-import { isDev } from './env';
-import { log, err } from './logger';
+import env from './env';
+import logger from './logger';
+
+const { isDev } = env;
+const { log, err } = logger;
 
 const accessLog = (ctx, color = 'green') => {
   const msg = `${ctx.method.toUpperCase()} ${ctx.status} ${ctx.url} @${ctx.ip}`;
@@ -43,7 +46,7 @@ const fail = (ctx, e, options = { code: 500 }) => {
   return output;
 };
 
-export {
+export default {
   success,
   fail,
 };

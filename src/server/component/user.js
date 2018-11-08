@@ -1,6 +1,5 @@
 import Resource from './resource-koa';
-import { db } from '../config';
+import config from '../config';
 
-// const user = new Resource(`${db.prefix}_user`);
-const user = new Resource('user');
+const user = new Resource(`${config.db.prefix}_user`);
 export default user;

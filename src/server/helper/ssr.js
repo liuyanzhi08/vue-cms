@@ -1,9 +1,10 @@
-import path from 'path';
-import fs from 'fs';
 import { createBundleRenderer } from 'vue-server-renderer';
-import { isDev } from './env';
-import { dir } from '../config';
+import env from './env';
+import config from '../config';
 import template from '../ssr/template.html';
+
+const { isDev } = env;
+const { dir } = config;
 
 const createRenderer = async ($devServer) => {
   let serverManifest;
@@ -29,6 +30,6 @@ const createRenderer = async ($devServer) => {
   return createBundleRenderer(serverManifest, options);
 };
 
-export {
+export default {
   createRenderer,
 };

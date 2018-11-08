@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
-import { db } from '../../../config';
+import config from '../../../config';
 
-const tableName = `${db.prefix}_user`;
+const tableName = `${config.db.prefix}_user`;
 
 exports.seed = knex => knex(tableName).del()
   .then(() => {

@@ -1,4 +1,6 @@
-import { db } from '../../../config';
+import config from '../../../config';
+
+const { db } = config;
 
 const articleTable = `${db.prefix}_article`;
 const categoryTable = `${db.prefix}_category`;

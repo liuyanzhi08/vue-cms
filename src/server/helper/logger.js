@@ -3,8 +3,11 @@ import moment from 'moment/moment';
 import _ from 'lodash';
 import chalk from 'chalk';
 import safeStringify from 'safe-json-stringify';
-import { dir } from '../config';
-import { isDev } from './env';
+import config from '../config';
+import env from './env';
+
+const { dir } = config;
+const { isDev } = env;
 
 const stringify = (data, color) => {
   let msg = data;
@@ -49,9 +52,7 @@ const log = (data) => {
   writeLog(dir.log.access, msg);
 };
 
-export {
+export default {
   err,
   log,
 };
-
-export default log;

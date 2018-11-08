@@ -2,7 +2,9 @@ import fs from 'fs';
 import $path from 'path';
 import _ from 'lodash';
 import faker from 'faker';
-import { db, dir } from '../../../config';
+import config from '../../../config';
+
+const { db, dir } = config;
 
 const categoryTableName = `${db.prefix}_category`;
 const articleTableName = `${db.prefix}_article`;

@@ -2,12 +2,16 @@ import KoaRouter from 'koa-router';
 import koaSend from 'koa-send';
 import $path from 'path';
 import fs from 'fs';
-import { path, dir, ssr } from './config';
-import { success, fail } from './helper/ctx';
-import { isDev } from './helper/env';
-import { createRenderer } from './helper/ssr';
+import config from './config';
+import ctxHelper from './helper/ctx';
+import env from './helper/env';
+import ssrHelper from './helper/ssr';
 import component from './component';
 
+const { path, dir, ssr } = config;
+const { success, fail } = ctxHelper;
+const { createRenderer } = ssrHelper;
+const { isDev } = env;
 const router = new KoaRouter();
 
 const componentHandler = async (ctx) => {
@@ -40,7 +44,7 @@ const assetHandler = async (ctx) => {
 };
 
 const indexHandler = async (ctx) => {
-  // console.log('--------------------------------');
+  console.log('--------------------------------');
   // console.log(ctx);
   ctx.set('Cache-Control', 'no-cache');
   if (!ssr) {

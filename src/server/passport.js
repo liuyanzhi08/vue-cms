@@ -1,7 +1,7 @@
 // passport.js
 import bcrypt from 'bcrypt';
 import user from './models/user';
-import { error } from './helper/error';
+import error from './helper/error';
 
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;

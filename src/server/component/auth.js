@@ -1,8 +1,10 @@
 import bcrypt from 'bcrypt';
 import passport from '../passport';
 import user from '../models/user';
-import { success, fail } from '../helper/ctx';
-import { error } from '../helper/error';
+import ctxHelper from '../helper/ctx';
+import error from '../helper/error';
+
+const { success, fail } = ctxHelper;
 
 export default {
   post: async (ctx) => {
