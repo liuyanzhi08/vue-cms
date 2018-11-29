@@ -44,7 +44,7 @@ const assetHandler = async (ctx) => {
 };
 
 const indexHandler = async (ctx) => {
-  console.log('------------- index1 -------------------');
+  // console.log('------------- index1 -------------------');
   // console.log(ctx);
   ctx.set('Cache-Control', 'no-cache');
   if (!ssr) {
@@ -64,7 +64,6 @@ const indexHandler = async (ctx) => {
 
 const staticHandle = async (ctx) => {
   // console.log('----------------------');
-  console.log(ctx, '123');
   const filePath = $path.join(dir.static, path.user, ctx.request.url, 'index.html');
   if (fs.existsSync(filePath)) {
     const stats = fs.statSync(filePath);

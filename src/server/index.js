@@ -18,7 +18,7 @@ let currentHandler = app.callback();
 const webServer = http.createServer();
 webServer.on('request', currentHandler);
 webServer.listen(server.port);
-log(`cms is running, listening on ${ip.address()}:${server.port}`);
+log(`Koa is running, listening on ${ip.address()}:${server.port}`);
 
 if (isDev) {
   const devServer = new DevServer(app);
