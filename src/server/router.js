@@ -44,7 +44,7 @@ const assetHandler = async (ctx) => {
 };
 
 const indexHandler = async (ctx) => {
-  console.log('--------------------------------');
+  console.log('------------- index1 -------------------');
   // console.log(ctx);
   ctx.set('Cache-Control', 'no-cache');
   if (!ssr) {

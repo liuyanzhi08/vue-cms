@@ -8,8 +8,7 @@ const { db, dir } = config;
 
 const categoryTableName = `${db.prefix}_category`;
 const articleTableName = `${db.prefix}_article`;
-
-const readmePath = $path.resolve(dir.root, 'README.md');
+const readmePath = $path.resolve(dir.diskRoot, 'README.md');
 const readme = fs.readFileSync(readmePath).toString();
 const firstLineIndex = readme.indexOf('\n');
 const readmeTitle = _.trim(readme.substring(0, firstLineIndex + 1), '#');

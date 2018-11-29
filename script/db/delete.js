@@ -4,8 +4,8 @@ require('@babel/polyfill');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const { db, dir } = require('../../config').default;
-const { query } = require('../db');
+const { db, dir } = require('../../src/config').default;
+const { query } = require('../../src/server/db').default;
 
 const log = (msg, method = 'log') => {
   // eslint-disable-next-line

@@ -5,8 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const nanoid = require('nanoid');
 const chalk = require('chalk');
-const { db } = require('../../config').default;
-const { query } = require('../db');
+const { db } = require('../../src/config').default;
+const { query } = require('../../src/server/db').default;
 
 const log = (msg, method = 'log') => {
   // eslint-disable-next-line

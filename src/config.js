@@ -19,7 +19,8 @@ export default {
     },
   },
   dir: {
-    root: path.resolve(),
+    root: path.resolve(), // logical path (maybe in webpack file system)
+    diskRoot: path.join(__dirname, '..'), // disk path
   },
   ssr: true,
 };
