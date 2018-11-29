@@ -4,7 +4,7 @@
       class="uk-padding"
       @submit.prevent="login"
     >
-      <h2 class="uk-heading-primary">vue-cms</h2>
+      <h2 class="uk-heading-primary">vue-cm</h2>
       <div class="uk-margin">
         <div class="uk-inline">
           <span

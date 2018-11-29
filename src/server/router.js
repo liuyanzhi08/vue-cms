@@ -28,7 +28,7 @@ const componentHandler = async (ctx) => {
 
 const assetHandler = async (ctx) => {
   if (isDev) {
-    const { readClientFile } = await ctx.app.$devServer;
+    const { readClientFile } = await ctx.app.$devServer.compileDone;
     success(ctx, readClientFile(ctx.params[0], true));
   } else {
     const filePath = $path.join(dir.dist, ctx.params[0]);
@@ -49,7 +49,7 @@ const indexHandler = async (ctx) => {
   ctx.set('Cache-Control', 'no-cache');
   if (!ssr) {
     if (isDev) {
-      const { readClientFile } = await ctx.app.$devServer;
+      const { readClientFile } = await ctx.app.$devServer.compileDone;
       success(ctx, readClientFile('index.html'));
     } else {
       await koaSend(ctx, $path.join(dir.dist, 'index.html'), { root: '/' });

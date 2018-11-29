@@ -12,7 +12,7 @@ const createRenderer = async ($devServer) => {
   if (isDev) {
     // In development: setup the dev server with watch and hot-reload,
     // and create a new renderer on bundle / index template update.
-    const { readClientFile, readServerFile } = await $devServer;
+    const { readClientFile, readServerFile } = await $devServer.compileDone;
     clientManifest = JSON.parse(readClientFile('manifest/vue-ssr-client-bundle.json'));
     serverManifest = JSON.parse(readServerFile('manifest/vue-ssr-server-bundle.json'));
   } else {
