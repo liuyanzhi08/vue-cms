@@ -25,9 +25,11 @@
     "server:debug": "cross-env NODE_ENV=development ndb node src/server",
     "server:test": "mocha:test",
     "server:open": "cross-env NODE_ENV=development node script/server-open &",
-    "build:client": "cross-env NODE_ENV=production webpack --config script/webpack/prd/spa.config.babel.js --progress",
+    "build:ssr:client": "cross-env NODE_ENV=production webpack --config script/webpack/prd/ssr.client.config.babel.js --progress",
+    "build:ssr:server": "cross-env NODE_ENV=production webpack --config script/webpack/prd/ssr.server.config.babel.js --progress",
+    "build:client": "npm run build:ssr:client & npm run build:ssr:server",
     "build:server": "cross-env NODE_ENV=production webpack --config script/webpack/prd/server.config.babel.js --progress",
-    "publish": "npm run build:client && npm run build:client && npm run server:restart",
+    "publish": "npm run build:client && npm run build:server && npm run server:restart",
     "pub": "npm run publish"
   },
   "repository": {

@@ -1,7 +1,6 @@
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
-import StartServerPlugin from 'start-server-webpack-plugin';
 import path from 'path';
 import config from '../../../src/config';
 import base from './base.config.babel';
@@ -9,10 +8,10 @@ import base from './base.config.babel';
 const rootDir = config.dir.root;
 
 export default webpackMerge(base, {
-  entry: ['webpack/hot/poll?1000', path.join(rootDir, 'src/server/index.js')],
+  entry: [path.join(rootDir, 'src/server/index.js')],
   output: { path: path.join(rootDir, '/dist/server'), filename: 'index.js' },
   target: 'node',
-  externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
+  externals: [nodeExternals()],
   module: {
     rules: [
       { test: /\.js?$/, use: 'babel-loader', exclude: /node_modules/ },
@@ -28,8 +27,5 @@ export default webpackMerge(base, {
     ],
   },
   plugins: [
-    new StartServerPlugin('index.js'),
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
   ],
 });

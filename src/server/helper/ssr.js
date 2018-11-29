@@ -1,4 +1,5 @@
 import { createBundleRenderer } from 'vue-server-renderer';
+import path from 'path';
 import env from './env';
 import config from '../config';
 import template from '../ssr/template.html';

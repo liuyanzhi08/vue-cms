@@ -1,14 +1,17 @@
 import path from 'path';
 import webpackMerge from 'webpack-merge';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import base from '../base.config.babel';
 import config from '../../../src/config';
 
 const postcssConfigPath = path.join(config.dir.root, 'script/postcss.config.js');
 
 export default webpackMerge(base, {
-  mode: 'development',
-  watch: true,
-  devtool: 'cheap-module-eval-source-map',
+  mode: 'production',
+  devtool: false,
+  watch: false,
   module: {
     rules: [
       {
@@ -29,34 +32,29 @@ export default webpackMerge(base, {
       },
       {
         test: /\.css$/,
+        sideEffects: true,
         use: [
-          {
-            loader: 'vue-style-loader',
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
             },
           },
         ],
       },
       {
         test: /\.(sa|sc)ss$/,
+        sideEffects: true,
         use: [
-          {
-            loader: 'vue-style-loader',
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
             },
           },
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: true,
               config: {
                 path: postcssConfigPath,
               },
@@ -65,13 +63,12 @@ export default webpackMerge(base, {
           {
             loader: 'resolve-url-loader',
             options: {
-              sourceMap: true,
             },
           },
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
+              sourceMap: true, // todo why cannot remove this line
             },
           },
         ],
@@ -81,7 +78,7 @@ export default webpackMerge(base, {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'img/[name].[ext]',
+          name: 'img/[name].[hash:7].[ext]',
         },
       },
       {
@@ -89,9 +86,27 @@ export default webpackMerge(base, {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'font/[name].[ext]',
+          name: 'font/[name].[hash:7].[ext]',
         },
       },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'style/[name].[hash:7].css',
+      chunkFilename: 'style/[id].[hash:7].css',
+    }),
+  ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        extractComments: true,
+        uglifyOptions: {
+          cache: true,
+          parallel: true,
+        },
+      }),
+      new OptimizeCSSAssetsPlugin({}),
     ],
   },
 });
