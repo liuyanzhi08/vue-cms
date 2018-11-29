@@ -29,7 +29,9 @@ const ready = () => {
 
 // modify client config to work with hot middleware
 const clientConfigClone = Object.assign({}, clientConfig);
-clientConfigClone.entry.index = ['webpack-hot-middleware/client', clientConfig.entry.index];
+clientConfigClone.entry = {
+  index: ['webpack-hot-middleware/client', clientConfig.entry.index],
+};
 clientConfigClone.output.filename = '[name].js';
 clientConfigClone.plugins.push(
   new webpack.HotModuleReplacementPlugin(),

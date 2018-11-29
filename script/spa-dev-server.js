@@ -1,7 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import spaConfig from './webpack/dev/spa.config.babel';
+import spaConfig from './webpack/dev/ssr.client.config.babel';
 
 const readFile = (fs, file) => {
   try {
@@ -13,7 +13,9 @@ const readFile = (fs, file) => {
 
 // modify client config to work with hot middleware
 const spaConfigClone = Object.assign({}, spaConfig);
-spaConfigClone.entry.index = ['webpack-hot-middleware/client', spaConfig.entry.index];
+spaConfigClone.entry = {
+  index: ['webpack-hot-middleware/client', spaConfig.entry.index],
+};
 spaConfigClone.output.filename = '[name].js';
 spaConfigClone.plugins.push(
   new webpack.HotModuleReplacementPlugin(),

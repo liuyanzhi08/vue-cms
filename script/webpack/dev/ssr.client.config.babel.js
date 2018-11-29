@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import VueSSRClientPlugin from 'vue-server-renderer/client-plugin';
 import webpackMerge from 'webpack-merge';
 import config from '../../../src/config';
@@ -19,6 +20,10 @@ export default webpackMerge(base, {
     chunkFilename: 'script/[name].bundle.js',
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      title: 'My App',
+      template: 'src/client/index.html',
+    }),
     new VueSSRClientPlugin({
       filename: 'manifest/vue-ssr-client-bundle.json',
     }),
