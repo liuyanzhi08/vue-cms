@@ -2,7 +2,7 @@ import fs from 'fs';
 import $path from 'path';
 import _ from 'lodash';
 import faker from 'faker';
-import config from '../../../config';
+import config from '../../../../config';
 
 const { db, dir } = config;
 

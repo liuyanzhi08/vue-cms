@@ -20,7 +20,7 @@ const log = (msg, method = 'log') => {
 };
 
 const modifyConfig = (dbName) => {
-  const configPath = path.resolve(__dirname, '../../config.js');
+  const configPath = path.resolve(__dirname, '../../src/config.js');
   let configText = fs.readFileSync(configPath).toString();
   const reg = /database\s*:\s*['"][^'"]+['"]/gi;
   const matches = configText.match(reg);
