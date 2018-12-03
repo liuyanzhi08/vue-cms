@@ -33,10 +33,6 @@ Vue.mixin({
 const core = new Core();
 const { router, store } = core;
 
-// set uri
-store.dispatch(API_SET, '');
-// store.dispatch(API_SET, `${config.server.uri}:${config.server.port}`);
-
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.
 /* eslint-disable */
@@ -49,7 +45,9 @@ if (window.__INITIAL_STATE__) {
     store.commit(AUTH_USER_ID, userId);
   }
 }
-/* eslint-enable */
+
+// set uri
+store.dispatch(API_SET, '');
 
 const app = core.createApp();
 
