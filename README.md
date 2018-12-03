@@ -3,9 +3,9 @@
 ## Feature
 
 1. **[HRM](https://webpack.js.org/concepts/hot-module-replacement/)**
-    Both back-end(Koa) and front-end HRM support in dev mod
+    Both back-end(Koa) and front-end support HRM in dev mod
 2. **[SSR](https://vuejs.org/v2/guide/ssr.html)**
-    Both SPA and SSR mode are support, and support static HTML page generating
+    Both SPA and SSR mode are supported, and so is static HTML page generating
 3. **[UIKit](https://getuikit.com/)** UIKit is used to support responsive web design
 
 ## Dependency
