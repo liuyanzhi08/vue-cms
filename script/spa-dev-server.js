@@ -31,9 +31,10 @@ const create = () => {
   });
 
   const readClientFile = (filename, raw) => {
-    const buffer = readFile(devMiddleware.fileSystem, filename).toString();
+    const buffer = readFile(devMiddleware.fileSystem, filename);
     return raw ? buffer : buffer.toString();
   };
+
   let resolve;
   const compileDone = new Promise((r) => { resolve = r; });
   const ready = () => {
