@@ -1,7 +1,7 @@
 {
   "name": "vue-cms",
-  "version": "0.0.1",
-  "description": "VUE-CMS. Proudly Using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 And Mocha",
+  "version": "0.1.0",
+  "description": "# VUE-CMS. Proudly Using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 And Mocha",
   "main": "dist/server/index.js",
   "scripts": {
     "start": "npm run dev",
@@ -165,7 +165,6 @@
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-middleware": "^3.4.0",
-    "webpack-dev-server": "^3.1.8",
     "webpack-hot-client": "^4.1.1",
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.1.4",

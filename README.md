@@ -1,13 +1,18 @@
 # VUE-CMS. Proudly Using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 And Mocha
 
+## Feature
+
+1. **[HRM](https://webpack.js.org/concepts/hot-module-replacement/)**
+    Both back-end(Koa) and front-end HRM support in dev mod
+2. **[SSR](https://vuejs.org/v2/guide/ssr.html)**
+    Both SPA and SSR mode are support, and support static HTML page generating
+3. **[UIKit](https://getuikit.com/)** UIKit is used to support responsive web design
+
 ## Dependency
 
-Mysql: >= 5.6.0 
+Mysql: >= 5.6.0
 
 Node: >=v10.0.0
-
-VPN(for China): [puppeteer](https://github.com/GoogleChrome/puppeteer) is used by the project, so Chinese developer should be
-access to the real internet. An alternative approach is using [cnpm](https://npm.taobao.org/).
 
 
 ## Starting
