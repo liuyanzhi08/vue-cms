@@ -14,6 +14,7 @@ const publicPath = '/dist/';
 
 export default webpackMerge(base, {
   // 将 entry 指向应用程序的 server entry 文件
+  watch: false,
   entry: {
     index: path.join(clientPath, 'ssr/entry-server.js'),
   },

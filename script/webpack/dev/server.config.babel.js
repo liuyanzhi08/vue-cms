@@ -9,6 +9,7 @@ import base from './base.config.babel';
 const rootDir = config.dir.root;
 
 export default webpackMerge(base, {
+  watch: true,
   entry: ['webpack/hot/poll?1000', path.join(rootDir, 'src/server/index.js')],
   output: { path: path.join(rootDir, '/dist/server'), filename: 'index.js' },
   target: 'node',

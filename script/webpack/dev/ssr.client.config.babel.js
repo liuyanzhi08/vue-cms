@@ -10,6 +10,7 @@ const rootDir = config.dir.root;
 const publicPath = '/dist/';
 
 export default webpackMerge(base, {
+  watch: true,
   entry: {
     index: path.join(rootDir, 'src/client/index.js'),
   },
