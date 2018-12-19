@@ -4,7 +4,7 @@ require('@babel/polyfill');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const { db, dir } = require('../../src/config').default;
+const { db, dir } = require('../../src/server/config').default;
 const { query } = require('../../src/server/db').default;
 
 const log = (msg, method = 'log') => {
