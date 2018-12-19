@@ -1,9 +1,11 @@
 import path from 'path';
 import webpackMerge from 'webpack-merge';
 import base from '../base.config.babel';
-import config from '../../../src/config';
+import config from '../../../src/server/config';
 
-const postcssConfigPath = path.join(config.dir.root, 'script/postcss.config.js');
+const { root } = config.dir;
+
+const postcssConfigPath = path.join(root, 'script/postcss.config.js');
 
 export default webpackMerge(base, {
   mode: 'development',

@@ -9,9 +9,14 @@ const server = {
   url: `${config.uri}:${config.server.port}`,
 };
 
-const { root } = config.dir;
+const root = $path.resolve();
 const dist = $path.join(root, 'dist');
+const clientDist = $path.join(dist, 'client');
+const serverDist = $path.join(dist, 'server');
+const devClientDist = $path.join(root, '.dist');
 const staticDir = $path.join(root, 'page');
+const clientRoot = $path.join(root, 'src/client');
+const serverRoot = $path.join(root, 'src/server');
 const accessLogDir = $path.isAbsolute(config.server.log.access)
   ? config.server.log.access : $path.join(root, config.server.log.access);
 const errorLogDir = $path.isAbsolute(config.server.log.error)
@@ -19,11 +24,17 @@ const errorLogDir = $path.isAbsolute(config.server.log.error)
 const path = {
   user: config.server.path.user,
   admin: config.server.path.admin,
+  $public: '/dist/',
 };
 
 const dir = {
-  root: config.dir.root,
+  root,
+  clientRoot,
+  serverRoot,
   dist,
+  clientDist,
+  serverDist,
+  devClientDist,
   static: staticDir,
   log: {
     access: accessLogDir,
@@ -39,6 +50,6 @@ export default {
   db,
   server,
   path,
-  dir,
   ssr,
+  dir,
 };

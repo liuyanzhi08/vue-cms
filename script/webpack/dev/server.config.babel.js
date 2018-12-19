@@ -3,15 +3,15 @@ import webpackMerge from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import StartServerPlugin from 'start-server-webpack-plugin';
 import path from 'path';
-import config from '../../../src/config';
+import config from '../../../src/server/config';
 import base from './base.config.babel';
 
-const rootDir = config.dir.root;
+const { devClientDist, serverRoot } = config.dir;
 
 export default webpackMerge(base, {
   watch: true,
-  entry: ['webpack/hot/poll?1000', path.join(rootDir, 'src/server/index.js')],
-  output: { path: path.join(rootDir, '/dist/server'), filename: 'index.js' },
+  entry: ['webpack/hot/poll?1000', path.join(serverRoot, 'index.js')],
+  output: { path: devClientDist, filename: 'index.js' },
   target: 'node',
   externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
   module: {

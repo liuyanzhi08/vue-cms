@@ -1,5 +1,3 @@
-import path from 'path';
-
 export default {
   db: {
     username: 'root',
@@ -17,10 +15,6 @@ export default {
       user: '/user',
       admin: '/admin',
     },
-  },
-  dir: {
-    root: path.resolve(), // logical path (maybe in webpack file system)
-    diskRoot: path.join(__dirname, '..'), // disk path
   },
   ssr: true,
 };

@@ -4,7 +4,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import base from '../base.config.babel';
-import config from '../../../src/config';
+import config from '../../../src/server/config';
 
 const postcssConfigPath = path.join(config.dir.root, 'script/postcss.config.js');
 

@@ -19,8 +19,8 @@ const createRenderer = async ($devServer) => {
     serverManifest = JSON.parse(readServerFile('manifest/vue-ssr-server-bundle.json'));
   } else {
     try {
-      clientManifest = JSON.parse(fs.readFileSync(path.join(dir.dist, '/manifest/vue-ssr-client-bundle.json')).toString());
-      serverManifest = JSON.parse(fs.readFileSync(path.join(dir.dist, '/manifest/vue-ssr-server-bundle.json')).toString());
+      clientManifest = JSON.parse(fs.readFileSync(path.join(dir.clientDist, '/manifest/vue-ssr-client-bundle.json')).toString());
+      serverManifest = JSON.parse(fs.readFileSync(path.join(dir.clientDist, '/manifest/vue-ssr-server-bundle.json')).toString());
     } catch (e) {
       err(e);
     }
@@ -29,7 +29,7 @@ const createRenderer = async ($devServer) => {
     clientManifest,
     template,
     // this is only needed when vue-server-renderer is npm-linked
-    basedir: dir.dist,
+    basedir: dir.clientDist,
     // recommended for performance
     runInNewContext: false,
   };

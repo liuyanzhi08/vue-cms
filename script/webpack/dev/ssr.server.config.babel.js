@@ -3,20 +3,17 @@ import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import VueSSRServerPlugin from 'vue-server-renderer/server-plugin';
 import webpackMerge from 'webpack-merge';
-import config from '../../../src/config';
+import config from '../../../src/server/config';
 import base from './base.config.babel';
 
-const rootDir = config.dir.root;
-const clientPath = path.join(rootDir, 'src/client');
-const distDir = path.join(rootDir, 'dist');
-const publicPath = '/dist/';
-
+const { clientDist, clientRoot } = config.dir;
+const { $public } = config.path;
 
 export default webpackMerge(base, {
   // 将 entry 指向应用程序的 server entry 文件
   watch: false,
   entry: {
-    index: path.join(clientPath, 'ssr/entry-server.js'),
+    index: path.join(clientRoot, 'ssr/entry-server.js'),
   },
 
   // 这允许 webpack 以 Node 适用方式(Node-appropriate fashion)处理动态导入(dynamic import)，
@@ -29,9 +26,9 @@ export default webpackMerge(base, {
 
   // 此处告知 server bundle 使用 Node 风格导出模块(Node-style exports)
   output: {
-    path: distDir,
+    path: clientDist,
     libraryTarget: 'commonjs2',
-    publicPath,
+    publicPath: $public,
   },
 
   // https://webpack.js.org/configuration/externals/#function

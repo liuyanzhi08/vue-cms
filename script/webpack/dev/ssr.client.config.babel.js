@@ -3,20 +3,20 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import VueSSRClientPlugin from 'vue-server-renderer/client-plugin';
 import webpackMerge from 'webpack-merge';
-import config from '../../../src/config';
+import config from '../../../src/server/config';
 import base from './base.config.babel';
 
-const rootDir = config.dir.root;
-const publicPath = '/dist/';
+const { root, clientDist } = config.dir;
+const { $public } = config.path;
 
 export default webpackMerge(base, {
   watch: true,
   entry: {
-    index: path.join(rootDir, 'src/client/index.js'),
+    index: path.join(root, 'src/client/index.js'),
   },
   output: {
-    path: path.join(rootDir, publicPath),
-    publicPath,
+    path: clientDist,
+    publicPath: $public,
     filename: '[name].js',
     chunkFilename: 'script/[name].bundle.js',
   },

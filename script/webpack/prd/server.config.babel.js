@@ -1,15 +1,14 @@
-import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import path from 'path';
-import config from '../../../src/config';
+import config from '../../../src/server/config';
 import base from './base.config.babel';
 
-const rootDir = config.dir.root;
+const { serverDist, serverRoot } = config.dir;
 
 export default webpackMerge(base, {
-  entry: [path.join(rootDir, 'src/server/index.js')],
-  output: { path: path.join(rootDir, '/dist/server'), filename: 'index.js' },
+  entry: [path.join(serverRoot, 'index.js')],
+  output: { path: serverDist, filename: 'index.js' },
   target: 'node',
   externals: [nodeExternals()],
   module: {
