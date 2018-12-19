@@ -4,9 +4,11 @@ import config from '../config';
 import ctxHelper from '../helper/ctx';
 import ssrHelper from '../helper/ssr';
 import error from '../helper/error';
+import env from '../helper/env';
 
 const { success, fail } = ctxHelper;
 const { createRenderer } = ssrHelper;
+const { isDev } = env;
 
 const renderArticle = async (ctx, renderer, id) => {
   const ctxClone = Object.assign(ctx);
@@ -14,7 +16,6 @@ const renderArticle = async (ctx, renderer, id) => {
   ctxClone.url = url;
   const html = await renderer.renderToString(ctxClone);
   const filename = $path.join(config.dir.static, url, 'index.html');
-  console.log(filename)
   fse.outputFile(filename, html);
 };
 
@@ -36,7 +37,7 @@ export default {
     }
 
     const data = ctx.request.body;
-    const renderer = await createRenderer(ctx.app.$devServer);
+    const renderer = await createRenderer(isDev && ctx.app.$devServer);
     const promises = data.articleIds.map(id => renderArticle(ctx, renderer, id));
     if (data.includeIndex) {
       promises.push(renderIndex(ctx, renderer));

@@ -56,7 +56,7 @@ const indexHandler = async (ctx) => {
       success(ctx);
     }
   } else {
-    const renderer = await createRenderer(ctx.app.$devServer);
+    const renderer = await createRenderer(isDev && ctx.app.$devServer);
     const html = await renderer.renderToString(ctx);
     success(ctx, html);
   }

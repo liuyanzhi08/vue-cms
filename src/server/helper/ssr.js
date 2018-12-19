@@ -1,24 +1,29 @@
 import { createBundleRenderer } from 'vue-server-renderer';
+import fs from 'fs';
 import path from 'path';
-import env from './env';
+import logger from './logger';
 import config from '../config';
 import template from '../ssr/template.html';
 
-const { isDev } = env;
 const { dir } = config;
+const { err } = logger;
 
 const createRenderer = async ($devServer) => {
   let serverManifest;
   let clientManifest;
-  if (isDev) {
+  if ($devServer) {
     // In development: setup the dev server with watch and hot-reload,
     // and create a new renderer on bundle / index template update.
     const { readClientFile, readServerFile } = await $devServer.compileDone;
     clientManifest = JSON.parse(readClientFile('manifest/vue-ssr-client-bundle.json'));
     serverManifest = JSON.parse(readServerFile('manifest/vue-ssr-server-bundle.json'));
   } else {
-    clientManifest = await import('../../../dist/manifest/vue-ssr-client-bundle');
-    serverManifest = await import('../../../dist/manifest/vue-ssr-server-bundle');
+    try {
+      clientManifest = JSON.parse(fs.readFileSync(path.join(dir.dist, '/manifest/vue-ssr-client-bundle.json')).toString());
+      serverManifest = JSON.parse(fs.readFileSync(path.join(dir.dist, '/manifest/vue-ssr-server-bundle.json')).toString());
+    } catch (e) {
+      err(e);
+    }
   }
   const options = {
     clientManifest,
