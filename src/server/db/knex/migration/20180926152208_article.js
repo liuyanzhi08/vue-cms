@@ -10,6 +10,7 @@ exports.up = knex => knex.schema.createTable(articleTable, (table) => {
   table.string('title').notNullable();
   table.text('content').notNullable();
   table.text('summary').nullable();
+  table.string('theme').notNullable();
   table.integer('category_id').unsigned().nullable();
   table.foreign('category_id').references(`${categoryTable}.id`).onDelete('CASCADE');
   table.dateTime('created_at', 6).notNullable().defaultTo(knex.fn.now(6));

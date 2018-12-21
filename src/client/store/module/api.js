@@ -35,6 +35,7 @@ const api = {
         return res.data;
       },
     }),
+    Theme: state => resource(`${state.uri}/api/theme`, axios),
     Common: state => ({
       staticize: data => axios.post(`${state.uri}/api/staticize`, data),
     }),

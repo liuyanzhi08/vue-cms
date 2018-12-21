@@ -3,6 +3,7 @@ import category from './category';
 import auth from './auth';
 import user from './user';
 import staticize from './staticize';
+import theme from './theme';
 
 export default {
   article,
@@ -10,4 +11,5 @@ export default {
   auth,
   user,
   staticize,
+  theme,
 };

@@ -53,7 +53,7 @@ if (isDev && module.hot) {
     log('[DS] wait for webpack finishes building...');
     app.$devServer.compileDone.then(() => {
       log('[DS] webpack finished building');
-      opn(`http://${ip.address()}:${server.port}/admin`);
+      // opn(`http://${ip.address()}:${server.port}/admin`);
     });
   });
 

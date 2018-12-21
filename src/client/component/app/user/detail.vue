@@ -21,11 +21,15 @@ export default {
   async asyncData({ store, route: { params: { id } } }) {
     await store.dispatch(ARTICLE_FETCH, { id });
     await store.dispatch(CATEGORY_FETCH, { id: 4 });
-    const detailTheme = (await import('../../../theme/lyz/detail.vue')).default;
-    const themeName = 'lyz';
-    console.log(detailTheme, '----<')
-    Vue.component(themeName, detailTheme);
-    store.dispatch(THEME_SET, themeName);
+    const { theme } = store.getters.article;
+    let themeTpl;
+    try {
+      themeTpl = (await import(`../../../theme/${theme}/detail.vue`)).default;
+    } catch (e) {
+      themeTpl = (await import('../../../theme/default/detail.vue')).default;
+    }
+    Vue.component(theme, themeTpl);
+    store.dispatch(THEME_SET, theme);
   },
   computed: {
     ...mapGetters(['article', 'articles', 'theme']),

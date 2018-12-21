@@ -23,6 +23,12 @@
       </no-ssr>
     </div>
     <div class="uk-margin">
+      <app-theme-option v-model="article.theme" />
+    </div>
+    <div class="uk-margin">
+      <a href="">advanced setting</a>
+    </div>
+    <div class="uk-margin">
       <div class="uk-button-group">
         <button
           class="uk-button uk-button-primary"
@@ -46,6 +52,7 @@
 <script>
 import NoSsr from 'vue-no-ssr';
 import AppCategoryOption from './category-option';
+import AppThemeOption from './theme-option';
 import { NOTICE_SEND } from '../../../store';
 import { db } from '../../../config';
 
@@ -54,6 +61,7 @@ let isNew = true;
 export default {
   components: {
     AppCategoryOption,
+    AppThemeOption,
     NoSsr,
   },
   props: {
@@ -108,6 +116,7 @@ export default {
         boxShadow: false,
         placeholder: 'start writing...',
       },
+      themes: [],
     };
   },
   watch: {

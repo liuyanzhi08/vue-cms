@@ -34,6 +34,7 @@ exports.seed = knex => knex(categoryTableName).del()
     {
       title: readmeTitle,
       content: readmeContent,
+      theme: 'default',
       category_id: res[0],
     },
   ]))
@@ -55,16 +56,19 @@ exports.seed = knex => knex(categoryTableName).del()
     {
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraphs(),
+      theme: 'default',
       category_id: res[0],
     },
     {
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraphs(),
+      theme: 'default',
       category_id: res[0],
     },
     {
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraphs(),
+      theme: 'default',
       category_id: res[0],
     },
   ]))
@@ -72,6 +76,7 @@ exports.seed = knex => knex(categoryTableName).del()
     {
       title: 'article-d0-b0',
       content: 'article-d0-b0',
+      theme: 'default',
       category_id: db.rootId,
     },
   ]));
