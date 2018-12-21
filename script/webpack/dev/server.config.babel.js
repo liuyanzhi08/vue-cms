@@ -3,6 +3,7 @@ import webpackMerge from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import StartServerPlugin from 'start-server-webpack-plugin';
 import path from 'path';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 import config from '../../../src/server/config';
 import base from './base.config.babel';
 
@@ -29,6 +30,7 @@ export default webpackMerge(base, {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(['.dist'], { root: process.cwd() }),
     new StartServerPlugin('index.js'),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),

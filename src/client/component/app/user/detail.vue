@@ -1,69 +1,34 @@
 <template>
   <div class="theme-df">
-    <vms-header />
-    <div class="uk-container">
-      <article v-if="article">
-        <h1>{{ article.title }}</h1>
-        <div
-          class="content"
-          v-html="md.parse(article.content)"
-        />
-      </article>
-      <div v-if="!article">
-        <vms404 />
-      </div>
-      <h3 class="uk-margin-large">Related Posts …</h3>
-      <div
-        class="uk-flex uk-flex-left"
-        uk-grid
-      >
-        <div
-          v-for="aritcle in articles"
-          :key="aritcle.id"
-          class="uk-width-1-1@s uk-width-1-3@m"
-        >
-          <a :href="aritcle.url">
-            <img
-              src="@image/beauty.jpg"
-              alt="light"
-            >
-          </a>
-          <h2>
-            <a :href="aritcle.url">
-              {{ aritcle.title }}
-            </a>
-          </h2>
-        </div>
-      </div>
-    </div>
-    <vms-footer />
+    <component :is="theme" />
   </div>
 </template>
 <script>
+import Vue from 'vue';
 import { mapGetters } from 'vuex';
-import { ARTICLE_FETCH, CATEGORY_FETCH } from '../../../store';
+import { ARTICLE_FETCH, CATEGORY_FETCH, THEME_SET } from '../../../store';
 import md from '../../../helper/md';
-import VmsHeader from './header';
-import VmsFooter from './footer';
-import Vms404 from './404';
 
 export default {
   components: {
-    VmsHeader,
-    VmsFooter,
-    Vms404,
   },
   data() {
     return {
       md,
+      test: null,
     };
   },
   async asyncData({ store, route: { params: { id } } }) {
     await store.dispatch(ARTICLE_FETCH, { id });
     await store.dispatch(CATEGORY_FETCH, { id: 4 });
+    const detailTheme = (await import('../../../theme/lyz/detail.vue')).default;
+    const themeName = 'lyz';
+    console.log(detailTheme, '----<')
+    Vue.component(themeName, detailTheme);
+    store.dispatch(THEME_SET, themeName);
   },
   computed: {
-    ...mapGetters(['article', 'articles']),
+    ...mapGetters(['article', 'articles', 'theme']),
   },
 };
 </script>

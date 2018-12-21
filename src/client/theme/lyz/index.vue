@@ -36,12 +36,12 @@
           :key="aritcle.id"
           class="uk-width-1-1@s uk-width-1-3@m"
         >
-          <router-link :to="aritcle.url">
+          <a :href="aritcle.url">
             <img
               src="@image/beauty.jpg"
               alt="light"
             >
-          </router-link>
+          </a>
           <h2>
             <a :href="aritcle.url">
               {{ aritcle.title }}
@@ -55,8 +55,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { CATEGORY_FETCH } from '../../../store';
-import md from '../../../helper/md';
+import { CATEGORY_FETCH } from '../../store';
+import md from '../../helper/md';
 import VmsHeader from './header';
 import VmsFooter from './footer';
 

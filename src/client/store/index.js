@@ -13,6 +13,7 @@ import { API_SET, api } from './module/api';
 import {
   STATUS_SET, STATUS_INIT, STATUS_FETCH, STATUS_GOT, STATUS_404, status,
 } from './module/status';
+import { THEME_SET, THEME_GET, theme } from './module/theme';
 
 class Store {
   constructor() {
@@ -26,6 +27,7 @@ class Store {
         uri,
         api,
         status,
+        theme,
       },
     });
   }
@@ -51,5 +53,7 @@ export {
   STATUS_FETCH,
   STATUS_GOT,
   STATUS_404,
+  THEME_SET,
+  THEME_GET,
   Store,
 };

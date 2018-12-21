@@ -23,6 +23,7 @@ log(`Koa is running, listening on ${ip.address()}:${server.port}`);
 if (isDev) {
   const devServer = new DevServer(app);
   app.$devServer = devServer;
+  log(`[DS] running in ${config.ssr ? 'SSR' : 'SPA'} mode`);
   log('[DS] wait for webpack finishes building...');
   app.$devServer.compileDone.then(() => {
     log('[DS] webpack finished building');
@@ -31,20 +32,33 @@ if (isDev) {
 }
 
 if (isDev && module.hot) {
-  module.hot.accept('./core.js', () => {
+  module.hot.accept('./core.js', async () => {
     log('[DS] http server has updated with new Koa handler');
     webServer.removeListener('request', currentHandler);
-    (async () => {
-      const NewCore = (await import('./core')).default;
-      const newCore = new NewCore();
-      const newApp = newCore.app;
-      const newHandler = newApp.callback();
-      app.$devServer.updateApp(newApp);
-      newApp.$devServer = app.$devServer;
-      webServer.on('request', newHandler);
-      currentHandler = newHandler;
-    })();
+    const NewCore = (await import('./core')).default;
+    const newCore = new NewCore();
+    const newApp = newCore.app;
+    const newHandler = newApp.callback();
+    app.$devServer.updateApp(newApp);
+    newApp.$devServer = app.$devServer;
+    webServer.on('request', newHandler);
+    currentHandler = newHandler;
   });
+
+  module.hot.accept('../../script/dev-server', async () => {
+    const devServer = new DevServer(app);
+    app.$devServer = devServer;
+    const newConfig = (await import('./config')).default;
+    log(`[DS] change to ${newConfig.ssr ? 'SSR' : 'SPA'} mode`);
+    log('[DS] wait for webpack finishes building...');
+    app.$devServer.compileDone.then(() => {
+      log('[DS] webpack finished building');
+      opn(`http://${ip.address()}:${server.port}/admin`);
+    });
+  });
+
+  module.hot.accept('./config');
+  module.hot.accept('./helper/logger');
 }
 
 export default core;
