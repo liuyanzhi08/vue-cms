@@ -36,8 +36,8 @@ const api = {
       },
     }),
     Theme: state => resource(`${state.uri}/api/theme`, axios),
-    Common: state => ({
-      staticize: data => axios.post(`${state.uri}/api/staticize`, data),
+    Common: state => resource(`${state.uri}/api/common`, axios, {
+      publish: data => axios.post(`${state.uri}/api/publish`, data),
     }),
   },
   mutations: {

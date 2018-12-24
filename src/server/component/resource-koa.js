@@ -2,7 +2,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import query from '../db/query';
 import ctxHelper from '../helper/ctx';
-import config from '../config';
 import db from '../db';
 
 const { success, fail } = ctxHelper;
@@ -18,7 +17,7 @@ class ResourceKoa {
       delete: true,
     },
   }) {
-    this.name = `${config.db.prefix}_${name}`;
+    this.name = name;
     this.options = options;
   }
 
@@ -69,16 +68,16 @@ class ResourceKoa {
         items,
         total,
       });
-      return;
-    }
+    } else {
     // detail
-    _.extend(params, { id: ctx.params.id });
-    try {
-      const res = await query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]);
-      const { results } = res;
-      success(ctx, results);
-    } catch (e) {
-      fail(ctx, e);
+      _.extend(params, { id: ctx.params.id });
+      try {
+        const res = await query(`SELECT * FROM ${this.name} WHERE id = ?`, [params.id]);
+        const { results } = res;
+        success(ctx, results);
+      } catch (e) {
+        fail(ctx, e);
+      }
     }
   }
 

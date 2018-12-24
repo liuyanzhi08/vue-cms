@@ -4,6 +4,6 @@ import Resource from '../component/resource-knex';
 const { db } = config;
 
 const userTable = `${db.prefix}_user`;
-const user = new Resource(userTable, db);
+const model = new Resource(userTable, db);
 
-export default user;
+export default model;

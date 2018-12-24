@@ -13,6 +13,7 @@ const rnames = {
   list: 'list',
   detail: 'detail',
   user: 'user',
+  common: 'common',
 };
 
 // site info
@@ -24,6 +25,14 @@ const brand = {
 };
 
 const menu = [
+  {
+    label: 'Common',
+    icon: 'cog',
+    router: {
+      name: rnames.common,
+      params: {},
+    },
+  },
   {
     label: 'Category',
     icon: 'list',

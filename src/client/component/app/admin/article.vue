@@ -31,14 +31,6 @@
     <div class="uk-margin">
       <a @click="showAdvanced">
         advanced setting
-        <!--<span-->
-          <!--v-if="isShowAdvanced"-->
-          <!--uk-icon="icon: chevron-up"-->
-        <!--/>-->
-        <!--<span-->
-          <!--v-if="!isShowAdvanced"-->
-          <!--uk-icon="icon: chevron-down"-->
-        <!--/>-->
       </a>
     </div>
     <div class="uk-margin">

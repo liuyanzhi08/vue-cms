@@ -9,6 +9,7 @@ const list = () => import(/* webpackChunkName: "list" */ './component/app/user/l
 const detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail');
 
 const admin = () => import(/* webpackChunkName: "admin" */ './component/app/admin/admin');
+const common = () => import(/* webpackChunkName: "common" */ './component/app/admin/common');
 const category = () => import(/* webpackChunkName: "category" */ './component/app/admin/category');
 const categoryList = () => import(/* webpackChunkName: "category-list" */ './component/app/admin/category-list');
 const article = () => import(/* webpackChunkName: "article" */ './component/app/admin/article');
@@ -23,6 +24,14 @@ const routes = [
     path: path.admin,
     component: admin,
     children: [
+      {
+        path: 'common',
+        component: common,
+        name: rnames.common,
+        meta: {
+          auth: true,
+        },
+      },
       {
         path: 'category/:id',
         component: category,
