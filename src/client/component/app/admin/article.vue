@@ -22,11 +22,24 @@
         />
       </no-ssr>
     </div>
-    <div class="uk-margin">
+    <div
+      v-if="isShowAdvanced"
+      class="uk-margin"
+    >
       <app-theme-option v-model="article.theme" />
     </div>
     <div class="uk-margin">
-      <a href="">advanced setting</a>
+      <a @click="showAdvanced">
+        advanced setting
+        <!--<span-->
+          <!--v-if="isShowAdvanced"-->
+          <!--uk-icon="icon: chevron-up"-->
+        <!--/>-->
+        <!--<span-->
+          <!--v-if="!isShowAdvanced"-->
+          <!--uk-icon="icon: chevron-down"-->
+        <!--/>-->
+      </a>
     </div>
     <div class="uk-margin">
       <div class="uk-button-group">
@@ -117,6 +130,7 @@ export default {
         placeholder: 'start writing...',
       },
       themes: [],
+      isShowAdvanced: false,
     };
   },
   watch: {
@@ -174,6 +188,9 @@ export default {
           category_id: this.categoryId,
         };
       }
+    },
+    showAdvanced() {
+      this.isShowAdvanced = !this.isShowAdvanced;
     },
   },
 };
