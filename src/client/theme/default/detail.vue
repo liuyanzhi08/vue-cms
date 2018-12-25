@@ -12,7 +12,7 @@
       <div v-if="!article">
         <vms404 />
       </div>
-      <h3 class="uk-margin-large">Related Posts …</h3>
+      <h3 class="uk-margin-large">Recent Posts …</h3>
       <div
         class="uk-flex uk-flex-left"
         uk-grid

@@ -1,5 +1,5 @@
 <template>
-  <div>default index</div>
+  <div>default1 index</div>
 </template>
 <script>
 import md from '../../helper/md';
