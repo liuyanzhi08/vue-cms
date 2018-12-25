@@ -52,7 +52,7 @@ export default {
 
       const { Common } = this.$store.getters;
       this.loading = true;
-      Common.staticize({
+      Common.publish({
         articleIds,
         categoryIds,
         includeIndex,
