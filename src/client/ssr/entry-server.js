@@ -38,29 +38,38 @@ export default async ctx => new Promise((resolve, reject) => {
     if (!matchedComponents.length) {
       return reject(new Error(error.routerNotFound.info));
     }
-    // Call fetchData hooks on components matched by the route.
-    // A preFetch hook dispatches a store action and returns a Promise,
-    // which is resolved when the action is complete and store state has been
-    // updated.
+
     return Promise.all(matchedComponents.map(({ asyncData }) => {
-      if (isDev) {
-        // log('asyncData:', asyncData);
-      }
       const t = asyncData && asyncData({
         store,
         route: router.currentRoute,
       });
       return t;
-    })).then(() => {
+    })).then(async () => {
+      // get asyncData in customer theme component definition
+      const typeName = router.currentRoute.matched
+        && router.currentRoute.matched.length > 1
+        && router.currentRoute.matched[1].name;
+      const types = ['index', 'detail', 'list'];
+      if (types.indexOf(typeName) !== -1) {
+        let themeComponent;
+        try {
+          themeComponent = (await import(`../theme/${store.getters.indexTheme}/${typeName}.vue`)).default;
+        } catch (e) {
+          themeComponent = (await import(`../theme/default/${typeName}.vue`)).default;
+        }
+        const themeAsyncData = themeComponent.asyncData;
+        if (themeAsyncData) {
+          await themeAsyncData({
+            store,
+            route: router.currentRoute,
+          });
+        }
+      }
+
       if (isDev) {
         log(`ssr: data pre-fetch: ${Date.now() - start}ms`);
       }
-      // After all preFetch hooks are resolved, our store is now
-      // filled with the state needed to render the app.
-      // Expose the state on the render ctx, and let the request handler
-      // inline the state in the HTML response. This allows the client-side
-      // store to pick-up the server-side state without having to duplicate
-      // the initial data fetching on the client.
       ctx.state = store.state;
       resolve(app);
     }).catch(reject);

@@ -3,18 +3,29 @@ const THEME_GET = 'theme:get';
 
 const theme = {
   state: {
-    current: null,
+    index: null,
+    detail: null,
+    list: null,
   },
   getters: {
-    theme: state => state.current,
+    indexTheme: state => state.index,
+    detailTheme: state => state.detail,
+    listTheme: state => state.list,
   },
   mutations: {
     [THEME_SET]: (state, value) => {
-      state.current = value;
+      if (value.index) {
+        state.index = value.index;
+      }
+      if (value.detail) {
+        state.detail = value.detail;
+      }
+      if (value.list) {
+        state.list = value.list;
+      }
     },
   },
   actions: {
-    [THEME_GET]: ({ state }) => state.current,
     [THEME_SET]: ({ commit }, value) => {
       commit(THEME_SET, value);
     },

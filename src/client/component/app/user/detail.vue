@@ -1,6 +1,6 @@
 <template>
   <div class="theme-df">
-    <component :is="theme" />
+    <component :is="detailTheme" />
   </div>
 </template>
 <script>
@@ -15,24 +15,24 @@ export default {
   data() {
     return {
       md,
-      test: null,
     };
   },
   async asyncData({ store, route: { params: { id } } }) {
     await store.dispatch(ARTICLE_FETCH, { id });
     await store.dispatch(CATEGORY_FETCH, { id: 4 });
-    const { theme } = store.getters.article;
-    let themeTpl;
+
+    const { theme } = store.getters.article || { theme: 'default' };
+    let themeComponent;
     try {
-      themeTpl = (await import(`../../../theme/${theme}/detail.vue`)).default;
+      themeComponent = (await import(`../../../theme/${theme}/detail.vue`)).default;
     } catch (e) {
-      themeTpl = (await import('../../../theme/default/detail.vue')).default;
+      themeComponent = (await import('../../../theme/default/detail.vue')).default;
     }
-    Vue.component(theme, themeTpl);
-    store.dispatch(THEME_SET, theme);
+    Vue.component(theme, themeComponent);
+    store.dispatch(THEME_SET, { detail: theme });
   },
   computed: {
-    ...mapGetters(['article', 'articles', 'theme']),
+    ...mapGetters(['article', 'articles', 'detailTheme']),
   },
 };
 </script>

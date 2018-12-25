@@ -89,7 +89,7 @@ const routes = [
       {
         path: '',
         component: index,
-        name: rnames.root,
+        name: rnames.index,
         alias: 'index',
       },
       {

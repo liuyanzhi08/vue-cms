@@ -9,7 +9,7 @@ const rnames = {
   articleList: 'articleList',
   publish: 'publish',
   login: 'login',
-  root: 'root',
+  index: 'index',
   list: 'list',
   detail: 'detail',
   user: 'user',

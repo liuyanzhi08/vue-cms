@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Cookie from 'js-cookie';
 import Core from '../core';
 import { API_SET, AUTH_USER, AUTH_USER_ID } from '../store';
+import { isDev } from "../helper/env";
+import { log } from "../helper/logger";
 
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
@@ -54,6 +56,7 @@ router.beforeResolve((to, from, next) => {
     }
     return diffed;
   });
+
   const asyncDataHooks = activated.map(c => c.asyncData).filter(_ => !!_);
   if (!asyncDataHooks.length) {
     return next();
