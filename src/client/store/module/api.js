@@ -36,9 +36,9 @@ const api = {
       },
     }),
     Theme: state => resource(`${state.uri}/api/theme`, axios),
-    Common: state => resource(`${state.uri}/api/common`, axios, {
+    Common: state => resource(`${state.uri}/api/common`, {
       publish: data => axios.post(`${state.uri}/api/publish`, data),
-    }),
+    }, axios),
   },
   mutations: {
     [API_URI_SET]: (state, value) => {
