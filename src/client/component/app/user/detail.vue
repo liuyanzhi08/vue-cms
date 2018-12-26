@@ -1,6 +1,6 @@
 <template>
   <div class="theme-df">
-    <component :is="detailTheme" />
+    <component :is="detailThemeComponent" />
   </div>
 </template>
 <script>
@@ -21,18 +21,24 @@ export default {
     await store.dispatch(ARTICLE_FETCH, { id });
     await store.dispatch(CATEGORY_FETCH, { id: 4 });
 
-    const { theme } = store.getters.article || { theme: 'default' };
+    let theme = store.getters.detailTheme[id];
+    if (!theme) {
+      theme = store.getters.article.theme || 'default';
+      store.dispatch(THEME_SET, { detail: { [id]: theme } });
+    }
     let themeComponent;
     try {
       themeComponent = (await import(`../../../theme/${theme}/detail.vue`)).default;
     } catch (e) {
       themeComponent = (await import('../../../theme/default/detail.vue')).default;
     }
-    Vue.component(theme, themeComponent);
-    store.dispatch(THEME_SET, { detail: theme });
+    Vue.component(`vms-detail-${id}`, themeComponent);
   },
   computed: {
     ...mapGetters(['article', 'articles', 'detailTheme']),
+    detailThemeComponent() {
+      return `vms-detail-${this.$router.currentRoute.params.id}`;
+    },
   },
 };
 </script>

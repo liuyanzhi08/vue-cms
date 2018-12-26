@@ -4,7 +4,7 @@ const THEME_GET = 'theme:get';
 const theme = {
   state: {
     index: null,
-    detail: null,
+    detail: {},
     list: null,
   },
   getters: {
@@ -18,7 +18,9 @@ const theme = {
         state.index = value.index;
       }
       if (value.detail) {
-        state.detail = value.detail;
+        Object.keys(value.detail).forEach((key) => {
+          state.detail[key] = value.detail[key];
+        });
       }
       if (value.list) {
         state.list = value.list;

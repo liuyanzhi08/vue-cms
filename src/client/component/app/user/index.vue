@@ -16,9 +16,13 @@ export default {
     };
   },
   async asyncData({ store }) {
-    const res = await store.getters.Common.get({ id: 1 });
-    const data = res.data[0];
-    const { theme } = data;
+    let theme = store.getters.indexTheme;
+    if (!theme) {
+      const res = await store.getters.Common.get({ id: 1 });
+      const data = res.data[0];
+      theme = data.theme || 'default';
+      store.dispatch(THEME_SET, { index: theme });
+    }
     let themeComponent;
     try {
       themeComponent = (await import(`../../../theme/${theme}/index.vue`)).default;
@@ -26,7 +30,6 @@ export default {
       themeComponent = (await import('../../../theme/default/index.vue')).default;
     }
     Vue.component(theme, themeComponent);
-    store.dispatch(THEME_SET, { index: theme });
   },
   computed: {
     ...mapGetters(['indexTheme']),
