@@ -54,7 +54,10 @@ export default {
     };
   },
   async asyncData({ store }) {
-    await store.dispatch(CATEGORY_FETCH, { id: 4 });
+    const promises = [];
+    promises.push(store.dispatch(CATEGORY_FETCH, { id: 4 }));
+    promises.push(store.dispatch(CATEGORY_FETCH, { id: 1 }));
+    await Promise.all(promises);
   },
   computed: {
     ...mapGetters(['articles']),
