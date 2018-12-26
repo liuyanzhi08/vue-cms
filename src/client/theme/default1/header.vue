@@ -5,7 +5,6 @@
       uk-navbar
     >
       <div class="uk-navbar-left">
-        <i class="fa fa-search" />
         <ul
           v-for="item in menu"
           class="uk-navbar-nav"
@@ -25,17 +24,7 @@
         </ul>
       </div>
       <div class="uk-navbar-right">
-        <ul class="uk-navbar-nav">
-          <li>
-            <div class="social-links uk-flex uk-flex-center">
-              <a href="#"><i class="fa fa-github" /></a>
-              <a href="#"><i class="fa fa-weibo" /></a>
-              <a href="#"><i class="fa fa-twitter" /></a>
-              <a href="#"><i class="fa fa-facebook" /></a>
-              <a href="#"><i class="fa fa-weixin" /></a>
-            </div>
-          </li>
-        </ul>
+        <i class="fa fa-search" />
       </div>
     </nav>
     <nav
@@ -109,7 +98,7 @@
   </header>
 </template>
 <script>
-import { MENU_SET, MENU_TOGGLE } from '../../../store';
+import { MENU_SET, MENU_TOGGLE } from '../../store';
 
 export default {
   data() {

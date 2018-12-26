@@ -1,73 +1,69 @@
 <template>
-  <div>default1 index</div>
+  <div class="theme-portal">
+    <vms-header />
+    <div class="uk-container">
+      <div
+        class="uk-flex uk-flex-left"
+        uk-grid
+      >
+        <div
+          v-for="aritcle in articles"
+          :key="aritcle.id"
+          class="uk-width-1-1@s uk-width-1-3@m"
+        >
+          <router-link :to="aritcle.url">
+            <img
+              src="@image/beauty.jpg"
+              alt="light"
+            >
+          </router-link>
+        </div>
+        <div class="uk-width-1-1@s uk-width-1-3@m">
+          <div class="category-name">Fashion</div>
+          <h2>
+            <a>
+              long title...
+            </a>
+          </h2>
+          <div class="info">Allen · October 39.2018 · 11 Comment</div>
+          <div class="overview">This is an example of a WordPress post,
+          you could edit this to put information about yourself or your
+          site so readers know where you are coming from. You can…</div>
+        </div>
+      </div>
+    </div>
+    <vms-footer />
+  </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+import { CATEGORY_FETCH } from '../../store';
 import md from '../../helper/md';
-import { MENU_SET, MENU_TOGGLE } from '../../store';
-// eslint-disable-next-line
-import '@style/theme-default/index.scss';
+import VmsHeader from './header';
+import VmsFooter from './footer';
 
 export default {
+  components: {
+    VmsHeader,
+    VmsFooter,
+  },
   data() {
     return {
-      md,
       collapsed: true,
-      menu: [
-        {
-          label: 'Home',
-          icon: 'home',
-          router: {
-            name: '',
-            params: {},
-          },
-        },
-        {
-          label: 'About',
-          icon: 'user',
-          router: {
-            name: '',
-            params: {},
-          },
-        },
-        {
-          label: 'Archive',
-          icon: 'user',
-          router: {
-            name: '',
-            params: {},
-          },
-          children: [
-            {
-              label: 'Catalog',
-              icon: 'list',
-              router: {
-                name: '',
-                params: {},
-              },
-            },
-            {
-              label: 'Tag',
-              icon: 'tag',
-              router: {
-                name: '',
-                params: {},
-              },
-            },
-          ],
-        },
-      ],
+      md,
     };
   },
-  async mounted() {
-    const uk = await import('uikit');
-    this.$store.dispatch(MENU_SET, uk.offcanvas('#offcanvas-nav'));
+  async asyncData({ store }) {
+    await store.dispatch(CATEGORY_FETCH, { id: 4 });
+  },
+  computed: {
+    ...mapGetters(['articles']),
+    article() {
+      return this.articles[0];
+    },
   },
   methods: {
-    toggleMenu() {
-      this.$store.dispatch(MENU_TOGGLE);
-    },
   },
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" src="@style/theme-portal/index.scss"></style>

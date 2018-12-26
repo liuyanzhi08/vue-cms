@@ -1,0 +1,71 @@
+// front-end default theme
+@import "./variable";
+
+.theme-portal {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Oswald",sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 13.5px 0;
+    color: #454545;
+
+    > a {
+      color: #454545;
+      text-decoration: none;
+      &:hover {
+        //color: #2196F3;
+      }
+    }
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  nav {
+    padding: 18px 0;
+  }
+
+  a {
+    @include transition();
+    img {
+      //filter: grayscale(100%);
+      @include transition();
+    }
+    &:hover {
+      img {
+        //filter: grayscale(0);
+      }
+    }
+  }
+
+  .fa-search {
+    margin-right: 50px;
+  }
+
+  .uk-navbar-nav {
+    a {
+      font-size: 14px;
+      color: black;
+      font-weight: bold;
+      padding: 0 25px;
+      text-transform: uppercase;
+      font-family: "Crimson Text", serif;
+      &:hover {
+        //color: #2196F3;
+      }
+    }
+
+    > li {
+      padding: 0 12px;
+      &:hover {
+        background: black;
+        > a {
+          color: white;
+        }
+      }
+    }
+  }
+}

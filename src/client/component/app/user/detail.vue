@@ -1,7 +1,5 @@
 <template>
-  <div class="theme-df">
-    <component :is="detailThemeComponent" />
-  </div>
+  <component :is="detailThemeComponent" />
 </template>
 <script>
 import Vue from 'vue';
