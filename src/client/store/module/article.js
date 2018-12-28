@@ -9,14 +9,16 @@ const type = 'article';
 
 const article = {
   state: {
-    article: {},
+    articles: {},
   },
   getters: {
-    article: state => state.article,
+    articles: state => state.articles,
   },
   mutations: {
-    [ARTICLE_SET]: (state, arc) => {
-      state.article = arc;
+    [ARTICLE_SET]: (state, articles) => {
+      Object.keys(articles).forEach((id) => {
+        state.articles[id] = articles[id];
+      });
     },
   },
   actions: {
@@ -25,30 +27,27 @@ const article = {
     }, { id }) => {
       if (
         getters.articleStatus === STATUS_404
-        || (getters.articleStatus === STATUS_GOT && state.article.id === id)
+        || (getters.articleStatus === STATUS_GOT && state.articles[id])
       ) {
         return state.article;
       }
 
       let arc;
-      if (state.article.id === +id) {
-        arc = state.article;
-      } else {
-        try {
-          commit(STATUS_SET, { type, status: STATUS_FETCH });
-          const res = await getters.Article.get(id);
-          if (res.data) {
-            arc = res.data;
-          }
-          commit(STATUS_SET, { type, status: STATUS_GOT });
-        } catch (e) {
-          if (e.response.status === 404) {
-            log(`article id:${id} not found`);
-          }
-          commit(STATUS_SET, { type, status: STATUS_404 });
+      try {
+        commit(STATUS_SET, { type, status: STATUS_FETCH });
+        const res = await getters.Article.get(id);
+        if (res.data) {
+          arc = res.data;
         }
-        commit(ARTICLE_SET, arc);
+        commit(STATUS_SET, { type, status: STATUS_GOT });
+      } catch (e) {
+        if (e.response.status === 404) {
+          log(`article id:${id} not found`);
+        }
+        commit(STATUS_SET, { type, status: STATUS_404 });
       }
+      commit(ARTICLE_SET, { [id]: arc });
+
       return arc;
     },
   },

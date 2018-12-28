@@ -2,14 +2,14 @@
   <div class="theme-df">
     <vms-header />
     <div class="uk-container">
-      <article v-if="article">
-        <h1>{{ article.title }}</h1>
+      <article v-if="articles[id]">
+        <h1>{{ articles[id].title }}</h1>
         <div
           class="content"
-          v-html="md.parse(article.content)"
+          v-html="md.parse(articles[id].content)"
         />
       </article>
-      <div v-if="!article">
+      <div v-if="!articles[id]">
         <vms404 />
       </div>
       <h3 class="uk-margin-large">Recent Posts …</h3>
@@ -58,7 +58,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['article']),
+    ...mapGetters(['articles']),
+    id() {
+      return this.$router.currentRoute.params.id;
+    },
   },
 };
 </script>

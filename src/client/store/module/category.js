@@ -18,6 +18,7 @@ const category = {
         const articles = state.categories[id] && state.categories[id].articles;
         state.categories[id] = categories[id];
         state.categories[id].articles = articles || [];
+        state.categories[id].url = `${path.user}/category/${id}`;
       });
     },
     [CATEGORY_ARTICLES_SET]: (state, articles) => {

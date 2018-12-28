@@ -23,7 +23,11 @@
             v-if="category.articles[0]"
             class="uk-width-1-1@s uk-width-1-2@m"
           >
-            <div class="category">Fashion</div>
+            <div class="category">
+              <router-link :to="category.url">
+                {{ category.title }}
+              </router-link>
+            </div>
             <h2 class="uk-margin-small">
               <router-link :to="category.articles[0].url">
                 {{ category.articles[0].title }}

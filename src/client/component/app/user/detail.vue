@@ -3,7 +3,6 @@
 </template>
 <script>
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
 import { ARTICLE_FETCH, THEME_SET } from '../../../store';
 import md from '../../../helper/md';
 
@@ -20,7 +19,7 @@ export default {
 
     let theme = store.getters.detailTheme[id];
     if (!theme) {
-      theme = store.getters.article.theme || 'default';
+      theme = store.getters.articles[id].theme || 'default';
       store.dispatch(THEME_SET, { detail: { [id]: theme } });
     }
     let themeComponent;
@@ -32,7 +31,6 @@ export default {
     Vue.component(`vms-detail-${id}`, themeComponent);
   },
   computed: {
-    ...mapGetters(['article', 'detailTheme']),
     detailThemeComponent() {
       return `vms-detail-${this.$router.currentRoute.params.id}`;
     },

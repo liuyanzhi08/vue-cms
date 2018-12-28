@@ -5,7 +5,7 @@ const theme = {
   state: {
     index: null,
     detail: {},
-    list: null,
+    list: {},
   },
   getters: {
     indexTheme: state => state.index,

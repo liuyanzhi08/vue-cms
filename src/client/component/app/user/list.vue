@@ -1,25 +1,31 @@
 <template>
-  <div class="theme-df">
-    <vms-header />
-    <div class="uk-container">
-      test
-    </div>
-    <vms-footer />
-  </div>
+  <component :is="listThemeComponent" />
 </template>
 <script>
-import { mapGetters } from 'vuex';
-import { CATEGORY_FETCH } from '../../../store';
+import Vue from 'vue';
+import { CATEGORY_FETCH, THEME_SET } from '../../../store';
 
 export default {
-  asyncData({ store, route: { params: { id } } }) {
-    return store.dispatch(CATEGORY_FETCH, { id });
+  async asyncData({ store, route: { params: { id } } }) {
+    await store.dispatch(CATEGORY_FETCH, { id });
+
+    let theme = store.getters.listTheme[id];
+    if (!theme) {
+      theme = store.getters.categories[id].theme || 'default';
+      store.dispatch(THEME_SET, { list: { [id]: theme } });
+    }
+    let themeComponent;
+    try {
+      themeComponent = (await import(`../../../theme/${theme}/list.vue`)).default;
+    } catch (e) {
+      themeComponent = (await import('../../../theme/default/list.vue')).default;
+    }
+    Vue.component(`vms-list-${id}`, themeComponent);
   },
   computed: {
-    ...mapGetters([
-      'category',
-      'articles',
-    ]),
+    listThemeComponent() {
+      return `vms-list-${this.$router.currentRoute.params.id}`;
+    },
   },
 };
 </script>

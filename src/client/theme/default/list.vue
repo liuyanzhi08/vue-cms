@@ -2,26 +2,43 @@
   <div class="theme-df">
     <vms-header />
     <div class="uk-container">
-      test
+      <ul>
+        <li
+          v-for="article in categories[id].articles"
+          :key="article.id"
+        >
+          <router-link :to="article.url">{{ article.title }}</router-link>
+        </li>
+      </ul>
     </div>
     <vms-footer />
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex';
 import { CATEGORY_FETCH } from '../../store';
+import VmsHeader from './header';
+import VmsFooter from './footer';
+import Vms404 from './404';
 
 export default {
+  components: {
+    VmsHeader,
+    VmsFooter,
+    Vms404,
+  },
   asyncData({ store, route: { params: { id } } }) {
     return store.dispatch(CATEGORY_FETCH, { id });
   },
   computed: {
     ...mapGetters([
-      'category',
-      'articles',
+      'categories',
     ]),
+    id() {
+      return this.$router.currentRoute.params.id;
+    },
   },
 };
 </script>
-<style lang="scss">
-</style>
+<style lang="scss" src="@style/theme-default/index.scss"></style>
