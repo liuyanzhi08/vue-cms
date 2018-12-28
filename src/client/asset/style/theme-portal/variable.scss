@@ -1,3 +1,12 @@
 @mixin transition() {
   transition: all 200ms ease-in-out 0s;
 }
+
+/* 设置最多行，超出规定行数，则显示省略号 */
+@mixin set-max-line($line) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -45,13 +45,25 @@ exports.seed = knex => knex(categoryTableName).del()
       parent_id: db.rootId,
     },
   ]))
-  .then(res => knex(categoryTableName).insert([
-    {
-      title: 'category-d1-b1',
-      description: 'category-d1-b1',
-      parent_id: res[0],
-    },
-  ]))
+  .then((res) => {
+    const promises = [];
+    promises.push(knex(articleTableName).insert([
+      {
+        title: faker.lorem.sentence(),
+        content: faker.lorem.paragraphs(),
+        theme: 'default',
+        category_id: res[0],
+      },
+    ]));
+    promises.push(knex(categoryTableName).insert([
+      {
+        title: 'category-d1-b1',
+        description: 'category-d1-b1',
+        parent_id: res[0],
+      },
+    ]));
+    return Promise.all(promises).then(all => all[1]);
+  })
   .then(res => knex(articleTableName).insert([
     {
       title: faker.lorem.sentence(),
@@ -74,8 +86,8 @@ exports.seed = knex => knex(categoryTableName).del()
   ]))
   .then(() => knex(articleTableName).insert([
     {
-      title: 'article-d0-b0',
-      content: 'article-d0-b0',
+      title: faker.lorem.sentence(),
+      content: faker.lorem.paragraphs(),
       theme: 'default',
       category_id: db.rootId,
     },

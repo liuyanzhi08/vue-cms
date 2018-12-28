@@ -17,23 +17,23 @@
         class="uk-flex uk-flex-left"
         uk-grid
       >
-        <div
-          v-for="aritcle in articles"
-          :key="aritcle.id"
-          class="uk-width-1-1@s uk-width-1-3@m"
-        >
-          <a :href="aritcle.url">
-            <img
-              src="@image/beauty.jpg"
-              alt="light"
-            >
-          </a>
-          <h2>
-            <a :href="aritcle.url">
-              {{ aritcle.title }}
-            </a>
-          </h2>
-        </div>
+        <!--<div-->
+          <!--v-for="aritcle in articles"-->
+          <!--:key="aritcle.id"-->
+          <!--class="uk-width-1-1@s uk-width-1-3@m"-->
+        <!--&gt;-->
+          <!--<a :href="aritcle.url">-->
+            <!--<img-->
+              <!--src="@image/beauty.jpg"-->
+              <!--alt="light"-->
+            <!--&gt;-->
+          <!--</a>-->
+          <!--<h2>-->
+            <!--<a :href="aritcle.url">-->
+              <!--{{ aritcle.title }}-->
+            <!--</a>-->
+          <!--</h2>-->
+        <!--</div>-->
       </div>
     </div>
     <vms-footer />
@@ -58,7 +58,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['article', 'articles']),
+    ...mapGetters(['article']),
   },
 };
 </script>

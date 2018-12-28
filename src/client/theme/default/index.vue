@@ -32,19 +32,19 @@
         uk-grid
       >
         <div
-          v-for="aritcle in articles"
-          :key="aritcle.id"
+          v-for="arc in categories[4].articles"
+          :key="arc.id"
           class="uk-width-1-1@s uk-width-1-3@m"
         >
-          <router-link :to="aritcle.url">
+          <router-link :to="arc.url">
             <img
               src="@image/beauty.jpg"
               alt="light"
             >
           </router-link>
           <h2>
-            <a :href="aritcle.url">
-              {{ aritcle.title }}
+            <a :href="arc.url">
+              {{ arc.title }}
             </a>
           </h2>
         </div>
@@ -75,9 +75,9 @@ export default {
     await store.dispatch(CATEGORY_FETCH, { id: 4 });
   },
   computed: {
-    ...mapGetters(['articles']),
+    ...mapGetters(['categories']),
     article() {
-      return this.articles[0];
+      return this.categories[4].articles[0];
     },
   },
   methods: {

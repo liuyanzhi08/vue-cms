@@ -23,11 +23,12 @@ const article = {
     [ARTICLE_FETCH]: async ({
       commit, state, getters,
     }, { id }) => {
-      const finalStatus = [STATUS_GOT, STATUS_404];
-      if (finalStatus.indexOf(getters.articleStatus) !== -1) {
+      if (
+        getters.articleStatus === STATUS_404
+        || (getters.articleStatus === STATUS_GOT && state.article.id === id)
+      ) {
         return state.article;
       }
-
 
       let arc;
       if (state.article.id === +id) {

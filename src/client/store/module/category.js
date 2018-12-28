@@ -8,21 +8,21 @@ const CATEGORY_ARTICLES_SET = 'categories:articles:set';
 const category = {
   state: {
     categories: {},
-    articles: {},
   },
   getters: {
     categories: state => state.categories,
-    articles: state => state.articles,
   },
   mutations: {
     [CATEGORY_SET]: (state, categories) => {
       Object.keys(categories).forEach((id) => {
+        const articles = state.categories[id] && state.categories[id].articles;
         state.categories[id] = categories[id];
+        state.categories[id].articles = articles || [];
       });
     },
     [CATEGORY_ARTICLES_SET]: (state, articles) => {
       Object.keys(articles).forEach((id) => {
-        state.articles[id] = articles[id];
+        state.categories[id].articles = articles[id];
       });
     },
   },
@@ -30,9 +30,12 @@ const category = {
     [CATEGORY_FETCH]: async ({ commit, state, getters }, { id }) => {
       if (!(id in state.categories)) {
         try {
+          commit(CATEGORY_SET, { [id]: { articles: [] } });
           const promises = [];
-          promises.push(getters.Category.get(id).then(res => commit(CATEGORY_SET, { [id]: res })));
-          promises.push(getters.Article.query({ id }).then((res) => {
+          promises.push(getters.Category.get(id).then((res) => {
+            commit(CATEGORY_SET, { [id]: res.data });
+          }));
+          promises.push(getters.Article.query({ category_id: id }).then((res) => {
             const articles = res.data.items;
             articles.forEach((article) => {
               article.url = `${path.user}/article/${article.id}`;
@@ -41,6 +44,7 @@ const category = {
           }));
           await Promise.all(promises);
         } catch (e) {
+          log(e);
           log(`category id=${id} not found`);
         }
       }

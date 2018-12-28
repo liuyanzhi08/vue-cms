@@ -4,7 +4,7 @@
 <script>
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
-import { ARTICLE_FETCH, CATEGORY_FETCH, THEME_SET } from '../../../store';
+import { ARTICLE_FETCH, THEME_SET } from '../../../store';
 import md from '../../../helper/md';
 
 export default {
@@ -17,7 +17,6 @@ export default {
   },
   async asyncData({ store, route: { params: { id } } }) {
     await store.dispatch(ARTICLE_FETCH, { id });
-    await store.dispatch(CATEGORY_FETCH, { id: 4 });
 
     let theme = store.getters.detailTheme[id];
     if (!theme) {
@@ -33,7 +32,7 @@ export default {
     Vue.component(`vms-detail-${id}`, themeComponent);
   },
   computed: {
-    ...mapGetters(['article', 'articles', 'detailTheme']),
+    ...mapGetters(['article', 'detailTheme']),
     detailThemeComponent() {
       return `vms-detail-${this.$router.currentRoute.params.id}`;
     },
