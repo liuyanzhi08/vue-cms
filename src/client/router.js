@@ -1,6 +1,8 @@
 import VueRouter from 'vue-router';
-import { path, rnames } from './config';
+import config from './config';
 import { MENU_HIDE } from './store';
+
+const { path, rnames } = config;
 
 // routes components
 const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/user');

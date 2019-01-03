@@ -1,6 +1,6 @@
 <template>
   <div class="theme-portal">
-    <vms-header />
+    <vms-header :categories="categories" />
     <div class="uk-container uk-flex uk-flex-left">
       <div class="uk-width-2-3@m uk-width-1-1@s">
         <article

@@ -60,8 +60,6 @@ const path = {
 const { db } = config;
 db.rootId = 1;
 
-export {
+export default {
   path, db, brand, rnames, menu,
 };
-
-export default path;

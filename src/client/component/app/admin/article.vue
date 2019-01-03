@@ -59,7 +59,9 @@ import NoSsr from 'vue-no-ssr';
 import AppCategoryOption from './category-option';
 import AppThemeOption from './theme-option';
 import { NOTICE_SEND } from '../../../store';
-import { db } from '../../../config';
+import config from '../../../config';
+
+const { db } = config;
 
 let isNew = true;
 

@@ -15,7 +15,9 @@
 </template>
 <script>
 import _ from 'lodash';
-import { db } from '../../../config';
+import config from '../../../config';
+
+const { db } = config;
 
 const label = (obj, type) => `${obj.title} [ ${type.substr(0, 1)}id: ${obj.id} ]`;
 

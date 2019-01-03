@@ -1,9 +1,11 @@
 import { log } from '../../helper/logger';
-import { path } from '../../config';
+import config from '../../config';
 
 const CATEGORY_FETCH = 'categories:fetch';
 const CATEGORY_SET = 'categories:set';
 const CATEGORY_ARTICLES_SET = 'categories:articles:set';
+
+const { path } = config;
 
 const category = {
   state: {

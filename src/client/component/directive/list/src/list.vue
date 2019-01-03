@@ -13,7 +13,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { path } from '../../../../config';
+import config from '../../../../config';
+
+const { path } = config;
 
 export default {
   name: 'VmsList',

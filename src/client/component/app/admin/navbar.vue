@@ -83,7 +83,9 @@ import { mapGetters } from 'vuex';
 import {
   AUTH_LOGOUT, AUTH_USER, MENU_SET, MENU_TOGGLE,
 } from '../../../store';
-import { brand, menu } from '../../../config';
+import config from '../../../config';
+
+const { brand, menu } = config;
 
 export default {
   data() {

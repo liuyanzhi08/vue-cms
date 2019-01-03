@@ -16,7 +16,9 @@
 </template>
 <script>
 import _ from 'lodash';
-import { db } from '../../../config';
+import config from '../../../config';
+
+const { db } = config;
 
 export default {
   name: 'AppCategoryOption',

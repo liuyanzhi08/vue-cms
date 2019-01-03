@@ -6,20 +6,28 @@
     >
       <div class="uk-navbar-left">
         <ul
-          v-for="item in menu"
           class="uk-navbar-nav"
         >
-          <li v-if="!item.children"><a href="#">{{ item.label }}</a></li>
+          <li>
+            <router-link :to="index">Home</router-link>
+          </li>
           <li
-            v-if="item.children"
-            class="has-children"
+            v-for="item in categories"
+            :key="item.id"
+            :class="{'has-children': item.children}"
           >
-            <a href="#">archive</a>
-            <div class="uk-navbar-dropdown">
-              <ul class="uk-nav uk-navbar-dropdown-nav">
-                <li v-for="child in item.children"><a href="#">{{ child.label }}</a></li>
-              </ul>
-            </div>
+            <router-link
+              v-if="!item.children"
+              :to="item.url"
+            >{{ item.title }}</router-link>
+            <template v-if="item.children">
+              <a href="#">archive</a>
+              <div class="uk-navbar-dropdown">
+                <ul class="uk-nav uk-navbar-dropdown-nav">
+                  <li v-for="child in item.children"><a href="#">{{ child.title }}</a></li>
+                </ul>
+              </div>
+            </template>
           </li>
         </ul>
       </div>
@@ -98,9 +106,16 @@
   </header>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import { MENU_SET, MENU_TOGGLE } from '../../store';
 
 export default {
+  props: {
+    categories: {
+      type: Array,
+      default: null,
+    },
+  },
   data() {
     return {
       menu: [
@@ -148,6 +163,9 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    ...mapGetters(['index']),
   },
   async mounted() {
     const uk = await import('uikit');
