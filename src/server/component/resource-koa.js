@@ -118,7 +118,7 @@ class ResourceKoa {
       return;
     }
     if (ctx.params.id === undefined) {
-      reject(fail(ctx, { msg: 'method `delete` need a `id` params' }));
+      reject(fail(ctx, { msg: 'method *delete* need a *id* params' }));
       return;
     }
 

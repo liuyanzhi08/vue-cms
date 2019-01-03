@@ -30,8 +30,8 @@ const renderIndex = async (ctx, renderer) => {
   fse.outputFile(filename, html);
 };
 
-export default {
-  post: async (ctx) => {
+class Publish {
+  async post (ctx) {
     if (!ctx.isAuthenticated()) {
       fail(ctx, error.authUnauthorized, { code: 401 });
       return;
@@ -43,7 +43,10 @@ export default {
     if (data.includeIndex) {
       promises.push(renderIndex(ctx, renderer));
     }
-    await Promise.all(promises);
+    await
+    Promise.all(promises);
     success(ctx, { msg: 'success' });
-  },
-};
+  }
+}
+
+export default Publish;

@@ -5,9 +5,11 @@ import config from '../config';
 const { success } = ctxHelper;
 const { dir } = config;
 
-export default {
-  get: async (ctx) => {
+class Theme {
+  async get(ctx) {
     const themes = fs.readdirSync(dir.theme);
     success(ctx, { items: themes, total: themes.length });
-  },
-};
+  }
+}
+
+export default Theme;

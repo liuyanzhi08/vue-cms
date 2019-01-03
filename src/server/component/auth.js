@@ -6,8 +6,8 @@ import error from '../helper/error';
 
 const { success, fail } = ctxHelper;
 
-export default {
-  post: async (ctx) => {
+class Auth {
+  async post(ctx) {
     const action = ctx.params.id;
     switch (action) {
       case 'register': {
@@ -65,8 +65,9 @@ export default {
       default:
     }
     return true;
-  },
-  get: async (ctx) => {
+  }
+
+  async get(ctx) {
     const action = ctx.params.id;
     switch (action) {
       case 'user':
@@ -84,5 +85,7 @@ export default {
       default:
         fail(ctx, null, { code: 404 });
     }
-  },
-};
+  }
+}
+
+export default Auth;
