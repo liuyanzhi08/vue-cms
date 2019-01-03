@@ -1,17 +1,14 @@
-import cheerio from 'cheerio';
 import Restfull from './_restfull';
-import md from '../helper/md';
+import articleHelper from '../helper/article';
 
 class Article extends Restfull {
   async post(ctx) {
+    ctx.request.body.summary = articleHelper.summary(ctx.request.body.content);
     await super.post(ctx);
   }
 
   async put(ctx) {
-    const html = md.parse(ctx.request.body.content);
-    const $ = cheerio.load(html);
-    const plainText = $.text().replace(/\s+/gi, ' ');
-    ctx.request.body.summary = plainText.substr(0, 300);
+    ctx.request.body.summary = articleHelper.summary(ctx.request.body.content);
     await super.put(ctx);
   }
 }

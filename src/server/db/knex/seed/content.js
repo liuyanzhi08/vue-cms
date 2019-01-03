@@ -3,6 +3,7 @@ import $path from 'path';
 import _ from 'lodash';
 import faker from 'faker';
 import config from '../../../config';
+import articleHelper from '../../../helper/article';
 
 const { db } = config;
 
@@ -34,6 +35,7 @@ exports.seed = knex => knex(categoryTableName).del()
     {
       title: readmeTitle,
       content: readmeContent,
+      summary: articleHelper.summary(readmeContent),
       theme: 'default',
       category_id: res[0],
     },
@@ -47,10 +49,12 @@ exports.seed = knex => knex(categoryTableName).del()
   ]))
   .then((res) => {
     const promises = [];
+    const content = faker.lorem.paragraphs();
     promises.push(knex(articleTableName).insert([
       {
         title: faker.lorem.sentence(),
-        content: faker.lorem.paragraphs(),
+        content,
+        summary: articleHelper.summary(content),
         theme: 'default',
         category_id: res[0],
       },
@@ -64,31 +68,45 @@ exports.seed = knex => knex(categoryTableName).del()
     ]));
     return Promise.all(promises).then(all => all[1]);
   })
-  .then(res => knex(articleTableName).insert([
-    {
-      title: faker.lorem.sentence(),
-      content: faker.lorem.paragraphs(),
-      theme: 'default',
-      category_id: res[0],
-    },
-    {
-      title: faker.lorem.sentence(),
-      content: faker.lorem.paragraphs(),
-      theme: 'default',
-      category_id: res[0],
-    },
-    {
-      title: faker.lorem.sentence(),
-      content: faker.lorem.paragraphs(),
-      theme: 'default',
-      category_id: res[0],
-    },
-  ]))
-  .then(() => knex(articleTableName).insert([
-    {
-      title: faker.lorem.sentence(),
-      content: faker.lorem.paragraphs(),
-      theme: 'default',
-      category_id: db.rootId,
-    },
-  ]));
+  .then((res) => {
+    const contents = [
+      faker.lorem.paragraphs(),
+      faker.lorem.paragraphs(),
+      faker.lorem.paragraphs(),
+    ];
+    return knex(articleTableName).insert([
+      {
+        title: faker.lorem.sentence(),
+        content: contents[0],
+        summary: articleHelper.summary(contents[0]),
+        theme: 'default',
+        category_id: res[0],
+      },
+      {
+        title: faker.lorem.sentence(),
+        content: contents[1],
+        summary: articleHelper.summary(contents[1]),
+        theme: 'default',
+        category_id: res[0],
+      },
+      {
+        title: faker.lorem.sentence(),
+        content: contents[2],
+        summary: articleHelper.summary(contents[2]),
+        theme: 'default',
+        category_id: res[0],
+      },
+    ]);
+  })
+  .then(() => {
+    const content = faker.lorem.paragraphs();
+    return knex(articleTableName).insert([
+      {
+        title: faker.lorem.sentence(),
+        content,
+        summary: articleHelper.summary(content),
+        theme: 'default',
+        category_id: db.rootId,
+      },
+    ]);
+  });
