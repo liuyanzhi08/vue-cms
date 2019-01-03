@@ -3,7 +3,9 @@ import Core from '../core';
 import { isDev } from '../helper/env';
 import { log } from '../helper/logger';
 import error from '../helper/error';
-import { API_SET, AUTH_USER, AUTH_USER_ID } from '../store';
+import {
+  API_SET, AUTH_USER, AUTH_USER_ID, APP_SET_PUBLISH,
+} from '../store';
 import config from '../../config';
 
 export default async ctx => new Promise((resolve, reject) => {
@@ -12,7 +14,7 @@ export default async ctx => new Promise((resolve, reject) => {
 
   const start = isDev && Date.now();
 
-  const { url } = ctx;
+  const { url, $publish } = ctx;
 
   const { fullPath } = router.resolve(url).route;
 
@@ -22,6 +24,9 @@ export default async ctx => new Promise((resolve, reject) => {
 
   // set uri
   store.dispatch(API_SET, `http://${ip.address()}:${config.server.port}`);
+
+  // set if publish: generating static HTML
+  store.dispatch(APP_SET_PUBLISH, $publish);
 
   // set auth
   const userId = ctx.cookies.get(AUTH_USER);

@@ -34,7 +34,10 @@
               </router-link>
             </h2>
             <div class="info uk-margin-small">Allen · October 39.2018 · 11 Comment</div>
-            <div class="overview uk-margin">{{ category.articles[0].content }}</div>
+            <div
+              class="overview uk-margin"
+              v-html="md.parse(category.articles[0].content)"
+            />
           </div>
         </article>
       </div>
