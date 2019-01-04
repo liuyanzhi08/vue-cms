@@ -25,7 +25,13 @@ const category = {
     [CATEGORY_SET]: ({ state, getters }, categories) => {
       Object.keys(categories).forEach((id) => {
         const articles = state.categories[id] && state.categories[id].articles;
-        state.categories[id] = categories[id];
+        if (!state.categories[id]) {
+          state.categories[id] = categories[id];
+        } else {
+          Object.keys(categories[id]).forEach((key) => {
+            state.categories[id][key] = categories[id][key];
+          });
+        }
         state.categories[id].articles = articles || [];
         state.categories[id].url = getters.isPublish
           ? `category/${id}` : `${path.user}/category/${id}`;
@@ -33,7 +39,9 @@ const category = {
     },
     [CATEGORY_FETCH]: async ({
       commit, state, getters, dispatch,
-    }, { id }) => {
+    }, {
+        id, depth = 0, currentDepth = 0, article = '0, 0',
+      }) => {
       if (!(id in state.categories)) {
         try {
           dispatch(CATEGORY_SET, { [id]: { articles: [] } });
@@ -41,14 +49,39 @@ const category = {
           promises.push(getters.Category.get(id).then((res) => {
             dispatch(CATEGORY_SET, { [id]: res.data });
           }));
-          promises.push(getters.Article.query({ category_id: id }).then((res) => {
-            const articles = res.data.items;
-            articles.forEach((article) => {
-              article.url = getters.isPublish
-                ? `/article/${article.id}` : `${path.user}/article/${article.id}`;
+
+          // get category articles
+          const [from, size] = String(article).split(',').map(item => +item);
+          if (size) {
+            const params = { category_id: id };
+            if (size !== -1) {
+              params._from = from;
+              params._size = size;
+            }
+            promises.push(getters.Article.query(params).then((res) => {
+              const categoryArticles = res.data.items;
+              categoryArticles.forEach((categoryArticle) => {
+                categoryArticle.url = getters.isPublish
+                  ? `/article/${categoryArticle.id}` : `${path.user}/article/${categoryArticle.id}`;
+              });
+              commit(CATEGORY_ARTICLES_SET, { [id]: categoryArticles });
+            }));
+          }
+
+          // get sub categories
+          if (currentDepth < depth) {
+            const res = await getters.Category.query({ parent_id: id });
+            res.data.items.forEach((item) => {
+              promises.push(dispatch(CATEGORY_FETCH, {
+                id: item.id, currentDepth: currentDepth + 1, depth, article,
+              }));
+
+              if (!state.categories[id].children) {
+                state.categories[id].children = [];
+              }
+              state.categories[id].children.push(state.categories[item.id]);
             });
-            commit(CATEGORY_ARTICLES_SET, { [id]: articles });
-          }));
+          }
           await Promise.all(promises);
         } catch (e) {
           log(e);

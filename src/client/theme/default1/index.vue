@@ -65,9 +65,9 @@ export default {
   },
   async asyncData({ store }) {
     const promises = [];
-    promises.push(store.dispatch(CATEGORY_FETCH, { id: 2 }));
-    promises.push(store.dispatch(CATEGORY_FETCH, { id: 3 }));
-    promises.push(store.dispatch(CATEGORY_FETCH, { id: 4 }));
+    promises.push(store.dispatch(CATEGORY_FETCH, { id: 2, article: '0,1' }));
+    promises.push(store.dispatch(CATEGORY_FETCH, { id: 3, article: '0,1', depth: 2 }));
+    promises.push(store.dispatch(CATEGORY_FETCH, { id: 4, article: '0,1' }));
     await Promise.all(promises);
   },
   computed: {
