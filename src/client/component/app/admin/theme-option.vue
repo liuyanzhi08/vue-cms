@@ -30,8 +30,11 @@ export default {
     };
   },
   watch: {
-    value() {
-      this.selectValue = this.value;
+    value: {
+      handler() {
+        this.selectValue = this.value;
+      },
+      immediate: true,
     },
     selectValue() {
       this.$emit('input', this.selectValue);

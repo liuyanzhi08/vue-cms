@@ -18,6 +18,17 @@
         class="uk-textarea"
       />
     </div>
+    <div
+      v-if="isShowAdvanced"
+      class="uk-margin"
+    >
+      <app-theme-option v-model="category.theme" />
+    </div>
+    <div class="uk-margin">
+      <a @click="showAdvanced">
+        advanced setting
+      </a>
+    </div>
     <div class="uk-margin">
       <div class="uk-button-group">
         <button
@@ -41,6 +52,7 @@
 </template>
 <script>
 import AppCategoryOption from './category-option';
+import AppThemeOption from './theme-option';
 import { NOTICE_SEND } from '../../../store';
 import config from '../../../config';
 
@@ -51,6 +63,7 @@ let isNew = true;
 export default {
   components: {
     AppCategoryOption,
+    AppThemeOption,
   },
   props: {
     id: {
@@ -65,6 +78,7 @@ export default {
   data() {
     return {
       category: { parent_id: this.parentId },
+      isShowAdvanced: false,
     };
   },
   watch: {
@@ -119,6 +133,9 @@ export default {
           parent_id: this.parentId,
         };
       }
+    },
+    showAdvanced() {
+      this.isShowAdvanced = !this.isShowAdvanced;
     },
   },
 };

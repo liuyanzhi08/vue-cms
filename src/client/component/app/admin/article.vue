@@ -123,7 +123,6 @@ export default {
         boxShadow: false,
         placeholder: 'start writing...',
       },
-      themes: [],
       isShowAdvanced: false,
     };
   },

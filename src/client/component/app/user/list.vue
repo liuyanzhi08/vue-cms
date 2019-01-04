@@ -7,7 +7,7 @@ import { CATEGORY_FETCH, THEME_SET } from '../../../store';
 
 export default {
   async asyncData({ store, route: { params: { id } } }) {
-    await store.dispatch(CATEGORY_FETCH, { id });
+    await store.dispatch(CATEGORY_FETCH, { id, article: '0,-1' });
 
     let theme = store.getters.listTheme[id];
     if (!theme) {

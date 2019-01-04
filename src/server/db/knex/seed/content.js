@@ -14,6 +14,7 @@ const readme = fs.readFileSync(readmePath).toString();
 const firstLineIndex = readme.indexOf('\n');
 const readmeTitle = _.trim(readme.substring(0, firstLineIndex + 1), '#');
 const readmeContent = readme.substring(firstLineIndex);
+const defaultTheme = 'default';
 
 exports.seed = knex => knex(categoryTableName).del()
   .then(() => knex(categoryTableName).insert([
@@ -21,6 +22,7 @@ exports.seed = knex => knex(categoryTableName).del()
       id: db.rootId,
       title: 'root',
       description: 'root',
+      theme: defaultTheme,
       parent_id: null,
     },
   ]))
@@ -28,6 +30,7 @@ exports.seed = knex => knex(categoryTableName).del()
     {
       title: 'category-d0-b0',
       description: 'category-d0-b0',
+      theme: defaultTheme,
       parent_id: db.rootId,
     },
   ]))
@@ -36,7 +39,7 @@ exports.seed = knex => knex(categoryTableName).del()
       title: readmeTitle,
       content: readmeContent,
       summary: articleHelper.summary(readmeContent),
-      theme: 'default',
+      theme: defaultTheme,
       category_id: res[0],
     },
   ]))
@@ -44,6 +47,7 @@ exports.seed = knex => knex(categoryTableName).del()
     {
       title: 'category-d0-b1',
       description: 'category-d0-b1',
+      theme: defaultTheme,
       parent_id: db.rootId,
     },
   ]))
@@ -55,7 +59,7 @@ exports.seed = knex => knex(categoryTableName).del()
         title: faker.lorem.sentence(),
         content,
         summary: articleHelper.summary(content),
-        theme: 'default',
+        theme: defaultTheme,
         category_id: res[0],
       },
     ]));
@@ -63,6 +67,7 @@ exports.seed = knex => knex(categoryTableName).del()
       {
         title: 'category-d1-b1',
         description: 'category-d1-b1',
+        theme: defaultTheme,
         parent_id: res[0],
       },
     ]));
@@ -79,21 +84,21 @@ exports.seed = knex => knex(categoryTableName).del()
         title: faker.lorem.sentence(),
         content: contents[0],
         summary: articleHelper.summary(contents[0]),
-        theme: 'default',
+        theme: defaultTheme,
         category_id: res[0],
       },
       {
         title: faker.lorem.sentence(),
         content: contents[1],
         summary: articleHelper.summary(contents[1]),
-        theme: 'default',
+        theme: defaultTheme,
         category_id: res[0],
       },
       {
         title: faker.lorem.sentence(),
         content: contents[2],
         summary: articleHelper.summary(contents[2]),
-        theme: 'default',
+        theme: defaultTheme,
         category_id: res[0],
       },
     ]);
@@ -105,7 +110,7 @@ exports.seed = knex => knex(categoryTableName).del()
         title: faker.lorem.sentence(),
         content,
         summary: articleHelper.summary(content),
-        theme: 'default',
+        theme: defaultTheme,
         category_id: db.rootId,
       },
     ]);

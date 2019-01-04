@@ -1,8 +1,15 @@
 <template>
-  <div class="theme-df">
+  <div class="theme-portal">
     <vms-header />
     <div class="uk-container">
-      test
+      <ul>
+        <li
+          v-for="article in categories[id].articles"
+          :key="article.id"
+        >
+          <router-link :to="article.url">{{ article.title }}</router-link>
+        </li>
+      </ul>
     </div>
     <vms-footer />
   </div>
@@ -28,8 +35,10 @@ export default {
     ...mapGetters([
       'categories',
     ]),
+    id() {
+      return this.$router.currentRoute.params.id;
+    },
   },
 };
 </script>
-<style lang="scss">
-</style>
+<style lang="scss" src="@style/theme-portal/index.scss"></style>
