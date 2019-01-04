@@ -21,10 +21,15 @@
               :to="item.url"
             >{{ item.title }}</router-link>
             <template v-if="item.children">
-              <a href="#">archive</a>
+              <a href="#">{{ item.title }}</a>
               <div class="uk-navbar-dropdown">
                 <ul class="uk-nav uk-navbar-dropdown-nav">
-                  <li v-for="child in item.children"><a href="#">{{ child.title }}</a></li>
+                  <li
+                    v-for="child in item.children"
+                    :key="child.id"
+                  >
+                    <router-link :to="child.url">{{ child.title }}</router-link>
+                  </li>
                 </ul>
               </div>
             </template>
