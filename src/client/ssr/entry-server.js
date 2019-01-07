@@ -1,7 +1,7 @@
 import ip from 'ip';
 import Core from '../core';
 import { isDev } from '../helper/env';
-import { log } from '../helper/logger';
+import { log, err } from '../helper/logger';
 import error from '../helper/error';
 import {
   API_SET, AUTH_USER, AUTH_USER_ID, APP_SET_PUBLISH,
@@ -59,16 +59,23 @@ export default async ctx => new Promise((resolve, reject) => {
       if (types.indexOf(typeName) !== -1) {
         let themeComponent;
         try {
-          themeComponent = (await import(`../theme/${store.getters.indexTheme}/${typeName}.vue`)).default;
+          const themeKey = `${typeName}Theme`;
+          const paramId = router.currentRoute.params.id;
+          const theme = typeName === 'index' ? store.getters[themeKey] : store.getters[themeKey][paramId];
+          themeComponent = (await import(`../theme/${theme}/${typeName}.vue`)).default;
         } catch (e) {
           themeComponent = (await import(`../theme/default/${typeName}.vue`)).default;
         }
         const themeAsyncData = themeComponent.asyncData;
         if (themeAsyncData) {
-          await themeAsyncData({
-            store,
-            route: router.currentRoute,
-          });
+          try {
+            await themeAsyncData({
+              store,
+              route: router.currentRoute,
+            });
+          } catch (e) {
+            err(e);
+          }
         }
       }
 

@@ -33,7 +33,7 @@ module.exports = {
     }],
     'import/prefer-default-export': ['off'],
     'no-underscore-dangle': ['error', {
-        allow: ['_page', '_num', '_from', '_size'],
+        allow: ['_page', '_num', '_from', '_size', '_sort', '_dir'],
     }],
     'no-param-reassign': ['error', {
         props: false,

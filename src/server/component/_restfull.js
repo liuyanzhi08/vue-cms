@@ -43,7 +43,11 @@ class Restfull {
         _num: true,
         _from: true,
         _size: true,
+        _sort: true,
+        _dir: true,
       };
+
+      // WHERE statement
       let whereLogic = [];
       _.each(params, (value, key) => {
         if (!(key in excludes)) {
@@ -51,15 +55,19 @@ class Restfull {
         }
       });
 
+      // ORDER BY statement
+      const sort = params._sort ? params._sort : 'id';
+      const dir = params._dir ? params._dir : 'ASC';
+
       let sql;
       if (whereLogic.length) {
         whereLogic = whereLogic.join(' and ');
         whereLogic = ` WHERE ${whereLogic}`;
-        sql = `SELECT * FROM ${this.name} ${whereLogic} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name} ${whereLogic}`;
+        sql = `SELECT * FROM ${this.name} ${whereLogic} ORDER BY \`${sort}\` ${dir} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name} ${whereLogic}`;
       } else {
-        sql = `SELECT * FROM ${this.name} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`;
+        sql = `SELECT * FROM ${this.name} ORDER BY \`${sort}\` ${dir} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`;
       }
-
+console.log(sql);
       const from = params._from ? +params._from : (+params._page - 1) * +params._num;
       const size = params._size ? +params._size : +params._num;
       const res = await query(sql, [from, size]).catch(err => reject(fail(ctx, err)));

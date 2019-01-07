@@ -1,9 +1,8 @@
 <template>
-  <component :is="indexTheme" />
+  <component :is="detailThemeComponent" />
 </template>
 <script>
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
 import { THEME_SET } from '../../../store';
 
 export default {
@@ -11,6 +10,7 @@ export default {
   },
   data() {
     return {
+      detailThemeComponent: 'vms-detail-index',
     };
   },
   async asyncData({ store }) {
@@ -27,10 +27,7 @@ export default {
     } catch (e) {
       themeComponent = (await import('../../../theme/default/index.vue')).default;
     }
-    Vue.component(theme, themeComponent);
-  },
-  computed: {
-    ...mapGetters(['indexTheme']),
+    Vue.component('vms-detail-index', themeComponent);
   },
 };
 </script>

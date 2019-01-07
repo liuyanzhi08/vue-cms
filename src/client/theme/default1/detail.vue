@@ -17,23 +17,23 @@
         class="uk-flex uk-flex-left"
         uk-grid
       >
-        <!--<div-->
-          <!--v-for="aritcle in articles"-->
-          <!--:key="aritcle.id"-->
-          <!--class="uk-width-1-1@s uk-width-1-3@m"-->
-        <!--&gt;-->
-          <!--<a :href="aritcle.url">-->
-            <!--<img-->
-              <!--src="@image/beauty.jpg"-->
-              <!--alt="light"-->
-            <!--&gt;-->
-          <!--</a>-->
-          <!--<h2>-->
-            <!--<a :href="aritcle.url">-->
-              <!--{{ aritcle.title }}-->
-            <!--</a>-->
-          <!--</h2>-->
-        <!--</div>-->
+        <div
+          v-for="article in recentArticles"
+          :key="article.id"
+          class="uk-width-1-1@s uk-width-1-3@m"
+        >
+          <router-link :to="article.url">
+            <img
+              src="@image/beauty.jpg"
+              alt="light"
+            >
+          </router-link>
+          <h2>
+            <router-link :to="article.url">
+              {{ article.title }}
+            </router-link>
+          </h2>
+        </div>
       </div>
     </div>
     <vms-footer />
@@ -45,6 +45,7 @@ import md from '../../helper/md';
 import VmsHeader from './header';
 import VmsFooter from './footer';
 import Vms404 from './404';
+import { ARTICLE_RECENT } from '../../store';
 
 export default {
   components: {
@@ -57,8 +58,13 @@ export default {
       md,
     };
   },
+  async asyncData({ store }) {
+    const promises = [];
+    promises.push(store.dispatch(ARTICLE_RECENT));
+    await Promise.all(promises);
+  },
   computed: {
-    ...mapGetters(['articles']),
+    ...mapGetters(['articles', 'recentArticles']),
     id() {
       return this.$router.currentRoute.params.id;
     },

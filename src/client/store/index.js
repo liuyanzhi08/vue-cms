@@ -6,7 +6,7 @@ import {
   MENU_SET, MENU_SHOW, MENU_HIDE, MENU_TOGGLE, menu,
 } from './module/menu';
 import { NOTICE_SEND, notice } from './module/notice';
-import { ARTICLE_FETCH, article } from './module/article';
+import { ARTICLE_FETCH, ARTICLE_RECENT, article } from './module/article';
 import { CATEGORY_FETCH, category } from './module/category';
 import { url } from './module/url';
 import { API_SET, api } from './module/api';
@@ -46,6 +46,7 @@ export {
   MENU_TOGGLE,
   NOTICE_SEND,
   ARTICLE_FETCH,
+  ARTICLE_RECENT,
   CATEGORY_FETCH,
   API_SET,
   STATUS_SET,

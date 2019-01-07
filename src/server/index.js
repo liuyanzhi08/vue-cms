@@ -24,7 +24,7 @@ if (isDev) {
   const devServer = new DevServer(app);
   app.$devServer = devServer;
   log(`[DS] running in ${config.ssr ? 'SSR' : 'SPA'} mode`);
-  log('[DS] wait for webpack finishes building...');
+  log('[DS] waiting for webpack finishes building...');
   app.$devServer.compileDone.then(() => {
     log('[DS] webpack finished building');
     opn(`http://${ip.address()}:${server.port}/admin`);
@@ -50,7 +50,7 @@ if (isDev && module.hot) {
     app.$devServer = devServer;
     const newConfig = (await import('./config')).default;
     log(`[DS] change to ${newConfig.ssr ? 'SSR' : 'SPA'} mode`);
-    log('[DS] wait for webpack finishes building...');
+    log('[DS] waiting for webpack finishes building...');
     app.$devServer.compileDone.then(() => {
       log('[DS] webpack finished building');
       // opn(`http://${ip.address()}:${server.port}/admin`);
