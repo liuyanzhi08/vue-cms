@@ -21,12 +21,18 @@
       text-decoration: none;
       &:hover {
         color: #666;
+        text-decoration: none;
       }
     }
   }
 
   h2 {
-    font-size: 20px;
+    border-bottom: 1px solid #eee;
+    color: #000;
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
   }
 
   nav {
@@ -88,6 +94,27 @@
       }
       .overview {
         @include set-max-line(5);
+      }
+    }
+
+    .sidebar {
+      margin-left: 30px;
+      ul {
+        padding: 0;
+        li {
+          border-bottom: 1px solid #eee;
+          list-style: none;
+          margin-bottom: 15px;
+          padding-bottom: 15px;
+          position: relative;
+          a {
+            color: black;
+            &:hover {
+              color: #0091cd;
+              text-decoration: none;
+            }
+          }
+        }
       }
     }
   }

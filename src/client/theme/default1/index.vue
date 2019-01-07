@@ -41,13 +41,26 @@
           </div>
         </article>
       </div>
-      <div class="uk-width-1-3@m uk-width-1-1@s">test</div>
+      <div class="uk-width-1-3@m uk-width-1-1@s sidebar">
+        <h2>recent posts</h2>
+        <ul>
+          <li
+            v-for="article in recentArticles"
+            :key="article.id"
+          >
+            <router-link :to="article.url">
+              {{ article.title }}
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </div>
     <vms-footer />
   </div>
 </template>
 <script>
-import { CATEGORY_FETCH } from '../../store';
+import { mapGetters } from 'vuex';
+import { CATEGORY_FETCH, ARTICLE_RECENT } from '../../store';
 import md from '../../helper/md';
 import VmsHeader from './header';
 import VmsFooter from './footer';
@@ -64,10 +77,12 @@ export default {
     };
   },
   async asyncData({ store }) {
-    const promises = [];
-    promises.push(store.dispatch(CATEGORY_FETCH, { id: 2, article: '0,1' }));
-    promises.push(store.dispatch(CATEGORY_FETCH, { id: 3, article: '0,1', depth: 2 }));
-    promises.push(store.dispatch(CATEGORY_FETCH, { id: 4, article: '0,1' }));
+    const promises = [
+      store.dispatch(CATEGORY_FETCH, { id: 2, article: '0,1' }),
+      store.dispatch(CATEGORY_FETCH, { id: 3, article: '0,1', depth: 2 }),
+      store.dispatch(CATEGORY_FETCH, { id: 4, article: '0,1' }),
+      store.dispatch(ARTICLE_RECENT, { limit: '0,4' }),
+    ];
     await Promise.all(promises);
   },
   computed: {
@@ -78,6 +93,7 @@ export default {
         this.$store.getters.categories[4],
       ];
     },
+    ...mapGetters(['recentArticles']),
   },
   methods: {
   },
