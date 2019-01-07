@@ -50,35 +50,7 @@ export default async ctx => new Promise((resolve, reject) => {
         route: router.currentRoute,
       });
       return t;
-    })).then(async () => {
-      // get asyncData in customer theme component definition
-      const typeName = router.currentRoute.matched
-        && router.currentRoute.matched.length > 1
-        && router.currentRoute.matched[1].name;
-      const types = ['index', 'detail', 'list'];
-      if (types.indexOf(typeName) !== -1) {
-        let themeComponent;
-        try {
-          const themeKey = `${typeName}Theme`;
-          const paramId = router.currentRoute.params.id;
-          const theme = typeName === 'index' ? store.getters[themeKey] : store.getters[themeKey][paramId];
-          themeComponent = (await import(`../theme/${theme}/${typeName}.vue`)).default;
-        } catch (e) {
-          themeComponent = (await import(`../theme/default/${typeName}.vue`)).default;
-        }
-        const themeAsyncData = themeComponent.asyncData;
-        if (themeAsyncData) {
-          try {
-            await themeAsyncData({
-              store,
-              route: router.currentRoute,
-            });
-          } catch (e) {
-            err(e);
-          }
-        }
-      }
-
+    })).then(() => {
       if (isDev) {
         log(`ssr: data pre-fetch: ${Date.now() - start}ms`);
       }

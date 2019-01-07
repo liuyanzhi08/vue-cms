@@ -3,7 +3,7 @@
     <vms-header />
     <div class="uk-container">
       <article v-if="articles[id]">
-        <h1>{{ articles[id].title }}</h1>
+        <h1>{{ articles[id].title }} {{  id }}</h1>
         <div
           class="content"
           v-html="md.parse(articles[id].content)"

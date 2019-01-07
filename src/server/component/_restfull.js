@@ -67,7 +67,6 @@ class Restfull {
       } else {
         sql = `SELECT * FROM ${this.name} ORDER BY \`${sort}\` ${dir} LIMIT ?, ?;SELECT COUNT(*) AS total FROM ${this.name}`;
       }
-console.log(sql);
       const from = params._from ? +params._from : (+params._page - 1) * +params._num;
       const size = params._size ? +params._size : +params._num;
       const res = await query(sql, [from, size]).catch(err => reject(fail(ctx, err)));

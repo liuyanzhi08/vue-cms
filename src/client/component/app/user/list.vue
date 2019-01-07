@@ -4,9 +4,11 @@
 <script>
 import Vue from 'vue';
 import { CATEGORY_FETCH, THEME_SET } from '../../../store';
+import { err } from '../../../helper/logger';
 
 export default {
-  async asyncData({ store, route: { params: { id } } }) {
+  async asyncData({ store, route }) {
+    const { id } = route.params;
     await store.dispatch(CATEGORY_FETCH, { id, article: '0,-1' });
 
     let theme = store.getters.listTheme[id];
@@ -20,11 +22,18 @@ export default {
     } catch (e) {
       themeComponent = (await import('../../../theme/default/list.vue')).default;
     }
+    if (themeComponent.asyncData) {
+      try {
+        await themeComponent.asyncData({ store, route });
+      } catch (e) {
+        err(e);
+      }
+    }
     Vue.component(`vms-list-${id}`, themeComponent);
   },
   computed: {
     listThemeComponent() {
-      return `vms-list-${this.$router.currentRoute.params.id}`;
+      return `vms-list-${this.$store.state.route.params.id}`;
     },
   },
 };

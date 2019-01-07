@@ -4,6 +4,7 @@
 <script>
 import Vue from 'vue';
 import { ARTICLE_FETCH, THEME_SET } from '../../../store';
+import { err } from '../../../helper/logger';
 import md from '../../../helper/md';
 
 export default {
@@ -14,7 +15,8 @@ export default {
       md,
     };
   },
-  async asyncData({ store, route: { params: { id } } }) {
+  async asyncData({ store, route }) {
+    const { id } = route.params;
     await store.dispatch(ARTICLE_FETCH, { id });
 
     let theme = store.getters.detailTheme[id];
@@ -28,11 +30,18 @@ export default {
     } catch (e) {
       themeComponent = (await import('../../../theme/default/detail.vue')).default;
     }
+    if (themeComponent.asyncData) {
+      try {
+        await themeComponent.asyncData({ store, route });
+      } catch (e) {
+        err(e);
+      }
+    }
     Vue.component(`vms-detail-${id}`, themeComponent);
   },
   computed: {
     detailThemeComponent() {
-      return `vms-detail-${this.$router.currentRoute.params.id}`;
+      return `vms-detail-${this.$store.state.route.params.id}`;
     },
   },
 };

@@ -4,6 +4,7 @@
 <script>
 import Vue from 'vue';
 import { THEME_SET } from '../../../store';
+import { err } from '../../../helper/logger';
 
 export default {
   components: {
@@ -13,7 +14,7 @@ export default {
       detailThemeComponent: 'vms-detail-index',
     };
   },
-  async asyncData({ store }) {
+  async asyncData({ store, route }) {
     let theme = store.getters.indexTheme;
     if (!theme) {
       const res = await store.getters.Common.get({ id: 1 });
@@ -26,6 +27,13 @@ export default {
       themeComponent = (await import(`../../../theme/${theme}/index.vue`)).default;
     } catch (e) {
       themeComponent = (await import('../../../theme/default/index.vue')).default;
+    }
+    if (themeComponent.asyncData) {
+      try {
+        await themeComponent.asyncData({ store, route });
+      } catch (e) {
+        err(e);
+      }
     }
     Vue.component('vms-detail-index', themeComponent);
   },
