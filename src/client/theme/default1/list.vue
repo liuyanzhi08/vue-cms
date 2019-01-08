@@ -28,9 +28,6 @@ export default {
     VmsFooter,
     Vms404,
   },
-  asyncData({ store, route: { params: { id } } }) {
-    return store.dispatch(CATEGORY_FETCH, { id });
-  },
   computed: {
     ...mapGetters([
       'categories',

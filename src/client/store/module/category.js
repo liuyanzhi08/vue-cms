@@ -4,12 +4,14 @@ import config from '../../config';
 const CATEGORY_FETCH = 'categories:fetch';
 const CATEGORY_SET = 'categories:set';
 const CATEGORY_ARTICLES_SET = 'categories:articles:set';
+const CATEGORY_SET_ARTICLE_PARAM = 'categories:article:params:set';
 
 const { path } = config;
 
 const category = {
   state: {
     categories: {},
+    articleParam: null,
   },
   getters: {
     categories: state => state.categories,
@@ -19,6 +21,9 @@ const category = {
       Object.keys(articles).forEach((id) => {
         state.categories[id].articles = articles[id];
       });
+    },
+    [CATEGORY_SET_ARTICLE_PARAM]: (state, param) => {
+      state.articleParam = param;
     },
   },
   actions: {
@@ -40,9 +45,11 @@ const category = {
     [CATEGORY_FETCH]: async ({
       commit, state, getters, dispatch,
     }, {
-        id, depth = 0, currentDepth = 0, article = '0, 0',
+        id, depth = 0, currentDepth = 0, article = '0,0',
       }) => {
-      if (!(id in state.categories)) {
+      // console.log(state.articleParam, article)
+      if (!(id in state.categories) || state.articleParam !== article) {
+        commit(CATEGORY_SET_ARTICLE_PARAM, article);
         try {
           dispatch(CATEGORY_SET, { [id]: { articles: [] } });
           const promises = [];

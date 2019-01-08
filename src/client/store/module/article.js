@@ -61,7 +61,7 @@ const article = {
     },
     [ARTICLE_RECENT]: async ({
       commit, getters,
-    }, params = { limit: '0, 3' }) => {
+    }, params = { limit: '0,3' }) => {
       const [from, size] = String(params.limit).split(',').map(item => +item);
       const res = await getters.Article.query({
         _from: from,

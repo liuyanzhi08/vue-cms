@@ -58,6 +58,7 @@ router.beforeResolve((to, from, next) => {
   // });
   //
   // console.log(activated)
+  console.log(to, from);
   const asyncDataHooks = matched.map(c => c.asyncData).filter(_ => !!_);
   if (!asyncDataHooks.length) {
     return next();

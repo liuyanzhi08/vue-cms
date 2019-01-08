@@ -20,19 +20,20 @@
               v-if="!item.children"
               :to="item.url"
             >{{ item.title }}</router-link>
-            <template v-if="item.children">
-              <a href="#">{{ item.title }}</a>
-              <div class="uk-navbar-dropdown">
-                <ul class="uk-nav uk-navbar-dropdown-nav">
-                  <li
-                    v-for="child in item.children"
-                    :key="child.id"
-                  >
-                    <router-link :to="child.url">{{ child.title }}</router-link>
-                  </li>
-                </ul>
-              </div>
-            </template>
+            <a v-if="item.children">{{ item.title }}</a>
+            <div
+              v-if="item.children"
+              class="uk-navbar-dropdown"
+            >
+              <ul class="uk-nav uk-navbar-dropdown-nav">
+                <li
+                  v-for="child in item.children"
+                  :key="child.id"
+                >
+                  <router-link :to="child.url">{{ child.title }}</router-link>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </div>

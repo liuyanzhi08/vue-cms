@@ -55,8 +55,7 @@ class Publish {
     if (data.includeIndex) {
       promises.push(renderIndex(ctx, renderer));
     }
-    await
-    Promise.all(promises);
+    await Promise.all(promises);
     success(ctx, { msg: 'success' });
   }
 }
