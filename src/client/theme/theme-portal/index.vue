@@ -90,7 +90,6 @@ export default {
       return [
         this.$store.getters.categories[2],
         this.$store.getters.categories[3],
-        this.$store.getters.categories[4],
       ];
     },
     ...mapGetters(['recentArticles']),

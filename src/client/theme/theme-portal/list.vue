@@ -1,10 +1,10 @@
 <template>
   <div class="theme-portal">
-    <vms-header />
+    <vms-header :categories="categories" />
     <div class="uk-container">
       <ul>
         <li
-          v-for="article in categories[id].articles"
+          v-for="article in category.articles"
           :key="article.id"
         >
           <router-link :to="article.url">{{ article.title }}</router-link>
@@ -28,12 +28,25 @@ export default {
     VmsFooter,
     Vms404,
   },
+  async asyncData({ store }) {
+    const promises = [
+      store.dispatch(CATEGORY_FETCH, { id: 2 }),
+      store.dispatch(CATEGORY_FETCH, { id: 3, depth: 1 }),
+    ];
+    await Promise.all(promises);
+  },
   computed: {
-    ...mapGetters([
-      'categories',
-    ]),
+    categories() {
+      return [
+        this.$store.getters.categories[2],
+        this.$store.getters.categories[3],
+      ];
+    },
+    category() {
+      return this.$store.getters.categories[this.id];
+    },
     id() {
-      return this.$router.currentRoute.params.id;
+      return this.$store.state.route.params.id;
     },
   },
 };

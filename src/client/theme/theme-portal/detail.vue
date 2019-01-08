@@ -1,6 +1,6 @@
 <template>
   <div class="theme-portal">
-    <vms-header />
+    <vms-header :categories="categories" />
     <div class="uk-container">
       <article v-if="articles[id]">
         <h1>{{ articles[id].title }}</h1>
@@ -45,7 +45,7 @@ import md from '../../helper/md';
 import VmsHeader from './header';
 import VmsFooter from './footer';
 import Vms404 from './404';
-import { ARTICLE_RECENT } from '../../store';
+import { ARTICLE_RECENT, CATEGORY_FETCH } from '../../store';
 
 export default {
   components: {
@@ -59,14 +59,23 @@ export default {
     };
   },
   async asyncData({ store }) {
-    const promises = [];
+    const promises = [
+      store.dispatch(CATEGORY_FETCH, { id: 2 }),
+      store.dispatch(CATEGORY_FETCH, { id: 3, depth: 1 }),
+    ];
     promises.push(store.dispatch(ARTICLE_RECENT));
     await Promise.all(promises);
   },
   computed: {
+    categories() {
+      return [
+        this.$store.getters.categories[2],
+        this.$store.getters.categories[3],
+      ];
+    },
     ...mapGetters(['articles', 'recentArticles']),
     id() {
-      return this.$router.currentRoute.params.id;
+      return this.$store.state.route.params.id;
     },
   },
 };
