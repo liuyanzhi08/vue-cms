@@ -17,4 +17,5 @@ export default {
     },
   },
   ssr: true,
+  theme: 'theme-portal',
 };

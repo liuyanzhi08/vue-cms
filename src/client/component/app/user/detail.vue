@@ -6,6 +6,7 @@ import Vue from 'vue';
 import { ARTICLE_FETCH, THEME_SET } from '../../../store';
 import { err } from '../../../helper/logger';
 import md from '../../../helper/md';
+import config from '../../../config';
 
 export default {
   components: {
@@ -28,7 +29,8 @@ export default {
     try {
       themeComponent = (await import(`../../../theme/${theme}/detail.vue`)).default;
     } catch (e) {
-      themeComponent = (await import('../../../theme/default/detail.vue')).default;
+      const configTheme = config.theme;
+      themeComponent = (await import(`../../../theme/${configTheme}/detail.vue`)).default;
     }
     if (themeComponent.asyncData) {
       try {
@@ -46,4 +48,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" src="@style/theme-default/index.scss"></style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="theme-df">
+  <div class="theme-blog">
     <vms-header />
     <div class="uk-container">
       <ul>
@@ -38,4 +38,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" src="@style/theme-default/index.scss"></style>
+<style lang="scss" src="@style/theme-blog/index.scss"></style>

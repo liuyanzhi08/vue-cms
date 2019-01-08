@@ -5,6 +5,7 @@
 import Vue from 'vue';
 import { CATEGORY_FETCH, THEME_SET } from '../../../store';
 import { err } from '../../../helper/logger';
+import config from '../../../config';
 
 export default {
   async asyncData({ store, route }) {
@@ -20,7 +21,8 @@ export default {
     try {
       themeComponent = (await import(`../../../theme/${theme}/list.vue`)).default;
     } catch (e) {
-      themeComponent = (await import('../../../theme/default/list.vue')).default;
+      const configTheme = config.theme;
+      themeComponent = (await import(`../../../theme/${configTheme}/list.vue`)).default;
     }
     if (themeComponent.asyncData) {
       try {
@@ -38,5 +40,3 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-</style>

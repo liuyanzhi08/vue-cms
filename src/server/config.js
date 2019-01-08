@@ -17,7 +17,7 @@ const devClientDist = $path.join(root, '.dist');
 const staticDir = $path.join(root, 'page');
 const clientRoot = $path.join(root, 'src/client');
 const serverRoot = $path.join(root, 'src/server');
-const theme = $path.join(clientRoot, 'theme');
+const themeDir = $path.join(clientRoot, 'theme');
 const accessLogDir = $path.isAbsolute(config.server.log.access)
   ? config.server.log.access : $path.join(root, config.server.log.access);
 const errorLogDir = $path.isAbsolute(config.server.log.error)
@@ -36,7 +36,7 @@ const dir = {
   clientDist,
   serverDist,
   devClientDist,
-  theme,
+  theme: themeDir,
   static: staticDir,
   log: {
     access: accessLogDir,
@@ -44,9 +44,7 @@ const dir = {
   },
 };
 
-// console.log('t')
-
-const { ssr } = config;
+const { ssr, theme } = config;
 
 export default {
   db,
@@ -54,4 +52,5 @@ export default {
   path,
   ssr,
   dir,
+  theme,
 };
