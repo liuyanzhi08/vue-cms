@@ -15,7 +15,7 @@
     <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-center">
       <button
         class="uk-button uk-button-primary"
-        @click="publish"
+        @click="submit"
       >
         <span
           v-if="loading"
@@ -28,6 +28,7 @@
 </template>
 <script>
 import AppCategoryTree from './category-tree';
+import { NOTICE_SEND } from '../../../store';
 
 export default {
   components: {
@@ -43,7 +44,7 @@ export default {
   created() {
   },
   methods: {
-    publish() {
+    submit() {
       const { publishCategoryTree } = this.$refs;
       const checkedNodes = publishCategoryTree.getCheckedNodes();
       const articleIds = checkedNodes.filter(item => !!item.isLeaf).map(item => item.id);
@@ -56,7 +57,13 @@ export default {
         articleIds,
         categoryIds,
         includeIndex,
-      }).then(() => {
+      }).then((res) => {
+        const { data } = res;
+        this.$store.dispatch(NOTICE_SEND, data.msg);
+      }, (err) => {
+        const { data } = err.response;
+        this.$store.dispatch(NOTICE_SEND, data.msg);
+      }).finally(() => {
         this.loading = false;
       });
     },

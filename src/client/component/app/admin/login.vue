@@ -62,8 +62,8 @@ export default {
           params: this.$router.currentRoute.params.to.params,
         } : { name: 'categoryList' };
         this.$router.push(togo);
-      } catch (e) {
-        const { data } = e.response;
+      } catch (err) {
+        const { data } = err.response;
         this.$store.dispatch(NOTICE_SEND, data.msg);
       }
     },
