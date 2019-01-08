@@ -20,6 +20,16 @@ const renderArticle = async (ctx, renderer, id) => {
   fse.outputFile(filename, html);
 };
 
+const renderCategory = async (ctx, renderer, id) => {
+  const ctxClone = Object.assign(ctx);
+  const url = `/user/category/${id}`;
+  ctxClone.url = url;
+  ctxClone.$publish = true;
+  const html = await renderer.renderToString(ctxClone);
+  const filename = $path.join(config.dir.static, url, 'index.html');
+  fse.outputFile(filename, html);
+};
+
 const renderIndex = async (ctx, renderer) => {
   const ctxClone = Object.assign(ctx);
   const url = '/user';
@@ -39,7 +49,9 @@ class Publish {
 
     const data = ctx.request.body;
     const renderer = await createRenderer(isDev && ctx.app.$devServer);
-    const promises = data.articleIds.map(id => renderArticle(ctx, renderer, id));
+    const articlesPromises = data.articleIds.map(id => renderArticle(ctx, renderer, id));
+    const categoryPromises = data.categoryIds.map(id => renderCategory(ctx, renderer, id));
+    const promises = articlesPromises.concat(categoryPromises);
     if (data.includeIndex) {
       promises.push(renderIndex(ctx, renderer));
     }
