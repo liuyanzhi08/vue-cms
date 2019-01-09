@@ -48,11 +48,15 @@ class Publish {
     }
 
     const data = ctx.request.body;
-    const renderer = await createRenderer(isDev && ctx.app.$devServer);
+    let renderer = await createRenderer(isDev && ctx.app.$devServer);
     const articlesPromises = data.articleIds.map(id => renderArticle(ctx, renderer, id));
+
+    renderer = await createRenderer(isDev && ctx.app.$devServer);
     const categoryPromises = data.categoryIds.map(id => renderCategory(ctx, renderer, id));
     const promises = articlesPromises.concat(categoryPromises);
+
     if (data.includeIndex) {
+      renderer = await createRenderer(isDev && ctx.app.$devServer);
       promises.push(renderIndex(ctx, renderer));
     }
     await Promise.all(promises);

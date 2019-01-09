@@ -39,7 +39,7 @@ const category = {
         }
         state.categories[id].articles = articles || [];
         state.categories[id].url = getters.isPublish
-          ? `category/${id}` : `${path.user}/category/${id}`;
+          ? `/category/${id}` : `${path.user}/category/${id}`;
       });
     },
     [CATEGORY_FETCH]: async ({

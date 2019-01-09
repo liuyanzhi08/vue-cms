@@ -3,6 +3,7 @@
     <nav
       v-if="isAuthenticated"
       class="uk-navbar-container uk-light uk-navbar"
+      uk-navbar
       uk-sticky
     >
       <div class="uk-navbar-left">
@@ -102,7 +103,7 @@ export default {
   },
   created() {
     if (this.isAuthenticated) {
-      // this.$store.dispatch(AUTH_USER);
+      this.$store.dispatch(AUTH_USER);
     }
   },
   async mounted() {

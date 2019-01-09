@@ -28,7 +28,7 @@ const api = {
         return res.data;
       },
       async user() {
-        const res = axios({
+        const res = await axios({
           url: `${state.uri}/api/auth/user`,
           method: 'GET',
         });
