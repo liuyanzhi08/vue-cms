@@ -102,96 +102,12 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
   @import "../../asset/style/mixins/index.scss";
 
   .theme-portal {
     $color-blue: #0091cd;
-
-    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-    [class*='uk-navbar-dropdown-bottom'] {
-      margin-top: 0;
-      padding-top: 15px;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      color: #222;
-      font-weight: bold;
-      margin: 0;
-
-      > a {
-        color: #454545;
-        text-decoration: none;
-        &:hover {
-          color: #666;
-          text-decoration: none;
-        }
-      }
-    }
-
-    h2 {
-      color: #000;
-      font-size: 16px;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      text-transform: uppercase;
-    }
-
-    nav {
-    }
-
-    a {
-      img {
-        //filter: grayscale(100%);
-      }
-      &:hover {
-        img {
-          //filter: grayscale(0);
-        }
-      }
-    }
-
-    .fa-search {
-      margin-right: 50px;
-    }
-
-    .uk-navbar-nav {
-      a {
-        font-size: 14px;
-        color: black;
-        font-weight: bold;
-        padding: 0 25px;
-        text-transform: uppercase;
-        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        transition: none;
-        &:hover {
-          //color: #2196F3;
-        }
-      }
-
-      > li {
-        > a {
-          border-top: 3px solid transparent;
-          border-bottom: 3px solid transparent;
-          &:hover {
-            color: black;
-          }
-        }
-        padding: 0 12px;
-        &.has-children:hover {
-          > a {
-            background: black;
-            color: white;
-          }
-        }
-        &.has-no-children:hover {
-          > a {
-            border-bottom-color: black;
-          }
-        }
-      }
-    }
 
     .uk-container {
       article {
