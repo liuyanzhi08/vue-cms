@@ -20,7 +20,7 @@ export default {
     if (!theme) {
       const res = await store.getters.Common.get({ id: 1 });
       const data = res.data[0];
-      theme = { data };
+      ({ theme } = data);
       store.dispatch(THEME_SET, { index: theme });
     }
     let themeComponent;

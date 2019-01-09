@@ -8,13 +8,13 @@
         <ul
           class="uk-navbar-nav"
         >
-          <li>
+          <li class="has-no-children">
             <router-link :to="index">Home</router-link>
           </li>
           <li
             v-for="item in categories"
             :key="item.id"
-            :class="{'has-children': item.children}"
+            :class="{'has-children': item.children, 'has-no-children': !item.children}"
           >
             <router-link
               v-if="!item.children"
@@ -45,19 +45,6 @@
       class="uk-hidden@m"
       uk-navbar
     >
-      <div class="uk-navbar-left">
-        <ul class="uk-navbar-nav">
-          <li class="social-links">
-            <div class="uk-flex uk-flex-center">
-              <a href="#"><i class="fa fa-github" /></a>
-              <a href="#"><i class="fa fa-weibo" /></a>
-              <a href="#"><i class="fa fa-twitter" /></a>
-              <a href="#"><i class="fa fa-facebook" /></a>
-              <a href="#"><i class="fa fa-weixin" /></a>
-            </div>
-          </li>
-        </ul>
-      </div>
       <div class="uk-navbar-right">
         <a
           uk-navbar-toggle-icon
@@ -71,40 +58,40 @@
     >
       <div class="uk-offcanvas-bar">
         <ul
-          v-for="item in menu"
+          v-for="item in categories"
           class="uk-nav uk-nav-default"
           :class="{'uk-margin-top': item.children }"
         >
           <li
             v-if="!item.children"
-            :key="item.router.name"
+            :key="item.id"
           >
             <router-link
-              :to="item.router"
+              :to="item.url"
             >
               <span
                 class="uk-margin-small-right"
                 :uk-icon="`icon: ${item.icon}`"
               />
-              {{ item.label || item.router.name }}
+              {{ item.title }}
             </router-link>
           </li>
           <li
             v-if="item.children"
             class="uk-nav-header"
-          >{{ item.label || item.router.name }}</li>
+          >{{ item.title }}</li>
           <li
             v-for="child in item.children"
             v-if="item.children"
           >
-            <a href="#">
+            <router-link :to="child.url">
               <span
                 class="uk-margin-small-right"
                 :uk-icon="`icon: ${child.icon}`"
               />
 
-              {{ child.label || child.router.name }}
-            </a>
+              {{ child.title }}
+            </router-link>
           </li>
         </ul>
       </div>

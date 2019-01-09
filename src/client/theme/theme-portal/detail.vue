@@ -80,4 +80,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" src="@style/theme-portal/index.scss"></style>

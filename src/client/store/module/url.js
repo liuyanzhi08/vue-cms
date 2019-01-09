@@ -7,7 +7,7 @@ const url = {
     uri: '',
   },
   getters: {
-    index: (state, getters) => (getters.isPublish ? '' : path.user),
+    index: (state, getters) => (getters.isPublish ? '/' : path.user),
   },
   mutations: {
   },
