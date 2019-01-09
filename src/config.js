@@ -16,6 +16,6 @@ export default {
       admin: '/admin',
     },
   },
-  ssr: false,
+  ssr: true,
   theme: 'theme-portal',
 };
