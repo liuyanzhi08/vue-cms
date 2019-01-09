@@ -65,4 +65,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" src="@style/theme-blog/index.scss"></style>
+<style lang="scss"></style>

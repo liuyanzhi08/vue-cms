@@ -139,7 +139,6 @@ export default {
     }
 
     nav {
-      padding: 18px 0;
     }
 
     a {
