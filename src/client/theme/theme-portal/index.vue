@@ -103,7 +103,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import "../../asset/style/mixins/index.scss";
 
   .theme-portal {
@@ -133,6 +133,10 @@ export default {
         }
         .overview {
           @include set-max-line(5);
+        }
+
+        &:last-child {
+          border-bottom: none;
         }
       }
 

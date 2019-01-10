@@ -51,3 +51,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  ul {
+    li {
+      list-style: square;
+      a {
+        color: #454545;
+        &:hover {
+          color: #666;
+        }
+      }
+    }
+  }
+</style>
