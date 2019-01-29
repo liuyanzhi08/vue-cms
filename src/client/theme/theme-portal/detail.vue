@@ -54,8 +54,8 @@ export default {
     const promises = [
       store.dispatch(CATEGORY_FETCH, { id: 2 }),
       store.dispatch(CATEGORY_FETCH, { id: 3, depth: 1 }),
+      store.dispatch(ARTICLE_RECENT, { limit: '0,4' }),
     ];
-    promises.push(store.dispatch(ARTICLE_RECENT));
     await Promise.all(promises);
   },
   computed: {

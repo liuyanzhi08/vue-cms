@@ -11,3 +11,19 @@
     </div>
   </footer>
 </template>
+<style lang="scss" scoped>
+  footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+
+    font-size: 16px;
+    font-family: "Crimson Text", serif;
+    background-color: #f5f5f5;
+
+    .slogan {
+      font-family: "Oswald",sans-serif;
+    }
+  }
+</style>

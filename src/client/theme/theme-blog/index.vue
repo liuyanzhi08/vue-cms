@@ -1,6 +1,6 @@
 <template>
   <div class="theme-blog">
-    <vms-header />
+    <vms-header :categories="categories" />
     <div class="uk-container">
       <div>
         <article
@@ -32,7 +32,7 @@
         uk-grid
       >
         <div
-          v-for="arc in categories[4].articles"
+          v-for="arc in articles"
           :key="arc.id"
           class="uk-width-1-1@s uk-width-1-3@m"
         >
@@ -55,7 +55,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { CATEGORY_FETCH } from '../../store';
+import { CATEGORY_FETCH, ARTICLE_RECENT } from '../../store';
 import md from '../../helper/md';
 import VmsHeader from './header';
 import VmsFooter from './footer';
@@ -72,171 +72,38 @@ export default {
     };
   },
   async asyncData({ store }) {
-    await store.dispatch(CATEGORY_FETCH, { id: 4 });
+    const promises = [
+      store.dispatch(CATEGORY_FETCH, { id: 2, article: '0,1' }),
+      store.dispatch(CATEGORY_FETCH, { id: 3, article: '0,1', depth: 2 }),
+      store.dispatch(CATEGORY_FETCH, { id: 4, article: '0,1' }),
+      store.dispatch(ARTICLE_RECENT, { limit: '0,4' }),
+    ];
+    await Promise.all(promises);
   },
   computed: {
-    ...mapGetters(['categories']),
-    article() {
-      return this.categories[4].articles[0];
+    categories() {
+      return [
+        this.$store.getters.categories[2],
+        this.$store.getters.categories[3],
+      ];
     },
+    article() {
+      return this.recentArticles && this.recentArticles[0];
+    },
+    articles() {
+      return this.recentArticles && this.recentArticles.slice(1);
+    },
+    ...mapGetters(['recentArticles']),
   },
   methods: {
   },
 };
 </script>
-<!--<style lang="scss" src="@style/theme-blog/index.scss"></style>-->
 <style lang="scss">
   // front-end default theme
   @import "../../asset/style/mixins/index.scss";
 
   .theme-blog {
-    h1, h2, h3, h4, h5, h6 {
-      font-family: "Oswald",sans-serif;
-      font-weight: 400;
-      font-style: normal;
-      margin: 13.5px 0;
-      color: #454545;
-
-      > a {
-        color: #454545;
-        text-decoration: none;
-        &:hover {
-          color: #2196F3;
-        }
-      }
-    }
-
-    h2 {
-      font-size: 20px;
-    }
-
-    nav {
-      padding: 18px 0;
-    }
-
-    a {
-      @include transition();
-      img {
-        //filter: grayscale(100%);
-        @include transition();
-      }
-      &:hover {
-        img {
-          //filter: grayscale(0);
-        }
-      }
-    }
-
-    .fa-search {
-      margin-right: 50px;
-    }
-
-    .uk-navbar-nav {
-      a {
-        font-size: 14px;
-        color: #454545;
-        font-family: "Crimson Text",serif;
-        &:hover {
-          color: #2196F3;
-        }
-      }
-
-      > li {
-        padding: 0 12px;
-
-        > a {
-          min-height: auto;
-          height: 28px;
-          padding: 0;
-          border-bottom: 1px solid transparent;
-          &:hover {
-            border-bottom: 1px solid #2196F3;
-          }
-        }
-
-        > .uk-navbar-dropdown {
-          margin-top: 0;
-          padding: 0;
-          box-shadow: 0 0 4px rgba(0,0,0,0.09);
-          > ul {
-            padding: 0;
-            > li {
-              margin: 0;
-              padding: 0;
-              > a {
-                line-height: 20px;
-                min-width: 170px;
-                margin: 0;
-                padding: 10px;
-                border-top: 1px solid #f4f4f4;
-              }
-            }
-          }
-        }
-
-        &.uk-active {
-          > a {
-            color: #2196F3;
-            border-bottom: 1px solid #2196F3;
-          }
-        }
-
-        &.has-children {
-          position: relative;
-          padding-right: 20px;
-          &:after {
-            font: normal normal normal 14px/1 FontAwesome;
-            font-size: inherit;
-            font-size: 14px;
-            position: absolute;
-            top: 7px;
-            right: 5px;
-            display: inline-block;
-            content: "\f107";
-            transform: translate(0, 0);
-            text-rendering: auto;
-          }
-          &:hover {
-            > a {
-              border-bottom: 1px solid transparent;
-            }
-            > .uk-navbar-dropdown {
-              display: block;
-            }
-          }
-          &:hover:after {
-            content: "\f106";
-          }
-        }
-      }
-
-      .social-links {
-        padding: 0;
-        margin-left: -4px;
-        a {
-          font-size: 16px;
-          line-height: 1;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 35px;
-          height: 35px;
-          margin: 0 5px;
-          text-align: center;
-          color: #fff;
-          border-radius: 50%;
-          //background-image: radial-gradient( rgba(0,0,0, 1), rgba(255,255,255, 0));
-          background: #555;
-          text-decoration: none;
-          //box-shadow: 0px 0px 0px 2px rgba(0, 0, 0, .2);
-          &:hover {
-            color: #fff;
-            background-color: #2196F3;
-          }
-        }
-      }
-    }
-
     .uk-navbar-toggle-icon {
       //color: #1e87f0;
     }
@@ -255,7 +122,7 @@ export default {
 
       .content {
         font: 400 16px "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-          "Segoe UI", Helvetica, Arial, sans-serif;
+        "Segoe UI", Helvetica, Arial, sans-serif;
         line-height: 1.5em;
         color: #454545;
         background: #fff;
@@ -302,15 +169,6 @@ export default {
       &.collapsed {
         height: 300px;
         overflow: hidden;
-      }
-    }
-    footer {
-      font-size: 16px;
-      font-family: "Crimson Text", serif;
-      background-color: #f5f5f5;
-
-      .slogan {
-        font-family: "Oswald",sans-serif;
       }
     }
   }
