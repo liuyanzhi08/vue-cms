@@ -188,11 +188,11 @@ export default {
   .theme-portal {
     min-height: 100%;
     padding-bottom: 54px;
+    position: relative;
   }
 
   .theme-portal {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    position: relative;
 
     [class*='uk-navbar-dropdown-bottom'] {
       margin-top: 0;

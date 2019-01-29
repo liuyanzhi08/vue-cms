@@ -145,6 +145,16 @@ export default {
   // front-end default theme
   @import "../../asset/style/mixins/index.scss";
 
+  html, body, #app {
+    height: 100%;
+  }
+
+  .theme-blog {
+    min-height: 100%;
+    padding-bottom: 74px;
+    position: relative;
+  }
+
   .theme-blog {
     h1, h2, h3, h4, h5, h6 {
       font-family: "Oswald",sans-serif;

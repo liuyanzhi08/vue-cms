@@ -47,6 +47,7 @@ const app = core.createApp();
 
 // Using router.beforeResolve() so that all async components are resolved.
 router.beforeResolve((to, from, next) => {
+  window.scrollTo(0, 0);
   const matched = router.getMatchedComponents(to);
   const asyncDataHooks = matched.map(c => c.asyncData).filter(_ => !!_);
   if (!asyncDataHooks.length) {
