@@ -15,15 +15,17 @@
       <no-ssr>
         <mavon-editor
           v-if="isClient"
+          ref="md"
           v-model="article.content"
           :toolbars="editor.toolbars"
           :box-shadow="editor.boxShadow"
           :placeholder="editor.placeholder"
+          @imgAdd="editor.imgAdd"
         />
       </no-ssr>
     </div>
     <div
-      v-if="isShowAdvanced"
+      v-show="isShowAdvanced"
       class="uk-margin"
     >
       <app-theme-option v-model="article.theme" />
@@ -82,8 +84,11 @@ export default {
     },
   },
   data() {
+    const me = this;
     return {
       article: {},
+      imgUploadPromises: [],
+      submitReady: false,
       editor: {
         toolbars: {
           bold: true, // 粗体
@@ -122,6 +127,17 @@ export default {
         },
         boxShadow: false,
         placeholder: 'start writing...',
+        imgAdd: async (pos, file) => {
+          const data = new FormData();
+          data.append('file', file);
+          const uploaded = me.$store.getters.Common.upload(data);
+          uploaded.then(res => me.$refs.md.$img2Url(pos, res.data.url));
+          me.imgUploadPromises.push(uploaded);
+          me.submitReady = false;
+          Promise.all(me.imgUploadPromises).then(() => {
+            me.submitReady = true;
+          });
+        },
       },
       isShowAdvanced: false,
     };
@@ -146,6 +162,9 @@ export default {
   },
   methods: {
     submit() {
+      if (!this.submitReady) {
+        this.$store.dispatch(NOTICE_SEND, 'please wait for images are all uploaded');
+      }
       const { Article } = this.$store.getters;
       const method = isNew ? 'save' : 'update';
       Article[method](this.article).then((res) => {

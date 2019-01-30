@@ -43,6 +43,18 @@ const assetHandler = async (ctx) => {
   }
 };
 
+const uploadHandler = async (ctx) => {
+  const filePath = $path.join(dir.uploadDir, ctx.params[0]);
+  if (fs.existsSync(filePath)) {
+    ctx.set('Cache-Control', `max-age=${3600 * 24 * 7}`);
+    await koaSend(ctx, filePath, { root: '/' });
+    success(ctx);
+  } else {
+    ctx.status = 404;
+    fail(ctx, { msg: `'${filePath}' not found` }, { code: 404 });
+  }
+};
+
 const indexHandler = async (ctx) => {
   // console.log('------------- index1 -------------------');
   // console.log(ctx);
@@ -96,6 +108,7 @@ router
   .all('/api/:component/:id', componentHandler)
   .all('/api/:component', componentHandler)
   .all('/dist/*', assetHandler)
+  .all('/upload/*', uploadHandler)
   .all(path.admin, indexHandler)
   .all(path.user, indexHandler)
   .all(`${path.user}/*`, indexHandler)

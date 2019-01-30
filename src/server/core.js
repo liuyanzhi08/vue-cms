@@ -22,7 +22,7 @@ class Core {
     app.keys = ['super-secret-key'];
     app.proxy = true;
 
-    app.use(koaBody())
+    app.use(koaBody({ multipart: true }))
       .use(koaCompress())
       .use(session(sessionConfig, app))
       .use(passport.initialize())

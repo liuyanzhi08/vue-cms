@@ -38,6 +38,12 @@ const api = {
     Theme: state => resource(`${state.uri}/api/theme`, axios),
     Common: state => resource(`${state.uri}/api/common`, {
       publish: data => axios.post(`${state.uri}/api/publish`, data),
+      upload: data => axios({
+        url: `${state.uri}/api/upload`,
+        method: 'post',
+        data,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }),
     }, axios),
   },
   mutations: {
