@@ -1,5 +1,7 @@
 import fs from 'fs';
+import $path from 'path';
 import fse from 'fs-extra';
+import nanoid from 'nanoid';
 import ctxHelper from '../helper/ctx';
 import error from '../helper/error';
 import config from '../config';
@@ -17,10 +19,11 @@ class Upload {
     fse.ensureDirSync(dir.uploadDir);
     const { file } = ctx.request.body.files;
     const reader = fs.createReadStream(file.path);
-    const targetPath = `${dir.uploadDir}/${file.name}`;
+    const randomName = `${nanoid(10)}${$path.extname(file.name)}`;
+    const targetPath = `${dir.uploadDir}/${randomName}`;
     const upStream = fs.createWriteStream(targetPath);
     reader.pipe(upStream);
-    success(ctx, { url: `${path.upload}${file.name}` });
+    success(ctx, { url: `${path.upload}${randomName}` });
   }
 }
 
