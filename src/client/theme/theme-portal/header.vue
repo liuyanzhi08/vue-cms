@@ -45,8 +45,8 @@
                 v-model="keyword"
                 type="text"
                 class="uk-input uk-form-small"
+                placeholder="search..."
               >
-              <i class="fa fa-search" />
             </div>
           </form>
         </div>
@@ -111,6 +111,19 @@
               </router-link>
             </li>
           </ul>
+          <form
+            class="uk-margin-top"
+            @submit.prevent="search"
+          >
+            <div class="search-input-wrapper">
+              <input
+                v-model="keyword"
+                type="text"
+                class="uk-input uk-form-small"
+                placeholder="search..."
+              >
+            </div>
+          </form>
         </div>
       </div>
     </header>
@@ -215,20 +228,6 @@ export default {
       }
     }
 
-    .search-input-wrapper {
-      position: relative;
-      input {
-        border-radius: 20px;
-        padding-right: 30px !important;
-      }
-      .fa-search {
-        position: absolute;
-        top: 6px;
-        right: -37px;
-        color: #ccc;
-      }
-    }
-
     .uk-navbar-nav {
       a {
         font-size: 14px;
@@ -273,6 +272,13 @@ export default {
     .header-wrapper {
       border-bottom: 1px solid #eee;
       margin-bottom: 30px;
+    }
+  }
+  .search-input-wrapper {
+    position: relative;
+    input {
+      border-radius: 20px;
+      padding-right: 30px !important;
     }
   }
 </style>

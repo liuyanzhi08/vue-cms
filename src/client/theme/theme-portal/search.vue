@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     keyword() {
-      return this.$router.currentRoute.query.keyword;
+      return this.$store.state.route.query.keyword;
     },
     categories() {
       return [
