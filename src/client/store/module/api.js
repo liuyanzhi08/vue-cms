@@ -44,6 +44,7 @@ const api = {
         data,
         headers: { 'Content-Type': 'multipart/form-data' },
       }),
+      search: params => axios.get(`${state.uri}/api/search`, { params }),
     }, axios),
   },
   mutations: {

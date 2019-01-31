@@ -7,6 +7,7 @@ import Theme from './theme';
 import Common from './common';
 import Publish from './publish';
 import Upload from './upload';
+import Search from './search';
 
 export default {
   article: new Article('article'),
@@ -17,4 +18,5 @@ export default {
   common: new Common(`${config.db.prefix}_common`),
   publish: new Publish(),
   upload: new Upload(),
+  search: new Search('article'),
 };

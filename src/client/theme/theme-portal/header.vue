@@ -39,7 +39,16 @@
           </ul>
         </div>
         <div class="uk-navbar-right">
-          <i class="fa fa-search" />
+          <form @submit.prevent="search">
+            <div class="search-input-wrapper">
+              <input
+                v-model="keyword"
+                type="text"
+                class="uk-input uk-form-small"
+              >
+              <i class="fa fa-search" />
+            </div>
+          </form>
         </div>
       </nav>
       <nav
@@ -109,7 +118,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import config from '../../config';
 import { MENU_SET, MENU_TOGGLE } from '../../store';
+
+const { rnames } = config;
 
 export default {
   props: {
@@ -120,50 +132,7 @@ export default {
   },
   data() {
     return {
-      menu: [
-        {
-          label: 'Home',
-          icon: 'home',
-          router: {
-            name: '',
-            params: {},
-          },
-        },
-        {
-          label: 'About',
-          icon: 'user',
-          router: {
-            name: '',
-            params: {},
-          },
-        },
-        {
-          label: 'Archive',
-          icon: 'user',
-          router: {
-            name: '',
-            params: {},
-          },
-          children: [
-            {
-              label: 'Catalog',
-              icon: 'list',
-              router: {
-                name: '',
-                params: {},
-              },
-            },
-            {
-              label: 'Tag',
-              icon: 'tag',
-              router: {
-                name: '',
-                params: {},
-              },
-            },
-          ],
-        },
-      ],
+      keyword: '',
     };
   },
   computed: {
@@ -176,6 +145,14 @@ export default {
   methods: {
     toggleMenu() {
       this.$store.dispatch(MENU_TOGGLE);
+    },
+    search() {
+      this.$router.push({
+        name: rnames.search,
+        query: {
+          keyword: this.keyword,
+        },
+      });
     },
   },
 };
@@ -236,8 +213,18 @@ export default {
       }
     }
 
-    .fa-search {
-      margin-right: 50px;
+    .search-input-wrapper {
+      position: relative;
+      input {
+        border-radius: 20px;
+        padding-right: 30px !important;
+      }
+      .fa-search {
+        position: absolute;
+        top: 6px;
+        right: -37px;
+        color: #ccc;
+      }
     }
 
     .uk-navbar-nav {

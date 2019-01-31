@@ -9,6 +9,7 @@ const user = () => import(/* webpackChunkName: "user" */ './component/app/admin/
 const index = () => import(/* webpackChunkName: "index_" */ './component/app/user/index');
 const list = () => import(/* webpackChunkName: "list" */ './component/app/user/list');
 const detail = () => import(/* webpackChunkName: "detail" */ './component/app/user/detail');
+const search = () => import(/* webpackChunkName: "index_" */ './component/app/user/search');
 
 const admin = () => import(/* webpackChunkName: "admin" */ './component/app/admin/admin');
 const common = () => import(/* webpackChunkName: "common" */ './component/app/admin/common');
@@ -103,6 +104,11 @@ const routes = [
         path: 'article/:id',
         component: detail,
         name: rnames.detail,
+      },
+      {
+        path: 'search',
+        component: search,
+        name: rnames.search,
       },
     ],
   },

@@ -14,6 +14,7 @@ const rnames = {
   detail: 'detail',
   user: 'user',
   common: 'common',
+  search: 'search',
 };
 
 // site info

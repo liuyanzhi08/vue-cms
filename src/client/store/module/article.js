@@ -7,6 +7,7 @@ import config from '../../config';
 const ARTICLE_FETCH = 'article:fetch';
 const ARTICLE_SET = 'article:set';
 const ARTICLE_RECENT = 'article:recent';
+const ARTICLE_SEARCH = 'article:search';
 const type = 'article';
 
 const { path } = config;
@@ -15,10 +16,12 @@ const article = {
   state: {
     articles: {},
     recentArticles: [],
+    searchArticles: [],
   },
   getters: {
     articles: state => state.articles,
     recentArticles: state => state.recentArticles,
+    searchArticles: state => state.searchArticles,
   },
   mutations: {
     [ARTICLE_SET]: (state, articles) => {
@@ -28,6 +31,9 @@ const article = {
     },
     [ARTICLE_RECENT]: (state, articles) => {
       state.recentArticles = articles;
+    },
+    [ARTICLE_SEARCH]: (state, articles) => {
+      state.searchArticles = articles;
     },
   },
   actions: {
@@ -77,11 +83,24 @@ const article = {
       commit(ARTICLE_RECENT, items);
       return items;
     },
+    [ARTICLE_SEARCH]: async ({
+      commit, getters,
+    }, params = { keyword: 'foo', _page: 1, _num: 20 }) => {
+      const res = await getters.Common.search(params);
+      const items = res.data.items.map((item) => {
+        item.url = getters.isPublish
+          ? `/article/${item.id}` : `${path.user}/article/${item.id}`;
+        return item;
+      });
+      commit(ARTICLE_SEARCH, items);
+      return items;
+    },
   },
 };
 
 export {
   ARTICLE_FETCH,
   ARTICLE_RECENT,
+  ARTICLE_SEARCH,
   article,
 };

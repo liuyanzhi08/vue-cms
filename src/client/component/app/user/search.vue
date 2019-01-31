@@ -1,34 +1,34 @@
 <template>
-  <component :is="indexThemeComponet" />
+  <component :is="searchThemeComponent" />
 </template>
 <script>
 import Vue from 'vue';
-import { THEME_SET } from '../../../store';
+import { ARTICLE_SEARCH, THEME_SET } from '../../../store';
 import { err } from '../../../helper/logger';
 import config from '../../../config';
 
 export default {
-  components: {
-  },
   data() {
     return {
-      indexThemeComponet: 'vms-index',
+      searchThemeComponent: 'vms-search',
     };
   },
   async asyncData({ store, route }) {
-    let theme = store.getters.indexTheme;
+    await store.dispatch(ARTICLE_SEARCH, route.query);
+
+    let theme = store.getters.searchTheme;
     if (!theme) {
       const res = await store.getters.Common.get({ id: 1 });
       const data = res.data[0];
-      theme = data.index_theme;
-      store.dispatch(THEME_SET, { index: theme });
+      theme = data.search_theme;
+      store.dispatch(THEME_SET, { search: theme });
     }
     let themeComponent;
     try {
-      themeComponent = (await import(`../../../theme/${theme}/index.vue`)).default;
+      themeComponent = (await import(`../../../theme/${theme}/search.vue`)).default;
     } catch (e) {
       const configTheme = config.theme;
-      themeComponent = (await import(`../../../theme/${configTheme}/index.vue`)).default;
+      themeComponent = (await import(`../../../theme/${configTheme}/search.vue`)).default;
     }
     if (themeComponent.asyncData) {
       try {
@@ -37,7 +37,7 @@ export default {
         err(e);
       }
     }
-    Vue.component('vms-index', themeComponent);
+    Vue.component('vms-search', themeComponent);
   },
 };
 </script>
