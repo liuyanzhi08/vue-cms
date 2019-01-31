@@ -121,7 +121,7 @@ import { mapGetters } from 'vuex';
 import config from '../../config';
 import { MENU_SET, MENU_TOGGLE } from '../../store';
 
-const { rnames } = config;
+const { rnames, pagination } = config;
 
 export default {
   props: {
@@ -151,6 +151,8 @@ export default {
         name: rnames.search,
         query: {
           keyword: this.keyword,
+          _page: 1,
+          _num: pagination.num,
         },
       });
     },

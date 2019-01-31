@@ -64,6 +64,11 @@ db.rootId = 1;
 // theme
 const { theme } = config;
 
+// pager
+const pagination = {
+  num: 20,
+};
+
 export default {
-  path, db, brand, rnames, menu, theme,
+  path, db, brand, rnames, menu, theme, pagination,
 };

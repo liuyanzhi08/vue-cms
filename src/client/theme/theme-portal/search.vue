@@ -2,13 +2,21 @@
   <div class="theme-portal">
     <vms-header :categories="categories" />
     <div class="uk-container">
-      <ul>
+      <div v-if="!searchArticles.total">nothing match "{{ keyword }}"</div>
+      <ul v-if="searchArticles.total">
         <li
-          v-for="article in searchArticles"
+          v-for="article in searchArticles.items"
           :key="article.id"
         >
           <router-link :to="article.url">{{ article.title }}</router-link>
         </li>
+        <el-pagination
+          class="uk-margin"
+          layout="prev, pager, next"
+          :total="searchArticles.total"
+          :page-size="pagination.num"
+          @current-change="pagination.currentChange"
+        />
       </ul>
     </div>
     <vms-footer />
@@ -20,11 +28,32 @@ import { mapGetters } from 'vuex';
 import { CATEGORY_FETCH } from '../../store';
 import VmsHeader from './header';
 import VmsFooter from './footer';
+import config from '../../config';
+
+const { pagination, rnames } = config;
 
 export default {
   components: {
     VmsHeader,
     VmsFooter,
+  },
+  data() {
+    const me = this;
+    return {
+      pagination: {
+        num: pagination.num,
+        currentChange: (currentPage) => {
+          me.$router.push({
+            name: rnames.search,
+            query: {
+              keyword: me.keyword,
+              _page: currentPage,
+              _num: pagination.num,
+            },
+          });
+        },
+      },
+    };
   },
   async asyncData({ store }) {
     const promises = [
@@ -34,6 +63,9 @@ export default {
     await Promise.all(promises);
   },
   computed: {
+    keyword() {
+      return this.$router.currentRoute.query.keyword;
+    },
     categories() {
       return [
         this.$store.getters.categories[2],

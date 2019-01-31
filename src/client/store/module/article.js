@@ -10,13 +10,13 @@ const ARTICLE_RECENT = 'article:recent';
 const ARTICLE_SEARCH = 'article:search';
 const type = 'article';
 
-const { path } = config;
+const { path, pagination } = config;
 
 const article = {
   state: {
     articles: {},
     recentArticles: [],
-    searchArticles: [],
+    searchArticles: { total: 0, items: [] },
   },
   getters: {
     articles: state => state.articles,
@@ -32,8 +32,8 @@ const article = {
     [ARTICLE_RECENT]: (state, articles) => {
       state.recentArticles = articles;
     },
-    [ARTICLE_SEARCH]: (state, articles) => {
-      state.searchArticles = articles;
+    [ARTICLE_SEARCH]: (state, value) => {
+      state.searchArticles = value;
     },
   },
   actions: {
@@ -85,14 +85,18 @@ const article = {
     },
     [ARTICLE_SEARCH]: async ({
       commit, getters,
-    }, params = { keyword: 'foo', _page: 1, _num: 20 }) => {
+    }, params = { keyword: 'foo', _page: 1, _num: pagination.num }) => {
       const res = await getters.Common.search(params);
+      const { total } = res.data;
       const items = res.data.items.map((item) => {
         item.url = getters.isPublish
           ? `/article/${item.id}` : `${path.user}/article/${item.id}`;
         return item;
       });
-      commit(ARTICLE_SEARCH, items);
+      commit(ARTICLE_SEARCH, {
+        items,
+        total,
+      });
       return items;
     },
   },
