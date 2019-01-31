@@ -71,7 +71,9 @@ const category = {
                 categoryArticle.url = getters.isPublish
                   ? `/article/${categoryArticle.id}` : `${path.user}/article/${categoryArticle.id}`;
               });
-              commit(CATEGORY_ARTICLES_SET, { [id]: categoryArticles });
+              commit(CATEGORY_ARTICLES_SET, {
+                [id]: { items: categoryArticles, total: res.data.total },
+              });
             }));
           }
 

@@ -13,9 +13,9 @@
             uk-grid
           >
             <router-link
-              v-if="category.articles[0]"
+              v-if="category.articles.items[0]"
               class="uk-width-1-1@s uk-width-1-2@m"
-              :to="category.articles[0].url"
+              :to="category.articles.items[0].url"
             >
               <img
                 src="@image/beauty.jpg"
@@ -23,7 +23,7 @@
               >
             </router-link>
             <div
-              v-if="category.articles[0]"
+              v-if="category.articles.items[0]"
               class="uk-width-1-1@s uk-width-1-2@m"
             >
               <div class="category">
@@ -32,14 +32,14 @@
                 </router-link>
               </div>
               <h2 class="uk-margin-small">
-                <router-link :to="category.articles[0].url">
-                  {{ category.articles[0].title }}
+                <router-link :to="category.articles.items[0].url">
+                  {{ category.articles.items[0].title }}
                 </router-link>
               </h2>
               <div class="info uk-margin-small">Allen · October 39.2018 · 11 Comment</div>
               <div
                 class="overview uk-margin-bottom-large"
-                v-html="category.articles[0].summary || 'no summary'"
+                v-html="category.articles.items[0].summary || 'no summary'"
               />
             </div>
           </article>

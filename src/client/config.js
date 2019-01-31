@@ -66,7 +66,8 @@ const { theme } = config;
 
 // pager
 const pagination = {
-  num: 20,
+  page: 1,
+  num: 2,
 };
 
 export default {

@@ -7,10 +7,24 @@ import { CATEGORY_FETCH, THEME_SET } from '../../../store';
 import { err } from '../../../helper/logger';
 import config from '../../../config';
 
+const { pagination } = config;
+
 export default {
   async asyncData({ store, route }) {
     const { id } = route.params;
-    await store.dispatch(CATEGORY_FETCH, { id, article: '0,-1' });
+    let { _page, _num } = route.query;
+    if (!_page) {
+      _page = pagination.page;
+    }
+
+    if (!_num) {
+      _num = pagination.num;
+    }
+
+    const _from = (_page - 1) * _num;
+    const _size = _num;
+
+    await store.dispatch(CATEGORY_FETCH, { id, article: `${_from},${_size}` });
 
     let theme = store.getters.listTheme[id];
     if (!theme) {

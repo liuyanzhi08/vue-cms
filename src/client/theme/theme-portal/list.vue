@@ -2,14 +2,22 @@
   <div class="theme-portal">
     <vms-header :categories="categories" />
     <div class="uk-container">
-      <ul>
+      <div v-if="!category.articles.total">nothing</div>
+      <ul v-if="category.articles.total">
         <li
-          v-for="article in category.articles"
+          v-for="article in category.articles.items"
           :key="article.id"
         >
           <router-link :to="article.url">{{ article.title }}</router-link>
         </li>
       </ul>
+      <el-pagination
+        class="uk-margin"
+        layout="prev, pager, next"
+        :total="category.articles.total"
+        :page-size="pagination.num"
+        @current-change="pagination.currentChange"
+      />
     </div>
     <vms-footer />
   </div>
@@ -21,12 +29,33 @@ import { CATEGORY_FETCH } from '../../store';
 import VmsHeader from './header';
 import VmsFooter from './footer';
 import Vms404 from './404';
+import config from '../../config';
+
+const { rnames, pagination } = config;
 
 export default {
   components: {
     VmsHeader,
     VmsFooter,
     Vms404,
+  },
+  data() {
+    const me = this;
+    return {
+      pagination: {
+        num: pagination.num,
+        currentChange: (currentPage) => {
+          me.$router.push({
+            name: rnames.list,
+            query: {
+              keyword: me.keyword,
+              _page: currentPage,
+              _num: pagination.num,
+            },
+          });
+        },
+      },
+    };
   },
   async asyncData({ store }) {
     const promises = [
