@@ -17,5 +17,5 @@ export default {
     },
   },
   ssr: true,
-  theme: 'theme-portal',
+  theme: 'theme-blog',
 };

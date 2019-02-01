@@ -2,7 +2,7 @@
   <div class="header-wrapper">
     <header class="uk-container">
       <nav
-        class="uk-visible@m"
+        class="uk-visible@m uk-navbar"
         uk-navbar
       >
         <div class="uk-navbar-left">
@@ -52,7 +52,7 @@
         </div>
       </nav>
       <nav
-        class="uk-hidden@m uk-padding-small"
+        class="uk-hidden@m uk-padding-small uk-navbar"
         uk-navbar
       >
         <div class="uk-navbar-left">
@@ -76,6 +76,7 @@
         <div class="uk-offcanvas-bar">
           <ul
             v-for="item in categories"
+            :key="item.url"
             class="uk-nav uk-nav-default"
             :class="{'uk-margin-top': item.children }"
           >
@@ -86,10 +87,10 @@
               <router-link
                 :to="item.url"
               >
-              <span
-                class="uk-margin-small-right"
-                :uk-icon="`icon: ${item.icon}`"
-              />
+                <span
+                  class="uk-margin-small-right"
+                  :uk-icon="`icon: ${item.icon}`"
+                />
                 {{ item.title }}
               </router-link>
             </li>
@@ -100,12 +101,13 @@
             <li
               v-for="child in item.children"
               v-if="item.children"
+              :key="child.url"
             >
               <router-link :to="child.url">
-              <span
-                class="uk-margin-small-right"
-                :uk-icon="`icon: ${child.icon}`"
-              />
+                <span
+                  class="uk-margin-small-right"
+                  :uk-icon="`icon: ${child.icon}`"
+                />
 
                 {{ child.title }}
               </router-link>

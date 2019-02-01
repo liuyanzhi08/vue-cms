@@ -5,9 +5,15 @@
       @submit.prevent="submit"
     >
       <div class="uk-margin">
-        <label class="uk-form-label">theme</label>
+        <label class="uk-form-label">Index Theme</label>
         <div class="uk-form-controls">
-          <app-theme-option v-model="data.theme" />
+          <app-theme-option v-model="data.index_theme" />
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label">Search Theme</label>
+        <div class="uk-form-controls">
+          <app-theme-option v-model="data.search_theme" />
         </div>
       </div>
       <div class="uk-margin">

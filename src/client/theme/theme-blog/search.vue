@@ -2,35 +2,35 @@
   <div class="theme-blog">
     <vms-header :categories="categories" />
     <div class="uk-container">
-      <div v-if="!category.articles.total">nothing</div>
-      <ul v-if="category.articles.total">
+      <div v-if="!searchArticles.total">nothing match "{{ keyword }}"</div>
+      <ul v-if="searchArticles.total">
         <li
-          v-for="article in category.articles.items"
+          v-for="article in searchArticles.items"
           :key="article.id"
         >
           <router-link :to="article.url">{{ article.title }}</router-link>
         </li>
+        <el-pagination
+          class="uk-margin"
+          layout="prev, pager, next"
+          :total="searchArticles.total"
+          :page-size="pagination.num"
+          @current-change="pagination.currentChange"
+        />
       </ul>
-      <el-pagination
-        class="uk-margin"
-        layout="prev, pager, next"
-        :total="category.articles.total"
-        :page-size="pagination.num"
-        @current-change="pagination.currentChange"
-      />
     </div>
     <vms-footer />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { CATEGORY_FETCH } from '../../store';
 import VmsHeader from './header';
 import VmsFooter from './footer';
-import Vms404 from './404';
 import config from '../../config';
 
-const { rnames, pagination } = config;
+const { pagination, rnames } = config;
 
 export default {
   components: {
@@ -44,7 +44,7 @@ export default {
         num: pagination.num,
         currentChange: (currentPage) => {
           me.$router.push({
-            name: rnames.list,
+            name: rnames.search,
             query: {
               keyword: me.keyword,
               _page: currentPage,
@@ -57,27 +57,26 @@ export default {
   },
   async asyncData({ store }) {
     const promises = [
-      store.dispatch(CATEGORY_FETCH, { id: 2 }),
-      store.dispatch(CATEGORY_FETCH, { id: 3, depth: 1 }),
+      store.dispatch(CATEGORY_FETCH, { id: 2, article: '0,1' }),
+      store.dispatch(CATEGORY_FETCH, { id: 3, article: '0,1', depth: 1 }),
     ];
     await Promise.all(promises);
   },
   computed: {
+    keyword() {
+      return this.$store.state.route.query.keyword;
+    },
     categories() {
       return [
         this.$store.getters.categories[2],
         this.$store.getters.categories[3],
       ];
     },
-    category() {
-      return this.$store.getters.categories[this.id];
-    },
-    id() {
-      return this.$store.state.route.params.id;
-    },
+    ...mapGetters(['searchArticles']),
   },
 };
 </script>
+
 <style lang="scss" scoped>
   ul {
     li {

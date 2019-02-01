@@ -1,11 +1,25 @@
 <template>
   <header class="uk-container">
     <nav
-      class="uk-visible@m"
+      class="uk-visible@m uk-navbar"
       uk-navbar
     >
       <div class="uk-navbar-left">
-        <i class="fa fa-search" />
+        <div class="uk-navbar-right">
+          <form @submit.prevent="search">
+            <div class="search-input-wrapper">
+              <input
+                v-model="keyword"
+                type="text"
+                class="uk-input uk-form-small"
+                placeholder="search..."
+              >
+              <i
+                class="fa fa-search"
+              />
+            </div>
+          </form>
+        </div>
         <ul
           v-for="item in categories"
           :key="item.url"
@@ -47,7 +61,7 @@
       </div>
     </nav>
     <nav
-      class="uk-hidden@m"
+      class="uk-hidden@m uk-navbar"
       uk-navbar
     >
       <div class="uk-navbar-left">
@@ -75,14 +89,24 @@
       uk-offcanvas="mode: slide; overlay: true"
     >
       <div class="uk-offcanvas-bar">
+        <ul class="uk-nav uk-nav-default">
+          <li>
+            <router-link
+              :to="index"
+              uk-icon="icon: home"
+              class="icon-home"
+            />
+          </li>
+        </ul>
         <ul
           v-for="item in categories"
+          :key="item.url"
           class="uk-nav uk-nav-default"
           :class="{'uk-margin-top': item.children }"
         >
           <li
             v-if="!item.children"
-            :key="item.url"
+            :key="item.id"
           >
             <router-link
               :to="item.url"
@@ -100,24 +124,42 @@
           >{{ item.title }}</li>
           <li
             v-for="child in item.children"
-            :key="child.url"
             v-if="item.children"
           >
-            <router-link :to="item.url">
+            <router-link :to="child.url">
               <span
                 class="uk-margin-small-right"
                 :uk-icon="`icon: ${child.icon}`"
               />
+
               {{ child.title }}
             </router-link>
           </li>
         </ul>
+        <form
+          class="uk-margin-top"
+          @submit.prevent="search"
+        >
+          <div class="search-input-wrapper">
+            <input
+              v-model="keyword"
+              type="text"
+              class="uk-input uk-form-small"
+              placeholder="search..."
+            >
+            <i class="fa fa-search"></i>
+          </div>
+        </form>
       </div>
     </div>
   </header>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import { MENU_SET, MENU_TOGGLE } from '../../store';
+import config from '../../config';
+
+const { rnames, pagination } = config;
 
 export default {
   props: {
@@ -128,7 +170,11 @@ export default {
   },
   data() {
     return {
+      keyword: '',
     };
+  },
+  computed: {
+    ...mapGetters(['index']),
   },
   async mounted() {
     const uk = await import('uikit');
@@ -137,6 +183,16 @@ export default {
   methods: {
     toggleMenu() {
       this.$store.dispatch(MENU_TOGGLE);
+    },
+    search() {
+      this.$router.push({
+        name: rnames.search,
+        query: {
+          keyword: this.keyword,
+          _page: 1,
+          _num: pagination.num,
+        },
+      });
     },
   },
 };
@@ -306,6 +362,17 @@ export default {
     .uk-navbar-toggle-icon {
       //color: #1e87f0;
     }
-
+  }
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    input {
+      border-radius: 20px;
+      padding-right: 30px !important;
+      width: 300px;
+    }
+    .fa-search {
+      margin-left: -26px;
+    }
   }
 </style>
