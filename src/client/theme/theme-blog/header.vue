@@ -20,20 +20,23 @@
             </div>
           </form>
         </div>
-        <ul
-          v-for="item in categories"
-          :key="item.url"
-          class="uk-navbar-nav"
-        >
-          <li v-if="!item.children">
-            <router-link :to="item.url">{{ item.title }}</router-link>
+        <ul class="uk-navbar-nav">
+          <li>
+            <router-link :to="index">Home</router-link>
           </li>
           <li
-            v-if="item.children"
-            class="has-children"
+            v-for="item in categories"
+            :key="item.url"
           >
-            <a href="#">{{ item.title }}</a>
-            <div class="uk-navbar-dropdown">
+            <router-link
+              v-if="!item.children"
+              :to="item.url"
+            >{{ item.title }}</router-link>
+            <span v-if="item.children">{{ item.title }}</span>
+            <div
+              v-if="item.children"
+              class="uk-navbar-dropdown"
+            >
               <ul class="uk-nav uk-navbar-dropdown-nav">
                 <li
                   v-for="child in item.children"
