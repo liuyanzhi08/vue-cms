@@ -36,7 +36,7 @@ const modifyConfig = (dbName) => {
 };
 
 const createDB = (dbName) => {
-  query(`CREATE DATABASE  \`${dbName}\``, true).then(
+  query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\` CHARACTER SET utf8 COLLATE utf8_general_ci`, true).then(
     () => {
       log(`successfully created a new database \`${dbName}\``);
       process.exit(0);
