@@ -15,12 +15,14 @@
   </div>
 </template>
 <script>
+import config from '../../../config';
+
 export default {
   name: 'AppThemeOption',
   props: {
     value: {
       type: String,
-      default: 'default',
+      default: config.theme,
     },
   },
   data() {
@@ -36,8 +38,11 @@ export default {
       },
       immediate: true,
     },
-    selectValue() {
-      this.$emit('input', this.selectValue);
+    selectValue: {
+      handler() {
+        this.$emit('input', this.selectValue);
+      },
+      immediate: true,
     },
   },
   created() {

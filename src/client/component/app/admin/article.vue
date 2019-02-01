@@ -88,7 +88,7 @@ export default {
     return {
       article: {},
       imgUploadPromises: [],
-      submitReady: false,
+      submitReady: true,
       editor: {
         toolbars: {
           bold: true, // 粗体
@@ -164,6 +164,7 @@ export default {
     submit() {
       if (!this.submitReady) {
         this.$store.dispatch(NOTICE_SEND, 'please wait for images are all uploaded');
+        return;
       }
       const { Article } = this.$store.getters;
       const method = isNew ? 'save' : 'update';
