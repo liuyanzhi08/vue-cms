@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { log } from '../../helper/logger';
 import {
   STATUS_SET, STATUS_FETCH, STATUS_GOT, STATUS_404,
@@ -7,6 +8,7 @@ import config from '../../config';
 const ARTICLE_FETCH = 'article:fetch';
 const ARTICLE_SET = 'article:set';
 const ARTICLE_RECENT = 'article:recent';
+const ARTICLE_RECENT_PARAMS = 'article:recent:params';
 const ARTICLE_SEARCH = 'article:search';
 const type = 'article';
 
@@ -15,7 +17,8 @@ const { path, pagination } = config;
 const article = {
   state: {
     articles: {},
-    recentArticles: [],
+    recentArticles: null,
+    recentArticlesParams: null,
     searchArticles: { total: 0, items: [] },
   },
   getters: {
@@ -34,6 +37,9 @@ const article = {
     },
     [ARTICLE_SEARCH]: (state, value) => {
       state.searchArticles = value;
+    },
+    [ARTICLE_RECENT_PARAMS]: (state, value) => {
+      state.recentArticlesParams = value;
     },
   },
   actions: {
@@ -66,8 +72,12 @@ const article = {
       return arc;
     },
     [ARTICLE_RECENT]: async ({
-      commit, getters,
+      commit, getters, state,
     }, params = { limit: '0,3' }) => {
+      if (state.recentArticles && _.isEqual(state.recentArticlesParams, params)) {
+        return state.recentArticles;
+      }
+      commit(ARTICLE_RECENT_PARAMS, params);
       const [from, size] = String(params.limit).split(',').map(item => +item);
       const res = await getters.Article.query({
         _from: from,
