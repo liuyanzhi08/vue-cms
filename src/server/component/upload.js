@@ -23,7 +23,7 @@ class Upload {
     const targetPath = `${dir.upload}/${randomName}`;
     const upStream = fs.createWriteStream(targetPath);
     reader.pipe(upStream);
-    success(ctx, { url: `${path.upload}${randomName}` });
+    success(ctx, { url: `${path.upload}/${randomName}` });
   }
 }
 
