@@ -1,4 +1,5 @@
 import { log } from '../../helper/logger';
+import articleHelper from '../../helper/article';
 import config from '../../config';
 
 const CATEGORY_FETCH = 'categories:fetch';
@@ -20,6 +21,7 @@ const category = {
     [CATEGORY_ARTICLES_SET]: (state, articles) => {
       Object.keys(articles).forEach((id) => {
         state.categories[id].articles = articles[id];
+        articleHelper.setDefaultCover(state.categories[id].articles);
       });
     },
     [CATEGORY_SET_ARTICLE_PARAM]: (state, param) => {
@@ -30,6 +32,7 @@ const category = {
     [CATEGORY_SET]: ({ state, getters }, categories) => {
       Object.keys(categories).forEach((id) => {
         const articles = state.categories[id] && state.categories[id].articles;
+        articleHelper.setDefaultCover(articles);
         if (!state.categories[id]) {
           state.categories[id] = categories[id];
         } else {
@@ -37,7 +40,7 @@ const category = {
             state.categories[id][key] = categories[id][key];
           });
         }
-        state.categories[id].articles = articles || [];
+        state.categories[id].articles = articles;
         state.categories[id].url = getters.isPublish
           ? `/category/${id}` : `${path.user}/category/${id}`;
       });

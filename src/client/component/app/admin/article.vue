@@ -26,8 +26,8 @@
           class="uk-margin-left"
         >
           <img
-            v-for="src in coverImages"
-            :key="src"
+            v-for="(src, index) in coverImages"
+            :key="index"
             :src="src"
             width="40"
             height="40"
@@ -111,7 +111,8 @@ export default {
   data() {
     const me = this;
     return {
-      article: {},
+      article: {
+      },
       imgUploadPromises: [],
       submitReady: true,
       editor: {
@@ -165,8 +166,20 @@ export default {
         },
       },
       isShowAdvanced: false,
-      coverImages: [],
     };
+  },
+  computed: {
+    coverImages: {
+      get() {
+        return this.article.image_url ? [this.article.image_url] : [];
+      },
+      set(value) {
+        if (!value || !value.length) {
+          return;
+        }
+        [this.article.image_url] = [value];
+      },
+    },
   },
   watch: {
     id: {
@@ -225,6 +238,7 @@ export default {
         isNew = true;
         this.article = {
           category_id: this.categoryId,
+          image_url: null,
         };
       }
     },
@@ -236,6 +250,7 @@ export default {
       data.append('file', this.$refs.coverImage.files[0]);
       const uploaded = this.$store.getters.Common.upload(data);
       this.imgUploadPromises.push(uploaded);
+      this.article.image_url = null;
       uploaded.then((res) => {
         this.coverImages = [res.data.url];
       });

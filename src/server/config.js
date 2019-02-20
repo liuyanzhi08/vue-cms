@@ -9,8 +9,6 @@ const server = {
   url: `${config.uri}:${config.server.port}`,
 };
 
-const uploadPathName = 'upload';
-
 const root = $path.resolve();
 const dist = $path.join(root, 'dist');
 const clientDist = $path.join(dist, 'client');
@@ -20,7 +18,7 @@ const staticDir = $path.join(root, 'page');
 const clientRoot = $path.join(root, 'src/client');
 const serverRoot = $path.join(root, 'src/server');
 const themeDir = $path.join(clientRoot, 'theme');
-const uploadDir = $path.join(root, uploadPathName);
+const upload = $path.join(root, config.server.path.upload);
 const accessLogDir = $path.isAbsolute(config.server.log.access)
   ? config.server.log.access : $path.join(root, config.server.log.access);
 const errorLogDir = $path.isAbsolute(config.server.log.error)
@@ -29,7 +27,7 @@ const path = {
   user: config.server.path.user,
   admin: config.server.path.admin,
   $public: '/dist/',
-  upload: `/${uploadPathName}/`,
+  upload: config.server.path.upload,
 };
 
 const dir = {
@@ -40,7 +38,7 @@ const dir = {
   clientDist,
   serverDist,
   devClientDist,
-  uploadDir,
+  upload,
   theme: themeDir,
   static: staticDir,
   log: {

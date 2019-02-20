@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { log } from '../../helper/logger';
+import articleHelper from '../../helper/article';
 import {
   STATUS_SET, STATUS_FETCH, STATUS_GOT, STATUS_404,
 } from './status';
@@ -33,9 +34,11 @@ const article = {
       });
     },
     [ARTICLE_RECENT]: (state, articles) => {
+      articleHelper.setDefaultCover(articles);
       state.recentArticles = articles;
     },
     [ARTICLE_SEARCH]: (state, value) => {
+      articleHelper.setDefaultCover(value);
       state.searchArticles = value;
     },
     [ARTICLE_RECENT_PARAMS]: (state, value) => {

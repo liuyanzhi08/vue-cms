@@ -16,11 +16,11 @@ class Upload {
       return;
     }
 
-    fse.ensureDirSync(dir.uploadDir);
+    fse.ensureDirSync(dir.upload);
     const { file } = ctx.request.body.files;
     const reader = fs.createReadStream(file.path);
     const randomName = `${nanoid(10)}${$path.extname(file.name)}`;
-    const targetPath = `${dir.uploadDir}/${randomName}`;
+    const targetPath = `${dir.upload}/${randomName}`;
     const upStream = fs.createWriteStream(targetPath);
     reader.pipe(upStream);
     success(ctx, { url: `${path.upload}${randomName}` });

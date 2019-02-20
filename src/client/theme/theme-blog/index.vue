@@ -38,7 +38,7 @@
         >
           <router-link :to="arc.url">
             <img
-              src="@image/beauty.jpg"
+              :src="arc.image_url"
               alt="light"
             >
           </router-link>

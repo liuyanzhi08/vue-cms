@@ -1,9 +1,10 @@
 import path from 'path';
 import webpack from 'webpack';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import config from '../../src/server/config';
 
-const { root } = config.dir;
+const { root, upload, dist } = config.dir;
 
 export default {
   watchOptions: {
@@ -25,5 +26,11 @@ export default {
       'window.jQuery': 'jquery',
     }),
     new VueLoaderPlugin(),
+    new CopyWebpackPlugin([
+      {
+        from: path.join(root, 'src/client/asset/image/default-cover.png'),
+        to: path.join(dist, 'client/img/default-cover.png'),
+      },
+    ]),
   ],
 };

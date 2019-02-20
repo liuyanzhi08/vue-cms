@@ -18,6 +18,31 @@
         class="uk-textarea"
       />
     </div>
+    <div class="uk-margin uk-flex">
+      <div uk-form-custom>
+        <input
+          ref="coverImage"
+          type="file"
+          @change="uploadCoverImage"
+        >
+        <button class="uk-button uk-button-default">Select Cover Image</button>
+      </div>
+      <no-ssr>
+        <viewer
+          :images="coverImages"
+          class="uk-margin-left"
+        >
+          <img
+            v-for="(src, index) in coverImages"
+            :key="index"
+            :src="src"
+            width="40"
+            height="40"
+            alt="cover image"
+          >
+        </viewer>
+      </no-ssr>
+    </div>
     <div
       v-if="isShowAdvanced"
       class="uk-margin"
@@ -51,6 +76,7 @@
   </form>
 </template>
 <script>
+import NoSsr from 'vue-no-ssr';
 import AppCategoryOption from './category-option';
 import AppThemeOption from './theme-option';
 import { NOTICE_SEND } from '../../../store';
@@ -64,6 +90,7 @@ export default {
   components: {
     AppCategoryOption,
     AppThemeOption,
+    NoSsr,
   },
   props: {
     id: {
@@ -79,7 +106,22 @@ export default {
     return {
       category: { parent_id: this.parentId },
       isShowAdvanced: false,
+      submitReady: false,
+      imgUploadPromises: [],
     };
+  },
+  computed: {
+    coverImages: {
+      get() {
+        return this.category.image_url ? [this.category.image_url] : [];
+      },
+      set(value) {
+        if (!value || !value.length) {
+          return;
+        }
+        [this.category.image_url] = [value];
+      },
+    },
   },
   watch: {
     id: {
@@ -131,11 +173,26 @@ export default {
         isNew = true;
         this.category = {
           parent_id: this.parentId,
+          image_url: null,
         };
       }
     },
     showAdvanced() {
       this.isShowAdvanced = !this.isShowAdvanced;
+    },
+    uploadCoverImage() {
+      const data = new FormData();
+      data.append('file', this.$refs.coverImage.files[0]);
+      const uploaded = this.$store.getters.Common.upload(data);
+      this.imgUploadPromises.push(uploaded);
+      this.category.image_url = null;
+      uploaded.then((res) => {
+        this.coverImages = [res.data.url];
+      });
+      this.submitReady = false;
+      Promise.all(this.imgUploadPromises).then(() => {
+        this.submitReady = true;
+      });
     },
   },
 };

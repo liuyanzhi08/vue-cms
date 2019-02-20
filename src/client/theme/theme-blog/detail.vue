@@ -24,7 +24,7 @@
         >
           <a :href="aritcle.url">
             <img
-              src="@image/beauty.jpg"
+              :src="aritcle.image_url"
               alt="light"
             >
           </a>

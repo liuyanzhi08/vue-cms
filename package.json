@@ -126,6 +126,7 @@
     "browser-sync": "^2.24.6",
     "chokidar": "^2.0.4",
     "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.6.0",
     "core-js": "^2.5.7",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",

@@ -44,7 +44,7 @@ const assetHandler = async (ctx) => {
 };
 
 const uploadHandler = async (ctx) => {
-  const filePath = $path.join(dir.uploadDir, ctx.params[0]);
+  const filePath = $path.join(dir.upload, ctx.params[0]);
   if (fs.existsSync(filePath)) {
     if (!isDev) {
       ctx.set('Cache-Control', `max-age=${3600 * 24 * 7}`);

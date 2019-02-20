@@ -55,6 +55,7 @@ const menu = [
 const path = {
   user: config.server.path.user,
   admin: config.server.path.admin,
+  upload: config.server.path.upload,
 };
 
 // db

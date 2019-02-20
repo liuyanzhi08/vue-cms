@@ -14,6 +14,7 @@ export default {
     path: {
       user: '/user',
       admin: '/admin',
+      upload: '/upload',
     },
   },
   ssr: true,
