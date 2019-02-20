@@ -11,6 +11,31 @@
     <div class="uk-margin">
       <app-category-option v-model="article.category_id" />
     </div>
+    <div class="uk-margin uk-flex">
+      <div uk-form-custom>
+        <input
+          ref="coverImage"
+          type="file"
+          @change="uploadCoverImage"
+        >
+        <button class="uk-button uk-button-default">Select Cover Image</button>
+      </div>
+      <no-ssr>
+        <viewer
+          :images="coverImages"
+          class="uk-margin-left"
+        >
+          <img
+            v-for="src in coverImages"
+            :key="src"
+            :src="src"
+            width="40"
+            height="40"
+            alt="cover image"
+          >
+        </viewer>
+      </no-ssr>
+    </div>
     <div class="uk-margin">
       <no-ssr>
         <mavon-editor
@@ -140,6 +165,7 @@ export default {
         },
       },
       isShowAdvanced: false,
+      coverImages: [],
     };
   },
   watch: {
@@ -204,6 +230,15 @@ export default {
     },
     showAdvanced() {
       this.isShowAdvanced = !this.isShowAdvanced;
+    },
+    uploadCoverImage() {
+      const data = new FormData();
+      data.append('file', this.$refs.coverImage.files[0]);
+      const uploaded = this.$store.getters.Common.upload(data);
+      this.imgUploadPromises.push(uploaded);
+      uploaded.then((res) => {
+        this.coverImages = [res.data.url];
+      });
     },
   },
 };

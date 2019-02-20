@@ -18,3 +18,4 @@ export default {
 <style lang="scss" src="@style/theme-mavon-editor/index.scss" />
 <style lang="scss" src="@style/theme-element-ui/index.scss" />
 <style lang="scss" src="@style/google-font/index.scss" />
+<style lang="css" src="@npm/viewerjs/dist/viewer.css" />
