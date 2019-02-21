@@ -48,18 +48,20 @@ class Publish {
     }
 
     const data = ctx.request.body;
-    const renderer = await createRenderer(isDev && ctx.app.$devServer);
-    const articlesPromises = data.articleIds.map(id => renderArticle(ctx, renderer, id));
+    const articlesPromises = data.articleIds.map(async (id) => {
+      const renderer = await createRenderer(isDev && ctx.app.$devServer);
+      return renderArticle(ctx, renderer, id);
+    });
 
     const categoryPromises = data.categoryIds.map(async (id) => {
-      const newRenderer = await createRenderer(isDev && ctx.app.$devServer);
-      return renderCategory(ctx, newRenderer, id);
+      const renderer = await createRenderer(isDev && ctx.app.$devServer);
+      return renderCategory(ctx, renderer, id);
     });
     const promises = articlesPromises.concat(categoryPromises);
 
     if (data.includeIndex) {
-      const newRenderer = await createRenderer(isDev && ctx.app.$devServer);
-      promises.push(renderIndex(ctx, newRenderer));
+      const renderer = await createRenderer(isDev && ctx.app.$devServer);
+      promises.push(renderIndex(ctx, renderer));
     }
     await Promise.all(promises);
     success(ctx, { msg: 'success' });
