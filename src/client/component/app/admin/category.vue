@@ -142,6 +142,10 @@ export default {
   },
   methods: {
     submit() {
+      if (!this.submitReady) {
+        this.$store.dispatch(NOTICE_SEND, 'please wait for images are all uploaded');
+        return;
+      }
       const method = isNew ? 'save' : 'update';
       this.$store.getters.Category[method](this.category).then((res) => {
         this.$store.dispatch(NOTICE_SEND, 'updated');

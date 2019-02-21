@@ -251,6 +251,7 @@ export default {
       const uploaded = this.$store.getters.Common.upload(data);
       this.imgUploadPromises.push(uploaded);
       this.article.image_url = null;
+      this.submitReady = false;
       uploaded.then((res) => {
         this.coverImages = [res.data.url];
       });

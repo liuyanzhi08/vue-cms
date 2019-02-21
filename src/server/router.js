@@ -71,6 +71,7 @@ const indexHandler = async (ctx) => {
     }
   } else {
     const renderer = await createRenderer(isDev && ctx.app.$devServer);
+    // console.log(ctx);
     const html = await renderer.renderToString(ctx);
     success(ctx, html);
   }
