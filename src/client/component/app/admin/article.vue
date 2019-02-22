@@ -213,6 +213,8 @@ export default {
         if (isNew) {
           this.article = {};
         }
+      }, (err) => {
+        this.$store.dispatch(NOTICE_SEND, err.msg);
       });
     },
     del() {
@@ -254,6 +256,9 @@ export default {
       this.submitReady = false;
       uploaded.then((res) => {
         this.coverImages = [res.data.url];
+      });
+      Promise.all(this.imgUploadPromises).then(() => {
+        this.submitReady = true;
       });
     },
   },

@@ -21,8 +21,8 @@
               :to="item.router"
             >
               <span
-                class="uk-margin-small-right"
-                :uk-icon="`icon: ${item.icon}`"
+                class="uk-margin-small-right uk-svg"
+                :uk-icon="`icon: ${item.icon};`"
               />
               {{ item.label || item.router.name }}
             </router-link>

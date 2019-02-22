@@ -153,6 +153,8 @@ export default {
         if (isNew) {
           this.category = {};
         }
+      }, (err) => {
+        this.$store.dispatch(NOTICE_SEND, err.msg);
       });
     },
     del() {

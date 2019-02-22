@@ -26,6 +26,14 @@ const brand = {
 };
 
 const menu = [
+  // {
+  //   label: 'Plugin',
+  //   icon: 'settings',
+  //   router: {
+  //     name: rnames.common,
+  //     params: {},
+  //   },
+  // },
   {
     label: 'Common',
     icon: 'cog',
