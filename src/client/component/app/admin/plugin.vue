@@ -9,51 +9,23 @@
           ref="categoryTree"
           :click="click"
         />
-        <div class="menu root-add ">
-          <i
-            uk-icon="icon: plus"
-            @click="addArticle"
-          />
-          <i
-            uk-icon="icon: album"
-            @click="addCategory"
-          />
-        </div>
       </aside>
       <div slot="main">
-        <app-article
-          v-if="selected.type === 'article'"
-          :id="selected.id"
-          :category-id="selected.categoryId"
-          @updated="updateArticle"
-          @deleted="deleteArticle"
-        />
-        <app-category
-          v-if="selected.type === 'category'"
-          :id="selected.id"
-          :parent-id="selected.parentId"
-          @updated="updateCategory"
-          @deleted="deleteCategory"
-        />
+        <component :is="pluginComponent" />
       </div>
     </ui-sidebar>
   </div>
 </template>
 <script>
-import _ from 'lodash';
-import AppArticle from './article';
-import AppCategory from './category';
+import Vue from 'vue';
 import AppPluginTree from './plugin-tree';
-import { db } from '../../../config';
+import config from '../../../config';
 
-const label = (obj, type) => `${obj.title} [ ${type.substr(0, 1)}id: ${obj.id} ]`;
-
-const id = (obj, type) => `${type}-${obj.id}`;
+const { rnames } = config;
+const defaultPluginId = 'spider';
 
 export default {
   components: {
-    AppArticle,
-    AppCategory,
     AppPluginTree,
   },
   data() {
@@ -65,51 +37,33 @@ export default {
       expanded: true,
     };
   },
+  async asyncData({ route }) {
+    let { id } = route.query;
+    let pluginComponent;
+    try {
+      pluginComponent = (await import(`../../plugin/${id}/src/${id}.vue`)).default;
+    } catch (e) {
+      id = defaultPluginId;
+      pluginComponent = (await import(`../../plugin/${id}/src/${id}.vue`)).default;
+    }
+    Vue.component(`vms-plugin-${id}`, pluginComponent);
+  },
+  computed: {
+    pluginComponent() {
+      return `vms-plugin-${this.$store.state.route.query.id || defaultPluginId}`;
+    },
+  },
   created() {
   },
   methods: {
     click(node) {
-      if (!node.isLeaf) {
-        this.selected = {
-          id: node.id,
-          type: 'category',
-        };
-      } else {
-        this.selected = {
-          id: node.id,
-          type: 'article',
-        };
-      }
-    },
-    addArticle() { this.selected = { id: 0, type: 'article' }; },
-    addCategory() { this.selected = { id: 0, type: 'category' }; },
-    /* eslint-enable */
-    updateArticle(node) {
-      const { categoryTree } = this.$refs;
-      categoryTree.updateArticle(node);
-    },
-    updateCategory(node) {
-      const { categoryTree } = this.$refs;
-      categoryTree.updateCategory(node);
-    },
-    deleteArticle(node) {
-      const { categoryTree } = this.$refs;
-      categoryTree.deleteArticle(node);
-    },
-    deleteCategory(node) {
-      const { categoryTree } = this.$refs;
-      categoryTree.deleteCategory(node);
-    },
-    toggle() {
-      this.expanded = !this.expanded;
+      this.$router.push({
+        name: rnames.plugin,
+        query: { id: node.id },
+      });
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-  .root-add {
-    cursor: pointer;
-    margin-left: 3px;
-    margin-top: 10px;
-  }
 </style>

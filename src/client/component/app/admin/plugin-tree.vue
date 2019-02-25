@@ -28,6 +28,7 @@ export default {
       data: [
         {
           label: '爬虫',
+          id: 'spider',
         },
       ],
     };
