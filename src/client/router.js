@@ -19,6 +19,7 @@ const article = () => import(/* webpackChunkName: "article" */ './component/app/
 const articleList = () => import(/* webpackChunkName: "article-list" */ './component/app/admin/article-list');
 const publish = () => import(/* webpackChunkName: "publish" */ './component/app/admin/publish');
 const login = () => import(/* webpackChunkName: "login" */ './component/app/admin/login');
+const plugin = () => import(/* webpackChunkName: "plugin" */ './component/app/admin/plugin');
 
 // routes define
 const routes = [
@@ -80,6 +81,11 @@ const routes = [
         path: 'login',
         component: login,
         name: rnames.login,
+      },
+      {
+        path: 'plugin',
+        component: plugin,
+        name: rnames.plugin,
       },
     ],
   },

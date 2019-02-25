@@ -15,6 +15,7 @@ const rnames = {
   user: 'user',
   common: 'common',
   search: 'search',
+  plugin: 'plugin',
 };
 
 // site info
@@ -26,14 +27,14 @@ const brand = {
 };
 
 const menu = [
-  // {
-  //   label: 'Plugin',
-  //   icon: 'settings',
-  //   router: {
-  //     name: rnames.common,
-  //     params: {},
-  //   },
-  // },
+  {
+    label: 'Plugin',
+    icon: 'settings',
+    router: {
+      name: rnames.plugin,
+      params: {},
+    },
+  },
   {
     label: 'Common',
     icon: 'cog',
