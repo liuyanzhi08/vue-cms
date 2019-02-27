@@ -2,12 +2,14 @@ import Joi from 'joi';
 import axios from 'axios';
 import cheerio from 'cheerio';
 import fse from 'fs-extra';
-import url from 'url';
 import config from '../config';
 import ctxHelper from '../helper/ctx';
 import ssrHelper from '../helper/ssr';
+import regHelper from '../helper/reg';
+import urlHelper from '../helper/url';
 import error from '../helper/error';
 import env from '../helper/env';
+import netHelper from '../helper/net';
 import article from '../models/article';
 import logger from '../helper/logger';
 import util from '../util';
@@ -16,6 +18,29 @@ const { success, fail } = ctxHelper;
 const { createRenderer } = ssrHelper;
 const { isDev } = env;
 const { err } = logger;
+const { dir } = config;
+
+const grabImg = (html, siteRoot) => {
+  let result;
+  let newHtml = html;
+  const savedImageMap = {};
+  do {
+    result = regHelper.img.exec(html);
+    if (result) {
+      let imgUrl = result[1];
+      if (!savedImageMap[imgUrl]) {
+        const rawSiteRoot = siteRoot.replace(/\/$/, '');
+        if (imgUrl.indexOf('http') === -1) {
+          imgUrl = `${rawSiteRoot}${imgUrl}`;
+        }
+        const newName = netHelper.downloadFile(imgUrl);
+        console.log(result[1], newName);
+        newHtml = newHtml.replace(new RegExp(result[1], 'g'), newName);
+      }
+    }
+  } while (result);
+  return newHtml;
+};
 
 const schema = Joi.object().keys({
   category: Joi.object().keys({
@@ -50,8 +75,7 @@ class Spider {
     const listSelector = data.list.selector;
     const detailSelector = data.detail.selector;
     const detailTheme = data.detail.theme;
-    const listUrlObj = url.parse(listUrl);
-    const siteRoot = listUrlObj.path !== '/' ? listUrl.slice(0, listUrl.indexOf(listUrlObj.path) + 1) : listUrlObj.href;
+    const siteRoot = urlHelper.root(listUrl);
 
     const res = await axios.get(listUrl);
     const $ = cheerio.load(res.data);
@@ -70,6 +94,7 @@ class Spider {
     }
     const successArticleUrls = [];
     const failedArticleUrls = [];
+    let failedImgUrls;
     await util.asyncForEach(articles, async (articleData) => {
       let detailRes;
       try {
@@ -83,11 +108,11 @@ class Spider {
       const detailHtml = detailRes.data;
       const $detail = cheerio.load(detailHtml);
       const content = $detail(detailSelector).html();
-      // console.log(articleData.url, detailRes.data);return;
+      const newContent = await grabImg(content, siteRoot);
       await article.save({
         title: articleData.title,
         category_id: categoryId,
-        content,
+        content: newContent,
         theme: detailTheme,
       });
     });

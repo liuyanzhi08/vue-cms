@@ -56,9 +56,6 @@ if (isDev && module.hot) {
       // opn(`http://${ip.address()}:${server.port}/admin`);
     });
   });
-
-  module.hot.accept('./config');
-  module.hot.accept('./helper/logger');
 }
 
 export default core;

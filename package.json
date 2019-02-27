@@ -89,6 +89,7 @@
     "passport-local": "^1.0.0",
     "popper.js": "^1.14.4",
     "postcss-loader": "^3.0.0",
+    "request": "^2.88.0",
     "resource-axios": "^1.2.2",
     "safe-json-stringify": "^1.2.0",
     "sanitize-html": "^1.19.1",
