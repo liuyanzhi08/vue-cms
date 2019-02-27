@@ -46,6 +46,7 @@ const api = {
       }),
       search: params => axios.get(`${state.uri}/api/search`, { params }),
     }, axios),
+    Spider: state => resource(`${state.uri}/api/spider`, axios),
   },
   mutations: {
     [API_URI_SET]: (state, value) => {

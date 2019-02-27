@@ -106,7 +106,8 @@ export default {
       background: white;
       border-right: 1px solid #e5e5e5;
       white-space: nowrap;
-      overflow: visible;
+      overflow-x: visible;
+      overflow-y: auto;
       overflow-scrolling: touch;
       padding: 10px 0 10px 10px;
       .side-toggle {

@@ -44,7 +44,7 @@
       </no-ssr>
     </div>
     <div
-      v-if="isShowAdvanced"
+      v-show="isShowAdvanced"
       class="uk-margin"
     >
       <app-theme-option v-model="category.theme" />
@@ -106,7 +106,7 @@ export default {
     return {
       category: { parent_id: this.parentId },
       isShowAdvanced: false,
-      submitReady: false,
+      submitReady: true,
       imgUploadPromises: [],
     };
   },
@@ -154,7 +154,7 @@ export default {
           this.category = {};
         }
       }, (err) => {
-        this.$store.dispatch(NOTICE_SEND, err.msg);
+        this.$store.dispatch(NOTICE_SEND, err.response.data);
       });
     },
     del() {

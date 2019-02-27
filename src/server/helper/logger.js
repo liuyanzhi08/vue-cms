@@ -13,7 +13,7 @@ const stringify = (data, color) => {
   let msg = data;
   if (_.isObject(data)) {
     if (data instanceof Error) {
-      msg = data.stack;
+      msg = c.stack;
     } else {
       msg = safeStringify(data);
     }

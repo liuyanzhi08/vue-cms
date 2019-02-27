@@ -8,6 +8,7 @@ import Common from './common';
 import Publish from './publish';
 import Upload from './upload';
 import Search from './search';
+import Spider from './spider';
 
 export default {
   article: new Article('article'),
@@ -19,4 +20,5 @@ export default {
   publish: new Publish(),
   upload: new Upload(),
   search: new Search('article'),
+  spider: new Spider(),
 };

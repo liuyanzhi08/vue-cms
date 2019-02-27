@@ -23,6 +23,8 @@ const label = (obj, type) => `${obj.title} [ ${type.substr(0, 1)}id: ${obj.id} ]
 
 const id = (obj, type) => `${type}-${obj.id}`;
 
+const max = 999999999999;
+
 export default {
   name: 'AppCategoryTree',
   props: {
@@ -53,6 +55,8 @@ export default {
       const nodeId = node.data.id || db.rootId;
       return Category.query({
         parent_id: nodeId,
+        _page: 1,
+        _num: max,
       }).then((res) => {
         const subCategories = [];
         _.each(res.data.items, (category) => {
@@ -66,6 +70,10 @@ export default {
         return subCategories;
       }).then(subCategories => Article.query({
         category_id: nodeId,
+        _page: 1,
+        _num: max,
+        _sort: 'created_at',
+        _dir: 'asc',
       }).then((res) => {
         const subArticles = [];
         _.each(res.data.items, (article) => {

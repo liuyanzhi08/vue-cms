@@ -33,20 +33,14 @@ class KnexResource {
     return list;
   }
 
-  async post() {}
-
-  async create(data) {
+  async save(data) {
     const item = await this.connect().insert(data);
     return item;
   }
 
-  async put() {}
-
   async update() {}
 
   async delete() {}
-
-  async del() {}
 }
 
 export default KnexResource;

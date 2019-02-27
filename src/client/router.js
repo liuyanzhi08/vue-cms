@@ -86,6 +86,9 @@ const routes = [
         path: 'plugin',
         component: plugin,
         name: rnames.plugin,
+        meta: {
+          auth: true,
+        },
       },
     ],
   },

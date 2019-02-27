@@ -36,6 +36,9 @@
             class="uk-input"
           >
         </div>
+        <div class="uk-margin">
+          <app-theme-option v-model="spider.detail.theme" />
+        </div>
       </fieldset>
       <div class="uk-margin">
         <div class="uk-button-group">
@@ -49,12 +52,16 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+import { NOTICE_SEND } from '../../../../store';
 import AppCategoryOption from '../../../app/admin/category-option';
+import AppThemeOption from '../../../app/admin/theme-option';
 
 export default {
   name: 'VmsPluginSpider',
   components: {
     AppCategoryOption,
+    AppThemeOption,
   },
   data() {
     return {
@@ -65,9 +72,16 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(['Spider']),
+  },
   methods: {
     submit() {
-      alert();
+      this.Spider.post(this.spider).then(res => {
+        this.$store.dispatch(NOTICE_SEND, 'rules on');
+      }, (err) => {
+        this.$store.dispatch(NOTICE_SEND, err.response.data.msg);
+      });
     },
   },
 };

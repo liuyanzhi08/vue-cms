@@ -38,8 +38,11 @@ export default {
     value() {
       this.selectValue = this.value;
     },
-    selectValue() {
-      this.$emit('input', this.selectValue);
+    selectValue: {
+      handler() {
+        this.$emit('input', this.selectValue);
+      },
+      immediate: true,
     },
   },
   created() {

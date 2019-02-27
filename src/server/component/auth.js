@@ -20,7 +20,7 @@ class Auth {
           if (res) {
             return success(ctx, { msg: 'user exists' });
           }
-          return user.create(data).then(
+          return user.save(data).then(
             _res => success(ctx, { id: _res[0] }),
             (err) => {
               fail(ctx, err);

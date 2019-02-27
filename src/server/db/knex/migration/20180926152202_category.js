@@ -5,7 +5,7 @@ const categoryTable = `${config.db.prefix}_category`;
 exports.up = knex => knex.schema.createTable(categoryTable, (table) => {
   table.increments();
   table.string('title').notNullable();
-  table.text('description').notNullable();
+  table.text('description');
   table.string('theme').notNullable();
   table.string('image_url');
   table.integer('parent_id').unsigned().nullable();

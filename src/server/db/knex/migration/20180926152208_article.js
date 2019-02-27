@@ -8,7 +8,7 @@ const categoryTable = `${db.prefix}_category`;
 exports.up = knex => knex.schema.createTable(articleTable, (table) => {
   table.increments();
   table.string('title').notNullable();
-  table.text('content').notNullable();
+  table.text('content');
   table.text('summary').nullable();
   table.string('theme').notNullable();
   table.string('image_url');

@@ -107,7 +107,7 @@ class Restfull {
         obj.id = results.insertId;
         return success(ctx, obj);
       },
-      err => fail(ctx, err),
+      err => fail(ctx, err.message),
     );
   }
 
@@ -122,7 +122,7 @@ class Restfull {
     delete obj.created_at;
     await query(`UPDATE ${this.name} SET ? WHERE id = ?`, [obj, obj.id]).then(
       () => success(ctx, obj),
-      err => reject(fail(ctx, err)),
+      err => reject(fail(ctx, err.message)),
     );
   }
 
@@ -140,7 +140,7 @@ class Restfull {
       .where('id', ctx.params.id)
       .del()
       .then(() => success(ctx, { id: ctx.params.id }))
-      .catch(err => reject(fail(ctx, err)));
+      .catch(err => reject(fail(ctx, err.message)));
   }
 }
 
