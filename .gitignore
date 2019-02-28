@@ -7,3 +7,6 @@ log/
 page/
 upload/
 *.swp
+src/client/theme/*
+!src/client/theme/theme-blog
+!src/client/theme/theme-portal
