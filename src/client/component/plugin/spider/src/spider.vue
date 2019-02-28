@@ -45,7 +45,13 @@
           <button
             class="uk-button uk-button-primary"
             type="submit"
-          >submit</button>
+          >
+            <span
+              v-if="loading"
+              uk-spinner="ratio: 1"
+            />
+            submit
+          </button>
         </div>
       </div>
     </form>
@@ -65,6 +71,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       spider: {
         category: {},
         list: {},
@@ -77,11 +84,16 @@ export default {
   },
   methods: {
     submit() {
-      this.Spider.post(this.spider).then(res => {
-        this.$store.dispatch(NOTICE_SEND, 'rules on');
-      }, (err) => {
-        this.$store.dispatch(NOTICE_SEND, err.response.data.msg);
-      });
+      this.loading = true;
+      this.Spider.post(this.spider)
+        .then(() => {
+          this.$store.dispatch(NOTICE_SEND, 'all articles fetched');
+        }, (err) => {
+          this.$store.dispatch(NOTICE_SEND, err.response.data.msg);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
   },
 };
