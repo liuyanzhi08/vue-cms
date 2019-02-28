@@ -2,6 +2,7 @@ import Joi from 'joi';
 import axios from 'axios';
 import cheerio from 'cheerio';
 import fse from 'fs-extra';
+import Turndown from 'turndown';
 import config from '../config';
 import ctxHelper from '../helper/ctx';
 import ssrHelper from '../helper/ssr';
@@ -15,10 +16,8 @@ import logger from '../helper/logger';
 import util from '../util';
 
 const { success, fail } = ctxHelper;
-const { createRenderer } = ssrHelper;
-const { isDev } = env;
-const { err } = logger;
-const { dir } = config;
+const { log, err } = logger;
+const turndown = new Turndown();
 
 const grabImg = (html, siteRoot) => {
   let result;
@@ -34,7 +33,7 @@ const grabImg = (html, siteRoot) => {
           imgUrl = `${rawSiteRoot}${imgUrl}`;
         }
         const newName = netHelper.downloadFile(imgUrl);
-        console.log(result[1], newName);
+        savedImageMap[imgUrl] = true;
         newHtml = newHtml.replace(new RegExp(result[1], 'g'), newName);
       }
     }
@@ -100,19 +99,23 @@ class Spider {
       try {
         detailRes = await axios.get(articleData.url);
         successArticleUrls.push(articleData.url);
+        log(`spider: success to fetch '${articleData.url}'`);
       } catch (e) {
         failedArticleUrls.push(articleData.url);
         err(`spider: fail to fetch '${articleData.url}'`);
         return;
       }
       const detailHtml = detailRes.data;
-      const $detail = cheerio.load(detailHtml);
+      const $detail = cheerio.load(detailHtml, {
+        decodeEntities: false,
+        normalizeWhitespace: true,
+      });
       const content = $detail(detailSelector).html();
       const newContent = await grabImg(content, siteRoot);
       await article.save({
         title: articleData.title,
         category_id: categoryId,
-        content: newContent,
+        content: turndown.turndown(newContent),
         theme: detailTheme,
       });
     });

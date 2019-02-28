@@ -28,10 +28,17 @@ const brand = {
 
 const menu = [
   {
-    label: 'Plugin',
-    icon: 'settings',
+    label: 'Category',
+    icon: 'list',
     router: {
-      name: rnames.plugin,
+      name: rnames.categoryList,
+      params: {},
+    },
+  },
+  {
+    icon: 'cloud-upload',
+    router: {
+      name: rnames.publish,
       params: {},
     },
   },
@@ -44,17 +51,10 @@ const menu = [
     },
   },
   {
-    label: 'Category',
-    icon: 'list',
+    label: 'Plugin',
+    icon: 'settings',
     router: {
-      name: rnames.categoryList,
-      params: {},
-    },
-  },
-  {
-    icon: 'cloud-upload',
-    router: {
-      name: rnames.publish,
+      name: rnames.plugin,
       params: {},
     },
   },
