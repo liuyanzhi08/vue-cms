@@ -2,19 +2,21 @@
   <div class="theme-blog">
     <vms-header :categories="categories" />
     <div class="uk-container">
-      <div v-if="!category.articles.total">nothing</div>
-      <ul v-if="category.articles.total">
+      --{{ listKey }}
+      <div v-if="!category.articles[listKey] || !category.articles[listKey].total">nothing</div>
+      <ul v-if="category.articles[listKey] && category.articles[listKey].total">
         <li
-          v-for="article in category.articles.items"
+          v-for="article in category.articles[listKey].items"
           :key="article.id"
         >
           <router-link :to="article.url">{{ article.title }}</router-link>
         </li>
       </ul>
       <el-pagination
+        v-if="category.articles[listKey]"
         class="uk-margin"
         layout="prev, pager, next"
-        :total="category.articles.total"
+        :total="category.articles[listKey].total"
         :page-size="pagination.num"
         @current-change="pagination.currentChange"
       />
@@ -24,13 +26,13 @@
 </template>
 
 <script>
-import { CATEGORY_FETCH } from '../../store';
+import { mapGetters } from 'vuex';
+import { CATEGORY_FETCH, APP_GOTO } from '../../store';
 import VmsHeader from './header';
 import VmsFooter from './footer';
-import Vms404 from './404';
 import config from '../../config';
 
-const { rnames, pagination } = config;
+const { pagination } = config;
 
 export default {
   components: {
@@ -43,16 +45,14 @@ export default {
       pagination: {
         num: pagination.num,
         currentChange: (currentPage) => {
-          me.$router.push({
-            name: rnames.list,
-            query: {
-              keyword: me.keyword,
-              _page: currentPage,
-              _num: pagination.num,
-            },
+          me.store.dispatch(APP_GOTO, me.$router, 'list', {
+            keyword: me.keyword,
+            _page: currentPage,
+            _num: pagination.num,
           });
         },
       },
+      listKey: null,
     };
   },
   async asyncData({ store }) {
@@ -62,7 +62,22 @@ export default {
     ];
     await Promise.all(promises);
   },
+  watch: {
+    'state.route.query._page': {
+      immedia: true,
+      handler() {
+        const page = this.$store.state.route.query._page || config.pagination.page;
+        const num = this.$store.state.route.query._num || config.pagination.num;
+        const from = (page - 1) * num;
+        const size = num;
+        this.listKey = `${from},${size}`
+      },
+    },
+  },
   computed: {
+    ...mapGetters([
+      'isPublish',
+    ]),
     categories() {
       return [
         this.$store.getters.categories[2],

@@ -14,7 +14,8 @@ import {
   STATUS_SET, STATUS_INIT, STATUS_FETCH, STATUS_GOT, STATUS_404, status,
 } from './module/status';
 import { THEME_SET, THEME_GET, theme } from './module/theme';
-import { APP_SET_PUBLISH, app } from './module/app';
+import { APP_SET_PUBLISH, APP_GOTO, app } from './module/app';
+import { pagination } from './module/pagination';
 
 class Store {
   constructor() {
@@ -30,6 +31,7 @@ class Store {
         status,
         theme,
         app,
+        pagination,
       },
     });
   }
@@ -58,5 +60,6 @@ export {
   THEME_SET,
   THEME_GET,
   APP_SET_PUBLISH,
+  APP_GOTO,
   Store,
 };

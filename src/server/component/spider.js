@@ -5,6 +5,7 @@ import Turndown from 'turndown';
 import ctxHelper from '../helper/ctx';
 import regHelper from '../helper/reg';
 import urlHelper from '../helper/url';
+import articleHelper from '../helper/article';
 import error from '../helper/error';
 import netHelper from '../helper/net';
 import article from '../models/article';
@@ -90,6 +91,7 @@ const grabListArticles = async (
       title: articleData.title,
       category_id: categoryId,
       content: turndown.turndown(newContent),
+      summary: articleHelper.summary(newContent),
       theme: detailTheme,
     });
   });

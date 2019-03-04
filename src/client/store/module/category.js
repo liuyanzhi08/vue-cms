@@ -18,10 +18,14 @@ const category = {
     categories: state => state.categories,
   },
   mutations: {
-    [CATEGORY_ARTICLES_SET]: (state, articles) => {
+    [CATEGORY_ARTICLES_SET]: (state, { articles, key }) => {
       Object.keys(articles).forEach((id) => {
-        state.categories[id].articles = articles[id];
-        articleHelper.setDefaultCover(state.categories[id].articles);
+        if (!state.categories[id].articles) {
+          state.categories[id].articles = {};
+        }
+        state.categories[id].articles[key] = articles[id];
+        console.log(state.categories, key)
+        articleHelper.setDefaultCover(state.categories[id].articles[key]);
       });
     },
     [CATEGORY_SET_ARTICLE_PARAM]: (state, param) => {
@@ -31,8 +35,6 @@ const category = {
   actions: {
     [CATEGORY_SET]: ({ state, getters }, categories) => {
       Object.keys(categories).forEach((id) => {
-        const articles = state.categories[id] && state.categories[id].articles;
-        articleHelper.setDefaultCover(articles);
         if (!state.categories[id]) {
           state.categories[id] = categories[id];
         } else {
@@ -40,7 +42,6 @@ const category = {
             state.categories[id][key] = categories[id][key];
           });
         }
-        state.categories[id].articles = articles;
         state.categories[id].url = getters.isPublish
           ? `/category/${id}` : `${path.user}/category/${id}`;
       });
@@ -54,7 +55,9 @@ const category = {
       if (!(id in state.categories) || state.articleParam !== article) {
         commit(CATEGORY_SET_ARTICLE_PARAM, article);
         try {
-          dispatch(CATEGORY_SET, { [id]: { articles: [] } });
+          if (!state.categories[id]) {
+            dispatch(CATEGORY_SET, { [id]: { articles: {} } });
+          }
           const promises = [];
           promises.push(getters.Category.get(id).then((res) => {
             dispatch(CATEGORY_SET, { [id]: res.data });
@@ -75,7 +78,10 @@ const category = {
                   ? `/article/${categoryArticle.id}` : `${path.user}/article/${categoryArticle.id}`;
               });
               commit(CATEGORY_ARTICLES_SET, {
-                [id]: { items: categoryArticles, total: res.data.total },
+                articles: {
+                  [id]: { items: categoryArticles, total: res.data.total },
+                },
+                key: article,
               });
             }));
           }
