@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { log } from '../../helper/logger';
 import articleHelper from '../../helper/article';
 import config from '../../config';
@@ -5,7 +6,6 @@ import config from '../../config';
 const CATEGORY_FETCH = 'categories:fetch';
 const CATEGORY_SET = 'categories:set';
 const CATEGORY_ARTICLES_SET = 'categories:articles:set';
-const CATEGORY_SET_ARTICLE_PARAM = 'categories:article:params:set';
 
 const { path } = config;
 
@@ -24,12 +24,8 @@ const category = {
           state.categories[id].articles = {};
         }
         state.categories[id].articles[key] = articles[id];
-        console.log(state.categories, key)
         articleHelper.setDefaultCover(state.categories[id].articles[key]);
       });
-    },
-    [CATEGORY_SET_ARTICLE_PARAM]: (state, param) => {
-      state.articleParam = param;
     },
   },
   actions: {
@@ -51,9 +47,7 @@ const category = {
     }, {
         id, depth = 0, currentDepth = 0, article = '0,0',
       }) => {
-      // console.log(state.articleParam, article)
-      if (!(id in state.categories) || state.articleParam !== article) {
-        commit(CATEGORY_SET_ARTICLE_PARAM, article);
+      if (!(id in state.categories) || !state.categories[id].articles[article]) {
         try {
           if (!state.categories[id]) {
             dispatch(CATEGORY_SET, { [id]: { articles: {} } });
@@ -97,7 +91,10 @@ const category = {
               if (!state.categories[id].children) {
                 state.categories[id].children = [];
               }
-              state.categories[id].children.push(state.categories[item.id]);
+              console.log(id, article);
+              if (!_.find(state.categories[id].children, state.categories[item.id])) {
+                state.categories[id].children.push(state.categories[item.id]);
+              }
             });
           }
           await Promise.all(promises);

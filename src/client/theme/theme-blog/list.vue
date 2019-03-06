@@ -2,21 +2,20 @@
   <div class="theme-blog">
     <vms-header :categories="categories" />
     <div class="uk-container">
-      --{{ listKey }}
-      <div v-if="!category.articles[listKey] || !category.articles[listKey].total">nothing</div>
-      <ul v-if="category.articles[listKey] && category.articles[listKey].total">
+      <div v-if="!category.articles[key] || !category.articles[key].total">nothing</div>
+      <ul v-if="category.articles[key] && category.articles[key].total">
         <li
-          v-for="article in category.articles[listKey].items"
+          v-for="article in category.articles[key].items"
           :key="article.id"
         >
           <router-link :to="article.url">{{ article.title }}</router-link>
         </li>
       </ul>
       <el-pagination
-        v-if="category.articles[listKey]"
+        v-if="category.articles[key]"
         class="uk-margin"
         layout="prev, pager, next"
-        :total="category.articles[listKey].total"
+        :total="category.articles[key].total"
         :page-size="pagination.num"
         @current-change="pagination.currentChange"
       />
@@ -52,7 +51,6 @@ export default {
           });
         },
       },
-      listKey: null,
     };
   },
   async asyncData({ store }) {
@@ -61,18 +59,6 @@ export default {
       store.dispatch(CATEGORY_FETCH, { id: 3, depth: 1 }),
     ];
     await Promise.all(promises);
-  },
-  watch: {
-    'state.route.query._page': {
-      immedia: true,
-      handler() {
-        const page = this.$store.state.route.query._page || config.pagination.page;
-        const num = this.$store.state.route.query._num || config.pagination.num;
-        const from = (page - 1) * num;
-        const size = num;
-        this.listKey = `${from},${size}`
-      },
-    },
   },
   computed: {
     ...mapGetters([
@@ -90,6 +76,15 @@ export default {
     id() {
       return this.$store.state.route.params.id;
     },
+    key() {
+      const page = this.$store.state.route.query._page || config.pagination.page;
+      const num = this.$store.state.route.query._num || config.pagination.num;
+      const from = (page - 1) * num;
+      const size = num;
+      return `${from},${size}`;
+    },
+  },
+  watch: {
   },
 };
 </script>
