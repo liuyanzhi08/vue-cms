@@ -9,11 +9,27 @@ const { db, theme } = config;
 
 const categoryTableName = `${db.prefix}_category`;
 const articleTableName = `${db.prefix}_article`;
-const readmePath = $path.resolve('../../../../README.md');
-const readme = fs.readFileSync(readmePath).toString();
-const firstLineIndex = readme.indexOf('\n');
-const readmeTitle = _.trim(readme.substring(0, firstLineIndex + 1), '#');
-const readmeContent = readme.substring(firstLineIndex);
+
+const paths = {
+  readme: '../../../../README.md',
+  feature: '../../../../doc/01-feature.md',
+  develop: '../../../../doc/02-develop.md',
+  production: '../../../../doc/03-production.md',
+};
+
+const parseDoc = (filePath) => {
+  const readmePath = $path.resolve(filePath);
+  const file = fs.readFileSync(readmePath).toString();
+  const firstLineIndex = file.indexOf('\n');
+  const title = _.trim(file.substring(0, firstLineIndex + 1), '#');
+  const content = file.substring(firstLineIndex);
+  return { title, content };
+};
+
+const files = {};
+Object.keys(paths).forEach((name) => {
+  files[name] = parseDoc(paths[name]);
+});
 
 exports.seed = knex => knex(categoryTableName).del()
   .then(() => knex(categoryTableName).insert([
@@ -27,21 +43,45 @@ exports.seed = knex => knex(categoryTableName).del()
   ]))
   .then(() => knex(categoryTableName).insert([
     {
-      title: 'category-d0-b0',
-      description: 'category-d0-b0',
+      title: 'document',
+      description: 'document',
       theme,
       parent_id: db.rootId,
     },
   ]))
-  .then(res => knex(articleTableName).insert([
-    {
-      title: readmeTitle,
-      content: readmeContent,
-      summary: articleHelper.summary(readmeContent),
-      theme,
-      category_id: res[0],
-    },
-  ]))
+  .then((res) => {
+    const categoryId = res[0];
+    return knex(articleTableName).insert([
+      {
+        title: files.readme.title,
+        content: files.readme.content,
+        summary: articleHelper.summary(files.readme.content),
+        theme,
+        category_id: categoryId,
+      },
+      {
+        title: files.feature.title,
+        content: files.feature.content,
+        summary: articleHelper.summary(files.readme.content),
+        theme,
+        category_id: categoryId,
+      },
+      {
+        title: files.develop.title,
+        content: files.develop.content,
+        summary: articleHelper.summary(files.develop.content),
+        theme,
+        category_id: categoryId,
+      },
+      {
+        title: files.production.title,
+        content: files.production.content,
+        summary: articleHelper.summary(files.production.content),
+        theme,
+        category_id: categoryId,
+      },
+    ]);
+  })
   .then(() => knex(categoryTableName).insert([
     {
       title: 'category-d0-b1',
