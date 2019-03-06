@@ -44,10 +44,17 @@ export default {
       pagination: {
         num: pagination.num,
         currentChange: (currentPage) => {
-          me.store.dispatch(APP_GOTO, me.$router, 'list', {
-            keyword: me.keyword,
-            _page: currentPage,
-            _num: pagination.num,
+          me.$store.dispatch(APP_GOTO, {
+            router: me.$router,
+            name: 'list',
+            params: {
+              id: me.id,
+            },
+            query: {
+              keyword: me.keyword,
+              _page: currentPage,
+              _num: pagination.num,
+            },
           });
         },
       },

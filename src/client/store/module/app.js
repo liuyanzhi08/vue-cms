@@ -20,18 +20,20 @@ const app = {
     [APP_SET_PUBLISH]: ({ commit }, value) => {
       commit(APP_SET_PUBLISH, value);
     },
-    [APP_GOTO]: ({ state }, router, name, query) => {
-      const params = {
+    [APP_GOTO]: ({ state }, {
+      router, name, params, query,
+    }) => {
+      const args = {
         query,
       };
       if (state.isPublish) {
-        params.path = '/category';
+        params.path = `/category/${params.id}`;
       } else {
         params.name = rnames.list;
       }
       switch (name) {
         case 'list':
-          router.push(params);
+          router.push(args);
           break;
         default:
       }

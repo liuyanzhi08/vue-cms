@@ -29,6 +29,11 @@ const path = {
   $public: '/dist/',
   upload: config.server.path.upload,
 };
+// pager
+const pagination = {
+  page: 1,
+  num: 20,
+};
 
 const dir = {
   root,
@@ -56,4 +61,5 @@ export default {
   ssr,
   dir,
   theme,
+  pagination,
 };

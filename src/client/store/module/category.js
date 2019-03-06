@@ -91,7 +91,6 @@ const category = {
               if (!state.categories[id].children) {
                 state.categories[id].children = [];
               }
-              console.log(id, article);
               if (!_.find(state.categories[id].children, state.categories[item.id])) {
                 state.categories[id].children.push(state.categories[item.id]);
               }
