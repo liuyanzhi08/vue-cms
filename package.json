@@ -36,7 +36,8 @@
     "build:client": "npm run build:ssr:client && npm run build:ssr:server",
     "build:server": "cross-env NODE_ENV=production webpack --config script/webpack/prd/server.config.babel.js --progress",
     "publish": "npm run build:client && npm run build:server && npm run server:restart",
-    "pub": "npm run publish"
+    "pub": "npm run publish",
+    "theme:generate": "node script/theme/generate"
   },
   "repository": {
     "type": "git",
