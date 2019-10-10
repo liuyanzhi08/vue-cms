@@ -38,7 +38,10 @@ const fail = (ctx, e, options = { code: 500 }) => {
       msg: e[1],
     };
   }
-  ctx.body = output;
+  ctx.body = {
+    code: null,
+    msg: output,
+  };
   ctx.status = options.code;
 
   log(accessLog(ctx, 'red'));

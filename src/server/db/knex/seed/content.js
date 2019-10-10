@@ -41,116 +41,116 @@ exports.seed = knex => knex(categoryTableName).del()
       parent_id: null,
     },
   ]))
-  .then(() => knex(categoryTableName).insert([
-    {
-      title: 'document',
-      description: 'document',
-      theme,
-      parent_id: db.rootId,
-    },
-  ]))
-  .then((res) => {
-    const categoryId = res[0];
-    return knex(articleTableName).insert([
-      {
-        title: files.readme.title,
-        content: files.readme.content,
-        summary: articleHelper.summary(files.readme.content),
-        theme,
-        category_id: categoryId,
-      },
-      {
-        title: files.feature.title,
-        content: files.feature.content,
-        summary: articleHelper.summary(files.readme.content),
-        theme,
-        category_id: categoryId,
-      },
-      {
-        title: files.develop.title,
-        content: files.develop.content,
-        summary: articleHelper.summary(files.develop.content),
-        theme,
-        category_id: categoryId,
-      },
-      {
-        title: files.production.title,
-        content: files.production.content,
-        summary: articleHelper.summary(files.production.content),
-        theme,
-        category_id: categoryId,
-      },
-    ]);
-  })
-  .then(() => knex(categoryTableName).insert([
-    {
-      title: 'category-d0-b1',
-      description: 'category-d0-b1',
-      theme,
-      parent_id: db.rootId,
-    },
-  ]))
-  .then((res) => {
-    const promises = [];
-    const content = faker.lorem.paragraphs();
-    promises.push(knex(articleTableName).insert([
-      {
-        title: faker.lorem.sentence(),
-        content,
-        summary: articleHelper.summary(content),
-        theme,
-        category_id: res[0],
-      },
-    ]));
-    promises.push(knex(categoryTableName).insert([
-      {
-        title: 'category-d1-b1',
-        description: 'category-d1-b1',
-        theme,
-        parent_id: res[0],
-      },
-    ]));
-    return Promise.all(promises).then(all => all[1]);
-  })
-  .then((res) => {
-    const contents = [
-      faker.lorem.paragraphs(),
-      faker.lorem.paragraphs(),
-      faker.lorem.paragraphs(),
-    ];
-    return knex(articleTableName).insert([
-      {
-        title: faker.lorem.sentence(),
-        content: contents[0],
-        summary: articleHelper.summary(contents[0]),
-        theme,
-        category_id: res[0],
-      },
-      {
-        title: faker.lorem.sentence(),
-        content: contents[1],
-        summary: articleHelper.summary(contents[1]),
-        theme,
-        category_id: res[0],
-      },
-      {
-        title: faker.lorem.sentence(),
-        content: contents[2],
-        summary: articleHelper.summary(contents[2]),
-        theme,
-        category_id: res[0],
-      },
-    ]);
-  })
-  .then(() => {
-    const content = faker.lorem.paragraphs();
-    return knex(articleTableName).insert([
-      {
-        title: faker.lorem.sentence(),
-        content,
-        summary: articleHelper.summary(content),
-        theme,
-        category_id: db.rootId,
-      },
-    ]);
-  });
+  // .then(() => knex(categoryTableName).insert([
+  //   {
+  //     title: 'document',
+  //     description: 'document',
+  //     theme,
+  //     parent_id: db.rootId,
+  //   },
+  // ]))
+  // .then((res) => {
+  //   const categoryId = res[0];
+  //   return knex(articleTableName).insert([
+  //     {
+  //       title: files.readme.title,
+  //       content: files.readme.content,
+  //       summary: articleHelper.summary(files.readme.content),
+  //       theme,
+  //       category_id: categoryId,
+  //     },
+  //     {
+  //       title: files.feature.title,
+  //       content: files.feature.content,
+  //       summary: articleHelper.summary(files.readme.content),
+  //       theme,
+  //       category_id: categoryId,
+  //     },
+  //     {
+  //       title: files.develop.title,
+  //       content: files.develop.content,
+  //       summary: articleHelper.summary(files.develop.content),
+  //       theme,
+  //       category_id: categoryId,
+  //     },
+  //     {
+  //       title: files.production.title,
+  //       content: files.production.content,
+  //       summary: articleHelper.summary(files.production.content),
+  //       theme,
+  //       category_id: categoryId,
+  //     },
+  //   ]);
+  // })
+  // .then(() => knex(categoryTableName).insert([
+  //   {
+  //     title: 'category-d0-b1',
+  //     description: 'category-d0-b1',
+  //     theme,
+  //     parent_id: db.rootId,
+  //   },
+  // ]))
+  // .then((res) => {
+  //   const promises = [];
+  //   const content = faker.lorem.paragraphs();
+  //   promises.push(knex(articleTableName).insert([
+  //     {
+  //       title: faker.lorem.sentence(),
+  //       content,
+  //       summary: articleHelper.summary(content),
+  //       theme,
+  //       category_id: res[0],
+  //     },
+  //   ]));
+  //   promises.push(knex(categoryTableName).insert([
+  //     {
+  //       title: 'category-d1-b1',
+  //       description: 'category-d1-b1',
+  //       theme,
+  //       parent_id: res[0],
+  //     },
+  //   ]));
+  //   return Promise.all(promises).then(all => all[1]);
+  // })
+  // .then((res) => {
+  //   const contents = [
+  //     faker.lorem.paragraphs(),
+  //     faker.lorem.paragraphs(),
+  //     faker.lorem.paragraphs(),
+  //   ];
+  //   return knex(articleTableName).insert([
+  //     {
+  //       title: faker.lorem.sentence(),
+  //       content: contents[0],
+  //       summary: articleHelper.summary(contents[0]),
+  //       theme,
+  //       category_id: res[0],
+  //     },
+  //     {
+  //       title: faker.lorem.sentence(),
+  //       content: contents[1],
+  //       summary: articleHelper.summary(contents[1]),
+  //       theme,
+  //       category_id: res[0],
+  //     },
+  //     {
+  //       title: faker.lorem.sentence(),
+  //       content: contents[2],
+  //       summary: articleHelper.summary(contents[2]),
+  //       theme,
+  //       category_id: res[0],
+  //     },
+  //   ]);
+  // })
+  // .then(() => {
+  //   const content = faker.lorem.paragraphs();
+  //   return knex(articleTableName).insert([
+  //     {
+  //       title: faker.lorem.sentence(),
+  //       content,
+  //       summary: articleHelper.summary(content),
+  //       theme,
+  //       category_id: db.rootId,
+  //     },
+  //   ]);
+  // });

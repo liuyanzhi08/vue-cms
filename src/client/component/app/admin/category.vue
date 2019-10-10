@@ -64,7 +64,7 @@
           <button
             class="uk-button uk-button-default"
             type="button"
-          ><span uk-icon="icon:  triangle-down" /></button>
+          ><span uk-icon="icon: triangle-down" /></button>
           <div uk-dropdown="mode: click; animation: uk-animation-slide-top-small; duration: 200">
             <ul class="uk-nav uk-dropdown-nav">
               <li @click="del"><a href="#">delete</a></li>
