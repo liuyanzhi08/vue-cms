@@ -1,4 +1,6 @@
 # VUE-CMS. Proudly Using ES7, Vue 2, Koa 2, Webpack 4, Babel 7 And Mocha
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fliuyanzhi08%2Fvue-cms.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fliuyanzhi08%2Fvue-cms?ref=badge_shield)
+
 
 ## Feature
 
@@ -41,3 +43,6 @@ Enjoy.
 
 Copyright (c) 2018-present, liuyanzhi08
 
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fliuyanzhi08%2Fvue-cms.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fliuyanzhi08%2Fvue-cms?ref=badge_large)
