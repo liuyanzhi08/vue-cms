@@ -159,7 +159,7 @@
     "mocha": "^5.2.0",
     "nanoid": "^1.2.3",
     "ndb": "^1.0.26",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.13.1",
     "nodemon": "^1.18.4",
     "opn": "^5.4.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
