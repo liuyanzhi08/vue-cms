@@ -86,7 +86,7 @@
     "koa-send": "^4.1.0",
     "koa-session": "^5.9.0",
     "lodash": "^4.17.4",
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^12.3.2",
     "marked": "^0.6.2",
     "mavon-editor": "^2.6.17",
     "moment": "^2.22.2",
