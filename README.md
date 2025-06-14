@@ -31,7 +31,7 @@ $ cd vue-cms
 $ npm install
 $ vim src/config.js    # modify the db config to yours
 $ npm run dev:db:init  # generate the development db
-$ npm start            # build back-end and front-end files and watching
+$ npm start            # build back-end and front-end files and  watching
 ```
 **username: admin** & **password: admin**
 
