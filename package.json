@@ -89,7 +89,7 @@
     "markdown-it": "^8.4.2",
     "marked": "^0.6.2",
     "mavon-editor": "^2.6.17",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "mysql": "^2.14.1",
     "mysql-import": "^1.0.13",
     "mysqldump": "^2.2.1",
